@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مُحسن — التحميل والكنترول</title>
+<meta name="description" content="تطبيقُ مُحسن الميدانيّ للأندرويد، ولوحةُ مُحسن كنترول.">
+<meta name="theme-color" content="#14593F">
+<link rel="icon" href="logo.png">
+<style>
+  :root{
+    --g:#14593F; --g2:#0C3A29; --g3:#1D7452;
+    --gold:#A8875A; --goldB:#F5EEE3;
+    --ink:#1B2220; --dim:#596860; --line:#E4EAE7; --soft:#F9FAFB; --bg:#fff;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#F2F6F4; --dim:#A9B7B1; --line:#22302A; --soft:#141E18; --bg:#0F1512;
+      --g:#1D7452; --g3:#4FAE86;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#F2F6F4; --dim:#A9B7B1; --line:#22302A; --soft:#141E18; --bg:#0F1512;
+    --g:#1D7452; --g3:#4FAE86;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:"IBM Plex Sans Arabic","Segoe UI",system-ui,sans-serif;
+    line-height:1.7; -webkit-font-smoothing:antialiased;
+    min-height:100vh; display:flex; flex-direction:column;
+  }
+  .hd{background:var(--g); color:#fff; padding:28px 16px 34px; border-radius:0 0 22px 22px}
+  .wrap{width:100%; max-width:760px; margin:0 auto; padding:0 16px}
+  .hd h1{font-size:26px; font-weight:700; line-height:1.3}
+  .hd p{font-size:14px; color:#ffffffc0; margin-top:6px}
+  main{flex:1; padding:22px 0 40px}
+  .grid{display:grid; gap:14px; grid-template-columns:1fr}
+  @media (min-width:680px){ .grid{grid-template-columns:1fr 1fr} }
+  .card{
+    border:1px solid var(--line); border-radius:18px; padding:20px; background:var(--soft);
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .card h2{font-size:18px; font-weight:700}
+  .card p{font-size:13.5px; color:var(--dim)}
+  .btn{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    height:50px; border-radius:12px; background:var(--g); color:#fff;
+    font-size:15px; font-weight:700; text-decoration:none; margin-top:auto;
+  }
+  .btn.alt{background:transparent; color:var(--ink); border:1.5px solid var(--line)}
+  .meta{display:flex; flex-wrap:wrap; gap:8px; margin-top:4px}
+  .small{
+    display:block; text-align:center; font-size:12px; color:var(--dim);
+    text-decoration:none; margin-top:2px;
+  }
+  .small:hover{text-decoration:underline}
+  .pill{
+    font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:999px;
+    background:var(--goldB); color:#8A6E42; border:1px solid #E6D7BE;
+  }
+  .note{
+    margin-top:22px; border:1px solid var(--line); border-radius:14px;
+    padding:14px 16px; font-size:13px; color:var(--dim); background:var(--bg);
+  }
+  .note b{color:var(--ink)}
+  ol{margin:8px 20px 0; font-size:13px; color:var(--dim)}
+  footer{padding:18px 0 28px; font-size:12px; color:var(--dim); text-align:center}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <div class="wrap">
+    <h1>مُحسن</h1>
+    <p>تطبيقُ الميدانِ للأندرويد، ولوحةُ الكنترول — في موضعٍ واحد.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="grid">
+
+    <section class="card">
+      <h2>تطبيق مُحسن الميداني</h2>
+      <p>نسخةُ أندرويد (APK) موصولةٌ بخادمِ الإنتاج. تُثبَّت من خارج المتجر، فيُسمح بالتثبيت من هذا المصدرِ مرّةً واحدة.</p>
+      <div class="meta">
+        <span class="pill">أندرويد ٧ فأحدث</span>
+        <span class="pill">٢٤ ميجابايت</span>
+      </div>
+      <a class="btn" href="muhsen.apk" download>تحميل التطبيق</a>
+      <a class="small" href="muhsen-32bit.apk" download>هاتفٌ قديمٌ ٣٢ بت؟ حمّل هذه بدلًا منها</a>
+    </section>
+
+    <section class="card">
+      <h2>مُحسن كنترول</h2>
+      <p>غرفةُ العمليّات: المهامُّ والتسكينُ والتذاكرُ والتقارير. تُفتح في المتصفّحِ مباشرةً بلا تثبيت.</p>
+      <div class="meta">
+        <span class="pill">يعمل في المتصفّح</span>
+        <span class="pill">بلا تثبيت</span>
+      </div>
+      <a class="btn alt" href="control/">فتح الكنترول</a>
+      <span class="small">يُفتح على الحاسوبِ أفضلَ من الجوال</span>
+    </section>
+
+  </div>
+
+  <div class="note">
+    <b>تثبيتُ التطبيق على أندرويد:</b>
+    <ol>
+      <li>حمّل الملفَّ من الزرِّ أعلاه.</li>
+      <li>افتحه من الإشعارِ أو من مجلّدِ التنزيلات.</li>
+      <li>إن ظهر منعُ «مصادرَ غيرِ معروفة» فاسمح للمتصفّحِ بالتثبيتِ ثمّ أعد الفتح.</li>
+    </ol>
+  </div>
+</main>
+
+<footer>مُحسن — خدمةُ ضيوفِ الرحمن</footer>
+
+</body>
+</html>
