@@ -52,13 +52,13 @@ done
 echo "  ✓ أربعةُ ملفّاتٍ حاضرة"
 
 # ── ٢/٥  التطبيقُ ملفُّ APK حقيقيٌّ ودون حدِّ الرفع ───────────
-echo "▸ ٢/٥  الـAPK: صحيحٌ ودون ٢٥ ميجابايت"
+echo "▸ ٢/٥  الـAPK: أرشيفٌ صحيحٌ ومربوطٌ بالإصدار"
 LIMIT=$((25 * 1024 * 1024))
 for f in docs/muhsen.apk docs/muhsen-32bit.apk; do
   magic="$(head -c 2 "$f")"
   [ "$magic" = "PK" ] || fail "ليس ملفَّ APK: $f"
   size="$(wc -c < "$f" | tr -d ' ')"
-  [ "$size" -lt "$LIMIT" ] || fail "فوق حدِّ رفعِ المتصفّح (٢٥م.ب): $f = $size"
+  [ "$size" -lt "$LIMIT" ] || fail "فوق حدِّ الرفع (٢٥م.ب): $f = $size"
   # وAndroidManifest داخلَه — حتّى لا يكون أرشيفًا فارغًا باسم apk.
   #
   # والقائمةُ تُؤخذ في متغيّرٍ لا في أنبوب: `unzip` يردُّ غيرَ صفرٍ
@@ -72,7 +72,9 @@ for f in docs/muhsen.apk docs/muhsen-32bit.apk; do
     esac
   fi
 done
-echo "  ✓ نسختانِ سليمتانِ ودون الحدّ"
+grep -q "releases/latest/download/muhsen.apk" docs/index.html \n  || fail "زرُّ التحميلِ لا يشير إلى أصلِ الإصدار"
+grep -q "releases/latest/download/muhsen-32bit.apk" docs/index.html \n  || fail "زرُّ نسخةِ ٣٢ بت لا يشير إلى أصلِ الإصدار"
+echo "  ✓ نسختانِ سليمتانِ، والصفحةُ تشير إلى الإصدار"
 
 # ── ٣/٥  الكنترولُ وثيقةٌ كاملةٌ وليس صفحةَ انتظار ────────────
 echo "▸ ٣/٥  الكنترولُ الجديد"
