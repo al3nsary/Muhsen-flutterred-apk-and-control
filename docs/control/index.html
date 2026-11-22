@@ -23472,7 +23472,7 @@ function whoami() {
   /* صورةُ المستخدمِ إن وُجد، وإلّا حرفُه الأوّلُ على سطحٍ هادئ.
      لا قرصَ ذهبيًّا لمّاعًا: الذهبيُّ لهجةٌ لا هويّةُ حساب. */
   const face = u ? avatar(u, 'sm')
-    : '<span class="who-mono" aria-hidden="true">' + E(String(name || '؟').trim().charAt(0)) + '</span>';
+    : '<span class="who-mono" aria-hidden="true">' + E(String((typeof TT === 'function' ? TT(name) : name) || '?').trim().charAt(0)) + '</span>';
   return '<button class="who who-v3" data-a="whoami" aria-label="حسابك ونطاقك">' +
     face +
     '<span class="who-text">' +
@@ -38147,6 +38147,7 @@ render();
 
 
 
+
 /* MUHSEN-CORE-LAYER-JS */
 /* ══════════════════════════════════════════════════════════════
    الطبقة الجامعة — ما لا يُكتب بالأنماط وحدها.
@@ -38373,6 +38374,91 @@ Object.assign(DICT.ms, {
   'أسطحٌ داكنةٌ محايدةٌ ولمساتٌ ذهبيّة': 'Permukaan gelap neutral dengan aksen emas',
 
   'لا يوجد': 'Tiada', 'المتوسّط': 'Purata', 'حسابك ونطاقك': 'Akaun dan skop anda'
+});
+i18nReset();
+
+/* ── الدفعةُ الثانية: واجهةُ النظامِ وعناوينُ الشاشاتِ التي بقيت عربيّةً ──
+   جُمعت بمسحٍ آليٍّ للعرضِ الإنجليزيِّ على ستَّ عشرةَ شاشة. وما بقي بعدها
+   بياناتُ بذرةٍ (أسماءُ رحلاتٍ وكتالوجُ إشعارات) لا واجهةَ نظام. */
+Object.assign(DICT.en, {
+  'مساحة العمل': 'Workspace',
+  'المظهر': 'Appearance',
+  'أبيض': 'White', 'أخضر وأبيض': 'Green & white', 'أخضر كامل': 'Full green', 'داكن': 'Dark',
+  'إعدادات النظام': 'System settings',
+  'غير مسند': 'Unassigned',
+  'رقم البلاغ': 'Report no.',
+  'لا رحلات مجدولة': 'No scheduled trips',
+  'يتطلب تدخّلًا الآن': 'Needs intervention now',
+  '{n} بلاغًا مفتوحًا ذا أولوية': '{n} open priority reports',
+  'البلاغ والموقع': 'Report and location',
+  'المهلة': 'Deadline',
+  'الساعتان القادمتان': 'Next two hours',
+  'عرض لوحة العمليات': 'Operations board view',
+  'عدد المهام المتقاطعة مع كل فترة ساعتين': 'Tasks overlapping each two-hour window',
+  'استعداد ناقص قبل الموعد': 'Incomplete readiness before time',
+  '{n} مهمة تحتاج تجهيزًا': '{n} tasks need preparation',
+  'مهام متعثرة': 'Stalled tasks', 'لا مهام متعثرة': 'No stalled tasks',
+  'فتح الوارد': 'Open inbox',
+  'حسب تقييم المهام': 'By task rating',
+  'جدول المهام': 'Task schedule',
+  'المواقع والساعة القادمة': 'Locations and the next hour',
+  'مخطط تقريبي للمواقع · اختر موقعًا لمراجعة مهامه': 'Approximate site map · pick a site to review its tasks',
+  'بدأ تنفيذها': 'Started',
+  'المهام مرتبة حسب الفريق ووقت البداية': 'Tasks ordered by team and start time',
+  'المهام الواقعة ضمن الوقت الحالي': 'Tasks within the current window',
+  'متابعة بلاغات الميدان وتذاكر الحجّاج': 'Tracking field reports and pilgrim tickets',
+  'التفاصيل كاملة': 'Full details',
+  'مهلة التصعيد': 'Escalation deadline',
+  'إسناد البلاغ': 'Assign report', 'إضافة تحديث': 'Add update', 'سجل البلاغ': 'Report log',
+  'ملخص المؤشرات': 'Indicator summary',
+  'جدول حركة الباصات ومتابعة الرحلات والأسطول': 'Bus movement schedule, trips and fleet',
+  'كل الرحلات': 'All trips',
+  'سجلّ الحجاج': 'Pilgrim register',
+  'الوصول والسكن وحالات الرعاية': 'Arrival, accommodation and care cases',
+  'مكتبة الأدلة': 'Guide library',
+  'الشخصية': 'Personal', 'محسنة': 'Muhsena', 'اختيار عشوائي': 'Random pick',
+  'الطاقم والردود وتأكيد الوصول': 'Crew, responses and arrival confirmation',
+  'حدّد عدد الردود وأسند الطاقم قبل توليد الرحلات.': 'Set the response count and assign the crew before generating trips.'
+});
+Object.assign(DICT.ms, {
+  'مساحة العمل': 'Ruang kerja',
+  'المظهر': 'Penampilan',
+  'أبيض': 'Putih', 'أخضر وأبيض': 'Hijau & putih', 'أخضر كامل': 'Hijau penuh', 'داكن': 'Gelap',
+  'إعدادات النظام': 'Tetapan sistem',
+  'غير مسند': 'Belum ditugaskan',
+  'رقم البلاغ': 'No. laporan',
+  'لا رحلات مجدولة': 'Tiada perjalanan berjadual',
+  'يتطلب تدخّلًا الآن': 'Perlu tindakan sekarang',
+  '{n} بلاغًا مفتوحًا ذا أولوية': '{n} laporan keutamaan terbuka',
+  'البلاغ والموقع': 'Laporan dan lokasi',
+  'المهلة': 'Tempoh',
+  'الساعتان القادمتان': 'Dua jam akan datang',
+  'عرض لوحة العمليات': 'Paparan papan operasi',
+  'عدد المهام المتقاطعة مع كل فترة ساعتين': 'Tugasan bertindih dengan setiap tempoh dua jam',
+  'استعداد ناقص قبل الموعد': 'Kesiapan belum lengkap sebelum masa',
+  '{n} مهمة تحتاج تجهيزًا': '{n} tugasan perlu persediaan',
+  'مهام متعثرة': 'Tugasan tergendala', 'لا مهام متعثرة': 'Tiada tugasan tergendala',
+  'فتح الوارد': 'Buka peti masuk',
+  'حسب تقييم المهام': 'Mengikut penilaian tugasan',
+  'جدول المهام': 'Jadual tugasan',
+  'المواقع والساعة القادمة': 'Lokasi dan jam berikutnya',
+  'مخطط تقريبي للمواقع · اختر موقعًا لمراجعة مهامه': 'Peta lokasi anggaran · pilih lokasi untuk menyemak tugasannya',
+  'بدأ تنفيذها': 'Telah bermula',
+  'المهام مرتبة حسب الفريق ووقت البداية': 'Tugasan disusun mengikut pasukan dan masa mula',
+  'المهام الواقعة ضمن الوقت الحالي': 'Tugasan dalam tempoh semasa',
+  'متابعة بلاغات الميدان وتذاكر الحجّاج': 'Memantau laporan lapangan dan tiket jemaah',
+  'التفاصيل كاملة': 'Butiran penuh',
+  'مهلة التصعيد': 'Tempoh peningkatan',
+  'إسناد البلاغ': 'Tugaskan laporan', 'إضافة تحديث': 'Tambah kemas kini', 'سجل البلاغ': 'Log laporan',
+  'ملخص المؤشرات': 'Ringkasan penunjuk',
+  'جدول حركة الباصات ومتابعة الرحلات والأسطول': 'Jadual pergerakan bas, perjalanan dan armada',
+  'كل الرحلات': 'Semua perjalanan',
+  'سجلّ الحجاج': 'Daftar jemaah',
+  'الوصول والسكن وحالات الرعاية': 'Ketibaan, penginapan dan kes penjagaan',
+  'مكتبة الأدلة': 'Pustaka panduan',
+  'الشخصية': 'Peribadi', 'محسنة': 'Muhsinah', 'اختيار عشوائي': 'Pilihan rawak',
+  'الطاقم والردود وتأكيد الوصول': 'Kru, maklum balas dan pengesahan ketibaan',
+  'حدّد عدد الردود وأسند الطاقم قبل توليد الرحلات.': 'Tetapkan bilangan maklum balas dan tugaskan kru sebelum menjana perjalanan.'
 });
 i18nReset();
 
