@@ -4935,6 +4935,18 @@ body.wallmode .control-hero-metrics .kpi .num,
 
 /* كتلةُ تقليلِ الحركة نُقلت إلى layer-motion.css لتُشترط بـ data-motion */
 
+/* ───────── خريطةُ العمليات: الاسمُ فوقَ العقدةِ السفلى ─────────
+   كان كلُّ اسمٍ يُكتب تحت علامتِه أيًّا كان موضعُها، فتزاحمت أسماءُ
+   الصفِّ الواحد. الآن صفّان متباعدان: الأعلى تحتَها والأسفل فوقَها. */
+.operation-map-marker.up span{ top:auto; bottom:32px }
+.operation-map-key{ display:flex; gap:9px; flex-wrap:wrap; font-size:10.5px;
+  color:var(--faint) }
+.omk{ display:inline-flex; align-items:center; gap:5px }
+.omk > i{ inline-size:9px; block-size:9px; border-radius:50%; flex:none;
+  border:1.5px solid var(--line2); background:var(--panel) }
+.omk.late > i{ border-color:var(--red) }
+.omk.live > i{ border-color:var(--live) }
+.omk.soon > i{ border-color:var(--gold2) }
 
 
 /* ===== layer-wall.css ===== */
@@ -24854,9 +24866,16 @@ function opsMap(selectedKey) {
         return '<path class="operation-map-leg ' + (a === current.k || b === current.k ? 'selected' : '') +
           '" vector-effect="non-scaling-stroke" d="M' + A.x + ' ' + A.y + ' L' + B.x + ' ' + B.y + '"/>';
       }).join('') + '</g></svg>' +
-      [...sites.values()].map(n => '<button class="operation-map-marker ' + stateOf(n) + '"' + markAttrs(n) +
+      /* العقدةُ في النصفِ الأسفلِ يُرفع اسمُها فوقَها فلا يزاحم جارَها */
+      [...sites.values()].map(n => '<button class="operation-map-marker ' + stateOf(n) +
+        (n.y > 50 ? ' up' : '') + '"' + markAttrs(n) +
         ' style="--x:' + n.x + '%;--y:' + n.y + '%">' + icon(n.icon,'s16') +
         '<span>' + E(n.l) + '</span></button>').join('') +
+    '</div>' +
+    /* اللونُ وحدَه لا يُقرأ: مفتاحٌ يقول ما يعنيه كلُّ طوق */
+    '<div class="operation-map-key">' +
+      [['late','متعثّرة'],['live','جارية'],['soon','خلال 6 ساعات'],['quiet','هادئ']].map(k =>
+        '<span class="omk ' + k[0] + '"><i></i>' + k[1] + '</span>').join('') +
     '</div>' +
     '<div class="operation-map-stops" aria-label="المواقع">' + [...sites.values()].map(n =>
       '<button class="btn l xs ' + stateOf(n) + '"' + markAttrs(n) + '>' + E(n.l) + '</button>').join('') + '</div>' +
@@ -39743,6 +39762,9 @@ render();
 
 
 
+
+
+
 /* MUHSEN-CORE-LAYER-JS */
 /* ══════════════════════════════════════════════════════════════
    الطبقة الجامعة — ما لا يُكتب بالأنماط وحدها.
@@ -40469,6 +40491,16 @@ Object.assign(DICT.ms, {
   "ارفع الإنشاء إلى الكنترول": "Hantar penciptaan ke Kawalan",
   "سبب الإنشاء": "Sebab penciptaan",
   "لماذا تُنشأ هذه المهمّة؟ وما الحاجةُ التي سدّتها؟": "Mengapa tugasan ini dicipta? Keperluan apa yang dipenuhi?",
+});
+Object.assign(DICT.en, {
+  "خلال 6 ساعات": "Within 6 hours",
+  "هادئ": "Quiet",
+  "مخطط تقريبي للمواقع · اختر موقعًا لمراجعة مهامه": "Approximate site map — pick a site to review its tasks",
+});
+Object.assign(DICT.ms, {
+  "خلال 6 ساعات": "Dalam 6 jam",
+  "هادئ": "Tenang",
+  "مخطط تقريبي للمواقع · اختر موقعًا لمراجعة مهامه": "Peta lokasi anggaran — pilih lokasi untuk menyemak tugasannya",
 });
 i18nReset();
 
