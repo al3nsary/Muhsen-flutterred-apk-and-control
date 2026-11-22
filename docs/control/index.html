@@ -6924,6 +6924,25 @@ const programById = id => PROGRAMS.find(p => p.id === id) || null;
 const programsOfOrg = oid => PROGRAMS.filter(p => p.orgId === oid);
 /* اسمُ البرنامجِ كما يُكتب في كلِّ مكان: «برنامج ٠٠١١» — لا رمزُ الجهة */
 const programName = id => { const p = programById(id); return p ? 'برنامج ' + AR(p.no) : '—'; };
+/* ───────── طبقةُ البرامجِ المُضافةِ والمعدَّلة ─────────
+   تُركَّب فوقَ المشتقِّ عند كلِّ بناءٍ للرؤية، فالإضافةُ تبقى بعد إعادةِ
+   التحميل، والمشتقُّ الأصليُّ لا يُمَسّ. وهي عمليّةٌ آمنةُ التكرار. */
+function applyProgOverlay() {
+  if (typeof S === 'undefined' || !S) return;
+  (S.progAdd || []).forEach(p => {
+    if (!PROGRAMS.some(x => x.id === p.id)) PROGRAMS.push(Object.assign({}, p));
+  });
+  const ed = S.progEdit || {};
+  Object.keys(ed).forEach(id => {
+    const p = PROGRAMS.find(x => x.id === id);
+    if (p) Object.assign(p, ed[id]);
+  });
+}
+/* أوّلُ رقمٍ حرٍّ على النظامِ كلِّه — فالتسلسلُ عامٌّ لا لكلِّ جهة */
+function nextProgNo() {
+  const used = PROGRAMS.map(p => Number(p.no)).filter(n => !isNaN(n));
+  return String((used.length ? Math.max.apply(null, used) : 10) + 1).padStart(4, '0');
+}
 /* الهرم: دولة ← تصنيف ← جهة ← برنامج ← فريق */
 const orgsOfCountry = c => (typeof V !== 'undefined' && V.orgs ? V.orgs : ORGS).filter(o => !c || o.country === c);
 const programsUnder = (country, type, orgId) => PROGRAMS.filter(p => {
@@ -26177,6 +26196,7 @@ const domainOf = k => DOMAIN[k];
 let V = null;
 
 function buildView() {
+  applyProgOverlay();
   const p = curPerm(), a = S.actor || {};
   if (p.scope === 'all') { V = S; return; }
 
@@ -26187,6 +26207,12 @@ function buildView() {
     const o = orgById(a.orgId) || {};
     orgIds = [a.orgId]; kts = [o.kt];
     groups = S.groups.filter(g => g.orgId === a.orgId);
+    /* التقييدُ ببرنامجٍ واحد: تضييقٌ داخلَ الجهةِ لا نطاقٌ يوازيها.
+       وما بعدَه — الموظّفون والمهامُّ والحجّاجُ — مشتقٌّ من الفرق،
+       فينحصر معها بلا شرطٍ إضافيّ في كلِّ موضع. */
+    if (a.programId && programById(a.programId)) {
+      groups = groups.filter(g => g.programId === a.programId);
+    }
   } else if (p.scope === 'hotel' && a.hotelId) {
     groups = S.groups.filter(g => g.hotelId === a.hotelId);
     orgIds = [...new Set(groups.map(g => g.orgId))];
@@ -26580,6 +26606,13 @@ function renderGate() {
     ready = !!a.orgId;
     who = pickRow('الجهة', S.orgs.filter(o => p.k === 'mission' ? o.type === 'بعثة' : o.type === 'شركة')
       .map(o => [o.id, o.kt + ' · ' + o.ar]), a.orgId, 'gorg');
+    /* وبرنامجٌ واحدٌ إن أُريد تضييقُ النطاقِ أكثر — والفراغُ كلُّ الجهة */
+    if (a.orgId) {
+      const ps = programsOfOrg(a.orgId);
+      if (ps.length) who += pickRow('البرنامج — اتركه فارغًا لكلّ برامج الجهة',
+        ps.map(x => [x.id, programName(x.id) + ' · ' + x.kind +
+          ' · ' + arCount(groupsOfProgram(x.id).length, 'فريق')]), a.programId, 'gprog');
+    }
   } else if (p.scope === 'hotel') {
     ready = !!a.hotelId;
     who = pickRow('الفندق', HOTELS.map(h => [h.id, h.ar]), a.hotelId, 'ghotel');
@@ -26622,6 +26655,7 @@ function renderGate() {
 
           '<div class="gnote" id="control-role-scope">' + icon(gr ? 'i-checkc' : 'i-warn','s16') +
             '<span>' + E(SCOPE_AR[p.scope]) +
+              (a.programId ? ' · ' + E(programName(a.programId)) + ' وحدَه' : '') +
               (p.scope === 'all' ? '' : ' · ' + AR(gr) + ' شاشة') +
             '</span></div>' +
 
@@ -27090,6 +27124,54 @@ const supOfHotel = hid => supervisors().find(u => u.hotelId === hid) || null;
 /* ══════════════ ٠) الفرق على البرامج ══════════════
    أوّلُ خطوةٍ في التشكيل: يُربط الفريقُ ببرنامجِه، والبرنامجُ بجهتِه.
    فما لم يُعرف البرنامجُ لم تُعرف الجهةُ ولا صحّ ما بعده. */
+/* درجُ البرنامج: ثلاثةُ حقولٍ لا رابعَ لها — الرقمُ هو الاسم، والنوعُ،
+   والجهة. وما عداها مشتقٌّ (الفرقُ والمهامُّ تتبعه لا تُحدِّده). */
+function progDrawer(id) {
+  const p = id ? programById(id) : null;
+  if (id && !p) return;
+  S.pform = p ? { id:p.id, no:p.no, kind:p.kind, orgId:p.orgId }
+              : { id:null, no:nextProgNo(), kind:PROGRAM_KINDS[0],
+                  orgId:(ORGS[0] || {}).id };
+  const f = S.pform;
+  const dup = PROGRAMS.some(x => x.no === f.no && x.id !== f.id);
+  const teams = p ? groupsOfProgram(p.id) : [];
+  S.drawer = {
+    title: p ? programName(p.id) : 'برنامج جديد',
+    sub: p ? 'تعديلُ برنامجٍ قائم' : 'الرقمُ هو الاسم، والتسلسلُ عامٌّ على النظام',
+    icon:'i-flag',
+    body:
+      '<label class="fl2" for="q-pfno">رقمُ البرنامج — وهو اسمُه</label>' +
+      '<input id="q-pfno" class="fld" data-q="pfno" inputmode="numeric" maxlength="6" ' +
+        'value="' + E(f.no) + '" aria-describedby="pfno-note">' +
+      '<div class="tiny faint" id="pfno-note" style="margin:4px 0 10px">' +
+        (dup ? '<b style="color:var(--redT)">رقمٌ مستعمَل — اختر غيرَه</b>'
+             : 'يُعرض هكذا: ' + E('برنامج ' + AR(f.no))) + '</div>' +
+
+      '<label class="fl2">النوع</label>' +
+      '<label class="fsel wide on"><span>النوع</span>' +
+        '<select data-q2="pf_kind">' + PROGRAM_KINDS.map(k =>
+          '<option value="' + E(k) + '"' + (k === f.kind ? ' selected' : '') + '>' +
+          E(k) + '</option>').join('') + '</select>' + icon('i-fwd','s14') + '</label>' +
+
+      '<label class="fl2">الجهة</label>' +
+      '<label class="fsel wide on"><span>الجهة</span>' +
+        '<select data-q2="pf_orgId">' + ORGS.map(o =>
+          '<option value="' + E(o.id) + '"' + (o.id === f.orgId ? ' selected' : '') + '>' +
+          E(o.kt + ' · ' + o.ar) + '</option>').join('') + '</select>' +
+        icon('i-fwd','s14') + '</label>' +
+
+      (p && teams.length && f.orgId !== p.orgId
+        ? '<div class="note no" style="margin-top:10px">' + icon('i-warn','s15') +
+          'نقلُ البرنامجِ إلى جهةٍ أخرى ينقل معه ' + arCount(teams.length, 'فريق') +
+          ' — جهةُ الفريقِ تتبع برنامجَه.</div>' : '') +
+
+      '<button class="btn p" style="width:100%;margin-top:14px"' +
+        (dup ? ' disabled' : '') + ' data-a="psave">' + icon('i-checkc','s16') +
+        (p ? 'احفظ التعديل' : 'أنشئ البرنامج') + '</button>'
+  };
+  renderDrawer();
+}
+
 function stepProg() {
   const q = qOf('aprog');
   const fo = fOf('aprog','org');
@@ -27106,7 +27188,11 @@ function stepProg() {
   return '<div class="grid g23">' +
     '<div class="card">' +
       head('البرامج', 'لكل برنامج جهة، ولكل فريق برنامج',
-        pill(AR(PROGRAMS.length) + ' برنامجًا', 'gold'), 'i-flag') +
+        '<span class="fl" style="gap:8px">' +
+          pill(AR(PROGRAMS.length) + ' برنامجًا', 'gold') +
+          (canEdit() ? '<button class="btn p sm" data-a="pnew">' +
+            icon('i-plus','s15') + 'برنامج جديد</button>' : '') +
+        '</span>', 'i-flag') +
       filterBar('aprog', [{ k:'org', label:'الجهة', opts:optOrgs() }],
         list.length, PROGRAMS.length, 'ابحث باسم برنامج أو رمزه…') +
       '<div class="plist">' + (list.length ? list.map(p => {
@@ -27125,6 +27211,9 @@ function stepProg() {
           pill(arCount(gs.length, 'فريق'), gs.length ? 'live' : 'wait') +
           /* المهامُّ قائمةٌ والفريقُ غائب: خللٌ يُوقف البرنامج */
           (!gs.length && tasks ? pill('مهامٌّ بلا فريق', 'no') : '') +
+          (canEdit() ? '<button class="btn l sm" data-a="pedit" data-id="' + E(p.id) +
+            '" aria-label="' + E('تعديل ' + programName(p.id)) + '">' +
+            icon('i-edit','s14') + 'تعديل</button>' : '') +
           '<div class="pfoot" style="width:100%">' +
             '<span class="' + (muh ? 'ok' : 'no') + '">' +
               arCount(muh, 'محسن') + ' · ' + arCount(tasks, 'مهمة') + '</span>' +
@@ -29235,6 +29324,7 @@ function tabHajj() {
   if (g('city'))  list = list.filter(t => t.city === g('city'));
   if (g('kt'))    list = list.filter(t => t.kt === g('kt'));
   if (g('org'))   list = list.filter(t => t.orgId === g('org'));
+  if (g('prog'))  list = list.filter(t => taskProgram(t) === g('prog'));
   if (g('lead'))  list = list.filter(t => t.leaderId === g('lead'));
   if (g('country')) list = list.filter(t => (orgById(t.orgId) || {}).country === g('country'));
   if (g('day'))   list = list.filter(t => dkey(t.start) === g('day'));
@@ -29291,6 +29381,7 @@ function tabHajj() {
         { k:'city',    label:'المدينة',    opts:optTaskCities() },
         { k:'kt',      label:'الـKT',      opts:optKT() },
         { k:'org',     label:'الجهة',      opts:optOrgs() },
+        { k:'prog',    label:'البرنامج',   opts:optPrograms() },
         { k:'country', label:'الدولة',     opts:optCountries() },
         { k:'lead',    label:'الليدر',     opts:optLeaders() }
       ], list.length, all.length, 'ابحث باسم المهمة أو الليدر أو المكان…') +
@@ -36495,6 +36586,15 @@ const mayRequest = () => ['org'].indexOf(curPerm().scope) >= 0;
 
 /* ---------- نموذجُ التعديل ---------- */
 /* حقلٌ واحدٌ لكلّ حقيقة، ولا حقلَ بلا عنوانٍ يقوله */
+/* برنامجُ المهمّة: ما كُتب فيها، وإلّا برنامجُ فريقِها — فالفريقُ تحت
+   برنامجٍ واحد. ولا يُخمَّن غيرُ ذلك. */
+function taskProgram(t) {
+  if (!t) return null;
+  if (t.programId) return t.programId;
+  const g = (S.groups || []).find(x => x.leaderId === t.leaderId);
+  return (g && g.programId) || null;
+}
+
 function taskForm(t, kind) {
   const f = S.tform || {};
   const v = k => f[k] != null ? f[k] : (t ? t[k] : '');
@@ -36532,6 +36632,24 @@ function taskForm(t, kind) {
         AR0(f.durH != null ? f.durH : (t ? t.durH : 3)) + '"></div>') +
     '</div>' +
 
+    row('البرنامج', 'الفريقُ والجهةُ يُشتقّان منه — لا يُكتبان يدًا',
+      '<div class="field"><select id="tf_prog">' +
+        (function () {
+          const cur = (f.programId != null) ? f.programId : taskProgram(t);
+          const byOrg = {};
+          PROGRAMS.forEach(p => { (byOrg[p.orgId] = byOrg[p.orgId] || []).push(p); });
+          return ORGS.filter(o => byOrg[o.id]).map(o =>
+            '<optgroup label="' + E(o.kt + ' · ' + o.ar) + '">' +
+            byOrg[o.id].map(p => {
+              const team = teamOfProgram(p.id);
+              return '<option value="' + E(p.id) + '"' +
+                (cur === p.id ? ' selected' : '') + '>' +
+                E(programName(p.id) + ' · ' + p.kind +
+                  (team ? ' · ' + team.no : ' · بلا فريق')) + '</option>';
+            }).join('') + '</optgroup>').join('');
+        })() +
+      '</select></div>') +
+
     '<div class="grid g2">' +
       row('عدد الحجّاج', 'كشفُ المجموعة المشمول بهذه المهمة',
         '<div class="field"><input id="tf_pax" type="number" min="0" max="500" value="' +
@@ -36541,9 +36659,12 @@ function taskForm(t, kind) {
         'placeholder="مثال: صالة الحج — مطار الملك عبدالعزيز"></div>') +
     '</div>' +
 
-    row('سبب التعديل', 'يُقرأ في السجلّ ويصل من يعتمد — فاكتبه بوضوح',
+    row(kind === 'create' ? 'سبب الإنشاء' : 'سبب التعديل',
+      'يُقرأ في السجلّ ويصل من يعتمد — فاكتبه بوضوح',
       '<div class="field"><textarea id="tf_why" rows="2" ' +
-      'placeholder="لماذا يُعدَّل؟ وما الذي تغيّر في الميدان؟"></textarea></div>') +
+      'placeholder="' + (kind === 'create'
+        ? 'لماذا تُنشأ هذه المهمّة؟ وما الحاجةُ التي سدّتها؟'
+        : 'لماذا يُعدَّل؟ وما الذي تغيّر في الميدان؟') + '"></textarea></div>') +
   '</div>';
 }
 
@@ -36583,7 +36704,9 @@ function taskEditDrawer(id, kind) {
     '<div class="fl" style="gap:9px">' +
       '<button class="btn p sp" data-a="crsave" data-id="' + (t ? t.id : '') + '" ' +
         'data-v="' + kind + '">' + icon(direct ? 'i-checkc' : 'i-send','s16') +
-        (direct ? 'حفظ التعديل' : 'رفع الطلب إلى الكنترول') + '</button>' +
+        (direct ? (kind === 'create' ? 'أنشئ المهمة' : 'حفظ التعديل')
+                : (kind === 'create' ? 'ارفع الإنشاء إلى الكنترول' : 'رفع الطلب إلى الكنترول')) +
+        '</button>' +
       '<button class="btn l" data-a="closedrawer">إلغاء</button>' +
     '</div>' };
   renderDrawer();
@@ -36601,6 +36724,7 @@ function taskFormRead(t) {
     kind:  (S.tform && S.tform.kind) || (t ? t.kind : Object.keys(CAT)[0]),
     start: start, durH: durH, end: start + durH * HR,
     pax:   num('tf_pax'), place: g('tf_place') || (t ? t.place : ''),
+    programId: g('tf_prog') || taskProgram(t) || null,
     why:   g('tf_why')
   };
 }
@@ -36622,11 +36746,17 @@ function crSave(id, kind) {
 function crApply(kind, t, d, by) {
   if (kind === 'create') {
     const c = CAT[d.kind] || CAT[Object.keys(CAT)[0]];
-    const L = (leaders()[0] || {});
+    /* كانت تُسنَد إلى أوّلِ ليدرٍ في القائمة أيًّا كان — مهمّةٌ تُولد في
+       فريقٍ لا علاقةَ له بها. الآن: من البرنامجِ فريقُه فجهتُه. */
+    const prog = d.programId ? programById(d.programId) : null;
+    const team = prog ? teamOfProgram(prog.id) : null;
+    const L = (team ? (userById(team.leaderId) || {}) : (leaders()[0] || {}));
+    const porg = prog ? (orgById(prog.orgId) || {}) : {};
     const nt = {
       id: uid('T'), kind: d.kind, code: 1900 + S.tasks.length,
       title: d.title, desc: c.desc, place: d.place || c.place, city: c.city, photo: c.photo,
-      leaderId: L.id, orgId: L.orgId, kt: L.kt,
+      programId: prog ? prog.id : null,
+      leaderId: L.id, orgId: prog ? prog.orgId : L.orgId, kt: porg.kt || L.kt,
       start: d.start, end: d.end, durH: d.durH,
       status: 'assigned', assigned: [], attended: [], rating: null,
       paxOverride: d.pax, notes: [], subs: [], hist: []
@@ -36643,8 +36773,23 @@ function crApply(kind, t, d, by) {
     toast('أُلغيت المهمة');
     return t.id;
   }
-  const was = { start:t.start, durH:t.durH, title:t.title, place:t.place };
+  const was = { start:t.start, durH:t.durH, title:t.title, place:t.place,
+    programId:taskProgram(t) };
   t.title = d.title; t.kind = d.kind; t.place = d.place;
+  /* نقلُ البرنامج: الفريقُ والجهةُ يتبعانه، ولا يُترك حقلٌ يناقض أخاه */
+  if (d.programId && d.programId !== was.programId) {
+    const np = programById(d.programId);
+    if (np) {
+      const team = teamOfProgram(np.id);
+      const o = orgById(np.orgId) || {};
+      t.programId = np.id; t.orgId = np.orgId; t.kt = o.kt || t.kt;
+      if (team) t.leaderId = team.leaderId;
+      (t.hist = t.hist || []).unshift({ at:now(), by:by, kind:'edit',
+        text:'نُقلت إلى ' + programName(np.id) +
+          (team ? ' · ' + team.no : ' — وهو بلا فريقٍ بعد') });
+      logIt('مهمّة «' + t.title + '» نُقلت إلى ' + programName(np.id), 'assign');
+    }
+  }
   t.start = d.start; t.durH = d.durH; t.end = d.end;
   if (d.pax != null) t.paxOverride = d.pax;
   (t.hist = t.hist || []).unshift({ at:now(), by:by, kind:'edit',
@@ -37237,10 +37382,13 @@ document.addEventListener('change', e => {
   const gk = t.getAttribute && t.getAttribute('data-g');
   if (gk) {
     S.gate = S.gate || {};
-    const map = { grole:'perm', gorg:'orgId', ghotel:'hotelId', glead:'leaderId', guser:'userId' };
+    const map = { grole:'perm', gorg:'orgId', ghotel:'hotelId', glead:'leaderId',
+      guser:'userId', gprog:'programId' };
     const field = map[gk];
     if (!field || (gk === 'grole' && !PERMS.some(p => p.k === t.value))) return;
     S.gate[field] = t.value || null;
+    /* برنامجُ جهةٍ لا يصلح لغيرِها، وتبديلُ الصفةِ يُسقط ما قبلَه */
+    if (gk === 'gorg' || gk === 'grole') S.gate.programId = null;
     save(); renderGate();
     if (gk === 'grole') document.getElementById('control-role-select')?.focus();
     return;
@@ -37249,6 +37397,8 @@ document.addEventListener('change', e => {
   if (q2) { S.q = S.q || {}; S.q[q2] = t.value;
     if (q2 === 'qorg' && S.qform) S.qform.orgId = t.value;
     if (q2 === 'cOrg' && S.cform) S.cform.orgId = t.value;
+    /* حقولُ نموذجِ البرنامج: pf_<الحقل> */
+    if (q2.indexOf('pf_') === 0 && S.pform) S.pform[q2.slice(3)] = t.value;
     /* منح مجموعة صلاحيات لصفة: الفراغ نزعٌ لا خطأ */
     if (q2.indexOf('rg_') === 0) {
       const pk = q2.slice(3);
@@ -37272,7 +37422,9 @@ document.addEventListener('change', e => {
 /* حقول البحث وحدها تُعيد الرسم — وما عداها يُحفَظ ويُترك للكاتب */
 const LIVE_Q = ['pil','stf','log','enr','nsk','tkt','inc','tm','bld','npil'];
 /* حقول تُنسَخ فورًا إلى حالتها حتى لا يتأخّر التحقّق عن الكتابة */
-const MIRROR = { fbt: v => { if (S.fb) S.fb.title = v; } };
+const MIRROR = { fbt: v => { if (S.fb) S.fb.title = v; },
+  /* رقمُ البرنامج: يُكتب بلا إعادةِ رسمٍ كي لا يقفز المؤشّر */
+  pfno: v => { if (S.pform) S.pform.no = String(v || '').trim(); } };
 document.addEventListener('input', e => {
   const t = e.target; if (!t) return;
   if (t.id === 'pq') { S.pq = t.value; S.psel = 0; renderPalette(); return; }
@@ -39184,6 +39336,38 @@ document.addEventListener('click', ev => {
         }).join('') + '</div>' };
       renderDrawer(); return;
     }
+    case 'pnew':  progDrawer(null); return;
+    case 'pedit': progDrawer(id);   return;
+    case 'psave': {
+      const f = S.pform; if (!f) return;
+      const no = String(f.no || '').trim();
+      if (!/^[0-9]{3,6}$/.test(no)) { toast('الرقمُ أرقامٌ فقط، ثلاثةٌ إلى ستّة', 'r'); return; }
+      if (PROGRAMS.some(x => x.no === no && x.id !== f.id)) {
+        toast('رقمٌ مستعمَل — اختر غيرَه', 'r'); return; }
+      if (!orgById(f.orgId)) { toast('اختر الجهة', 'r'); return; }
+      const patch = { no:no, ar:'برنامج ' + no, kind:f.kind, orgId:f.orgId };
+      if (f.id) {
+        const p = programById(f.id); if (!p) return;
+        /* جهةُ الفريقِ تتبع برنامجَه — مصدرٌ واحدٌ للحقيقة */
+        const moved = p.orgId !== f.orgId;
+        Object.assign(p, patch);
+        S.progEdit = S.progEdit || {}; S.progEdit[p.id] = patch;
+        if (moved) groupsOfProgram(p.id).forEach(g => { g.orgId = f.orgId; });
+        logIt('عُدّل ' + programName(p.id) + (moved ? ' ونُقل إلى ' +
+          ((orgById(f.orgId) || {}).kt || '') : ''), 'info');
+        toast('حُفظ ' + programName(p.id));
+      } else {
+        const np = Object.assign({ id:'P' + no }, patch);
+        if (PROGRAMS.some(x => x.id === np.id)) { toast('رقمٌ مستعمَل', 'r'); return; }
+        PROGRAMS.push(np);
+        S.progAdd = S.progAdd || []; S.progAdd.push(np);
+        logIt('أُنشئ ' + programName(np.id) + ' تحت ' +
+          ((orgById(np.orgId) || {}).kt || ''), 'assign');
+        toast('أُنشئ ' + programName(np.id) + ' — بلا فريقٍ بعد');
+      }
+      S.pform = null; S.drawer = null;
+      break;
+    }
     case 'gprogset': {
       const g = groupById(S.pendProg); if (!g) return;
       const p = programById(id); if (!p) return;
@@ -39274,12 +39458,13 @@ document.addEventListener('click', ev => {
     case 'gin': {
       const g = S.gate || { perm:'admin' };
       S.actor = { perm:g.perm, orgId:g.orgId, hotelId:g.hotelId,
-        leaderId:g.leaderId, userId:g.userId };
+        leaderId:g.leaderId, userId:g.userId, programId:g.programId || null };
       S.auth = true;
       const first = allowed()[0];
       S.route = { n: first || 'ops' };
       save(); render();
-      toast('دخلتَ بصفة ' + curPerm().ar + ' — ' + SCOPE_AR[curPerm().scope]);
+      toast('دخلتَ بصفة ' + curPerm().ar + ' — ' + SCOPE_AR[curPerm().scope] +
+        (S.actor.programId ? ' · ' + programName(S.actor.programId) + ' وحدَه' : ''));
       return;
     }
     /* المنتقي: من يُسنَد إليه */
@@ -39476,6 +39661,8 @@ if (!S.theme) {
 }
 applyTheme();
 render();
+
+
 
 
 
@@ -40161,6 +40348,127 @@ Object.assign(DICT.ms, {
   'الشخصية': 'Peribadi', 'محسنة': 'Muhsinah', 'اختيار عشوائي': 'Pilihan rawak',
   'الطاقم والردود وتأكيد الوصول': 'Kru, maklum balas dan pengesahan ketibaan',
   'حدّد عدد الردود وأسند الطاقم قبل توليد الرحلات.': 'Tetapkan bilangan maklum balas dan tugaskan kru sebelum menjana perjalanan.'
+});
+Object.assign(DICT.en, {
+  /* ── المسارُ الزمنيُّ وحركةُ الكوسترات والبرامج ── */
+  "توقّف": "Idle",
+  "بلا مهمّة": "No task",
+  "تنطلق": "Departs",
+  "تبدأ": "Starts",
+  "في الطريق": "En route",
+  "على المهمّة": "On task",
+  "عاطلة اليوم": "Idle today",
+  "أنهت يومها": "Day finished",
+  "أنهى نافذته": "Window finished",
+  "بلا جدول": "Unscheduled",
+  "بلا مهامّ": "No tasks",
+  "بلا رحلات": "No trips",
+  "الحافلة": "Bus",
+  "الفريق": "Team",
+  "الموضعُ وقتٌ والعرضُ مدّة": "Position is time, width is duration",
+  "جارية: الممتلئُ ما مضى": "Running: the filled part is elapsed",
+  "توقّفٌ طويلٌ بين موعدَين": "A long idle gap between two slots",
+  "الصفُّ المرتفعُ فيه تداخلٌ زمنيّ": "A raised lane has overlapping times",
+  "لا رحلات مجدولة": "No trips scheduled",
+  "لا شيء مجدول": "Nothing scheduled",
+  "جارية الآن · مضى": "Running now · elapsed",
+  "حال الأسطول الآن": "Fleet right now",
+  "واقفة": "Standing",
+  "متاحة": "Available",
+  "متأخّرة": "Late",
+  "واقفةٌ في": "Standing at",
+  "تأخّرت عن": "Late since",
+  "نحو": "toward",
+  "تصل": "arrives",
+  "أنهت": "finished",
+  "بلا رحلةٍ اليوم": "No trip today",
+  "برنامج جديد": "New program",
+  "تعديلُ برنامجٍ قائم": "Editing an existing program",
+  "رقمُ البرنامج — وهو اسمُه": "Program number — which is its name",
+  "الرقمُ هو الاسم، والتسلسلُ عامٌّ على النظام": "The number is the name; the series runs across the whole system",
+  "يُعرض هكذا:": "Shown as:",
+  "رقمٌ مستعمَل — اختر غيرَه": "Number already used — pick another",
+  "رقمٌ مستعمَل": "Number already used",
+  "الرقمُ أرقامٌ فقط، ثلاثةٌ إلى ستّة": "Digits only, three to six",
+  "أنشئ البرنامج": "Create the program",
+  "احفظ التعديل": "Save the change",
+  "اختر الجهة": "Choose the entity",
+  "نقلُ البرنامجِ إلى جهةٍ أخرى ينقل معه": "Moving the program to another entity moves along with it",
+  "جهةُ الفريقِ تتبع برنامجَه": "a team's entity follows its program",
+  "لكل برنامج جهة، ولكل فريق برنامج": "Every program has an entity, every team a program",
+  "البرنامج": "Program",
+  "الفريقُ والجهةُ يُشتقّان منه — لا يُكتبان يدًا": "Team and entity are derived from it — not typed by hand",
+  "البرنامج — اتركه فارغًا لكلّ برامج الجهة": "Program — leave empty for all of the entity’s programs",
+  "وحدَه": "only",
+  "بلا فريقٍ بعد": "no team yet",
+  "نُقلت إلى": "Moved to",
+  "وهو بلا فريقٍ بعد": "and it has no team yet",
+});
+Object.assign(DICT.ms, {
+  "توقّف": "Melahu",
+  "بلا مهمّة": "Tiada tugasan",
+  "تنطلق": "Berlepas",
+  "تبدأ": "Bermula",
+  "في الطريق": "Dalam perjalanan",
+  "على المهمّة": "Atas tugasan",
+  "عاطلة اليوم": "Melahu hari ini",
+  "أنهت يومها": "Hari selesai",
+  "أنهى نافذته": "Tetingkap selesai",
+  "بلا جدول": "Tiada jadual",
+  "بلا مهامّ": "Tiada tugasan",
+  "بلا رحلات": "Tiada perjalanan",
+  "الحافلة": "Bas",
+  "الفريق": "Pasukan",
+  "الموضعُ وقتٌ والعرضُ مدّة": "Kedudukan ialah masa, lebar ialah tempoh",
+  "جارية: الممتلئُ ما مضى": "Sedang berjalan: bahagian penuh ialah masa berlalu",
+  "توقّفٌ طويلٌ بين موعدَين": "Jurang lahu panjang antara dua slot",
+  "الصفُّ المرتفعُ فيه تداخلٌ زمنيّ": "Baris yang naik mempunyai masa bertindih",
+  "لا رحلات مجدولة": "Tiada perjalanan dijadualkan",
+  "لا شيء مجدول": "Tiada apa dijadualkan",
+  "جارية الآن · مضى": "Sedang berjalan · berlalu",
+  "حال الأسطول الآن": "Armada sekarang",
+  "واقفة": "Menunggu",
+  "متاحة": "Tersedia",
+  "متأخّرة": "Lewat",
+  "واقفةٌ في": "Menunggu di",
+  "تأخّرت عن": "Lewat sejak",
+  "نحو": "ke arah",
+  "تصل": "tiba",
+  "أنهت": "selesai",
+  "بلا رحلةٍ اليوم": "Tiada perjalanan hari ini",
+  "برنامج جديد": "Program baharu",
+  "تعديلُ برنامجٍ قائم": "Menyunting program sedia ada",
+  "رقمُ البرنامج — وهو اسمُه": "Nombor program — iaitu namanya",
+  "الرقمُ هو الاسم، والتسلسلُ عامٌّ على النظام": "Nombor itulah namanya; siri berjalan merentas seluruh sistem",
+  "يُعرض هكذا:": "Dipaparkan sebagai:",
+  "رقمٌ مستعمَل — اختر غيرَه": "Nombor telah digunakan — pilih yang lain",
+  "رقمٌ مستعمَل": "Nombor telah digunakan",
+  "الرقمُ أرقامٌ فقط، ثلاثةٌ إلى ستّة": "Digit sahaja, tiga hingga enam",
+  "أنشئ البرنامج": "Cipta program",
+  "احفظ التعديل": "Simpan perubahan",
+  "اختر الجهة": "Pilih entiti",
+  "نقلُ البرنامجِ إلى جهةٍ أخرى ينقل معه": "Memindahkan program ke entiti lain turut memindahkan",
+  "جهةُ الفريقِ تتبع برنامجَه": "entiti pasukan mengikut programnya",
+  "لكل برنامج جهة، ولكل فريق برنامج": "Setiap program ada entiti, setiap pasukan ada program",
+  "البرنامج": "Program",
+  "الفريقُ والجهةُ يُشتقّان منه — لا يُكتبان يدًا": "Pasukan dan entiti diterbitkan daripadanya — bukan ditaip",
+  "البرنامج — اتركه فارغًا لكلّ برامج الجهة": "Program — biarkan kosong untuk semua program entiti",
+  "وحدَه": "sahaja",
+  "بلا فريقٍ بعد": "belum ada pasukan",
+  "نُقلت إلى": "Dipindahkan ke",
+  "وهو بلا فريقٍ بعد": "dan ia belum ada pasukan",
+});
+Object.assign(DICT.en, {
+  "أنشئ المهمة": "Create the task",
+  "ارفع الإنشاء إلى الكنترول": "Send the creation to Control",
+  "سبب الإنشاء": "Reason for creating",
+  "لماذا تُنشأ هذه المهمّة؟ وما الحاجةُ التي سدّتها؟": "Why is this task being created? What need does it meet?",
+});
+Object.assign(DICT.ms, {
+  "أنشئ المهمة": "Cipta tugasan",
+  "ارفع الإنشاء إلى الكنترول": "Hantar penciptaan ke Kawalan",
+  "سبب الإنشاء": "Sebab penciptaan",
+  "لماذا تُنشأ هذه المهمّة؟ وما الحاجةُ التي سدّتها؟": "Mengapa tugasan ini dicipta? Keperluan apa yang dipenuhi?",
 });
 i18nReset();
 
