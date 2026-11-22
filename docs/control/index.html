@@ -6155,18 +6155,18 @@ const MAX_TEAMS_PER_LEADER = 5;
 
 /* ---------- الفنادق: ١٢ ---------- */
 const HOTEL_SEED = [
-  ['فندق منازل المقام',   'مكة المكرمة', 180, '٤٠٠ م من الحرم'],
-  ['برج الصفوة',           'مكة المكرمة', 240, '٢٥٠ م من الحرم'],
-  ['دار الإيمان جراند',    'مكة المكرمة', 160, '٦٠٠ م من الحرم'],
-  ['أبراج الجوهرة',        'مكة المكرمة', 200, '٩٠٠ م من الحرم'],
-  ['فندق العزيزية بلازا',  'مكة المكرمة', 210, 'العزيزية — ٤ كم'],
-  ['دار التوحيد إنتركونتيننتال', 'مكة المكرمة', 190, '٣٠٠ م من الحرم'],
-  ['فندق أنجم مكة',        'مكة المكرمة', 260, '١٫٢ كم من الحرم'],
-  ['برج الشهداء',          'مكة المكرمة', 150, '٧٥٠ م من الحرم'],
-  ['فندق النسيم الملكي',   'مكة المكرمة', 170, 'الششة — ٥ كم'],
-  ['أبراج مكة الذهبية',    'مكة المكرمة', 230, '٥٠٠ م من الحرم'],
-  ['فندق الكوثر السلام',   'مكة المكرمة', 145, 'أجياد — ٤٥٠ م'],
-  ['دار الغفران بلازا',    'مكة المكرمة', 205, '١ كم من الحرم']
+  ['فندق منازل المقام',   'مكة المكرمة', 180, '400 م من الحرم'],
+  ['برج الصفوة',           'مكة المكرمة', 240, '250 م من الحرم'],
+  ['دار الإيمان جراند',    'مكة المكرمة', 160, '600 م من الحرم'],
+  ['أبراج الجوهرة',        'مكة المكرمة', 200, '900 م من الحرم'],
+  ['فندق العزيزية بلازا',  'مكة المكرمة', 210, 'العزيزية — 4 كم'],
+  ['دار التوحيد إنتركونتيننتال', 'مكة المكرمة', 190, '300 م من الحرم'],
+  ['فندق أنجم مكة',        'مكة المكرمة', 260, '1.2 كم من الحرم'],
+  ['برج الشهداء',          'مكة المكرمة', 150, '750 م من الحرم'],
+  ['فندق النسيم الملكي',   'مكة المكرمة', 170, 'الششة — 5 كم'],
+  ['أبراج مكة الذهبية',    'مكة المكرمة', 230, '500 م من الحرم'],
+  ['فندق الكوثر السلام',   'مكة المكرمة', 145, 'أجياد — 450 م'],
+  ['دار الغفران بلازا',    'مكة المكرمة', 205, '1 كم من الحرم']
 ];
 /* رقمُ التصريح بيانٌ عن الفندق لا اشتقاقٌ من اسمه: يُسجَّل ويُعدَّل،
    ويُطابَق بما يكتبه المحسن في النموذج عند الزيارة. */
@@ -6205,10 +6205,10 @@ const CAT = {
   tour:     { ar:'جولة المزارات — مكة', desc:'زيارة المعالم التاريخية', photo:'task-tour',
               place:'جبل النور — جبل ثور', city:'مكة المكرمة', dur:5, i:'i-bus', c:'#B8791A' },
   mina:     { ar:'التوجه إلى منى — يوم التروية', desc:'النقل والمبيت في المخيم', photo:'task-mina',
-              place:'منى — مخيم ١٠٨', city:'المشاعر المقدسة', dur:8, i:'i-tent', c:'#A85A22' },
+              place:'منى — مخيم 108', city:'المشاعر المقدسة', dur:8, i:'i-tent', c:'#A85A22' },
   arafah:   { ar:'يوم عرفة', desc:'الوقوف بعرفة', photo:'task-arafah',
-              place:'عرفة — مخيم ٤٢', city:'المشاعر المقدسة', dur:12, i:'i-sun', c:'#C0392B' },
-  jamarat:  { ar:'رمي الجمرات — يوم ١١', desc:'مرافقة الحجاج للجمرات', photo:'task-jamarat',
+              place:'عرفة — مخيم 42', city:'المشاعر المقدسة', dur:12, i:'i-sun', c:'#C0392B' },
+  jamarat:  { ar:'رمي الجمرات — يوم 11', desc:'مرافقة الحجاج للجمرات', photo:'task-jamarat',
               place:'جسر الجمرات — الدور الثاني', city:'منى', dur:5, i:'i-target', c:'#8A5A1E' },
   wada:     { ar:'طواف الوداع', desc:'الطواف قبل المغادرة', photo:'task-wada',
               place:'المسجد الحرام — باب الملك عبدالعزيز', city:'مكة المكرمة', dur:4, i:'i-kaaba', c:'#1E7A8A' },
@@ -6262,7 +6262,7 @@ const TICKET_SEED = [
   { t:'فقدت بطاقة نُسك',              cat:'وثائق', pri:'عاجلة', ago:150,
     body:'فقدت البطاقة في الحرم وأحتاج بديلًا قبل التفويج.' },
   { t:'ماء الحمّام بارد',             cat:'سكن',   pri:'عادية', ago:210,
-    body:'السخّان لا يعمل في غرفة ٤١٢.' },
+    body:'السخّان لا يعمل في غرفة 412.' },
   { t:'استفسار عن موعد التفويج',      cat:'تنظيم', pri:'عادية', ago:260,
     body:'متى ننطلق إلى منى؟ لم يصلنا الموعد.' },
   { t:'دواء الضغط نفد',               cat:'صحة',   pri:'حرجة',  ago:22,
@@ -6282,16 +6282,16 @@ const REPORT_SEED = [
   { cat:'حالة صحية',      t:'حاج يعاني ضيق تنفس',
     b:'حاج في السبعين نُقل لعيادة الفندق وحالته مستقرة، ويحتاج متابعة.', ago:95, esc:0 },
   { cat:'تعديل بيانات الغرفة', t:'نقل حاج إلى غرفة أقرب للمصعد',
-    b:'الدور الثالث · غرفة ٣١٤ — لصعوبة المشي.', ago:60, esc:0, room:1 }
+    b:'الدور الثالث · غرفة 314 — لصعوبة المشي.', ago:60, esc:0, room:1 }
 ];
 
 /* ---------- تدفّق الحوادث المباشر ---------- */
 const FEED_SEED = [
-  ['bad',  'تأخر تفويج',        'KT062 · لم تنطلق الحافلة بعد ٤٠ دقيقة من الموعد', 6],
+  ['bad',  'تأخر تفويج',        'KT062 · لم تنطلق الحافلة بعد 40 دقيقة من الموعد', 6],
   ['warn', 'طلب دعم جديد',      'KT085 · استقبال المطار — يطلب محسنَين', 14],
   ['ok',   'اكتمل تحضير فريق',  'KT031 · خمسة محسنين أثبتوا حضورهم', 22],
   ['warn', 'تذكرة حرجة',        'حاج في KT044 — دواء الضغط نفد', 31],
-  ['ok',   'أُغلقت مهمة',       'KT019 · طواف الوداع — بتقييم ٤٫٢', 47],
+  ['ok',   'أُغلقت مهمة',       'KT019 · طواف الوداع — بتقييم 4.2', 47],
   ['bad',  'بدأها النظام',      'KT044 · جولة المزارات — لم يبدأها الليدر', 63],
   ['ok',   'بلاغ معتمد',       'KT085 · تعديل بيانات غرفة — حُدِّث السجل', 88]
 ];
@@ -6344,7 +6344,7 @@ const GUIDE_SEED = [
 /* ---------- البثّ: ما أُرسل ---------- */
 const CAST_SEED = [
   { to:'كل الليدرز',   t:'تعديل موعد التفويج إلى منى',
-    b:'يُقدَّم تفويج منى ساعة كاملة. راجعوا جداولكم واعتمدوا التحضير قبل ٢٢:٠٠.',
+    b:'يُقدَّم تفويج منى ساعة كاملة. راجعوا جداولكم واعتمدوا التحضير قبل 22:00.',
     ago:52,  seen:5,  of:5,  kind:'حرج' },
   { to:'KT085 · الفريق كاملًا', t:'تغيير بوّابة الدخول',
     b:'الدخول من البوّابة الشمالية بدل الشرقية حتى إشعار آخر.',
@@ -6353,7 +6353,7 @@ const CAST_SEED = [
     b:'لا يُقبل التحضير خارج كيلومترين من حدود الموقع.',
     ago:640, seen:22, of:25, kind:'عادي' },
   { to:'فريق امتثال', t:'جاهزية ليلة عرفة',
-    b:'الاحتياط كاملًا على أهبة الاستعداد من ٠٤:٠٠ حتى الغروب.',
+    b:'الاحتياط كاملًا على أهبة الاستعداد من 04:00 حتى الغروب.',
     ago:1500, seen:8, of:8,  kind:'حرج' }
 ];
 const CAST_AUD = ['كل الليدرز', 'كل المحسنين', 'فريق امتثال', 'KT085 · الفريق كاملًا',
@@ -6361,33 +6361,33 @@ const CAST_AUD = ['كل الليدرز', 'كل المحسنين', 'فريق ام
 
 /* ---------- الشِفتات: طلبات التبديل الصاعدة ---------- */
 const SHIFT_SEED = [
-  { from:'M1001', to:'M1006', day:'غدًا', slot:'الوردية الليلية · ٢٢:٠٠ — ٠٦:٠٠',
+  { from:'M1001', to:'M1006', day:'غدًا', slot:'الوردية الليلية · 22:00 — 06:00',
     why:'ارتباط بموعد طبي في الصباح', ago:40,  st:'pending' },
-  { from:'M1009', to:'M1002', day:'بعد غد', slot:'الوردية الصباحية · ٠٦:٠٠ — ١٤:٠٠',
+  { from:'M1009', to:'M1002', day:'بعد غد', slot:'الوردية الصباحية · 06:00 — 14:00',
     why:'تبادل باتفاق الطرفين', ago:150, st:'pending' },
-  { from:'M1013', to:'M1017', day:'اليوم', slot:'الوردية المسائية · ١٤:٠٠ — ٢٢:٠٠',
+  { from:'M1013', to:'M1017', day:'اليوم', slot:'الوردية المسائية · 14:00 — 22:00',
     why:'ظرف عائلي طارئ', ago:22,  st:'pending' },
-  { from:'M1004', to:'M1005', day:'أمس', slot:'الوردية الليلية · ٢٢:٠٠ — ٠٦:٠٠',
+  { from:'M1004', to:'M1005', day:'أمس', slot:'الوردية الليلية · 22:00 — 06:00',
     why:'تبادل باتفاق الطرفين', ago:1400, st:'done' },
-  { from:'M1011', to:'M1012', day:'أمس', slot:'الوردية الصباحية · ٠٦:٠٠ — ١٤:٠٠',
+  { from:'M1011', to:'M1012', day:'أمس', slot:'الوردية الصباحية · 06:00 — 14:00',
     why:'بلا سبب مكتوب', ago:1900, st:'no' }
 ];
 const SHIFTS = [
-  { k:'صباحية', t:'٠٦:٠٠ — ١٤:٠٠', i:'i-sun' },
-  { k:'مسائية', t:'١٤:٠٠ — ٢٢:٠٠', i:'i-hour' },
-  { k:'ليلية',  t:'٢٢:٠٠ — ٠٦:٠٠', i:'i-moon' }
+  { k:'صباحية', t:'06:00 — 14:00', i:'i-sun' },
+  { k:'مسائية', t:'14:00 — 22:00', i:'i-hour' },
+  { k:'ليلية',  t:'22:00 — 06:00', i:'i-moon' }
 ];
 
 /* ---------- سجل النظام: ما وقع قبل هذه الجلسة ---------- */
 const LOG_SEED = [
-  { ago:12,   kind:'assign', t:'أُسند محسنان من الاحتياط إلى KT085 — طلب SP-٣٠٠١' },
-  { ago:34,   kind:'room',   t:'حُدِّثت بيانات الغرفة ٣١٤ · الدور الثالث — KT019' },
+  { ago:12,   kind:'assign', t:'أُسند محسنان من الاحتياط إلى KT085 — طلب SP-3001' },
+  { ago:34,   kind:'room',   t:'حُدِّثت بيانات الغرفة 314 · الدور الثالث — KT019' },
   { ago:58,   kind:'cast',   t:'بُثّت رسالة «تعديل موعد التفويج إلى منى» إلى كل الليدرز' },
-  { ago:96,   kind:'guide',  t:'اعتُمدت النسخة ٦ من دليل عمرة القدوم' },
-  { ago:140,  kind:'deny',   t:'اعتُذر عن طلب دعم SP-٣٠٠٤ — الاحتياط مرتبط بعرفة' },
+  { ago:96,   kind:'guide',  t:'اعتُمدت النسخة 6 من دليل عمرة القدوم' },
+  { ago:140,  kind:'deny',   t:'اعتُذر عن طلب دعم SP-3004 — الاحتياط مرتبط بعرفة' },
   { ago:210,  kind:'shift',  t:'اعتُمد تبديل وردية بين M1004 و M1005' },
-  { ago:305,  kind:'task',   t:'أُغلقت مهمة طواف الوداع — KT019 بتقييم ٤٫٢' },
-  { ago:420,  kind:'ticket', t:'صُعِّدت تذكرة TK-٤١٠٣ إلى الكنترول — أولوية حرجة' },
+  { ago:305,  kind:'task',   t:'أُغلقت مهمة طواف الوداع — KT019 بتقييم 4.2' },
+  { ago:420,  kind:'ticket', t:'صُعِّدت تذكرة TK-4103 إلى الكنترول — أولوية حرجة' },
   { ago:640,  kind:'cast',   t:'بُثّ تذكير التحضير داخل النطاق إلى كل المحسنين' },
   { ago:880,  kind:'assign', t:'أُسند محسن واحد من الاحتياط إلى KT044' },
   { ago:1100, kind:'guide',  t:'رُفعت مسودة دليل جولة المزارات — بانتظار المراجعة' },
@@ -6463,7 +6463,7 @@ for (let i = 0; i < 14; i++) {
 
 /* ---------- قوالب الامتثال ---------- */
 /* أنواع الإجابة — ما يُحتسب وما يُوثَّق */
-const QT = { yn:'نعم / لا', rate:'تقييم ١–٥', num:'عدد', text:'نصّ',
+const QT = { yn:'نعم / لا', rate:'تقييم 1–5', num:'عدد', text:'نصّ',
   photo:'صورة مرفقة', sign:'تعهّد وتوقيع' };
 const QT_IC = { yn:'i-checkc', rate:'i-star', num:'i-hash', text:'i-list',
   photo:'i-photo', sign:'i-shield' };
@@ -6516,16 +6516,16 @@ const CONTRACTOR_SEED = [
 
 /* ---------- النقل: عشرة باصات ---------- */
 const BUS_SEED = [
-  ['باص ١', 'MKH-4021', 45, 'راشد بن عوض',    '#0B7A4B'],
-  ['باص ٢', 'MKH-4088', 45, 'عايض الزهراني',  '#1B6E9C'],
-  ['باص ٣', 'MKH-4133', 50, 'مبارك السبيعي',  '#6B4E9E'],
-  ['باص ٤', 'MKH-4176', 50, 'حمد المطيري',    '#B8791A'],
-  ['باص ٥', 'MKH-4204', 32, 'صالح بن دخيل',   '#C0392B'],
-  ['باص ٦', 'MKH-4251', 45, 'عوض القحطاني',   '#1E7A8A'],
-  ['باص ٧', 'MKH-4299', 50, 'منصور الحربي',   '#8A5A1E'],
-  ['باص ٨', 'MKH-4318', 32, 'زايد الشمري',    '#5A6C63'],
-  ['باص ٩', 'MKH-4360', 45, 'دخيل الله العتيبي', '#0F6E52'],
-  ['باص ١٠','MKH-4402', 50, 'مسفر الغامدي',   '#9A4A7A']
+  ['باص 1', 'MKH-4021', 45, 'راشد بن عوض',    '#0B7A4B'],
+  ['باص 2', 'MKH-4088', 45, 'عايض الزهراني',  '#1B6E9C'],
+  ['باص 3', 'MKH-4133', 50, 'مبارك السبيعي',  '#6B4E9E'],
+  ['باص 4', 'MKH-4176', 50, 'حمد المطيري',    '#B8791A'],
+  ['باص 5', 'MKH-4204', 32, 'صالح بن دخيل',   '#C0392B'],
+  ['باص 6', 'MKH-4251', 45, 'عوض القحطاني',   '#1E7A8A'],
+  ['باص 7', 'MKH-4299', 50, 'منصور الحربي',   '#8A5A1E'],
+  ['باص 8', 'MKH-4318', 32, 'زايد الشمري',    '#5A6C63'],
+  ['باص 9', 'MKH-4360', 45, 'دخيل الله العتيبي', '#0F6E52'],
+  ['باص 10','MKH-4402', 50, 'مسفر الغامدي',   '#9A4A7A']
 ];
 const TRIP_KIND = {
   toTask:  { ar:'إلى مهمة',      i:'i-tasks' },
@@ -6977,14 +6977,16 @@ function TR(html) {
 
 /* ---------- الأرقام والتواريخ تتبع اللغة ---------- */
 /* AR() كانت تُحوّل دائمًا إلى الهنديّة. صارت تسأل عن اللغة أوّلًا. */
-const AR_DIGITS = '٠١٢٣٤٥٦٧٨٩';
+const AR_DIGITS = '0123456789';
+/* MUHSEN-LATIN-DIGITS — قرارُ المالك ٢٢ نوفمبر: الأرقامُ لاتينيّةٌ
+   في اللغاتِ الثلاث. الهنديّةُ تُقلب أينما وردت، والفواصلُ العربيّةُ
+   تُردُّ إلى مقابلِها اللاتينيِّ فلا تُقرأ خطأً داخلَ رقمٍ لاتينيّ. */
 function NUM(n) {
   if (n == null || n === '') return '';
-  const s = String(n);
-  return langOf() === 'ar'
-    ? s.replace(/[0-9]/g, d => AR_DIGITS[+d])
-    /* الفاصلةُ العربيّة ٫ تبقى داخل رقمٍ لاتينيٍّ فتُقرأ خطأً — فتُقلَب */
-    : s.replace(/[٠-٩]/g, d => String(AR_DIGITS.indexOf(d))).replace(/٫/g, '.').replace(/٬/g, ',');
+  return String(n)
+    .replace(/[٠-٩]/g, d => String(AR_DIGITS.indexOf(d)))
+    .replace(/٫/g, '.')
+    .replace(/٬/g, ',');
 }
 
 /* التقويم: هجريٌّ بالعربية، وميلاديٌّ بغيرها — ومعه الهجريُّ بين قوسين */
@@ -10494,9 +10496,9 @@ DICT.en = {
   "تطبيق مُحسن": "Muhsen app",
   "تطبيق مُحسن ·": "Muhsen app ·",
   "تطبيق مُحسن · نسخة {n} ·": "Muhsen app · version {n} ·",
-  "تطبيق مُحسن · نسخة ٤٫١": "Muhsen App · version 4.1",
-  "تطبيق مُحسن · نسخة ٤٫٢": "Muhsen App · version 4.2",
-  "تطبيق مُحسن · نسخة ٤٫٣": "Muhsen App · version 4.3",
+  "تطبيق مُحسن · نسخة 4.1": "Muhsen App · version 4.1",
+  "تطبيق مُحسن · نسخة 4.2": "Muhsen App · version 4.2",
+  "تطبيق مُحسن · نسخة 4.3": "Muhsen App · version 4.3",
   "تطوير نُزلي · نسخة تجريبية": "Built by Nozoly · beta",
   "تُعاد من «إدارة الصلاحيات» بزرّ «استعادة الافتراضي».": "They are restored from “Manage permissions” with the “Restore defaults” button.",
   "تعارض": "Conflict",
@@ -12359,7 +12361,7 @@ DICT.en = {
   "غرفة العمليات": "Operations Room",
   "غرفة العمليات — الكنترول": "Operations Room — Control",
   "غرفة العمليات — موسم حج {n} هـ": "Operations Room — Hajj Season {n} AH",
-  "غرفة العمليات — موسم حج ١٤٤٨ هـ": "Operations Room — Hajj Season 1448 AH",
+  "غرفة العمليات — موسم حج 1448 هـ": "Operations Room — Hajj Season 1448 AH",
   "غرفة العمليات هي من تختار المحسنين وتسند الدعم — وتوضّح سبب قرارها.": "The operations room chooses the Muhsens and assigns the support — and states the reason for its decision.",
   "غرفة المدينة": "Madinah room",
   "غرفة رباعية": "Quad room",
@@ -13890,12 +13892,12 @@ DICT.en = {
   "نسخة": "Version",
   "نُسخت": "Copied",
   "نسخة {n}": "Version {n}",
-  "نسخة ١٫٩": "version 1.9",
-  "نسخة ٢٫٠": "version 2.0",
-  "نسخة ٢٫١": "version 2.1",
-  "نسخة ٤٫١": "version 4.1",
-  "نسخة ٤٫٢": "version 4.2",
-  "نسخة ٤٫٣": "version 4.3",
+  "نسخة 1.9": "version 1.9",
+  "نسخة 2.0": "version 2.0",
+  "نسخة 2.1": "version 2.1",
+  "نسخة 4.1": "version 4.1",
+  "نسخة 4.2": "version 4.2",
+  "نسخة 4.3": "version 4.3",
   "نشاط حجّ": "Hajj activity",
   "نشاط حجّ · استقبال الحجاج من المطار": "Hajj activity · Pilgrim reception from the airport",
   "نشاط حجّ · استقبال الحجاج من المطار · ن{n}": "Hajj activity · Receiving pilgrims from the airport · v{n}",
@@ -13936,9 +13938,9 @@ DICT.en = {
   "نظام مُحسن · نُزلي": "Muhsen System · Nozoly",
   "نظام مُحسن · نُزلي ·": "Muhsen System · Nozoly ·",
   "نظام مُحسن · نُزلي · نسخة {n}": "Muhsen System · Nuzuli · version {n}",
-  "نظام مُحسن · نُزلي · نسخة ١٫٩": "Muhsen System · Nuzuli · version 1.9",
-  "نظام مُحسن · نُزلي · نسخة ٢٫٠": "Muhsen System · Nuzuli · version 2.0",
-  "نظام مُحسن · نُزلي · نسخة ٢٫١": "Muhsen System · Nuzuli · version 2.1",
+  "نظام مُحسن · نُزلي · نسخة 1.9": "Muhsen System · Nuzuli · version 1.9",
+  "نظام مُحسن · نُزلي · نسخة 2.0": "Muhsen System · Nuzuli · version 2.0",
+  "نظام مُحسن · نُزلي · نسخة 2.1": "Muhsen System · Nuzuli · version 2.1",
   "نظّم الخروج من باب واحد فقط": "Organise the exit through one gate only",
   "نظيف": "Clean",
   "نعم": "Yes",
@@ -17971,9 +17973,9 @@ DICT.ms = {
   "تطبيق مُحسن": "Aplikasi Muhsin",
   "تطبيق مُحسن ·": "Aplikasi Muhsin ·",
   "تطبيق مُحسن · نسخة {n} ·": "Aplikasi Muhsin · versi {n} ·",
-  "تطبيق مُحسن · نسخة ٤٫١": "Aplikasi Muhsin · versi 4.1",
-  "تطبيق مُحسن · نسخة ٤٫٢": "Aplikasi Muhsin · versi 4.2",
-  "تطبيق مُحسن · نسخة ٤٫٣": "Aplikasi Muhsin · versi 4.3",
+  "تطبيق مُحسن · نسخة 4.1": "Aplikasi Muhsin · versi 4.1",
+  "تطبيق مُحسن · نسخة 4.2": "Aplikasi Muhsin · versi 4.2",
+  "تطبيق مُحسن · نسخة 4.3": "Aplikasi Muhsin · versi 4.3",
   "تطوير نُزلي · نسخة تجريبية": "Dibangunkan Nozoly · beta",
   "تُعاد من «إدارة الصلاحيات» بزرّ «استعادة الافتراضي».": "Ia dipulihkan dari “Urus kebenaran” dengan butang “Pulihkan lalai”.",
   "تعارض": "Percanggahan",
@@ -19836,7 +19838,7 @@ DICT.ms = {
   "غرفة العمليات": "Bilik Operasi",
   "غرفة العمليات — الكنترول": "Bilik Operasi — Kawalan",
   "غرفة العمليات — موسم حج {n} هـ": "Bilik Operasi — Musim Haji {n} H",
-  "غرفة العمليات — موسم حج ١٤٤٨ هـ": "Bilik Operasi — Musim Haji 1448H",
+  "غرفة العمليات — موسم حج 1448 هـ": "Bilik Operasi — Musim Haji 1448H",
   "غرفة العمليات هي من تختار المحسنين وتسند الدعم — وتوضّح سبب قرارها.": "Bilik operasi memilih Muhsin dan menugaskan sokongan — serta menyatakan sebab keputusannya.",
   "غرفة المدينة": "Bilik Madinah",
   "غرفة رباعية": "Bilik empat orang",
@@ -21367,12 +21369,12 @@ DICT.ms = {
   "نسخة": "Versi",
   "نُسخت": "Disalin",
   "نسخة {n}": "Versi {n}",
-  "نسخة ١٫٩": "versi 1.9",
-  "نسخة ٢٫٠": "versi 2.0",
-  "نسخة ٢٫١": "versi 2.1",
-  "نسخة ٤٫١": "versi 4.1",
-  "نسخة ٤٫٢": "versi 4.2",
-  "نسخة ٤٫٣": "versi 4.3",
+  "نسخة 1.9": "versi 1.9",
+  "نسخة 2.0": "versi 2.0",
+  "نسخة 2.1": "versi 2.1",
+  "نسخة 4.1": "versi 4.1",
+  "نسخة 4.2": "versi 4.2",
+  "نسخة 4.3": "versi 4.3",
   "نشاط حجّ": "Aktiviti haji",
   "نشاط حجّ · استقبال الحجاج من المطار": "Aktiviti haji · Penyambutan jemaah dari lapangan terbang",
   "نشاط حجّ · استقبال الحجاج من المطار · ن{n}": "Aktiviti haji · Menyambut jemaah dari lapangan terbang · v{n}",
@@ -21413,9 +21415,9 @@ DICT.ms = {
   "نظام مُحسن · نُزلي": "Sistem Muhsin · Nozoly",
   "نظام مُحسن · نُزلي ·": "Sistem Muhsin · Nozoly ·",
   "نظام مُحسن · نُزلي · نسخة {n}": "Sistem Muhsin · Nuzuli · versi {n}",
-  "نظام مُحسن · نُزلي · نسخة ١٫٩": "Sistem Muhsin · Nuzuli · versi 1.9",
-  "نظام مُحسن · نُزلي · نسخة ٢٫٠": "Sistem Muhsin · Nuzuli · versi 2.0",
-  "نظام مُحسن · نُزلي · نسخة ٢٫١": "Sistem Muhsin · Nuzuli · versi 2.1",
+  "نظام مُحسن · نُزلي · نسخة 1.9": "Sistem Muhsin · Nuzuli · versi 1.9",
+  "نظام مُحسن · نُزلي · نسخة 2.0": "Sistem Muhsin · Nuzuli · versi 2.0",
+  "نظام مُحسن · نُزلي · نسخة 2.1": "Sistem Muhsin · Nuzuli · versi 2.1",
   "نظّم الخروج من باب واحد فقط": "Aturkan keluar melalui satu pintu sahaja",
   "نظيف": "Bersih",
   "نعم": "Ya",
@@ -22093,7 +22095,7 @@ Object.assign(DICT.ms, {
    ============================================================ */
 const KEY = 'muhsen_control_release_v1';
 const SCHEMA = 22;
-const APP_VER = 'نسخة ٢٫١';
+const APP_VER = 'نسخة 2.1';
 let S = null;
 
 const uid = p => p + Math.random().toString(36).slice(2, 8);
@@ -22101,7 +22103,7 @@ const MIN = 60000, HR = 3600000, DAY = 86400000;
 const now = () => Date.now() + (S && S.clockOffset ? S.clockOffset : 0) * MIN;
 const VV = () => (typeof V !== 'undefined' && V) || S;
 /* الأصلُ العربيُّ يبقى باسمٍ صريح، والاسمُ العامُّ يسأل عن اللغة */
-const ARd = n => String(n).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+const ARd = n => String(n).replace(/[0-9]/g, d => '0123456789'[d]);
 const AR = n => (typeof NUM === 'function' ? NUM(n) : ARd(n));
 const two = n => (n < 10 ? '0' : '') + n;
 const dayStart = ts => { const d = new Date(ts); d.setHours(0, 0, 0, 0); return d.getTime(); };
@@ -22113,7 +22115,7 @@ function t12Ar(ts) {
 }
 function hijriAr(ts) {
   try {
-    return new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-arab',
+    return new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn',
       { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(ts));
   } catch (e) { return AR(new Date(ts).toLocaleDateString('ar')); }
 }
@@ -22238,7 +22240,7 @@ function seed() {
     st.reports.push({
       id: uid('R'), no: 'RP-' + (5200 + i), cat: r.cat, title: r.t, body: r.b,
       kt: L.kt, from: L.id, at: Date.now() - r.ago * MIN,
-      escalated: !!r.esc, room: r.room ? { floor: 'الدور الثالث', no: '٣١٤' } : null,
+      escalated: !!r.esc, room: r.room ? { floor: 'الدور الثالث', no: '314' } : null,
       status: r.esc ? 'لدى الكنترول' : 'قيد المعالجة'
     });
   });
@@ -22501,7 +22503,7 @@ function reset() { localStorage.removeItem(KEY); S = seed(); go('ops'); toast('�
 /* ---------- مساعدات ---------- */
 /* ما يُكتب بالأرقام الهندية يُقرأ عددًا — فالمستخدم يكتب كما يقرأ */
 const deAr = s => String(s == null ? '' : s)
-  .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
+  .replace(/[٠-٩]/g, d => '0123456789'.indexOf(d))
   .replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
   .replace(/[٬،,]/g, '');
 const numOf = s => Number(deAr(s).replace(/[^\d.-]/g, '')) || 0;
@@ -22597,7 +22599,7 @@ const CONTROL_NOTICE_VARIANTS = {
   info: { title:'معلومة', icon:'i-info', image:'info', duration:6500 }
 };
 const CONTROL_NOTICE_DEMO_VALUES = {
-  task_name:'يوم عرفة', group_name:'المجموعة ٤٢', time:'٤:٣٠ م', location:'مخيم ٤٢', flight_number:'MH150'
+  task_name:'يوم عرفة', group_name:'المجموعة 42', time:'4:30 م', location:'مخيم 42', flight_number:'MH150'
 };
 
 function controlPageArt(key) {
@@ -23863,7 +23865,7 @@ function opsMap(selectedKey) {
       '<div class="operation-map-counts">' +
       pill(AR(current.late.length) + ' متعثّرة', current.late.length ? 'no' : 'grey') +
       pill(AR(current.live.length) + ' جارية', current.live.length ? 'live' : 'grey') +
-      pill(AR(current.soon.length) + ' خلال ٦ ساعات', current.soon.length ? 'gold' : 'grey') + '</div></div>' +
+      pill(AR(current.soon.length) + ' خلال 6 ساعات', current.soon.length ? 'gold' : 'grey') + '</div></div>' +
       (rows.length ? '<div class="operation-map-tasks">' + rows.map(t =>
         '<button class="operation-map-task" data-a="tlopen" data-id="' + E(t.id) + '">' +
         icon((CAT[t.kind] || {}).i || 'i-tasks','s16') + '<span>' + E(t.title) + '</span><time>' + t12(t.start) + '</time></button>'
@@ -23887,7 +23889,7 @@ function ktDrawer(id) {
       ['حجاج,' + L.pilgrims, 'محسنون,' + team.length, 'مهام منجزة,' + done.length].map(x => {
         const p = x.split(',');
         return '<div class="card mini"><span class="tiny faint">' + p[0] + '</span>' +
-          '<b class="num" data-n="' + p[1] + '">٠</b></div>';
+          '<b class="num" data-n="' + p[1] + '">0</b></div>';
       }).join('') +
       '<div class="card mini"><span class="tiny faint">متوسط التقييم</span>' +
         '<b style="color:var(--gold3)">' + AR(rate) + '</b></div>' +
@@ -24343,7 +24345,7 @@ function screenQuality() {
       auto:V.tasks.filter(t => t.leaderId === L.id && t.autoStarted).length };
   }).sort((a, b) => b.r - a.r);
   /* توزيع الدرجات على خمس درجات */
-  const STARN = { 1:'نجمة', 2:'نجمتان', 3:'٣ نجوم', 4:'٤ نجوم', 5:'٥ نجوم' };
+  const STARN = { 1:'نجمة', 2:'نجمتان', 3:'3 نجوم', 4:'4 نجوم', 5:'5 نجوم' };
   const dist = [5, 4, 3, 2, 1].map(n => ({
     l: STARN[n],
     v: done.filter(t => Math.round(t.rating) === n).length
@@ -24353,7 +24355,7 @@ function screenQuality() {
   return '<div class="grid g4">' +
       stat({ label:'المتوسط التراكمي', n:avg.toFixed(1), ic:'i-star', cls:'up',
         sub:'من ' + AR(done.length) + ' مهمة مقيَّمة', series:[3.6,3.7,3.9,4,4.1,4,4.2,avg] }) +
-      stat({ label:'مهام دون ٣٫٥', n:done.filter(t => t.rating < 3.5).length, ic:'i-flag',
+      stat({ label:'مهام دون 3.5', n:done.filter(t => t.rating < 3.5).length, ic:'i-flag',
         cls:'warn', sub:'تستحق مراجعة سببها', series:[6,5,7,4,6,3,5,4] }) +
       stat({ label:'الفريق الأعلى', n:board[0] ? board[0].r.toFixed(1) : '0.0',
         ic:'i-shield', cls:'up',
@@ -24374,7 +24376,7 @@ function screenQuality() {
             '<span class="nm"><b>' + E(b.L.kt) + '</b><span>' + E(b.L.name) + '</span></span>' +
             '<span class="bar2"><i data-w="' + (b.r / 5 * 100) + '"></i></span>' +
             stars(b.r) +
-            (b.low ? pill(AR(b.low) + ' دون ٣٫٥', 'no') : pill('نظيف', 'live')) +
+            (b.low ? pill(AR(b.low) + ' دون 3.5', 'no') : pill('نظيف', 'live')) +
           '</div>').join('') + '</div>' +
       '</div>' +
       '<div class="card hov">' +
@@ -25579,7 +25581,7 @@ function renderGate() {
         '<div class="gbrand">' +
           controlLockup() +
           '<span><h1>الدخول إلى الكنترول</h1>' +
-          '<div class="gsub">غرفة عمليات موسم الحجّ ١٤٤٨ هـ</div></span>' +
+          '<div class="gsub">غرفة عمليات موسم الحجّ 1448 هـ</div></span>' +
         '</div>' +
         '<div class="gcard">' +
           '<label class="control-access-title" for="control-role-select">صفة الدخول</label>' +
@@ -25907,7 +25909,7 @@ function screenBuild() {
         head(d.editing ? 'تعديل ' + E(groupById(d.editing).no) : 'تشكيل مجموعة جديدة',
           'ليدر واحد وخمسة محسنين — ستّة',
           '<span class="cnt2' + (ready ? ' ok' : '') + '">' +
-            AR(d.members.length + (d.leaderId ? 1 : 0)) + ' / ٦</span>', 'i-users') +
+            AR(d.members.length + (d.leaderId ? 1 : 0)) + ' / 6</span>', 'i-users') +
 
         '<div class="slot lead">' +
           '<span class="sl">الليدر</span>' +
@@ -26220,7 +26222,7 @@ function stepLead() {
           '<span class="nm" style="flex:1"><b>' + LTR(g.no) + ' · ' + E(L.name || '—') + '</b>' +
           '<span>' + E(o.kt || '') + ' · ' + E(o.ar || '') + ' · ' + E(h.ar || 'بلا سكن') + '</span></span>' +
           pill(E(o.type || '—'), o.type === 'بعثة' ? 'blue' : 'gold') +
-          pill(AR(g.members.length + 1) + '/٦', g.members.length === 5 ? 'live' : 'wait') +
+          pill(AR(g.members.length + 1) + '/6', g.members.length === 5 ? 'live' : 'wait') +
           (n > 1 ? pill('يقود ' + AR(n), 'wait') : '') +
           '<div class="pfoot" style="width:100%">' +
             '<span class="ok">' + (sv ? 'المشرف ' + E(sv.name) : 'بلا مشرف — سكِّن مشرف الفندق أوّلًا') + '</span>' +
@@ -26239,7 +26241,7 @@ function stepLead() {
         '<div class="prow">' + avatar(l, 'sm') +
         '<span class="nm" style="flex:1"><b>' + E(l.name) + '</b>' +
         '<span>' + E(l.kt) + ' · ' + AR(l.pilgrims) + ' حاجًّا</span></span>' +
-        pill(groupsOf(l.id).length ? 'يقود ١' : 'حرّ',
+        pill(groupsOf(l.id).length ? 'يقود 1' : 'حرّ',
           groupsOf(l.id).length ? 'wait' : 'live') + '</div>').join('') + '</div>'
         : empty('كل ليدر يقود مجموعتين', 'لا مزيد', 'i-checkc')) +
     '</div></div>';
@@ -26551,7 +26553,7 @@ function guideEdit(id) {
   S.drawer = { title:b.editing ? 'تعديل دليل' : 'دليل تنفيذ جديد',
     sub:'يُربط بتصنيف فيسري على كل مهامه، أو بمهمّة بعينها', icon:'i-guide', body:
 
-    '<div class="card">' + head('١ · هويّته', 'عنوانه وما يخدمه') +
+    '<div class="card">' + head('1 · هويّته', 'عنوانه وما يخدمه') +
       '<label class="fl2" style="margin-top:0">العنوان</label>' +
       '<input class="fld" id="q-gbt" data-q="gbt" value="' + E(b.title) + '" ' +
         'placeholder="مثال: خطوات استقبال الحجاج في صالة الحج">' +
@@ -26568,7 +26570,7 @@ function guideEdit(id) {
         : '<div class="quote" style="margin-top:12px">دليل خاصّ — يُربط بمهمّة بعينها من شاشة المهمّة.</div>') +
     '</div>' +
 
-    '<div class="card">' + head('٢ · الخطوات', AR(b.steps.length) + ' خطوة — ترتيبها هو ترتيب التنفيذ') +
+    '<div class="card">' + head('2 · الخطوات', AR(b.steps.length) + ' خطوة — ترتيبها هو ترتيب التنفيذ') +
       (b.steps.length ? '<div class="steps">' + b.steps.map((s, i) =>
         '<div class="step"><span class="sn">' + AR(i + 1) + '</span>' +
           '<span class="nm" style="flex:1"><b>' + E(s) + '</b></span>' +
@@ -26585,7 +26587,7 @@ function guideEdit(id) {
       '</div>' +
     '</div>' +
 
-    '<div class="card">' + head('٣ · الوسائط', 'فيديو قصير أو PDF أو صور — ما يُغني عن الشرح') +
+    '<div class="card">' + head('3 · الوسائط', 'فيديو قصير أو PDF أو صور — ما يُغني عن الشرح') +
       ((b.media || []).length ? '<div class="plist">' + b.media.map((m, i) =>
         '<div class="prow" style="padding:10px 12px">' +
           '<span class="ico sm" style="color:var(--gold2)">' + icon(MEDIA_KIND[m.k].i,'s14') + '</span>' +
@@ -26804,7 +26806,7 @@ function screenSettings() {
         E(cfg.name || 'مُحسن · الكنترول') + '">' +
       '<label class="fl2">الموسم</label>' +
       '<input class="fld" id="q-cfgseason" data-q="cfgseason" value="' +
-        E(cfg.season || 'موسم حج ١٤٤٨ هـ') + '">' +
+        E(cfg.season || 'موسم حج 1448 هـ') + '">' +
       '<label class="fl2">الوضع الافتراضي عند أوّل دخول</label>' +
       segmented('cfgtheme', [['night','ليلي'],['day','نهاري'],['sys','يتبع الجهاز']],
         cfg.theme || 'sys') +
@@ -26824,8 +26826,8 @@ function screenSettings() {
     '<div class="card">' + head('التجربة', 'أدوات معاينة لا تُشحن للعميل', '', 'i-hour') +
       '<div class="tiny muted" style="margin-bottom:12px">تقديم الساعة يكشف سلوك النوافذ الزمنية.</div>' +
       '<div style="display:flex;gap:8px;flex-wrap:wrap">' +
-        [['-360','− ٦ ساعات'],['-60','− ساعة'],['-15','− ١٥ د'],['0','الآن'],
-         ['15','+ ١٥ د'],['60','+ ساعة'],['360','+ ٦ ساعات']]
+        [['-360','− 6 ساعات'],['-60','− ساعة'],['-15','− 15 د'],['0','الآن'],
+         ['15','+ 15 د'],['60','+ ساعة'],['360','+ 6 ساعات']]
           .map(x => '<button class="btn l sm" data-a="clock" data-v="' + x[0] + '">' +
             x[1] + '</button>').join('') +
       '</div>' +
@@ -27256,7 +27258,7 @@ function wShfKpi() {
    ============================================================ */
 function wLoad() {
   return card('حِمل اليوم بالساعات', 'عدد المهام المتقاطعة مع كل فترة ساعتين',
-    controlColumns(loadByHour().map(item => ({...item, l:item.l + ':٠٠'}))), 'i-hist',
+    controlColumns(loadByHour().map(item => ({...item, l:item.l + ':00'}))), 'i-hist',
     pill(AR(runningTasks().length) + ' الآن', runningTasks().length ? 'live' : 'grey'));
 }
 function wStatus() {
@@ -27381,7 +27383,7 @@ function wHeat() {
       pill('الأعلى ' + AR(mx), 'gold'), 'i-hist') +
     '<div class="heat">' +
       '<tr><th scope="col">اليوم</th>' + Array.from({ length: 12 }, (_, i) =>
-        '<th scope="col">' + AR(i * 2) + ':٠٠</th>').join('') + '</tr></thead><tbody>' +
+        '<th scope="col">' + AR(i * 2) + ':00</th>').join('') + '</tr></thead><tbody>' +
       grid.map(g => '<tr' + (g.d === dayStart(now()) ? ' class="today"' : '') + '>' +
         '<th scope="row">' + E(dayName(g.d)) + '</th>' +
         g.row.map(c => '<td style="--v:' + (mx ? Math.round(c.n / mx * 32) : 0) + '%" ' +
@@ -27528,7 +27530,7 @@ function wNowStrip() {
       a:'tropen', id:t.id, artwork:'transport' })))
     .sort((a, b) => a.at - b.at);
   return '<div class="card control-hour-card">' +
-    head('الساعة القادمة', AR(items.length) + ' حدثًا خلال ٦٠ دقيقة', '', 'i-hour') +
+    head('الساعة القادمة', AR(items.length) + ' حدثًا خلال 60 دقيقة', '', 'i-hour') +
     (items.length ? '<div class="control-hour-list">' + items.map(x =>
       '<button class="control-hour-item" data-a="' + x.a + '" data-id="' + E(x.id) + '">' +
       (x.photo ? '<span class="control-task-thumb bg-' + E(x.photo) + '" aria-hidden="true"></span>' :
@@ -28100,7 +28102,7 @@ function taskDrawer(id) {
 
       (t.rating ? '<div style="margin-top:14px"><div class="tiny faint">تقييم المهمة</div>' +
         '<div class="meter gold" style="margin-top:6px"><i data-w="' + (t.rating / 5 * 100) + '"></i></div>' +
-        '<div class="tiny num" style="margin-top:5px">' + AR(t.rating) + ' من ٥</div></div>' : '') +
+        '<div class="tiny num" style="margin-top:5px">' + AR(t.rating) + ' من 5</div></div>' : '') +
       (t.autoStarted ? '<div class="evt bad" style="margin-top:14px"><span class="dot"></span>' +
         '<span class="sp"><b>بدأها النظام</b><p>لم يبدأها ليدرها في وقتها — تُحتسب في تقييمه.</p></span></div>' : '') +
       (t.closedBy === 'system' ? '<div class="evt bad" style="margin-top:10px"><span class="dot"></span>' +
@@ -28424,7 +28426,7 @@ function docView(t, k) {
       kv('الوجهة', 'فندق منازل المقام — مكة المكرمة') +
       kv('موعد التنفيذ', hijri(t.start) + 'هـ · ' + t12(t.start)) +
       kv('مدة الرحلة التقديرية', AR(t.durH) + ' ساعات') +
-      kv('عدد الحافلات', AR(buses) + ' حافلة سعة ٤٥ راكبًا') +
+      kv('عدد الحافلات', AR(buses) + ' حافلة سعة 45 راكبًا') +
       '<h5>ثالثًا: التزامات الناقل</h5><ol>' +
       '<li>حضور الحافلات إلى نقطة الانطلاق قبل الموعد بساعتين على الأقل.</li>' +
       '<li>أن تكون الحافلات مكيّفة ونظيفة ومزوّدة بمياه شرب باردة وحقيبة إسعافات.</li>' +
@@ -28818,14 +28820,14 @@ function taskReport(id) {
       '<div class="rp2">' +
       sect('التقييمات', 'تُعرض منفصلة',
         '<div class="rptbl t2">' +
-        row(['تقييم النظام', '<b class="num">' + AR(r.stars) + '</b> من ٥']) +
+        row(['تقييم النظام', '<b class="num">' + AR(r.stars) + '</b> من 5']) +
         row(['تقييم المشرف', '<b class="num">' + AR(Math.max(1, Math.min(5,
-          Math.round((r.stars + 0.5) * 2) / 2))) + '</b> من ٥']) +
+          Math.round((r.stars + 0.5) * 2) / 2))) + '</b> من 5']) +
         row(['متوسط تقييم الحجاج', '<b class="num">' +
-          AR(Math.max(1, Math.min(5, Math.round((r.stars - 0.5) * 2) / 2))) + '</b> من ٥']) +
+          AR(Math.max(1, Math.min(5, Math.round((r.stars - 0.5) * 2) / 2))) + '</b> من 5']) +
         row(['عدد الحجاج المقيمين', '<b class="num">' +
           AR(Math.round(taskPilgrims(t) * 0.42)) + '</b>']) +
-        row(['نسبة المشاركة', '<b class="num">٤٢٪</b>']) +
+        row(['نسبة المشاركة', '<b class="num">42٪</b>']) +
         '</div>') +
 
       sect('سجل تحديثات الكنترول', AR((t.hist || []).length) + ' قيدًا',
@@ -29232,7 +29234,7 @@ function rateDrawer(id) {
     wide:!!S.dwide, expand:t.id, body:
     '<div class="card gold">' +
       head('المحصّلة', 'ثلاثة مصادر لا مصدر واحد',
-        pill(AR(Math.round((r.stars + sup + pil) / 3 * 10) / 10) + ' من ٥', 'gold'), 'i-star') +
+        pill(AR(Math.round((r.stars + sup + pil) / 3 * 10) / 10) + ' من 5', 'gold'), 'i-star') +
       '<div class="grid g3" style="gap:10px">' +
         '<span style="text-align:center"><div class="tiny faint">النظام</div>' +
           '<div style="margin-top:6px">' + stars(r.stars) + '</div></span>' +
@@ -29246,7 +29248,7 @@ function rateDrawer(id) {
       head('كيف حسبه النظام', 'أربعة مكوّنات بأوزانها — تُقرأ ولا تُساوَم', '', 'i-list') +
       Object.keys(RATE_PARTS).map(k => bar(k, r[k])).join('') +
       '<div class="tiny faint">المجموع الموزون ' + AR(r.total) + '٪ — أي ' +
-        AR(r.stars) + ' من ٥ نجوم.</div>' +
+        AR(r.stars) + ' من 5 نجوم.</div>' +
     '</div>' +
 
     '<div class="card">' +
@@ -29727,7 +29729,7 @@ function cmpEntries() {
       { k:'form',  label:'النموذج', opts:(V.forms || []).map(f => [f.id, f.no + ' · ' + f.title]) },
       { k:'hotel', label:'الجهة',   opts:HOTELS.map(h => [h.id, h.ar]) },
       { k:'lead',  label:'الليدر',  opts:optLeaders() },
-      { k:'band',  label:'الدرجة',  opts:[['hi','٨٥٪ فأعلى'],['mid','٧٠–٨٤٪'],['lo','دون ٧٠٪']] }
+      { k:'band',  label:'الدرجة',  opts:[['hi','85٪ فأعلى'],['mid','70–84٪'],['lo','دون 70٪']] }
     ], list.length, total, 'ابحث برقم النموذج أو اسم الجهة أو التصريح…') +
     (list.length ? pagedList(list, K, b => {
       const f = formById(b.formId) || {}, by = userById(b.by) || {};
@@ -29757,7 +29759,7 @@ function schedDraft() {
 }
 /* شبكة التقويم: أربعة عشر يومًا × ثلاث نوافذ — تُنقر فتُختار */
 const SLOT_H = [8, 16, 22];
-const SLOT_AR = ['صباحًا ٨', 'عصرًا ٤', 'ليلًا ١٠'];
+const SLOT_AR = ['صباحًا 8', 'عصرًا 4', 'ليلًا 10'];
 function slotTs(dayOff, si) {
   const d = new Date(now());
   d.setHours(SLOT_H[si], 0, 0, 0);
@@ -29782,7 +29784,7 @@ function formSchedule(id) {
       'والمُسنَد إليه لا يُختار إلا ممّن يغطّي شِفتُه ذلك الوقت.</span></div>' +
 
     '<div class="card">' +
-      head('١ · الجهات', 'أي جهةٍ يُعبَّأ لها هذا النموذج؟',
+      head('1 · الجهات', 'أي جهةٍ يُعبَّأ لها هذا النموذج؟',
         pill(AR(tgts) + ' مختارة', tgts ? 'gold' : 'grey'), 'i-key') +
       '<div class="chipwrap">' + HOTELS.map(h =>
         '<button class="chipbtn' + (d.hotels.indexOf(h.id) >= 0 ? ' on' : '') + '" ' +
@@ -29793,7 +29795,7 @@ function formSchedule(id) {
       '</div></div>' +
 
     '<div class="card">' +
-      head('٢ · الأوقات', 'أربعة عشر يومًا × ثلاث نوافذ — انقر ما تريد',
+      head('2 · الأوقات', 'أربعة عشر يومًا × ثلاث نوافذ — انقر ما تريد',
         pill(AR(chosen) + ' وقتًا', chosen ? 'gold' : 'grey'), 'i-cal') +
       '<div class="calgrid">' +
         '<div class="calhead"><span></span>' + SLOT_AR.map(s =>
@@ -29818,7 +29820,7 @@ function formSchedule(id) {
     '</div>' +
 
     '<div class="card">' +
-      head('٣ · الأولوية', 'تُقرأ في التطبيق وتُرتّب بها القائمة', '', 'i-flag') +
+      head('3 · الأولوية', 'تُقرأ في التطبيق وتُرتّب بها القائمة', '', 'i-flag') +
       '<div class="grid g4" style="gap:8px">' + Object.keys(PRIO).map(k =>
         '<button class="chipbtn' + (d.prio === k ? ' on' : '') + '" data-a="schprio" data-v="' + k + '">' +
         '<i style="width:8px;height:8px;border-radius:50%;background:' + PRIO[k].c + '"></i>' +
@@ -29826,7 +29828,7 @@ function formSchedule(id) {
     '</div>' +
 
     '<div class="card">' +
-      head('٤ · من يُعبّئها', d.mode === 'auto'
+      head('4 · من يُعبّئها', d.mode === 'auto'
         ? 'النظام يختار من هو في الشِفت وغيرُ مشغول — وهو الأصحّ'
         : 'اختيارٌ يدويّ من أهل الشِفت', '', 'i-users') +
       '<div class="grid g2" style="gap:8px">' +
@@ -30618,7 +30620,7 @@ function quotaNew() {
     '</div>' +
 
     '<div class="card">' +
-      head('١ · القالب', 'نزِّله، عبّئه، ثم ارفعه',
+      head('1 · القالب', 'نزِّله، عبّئه، ثم ارفعه',
         '<button class="btn l sm" data-a="qtxl">' + icon('i-doc','s14') + 'تنزيل القالب</button>',
         'i-doc') +
       '<div style="margin-top:11px">' +
@@ -30646,7 +30648,7 @@ function quotaNew() {
       '</div></div></div>' : '') +
 
     '<div class="card">' +
-      head('٢ · أو أدخِل حاجًّا واحدًا', 'بنفس حقول البطاقة', '', 'i-edit') +
+      head('2 · أو أدخِل حاجًّا واحدًا', 'بنفس حقول البطاقة', '', 'i-edit') +
       '<div class="grid g2" style="gap:0 12px">' +
         qf('qp_permit', 'رقم التصريح الموحّد') + qf('qp_pass', 'رقم الجواز') +
         qf('qp_fe', 'الاسم الأول (بالإنجليزية)') + qf('qp_fa', 'الاسم الأول (بالعربية)') +
@@ -31157,23 +31159,23 @@ function sigDrawer(id) {
     escCardFor(s) +
 
     '<div class="card" style="--kc:' + rk.c + '">' +
-      head('المرحلة ' + AR(stg) + ' من ١٢', SIG_STAGES[Math.min(11, stg - 1)].ar,
+      head('المرحلة ' + AR(stg) + ' من 12', SIG_STAGES[Math.min(11, stg - 1)].ar,
         pill(st.ar, st.p), 'i-hist') +
       '<div class="sigsteps">' + SIG_STAGES.map(x =>
         '<span class="sigs' + (x.no <= stg ? ' on' : '') + (x.no === stg ? ' now' : '') + '" ' +
         'title="' + E(x.ar) + ' — ' + E(x.q) + '">' + AR(x.no) + '</span>').join('') + '</div>' +
       '<div class="quote" style="margin-top:12px">' + E(s.text) + '</div>' +
       '<div class="grid g2" style="gap:10px;margin-top:12px">' +
-        '<span><div class="tiny faint">١ · الحدث</div><b>' + E(s.title) + '</b></span>' +
-        '<span><div class="tiny faint">٢ · المصدر</div><b>' + E(s.source) + '</b></span>' +
-        '<span><div class="tiny faint">٣ · القناة</div><b>' + E(s.channel) +
+        '<span><div class="tiny faint">1 · الحدث</div><b>' + E(s.title) + '</b></span>' +
+        '<span><div class="tiny faint">2 · المصدر</div><b>' + E(s.source) + '</b></span>' +
+        '<span><div class="tiny faint">3 · القناة</div><b>' + E(s.channel) +
           (s.outside ? ' · خارج النظام' : '') + '</b></span>' +
         '<span><div class="tiny faint">الجهة</div><b>' + LTR(s.kt) + ' · ' + E(s.hotel || '') + '</b></span>' +
       '</div>' +
     '</div>' +
 
     '<div class="card">' +
-      head('٤–٥ · تسجيل المعلومة والتحقّق',
+      head('4–5 · تسجيل المعلومة والتحقّق',
         'إن ثبت أنها مغلوطة، نعود للتسجيل ولا نُغلق على خطأ',
         pill(ver.ar, ver.p), 'i-shield') +
       '<div class="chipwrap">' + Object.keys(SIG_VERIFY).map(k =>
@@ -31190,7 +31192,7 @@ function sigDrawer(id) {
     '</div>' +
 
     '<div class="card">' +
-      head('٦–٧ · التصنيف والخطورة', 'ما نوعها؟ وما مستوى خطورتها؟', '', 'i-list') +
+      head('6–7 · التصنيف والخطورة', 'ما نوعها؟ وما مستوى خطورتها؟', '', 'i-list') +
       '<div class="tiny faint" style="margin:4px 0 7px">التصنيف</div>' +
       '<div class="chipwrap">' + Object.keys(SIG_CLASS).map(k =>
         chip('sigcls', s.cls, k, SIG_CLASS[k].ar)).join('') + '</div>' +
@@ -31200,7 +31202,7 @@ function sigDrawer(id) {
     '</div>' +
 
     '<div class="card">' +
-      head('٨ · قاعدة المعالجة', 'ماذا يجب أن نقوم به؟', '', 'i-target') +
+      head('8 · قاعدة المعالجة', 'ماذا يجب أن نقوم به؟', '', 'i-target') +
       '<div class="rules">' + Object.keys(SIG_RULE).map(k =>
         '<button class="rulebtn' + (s.rule === k ? ' on' : '') + '" data-a="sigrule" ' +
         'data-id="' + s.id + '" data-v="' + k + '">' + icon(SIG_RULE[k].i,'s16') +
@@ -31210,7 +31212,7 @@ function sigDrawer(id) {
     '</div>' +
 
     '<div class="card">' +
-      head('٩ · إسناد المسؤولية', owner ? 'المسؤول عن الإجراء' : 'لم يُسنَد بعد',
+      head('9 · إسناد المسؤولية', owner ? 'المسؤول عن الإجراء' : 'لم يُسنَد بعد',
         '', 'i-users') +
       (owner ? '<div class="row" style="padding:9px 4px">' + avatar(owner) +
         '<span class="nm" style="flex:1"><b>' + E(owner.name) + '</b>' +
@@ -31221,7 +31223,7 @@ function sigDrawer(id) {
     '</div>' +
 
     '<div class="card gold">' +
-      head('١٠–١٢ · المتابعة والتأكيد والإغلاق',
+      head('10–12 · المتابعة والتأكيد والإغلاق',
         'هل نُفِّذ المطلوب؟ وهل تحقّق الهدف؟', '', 'i-checkc') +
       '<div class="grid g3" style="gap:8px">' +
         '<button class="chipbtn' + (s.followed ? ' on' : '') + '" data-a="sigfollow" ' +
@@ -31268,7 +31270,7 @@ function sigNew() {
       '<span>ما يصل هاتفًا أو شفاهةً لا يدخل الدورة ما لم يُسجَّل. ' +
       'وهذه الشاشة بابُه.</span></div>' +
 
-    '<div class="card">' + head('١ · الحدث', 'الموقف باختصار', '', 'i-warn') +
+    '<div class="card">' + head('1 · الحدث', 'الموقف باختصار', '', 'i-warn') +
       '<label class="fl2">العنوان</label>' +
       '<input class="fld" id="q-sg_t" data-q="sg_t" value="' + E(qOf('sg_t')) +
         '" placeholder="مثال: تأخّر باص التفويج · طلب عفاشين · وفاة">' +
@@ -31283,7 +31285,7 @@ function sigNew() {
         chip('sgkt', d.kt, o.kt, o.kt)).join('') + '</div>' +
     '</div>' +
 
-    '<div class="card">' + head('٢–٣ · المصدر والقناة', 'من أين جاءت؟ وكيف وصلت؟', '', 'i-send') +
+    '<div class="card">' + head('2–3 · المصدر والقناة', 'من أين جاءت؟ وكيف وصلت؟', '', 'i-send') +
       '<label class="fl2">المصدر</label>' +
       '<div class="chipwrap">' + SIG_SOURCE.map(x =>
         chip('sgsrc', d.source, x, x)).join('') + '</div>' +
@@ -31292,7 +31294,7 @@ function sigNew() {
         chip('sgch', d.channel, x, x)).join('') + '</div>' +
     '</div>' +
 
-    '<div class="card">' + head('٦–٧ · التصنيف والخطورة', 'يمكن تعديلهما بعد التحقّق', '', 'i-list') +
+    '<div class="card">' + head('6–7 · التصنيف والخطورة', 'يمكن تعديلهما بعد التحقّق', '', 'i-list') +
       '<div class="chipwrap">' + Object.keys(SIG_CLASS).map(k =>
         chip('sgcls', d.cls, k, SIG_CLASS[k].ar)).join('') + '</div>' +
       '<div class="chipwrap" style="margin-top:9px">' + Object.keys(SIG_RISK).map(k =>
@@ -31325,7 +31327,7 @@ const SMS_TPL = {
   late:     'تنبيه من غرفة عمليات مُحسن: سُجِّل تأخّرك عن مهمّة {task} بتاريخ {date}. ' +
             'نأمل الالتزام بمواعيد التحضير. — الكنترول',
   undone:   'إنذار من غرفة عمليات مُحسن: لم تُنفَّذ مهمّة {task} المسنَدة إليك بتاريخ {date}. ' +
-            'يُرجى إفادتنا بالسبب خلال ٢٤ ساعة. — الكنترول',
+            'يُرجى إفادتنا بالسبب خلال 24 ساعة. — الكنترول',
   repeat:   'إنذار نهائي: تكرّر لديك عدم التنفيذ أو التأخير ({n}) مرّات هذا الموسم. ' +
             'استمرار ذلك يُحال إلى لجنة الجزاءات. — غرفة عمليات مُحسن',
   complaint:'تنبيه: وردت شكوى بخصوص {task}. يُرجى مراجعة مشرفك لتوضيح الموقف. ' +
@@ -31893,7 +31895,7 @@ function groupSeatCard(g) {
       '<span class="nm" style="flex:1"><b>' + LTR(g.no) + ' · ' + E(L.name || '') + '</b>' +
       '<span>' + E(o.kt || '') + ' · ' + E(h.ar || '') +
       (sup ? ' · المشرف ' + E(sup.name) : ' · بلا مشرف') + '</span></span>' +
-      pill(AR(g.members.length) + '/٥', g.members.length === 5 ? 'live' : 'wait') +
+      pill(AR(g.members.length) + '/5', g.members.length === 5 ? 'live' : 'wait') +
       '<button class="chipbtn' + (gState(g) === 'approved' ? ' on' : '') + '" ' +
         'data-a="gstate" data-id="' + g.id + '">' +
         icon(gState(g) === 'approved' ? 'i-checkc' : 'i-edit','s13') + E(st.ar) + '</button>' +
@@ -31930,7 +31932,7 @@ function groupLog(id) {
     icon:'i-hist', wide:false, expand:id, body:
     '<div class="card" style="--kc:' + GST[gState(g)].c + '">' +
       head(GST[gState(g)].ar, GST[gState(g)].d,
-        pill(AR(g.members.length) + '/٥', g.members.length === 5 ? 'live' : 'wait'), 'i-users') +
+        pill(AR(g.members.length) + '/5', g.members.length === 5 ? 'live' : 'wait'), 'i-users') +
       '<div class="grid g2" style="gap:8px;margin-top:6px">' +
         '<button class="btn ' + (gState(g) === 'draft' ? 'p' : 'l') + ' sm" data-a="gstate" ' +
           'data-id="' + g.id + '">' + icon('i-checkc','s14') +
@@ -32136,7 +32138,7 @@ function hotelEdit(id) {
     '<div class="card">' + head('البيانات', 'الغرف والموقع — ومنهما يُحسب الإشغال') +
       fld('ar', 'اسم الفندق', 'فندق منازل المقام') +
       fld('rooms', 'عدد الغرف', '180') +
-      fld('dist', 'الموقع والبُعد', '٤٠٠ م من الحرم') +
+      fld('dist', 'الموقع والبُعد', '400 م من الحرم') +
       fld('permit', 'رقم التصريح', 'PR-4400') +
       '<label class="fl2">المدينة</label>' +
       '<div class="chipwrap">' + ['مكة المكرمة', 'المدينة المنوّرة', 'جدة'].map(c =>
@@ -33690,7 +33692,7 @@ const ESC_MUST = {
 const TKT_TREE = [{"cat":"السكن","subs":["صيانة","نظافة","مستلزمات"]},{"cat":"الصحة","subs":["حالة صحية","متابعة صحية","مساعدة خاصة"]},{"cat":"المفقودات","subs":["شخص تائه","أمتعة وأغراض شخصية","وثائق وجوازات","بطاقة نسك"]},{"cat":"النقل","subs":["تأخير","عطل حافلة"]},{"cat":"الوجبات","subs":["وقت الوجبات","كمية الوجبات","جودة وسلامة الغذاء"]},{"cat":"التطبيق","subs":["تعديل بيانات","عرض جدول الرحلة"]},{"cat":"الشكاوى","subs":["شكوى تعامل","شكوى خدمة"]},{"cat":"أخرى","subs":[]}];
 
 /* 81 حالة */
-const ESCAL = [{"id":"ES101","loc":"مكة المكرمة","sec":"نقل","name":"تأخير إستلام / وصول الحافلات","must":"","hint":"","risk":"high","raise":["محسن","ليدر"],"owner":"مشرف","rule":"التحقق من سبب تأخر الحافلة أو المجموعة وموقعها، والتنسيق مع مسؤول النقل والكنترول لتأكيد الوصول ومتابعة أثر التأخير على المهمة.","sla":30,"partner":"ادارة النقل في المركز أو هوليدي ان","escIf":"في حال لم تصل الحافلة الى الموقع بعد صرفها من المستودع","escTo":"امتثال","closeIf":"وصول الحافلة أو المجموعة إلى الموقع المحدد وتأكيد المسؤول الميداني اكتمال الحركة.","d1":30,"d2":null,"docs":"بيانات الحافلة، موقعها وموعد وصولها المقرر"},{"id":"ES102","loc":"مكة المكرمة","sec":"نقل","name":"حافلة أو لوحة خاطئة","must":"صورة","hint":"صوّر لوحة الحافلة ورقمها التشغيلي بوضوح.","risk":"mid","raise":["محسن","ليدر"],"owner":"ليدر","rule":"التحقق من بلاغ «حافلة / لوحة خاطئة» ومطابقة المجموعة والحافلة والموقع مع برنامج الحركة، والتنسيق مع النقل والبعثة والكنترول لتصحيح الحالة.","sla":10,"partner":"موظفين البعثه و أخصائي النقل في المركز","escIf":"استمرار تعذر انتظام الحركة أو عدم تطابق المجموعة أو الحافلة أو الموقع.","escTo":"الكنترول","closeIf":"تصحيح مسار الحركة أو بياناتها وتأكيد وصول المجموعة إلى الموقع الصحيح بواسطة المسؤول الميداني.","d1":10,"d2":15,"docs":"بيانات الحافلة المخصصة ورقم اللوحة الفعلية"},{"id":"ES103","loc":"مكة المكرمة","sec":"نقل","name":"نقص عدد الحافلات","must":"ملاحظة","hint":"ناقص ... باص من أصل ....","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"مشرف","rule":"التحقق من بلاغ «نقص عدد الحافلات» ومطابقة المجموعة والحافلة والموقع مع برنامج الحركة، والتنسيق مع النقل والبعثة والكنترول لتصحيح الحالة.","sla":10,"partner":"موظفين البعثه و أخصائي النقل في المركز","escIf":"استمرار تعذر انتظام الحركة أو عدم تطابق المجموعة أو الحافلة أو الموقع.","escTo":"قطاع النقل هولدي ان","closeIf":"توفير عدد الحافلات المطلوب للمجموعة، وتأكيد أحد أفراد فريق محسن اكتمال العدد","d1":10,"d2":30,"docs":"الاعتماد عدد الحافلات المطلوبة والمتوفرة وعدد الحجاج"},{"id":"ES104","loc":"مكة المكرمة","sec":"نقل","name":"مشكلة تكييف الحافلة","must":"صورة","hint":"صوّر موضع المشكلة.","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"محسن","rule":"توجيه البلاغ للمسؤول النقل لمتابعة عطل الحافلة مع مسؤول النقل وتوفير البديل حسب الحالة، وإبلاغ الكنترول بأثره على المهمة.","sla":30,"partner":"مسؤولين النقل في المركز","escIf":"رفض تسليم حافلة بديلة","escTo":"قطاع النقل هولدي ان","closeIf":"استلام حافله بديلة","d1":0,"d2":30,"docs":"بيانات الحافلة وموقعها ووصف مختصر لخلل التكييف عند الحاجة"},{"id":"ES105","loc":"مكة المكرمة","sec":"نقل","name":"نظافة الحافلة","must":"صورة","hint":"صوّر النفايات لتوثيق الحدث.","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"محسن","rule":"توجيه البلاغ إلى الليدر للتحقق من إتمام نظافة الحافلة قبل صعود الحجاج","sla":30,"partner":"مسؤولين النقل في المركز","escIf":"رفض تسليم حافلة بديلة","escTo":"قطاع النقل هولدي ان","closeIf":"التأكد من نظافة الحافلة الحالية أو استلام حافلة بديلة نظيفة، ويؤكد ذلك محسن ( مرشد الباص) .","d1":0,"d2":30,"docs":"بيانات الحافلة وموقعها وصورة موضع الملاحظة إن توفرت"},{"id":"ES106","loc":"مكة المكرمة","sec":"نقل","name":"عدم اكتمال عدد الحجاج","must":"ملاحظة","hint":"ناقص ...حاج من أصل ....","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ إلى الليدر لتحديد عدد الحجاج المشمولين مع موظفين البعثه","sla":0,"partner":"موظفين البعثه","escIf":"عدم معرفة أعداد المشمولين في المرحلة","escTo":"المشرف","closeIf":"وضوح وإكتمال العدد","d1":0,"d2":15,"docs":"كشف الحجاج المشمولين بالحركة وعدد الحاضرين"},{"id":"ES107","loc":"مكة المكرمة","sec":"نقل","name":"عطل الحافلة","must":"صورة","hint":"صوّر موضع العطل لتوثيق الحدث","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"مشرف","rule":"توجيه البلاغ إلى المشرف لطلب حافلة بديلة","sla":20,"partner":"مسؤولين النقل في المركز","escIf":"التأخر في توجيه حافلة بديلة","escTo":"قطاع النقل هولدي ان","closeIf":"إستلام حافلة بديلة","d1":0,"d2":20,"docs":"بيانات الحافلة وموقعها ونوع العطل إن عُرف"},{"id":"ES108","loc":"مكة المكرمة","sec":"نقل","name":"تغيير وقت","must":"ملاحظة","hint":"تعديل المغادرة من ٨ مساء إلى ٩ صباحًا.","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توثيق الموعد الحالي والمطلوب ، ثم تنسيق الكنترول مع الجهة المعنية لاعتماد الموعد وتحديث الجدول.","sla":15,"partner":"المشرف - الكنترول - البعثة / PJH","escIf":"عدم تحرك المجموعة خلال المدة المقررة","escTo":"البعثة / PJH","closeIf":"تأكيد الموعد المعتمد وتحديث الجدول وإبلاغ الأطراف المعنية برسائل ، ويتحقق الكنترول وصول المعلومه .","d1":15,"d2":0,"docs":"الموعد الحالي والموعد المطلوب وبيانات المجموعة"},{"id":"ES109","loc":"مكة المكرمة","sec":"نقل","name":"تأخر وصول الدينات الخاصة بالأمتعة","must":"","hint":"","risk":"low","raise":["محسن","ليدر"],"owner":"ليدر","rule":"التحقق من سبب تأخر الدينات، والتنسيق مع مسؤول النقل والكنترول لتأكيد الوصول ومتابعة أثر التأخير على المهمة.","sla":60,"partner":"المشرف - الكنترول - البعثة / PJH","escIf":"عدم معرفه وقت الوصول المتوقع","escTo":"بونقوروس ( مكتب خدمات البعثة )","closeIf":"وصول دينة الأمتعة إلى الموقع المطلوب، وتأكيد أحد أفراد فريق محسن وصولها","d1":60,"d2":30,"docs":"بيانات ناقل الأمتعة وموقع التسليم والموعد المقرر"},{"id":"ES110","loc":"مكة المكرمة","sec":"نقل","name":"عدم وجود ملصقات الحافلات","must":"","hint":"","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدر للتأكد من سبب عدم توفر الملصقات وتوفيرها","sla":10,"partner":"المشرف - مركز الخدمة","escIf":"استمرارية عدم توفر الملصقات","escTo":"المشرف","closeIf":"توفر الملصقات وإلصاقها","d1":10,"d2":0,"docs":"بيانات الحافلة والمجموعة ونسخة الملصق المعتمد"},{"id":"ES111","loc":"مكة المكرمة","sec":"نقل","name":"كشف المغادرة","must":"ملاحظة","hint":"المغادرة غير متوفر، أوغير مطابق.","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدر لتوفير كشف المغادرة من مركز الخدمة","sla":15,"partner":"المشرف - مركز الخدمة","escIf":"استمرارية عدم وجود كشف المغادرة","escTo":"المشرف","closeIf":"تأكيد إتمام وجود كشف المغادرة الصحيح","d1":15,"d2":0,"docs":"كشف المغادرة المعتمد وبيانات المجموعة"},{"id":"ES112","loc":"مكة المكرمة","sec":"إسكان","name":"النظافة","must":"صورة","hint":"صوّر موضع عدم النظافة في الغرفة.","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"مشرف","rule":"توجيه البلاغ إلى المشرف للتحقق من نظافة الغرف والمرافق ومعالجة الحالة مع إدارة الفندق","sla":15,"partner":"المشرف - إدارة الفندق","escIf":"استمرارية عدم نظافة الغرف أو المرافق دون المعالجة","escTo":"امتثال","closeIf":"تأكيد إتمام نظافة الغرف , يتأكد منها المشرف ميدانيًا","d1":15,"d2":15,"docs":"رقم الغرفة أو موقع المرفق وصورة الملاحظة إن توفرت"},{"id":"ES113","loc":"مكة المكرمة","sec":"إسكان","name":"مفقودات","must":"ملاحظة","hint":"اكتب الغرض المفقود ووصفه : حاج فقد حقيبة سوداء في الاستقبال.","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"تحديد نوع المفقود وبيانات صاحبه وآخر موقع له، ثم تطبيق آلية الشخص التائه أو الأمتعة أو الوثائق أو بطاقة نسك حسب البلاغ.","sla":20,"partner":"المشرف - الكنترول","escIf":"استمرار المشكلة وعدم استلام المفقود","escTo":"المشرف","closeIf":"التحقق من العثور على المفقود وتسليمه لصاحبه، أو توثيق الإجراء المختص.","d1":20,"d2":20,"docs":"وصف المفقود وبيانات صاحبه وآخر موقع شوهد فيه"},{"id":"ES114","loc":"مكة المكرمة","sec":"إسكان","name":"عدم مطابقة العقد مع عدد الغرف أو الاسرة","must":"ملاحظة","hint":"العقد ٢٠ غرفة دبل ، والمستلم ١٨ غرفة.","risk":"high","raise":["محسن","ليدر"],"owner":"مشرف","rule":"توجيه البلاغ إلى المشرف للتحقق من مطابقة العقد مع الواقع ومعالجة الاختلاف مع إدارة الفندق","sla":30,"partner":"المشرف - إدارة الفندق","escIf":"استمرار المشكلة وعدم معالجتها","escTo":"امتثال","closeIf":"تطابق العقد مع الواقع","d1":30,"d2":null,"docs":"العقد أو تأكيد الحجز وكشف الغرف والأسرّة المستلمة"},{"id":"ES115","loc":"مكة المكرمة","sec":"إسكان","name":"تغيير الوقت","must":"ملاحظة","hint":"تعديل موعد ال... من ... إلى ....","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ للكنترول وتوثيق الموعد الحالي والتعديل المطلوب وسببه، ومراجعته مع الجهة المختصة قبل تحديث الجدول وإبلاغ الأطراف المعنية.","sla":0,"partner":"المشرف - الكنترول - البعثة أو الشركة - الاستعداد المسبق","escIf":"تعارض التعديل مع مهمة مرتبطة أو تعذر تأكيد الموعد.","escTo":"","closeIf":"تم توثيق الوقت الصحيح , وإبلاغ الأطراف المعنية","d1":null,"d2":null,"docs":"الموعد الحالي والموعد المطلوب وبيانات المجموعة"},{"id":"ES116","loc":"مكة المكرمة","sec":"إسكان","name":"الصيانة","must":"صورة","hint":"صوّر موضع العطل في الغرفة.","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"مشرف","rule":"توجيه البلاغ للمشرف لمتابعة الإصلاح مع إدارة الفندق","sla":30,"partner":"إدارة الفندق","escIf":"عدم حل المشكلة خلال الفترة المحددة","escTo":"امتثال","closeIf":"تأكيد محسن بأنتهاء الحالة وتوثيق النتيجة.","d1":30,"d2":20,"docs":"رقم الغرفة أو موقع المرفق ونوع العطل"},{"id":"ES117","loc":"مكة المكرمة","sec":"إسكان","name":"عدم تواجد العفاشة","must":"","hint":"","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توجيه البلاغ للمشرف والكنترول لمتابعة الحالة مع فريق العفاشة","sla":15,"partner":"الكنترول","escIf":"استمرار المشكلة وعدم تواجد العفاشة","escTo":"امتثال","closeIf":"وصول العفاشة وتأكيد المسؤول ميدانيًا","d1":15,"d2":15,"docs":"موعد الخدمة وموقعها وحجم الأمتعة التقريب ، و بيان طلب العمال"},{"id":"ES118","loc":"مكة المكرمة","sec":"إسكان","name":"نقص مستلزمات الاستقبال","must":"ملاحظة","hint":"ناقص ... من مستلزمات ....","risk":"mid","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توجيه البلاغ للمشرف لمتابعة نقص المستلزمات","sla":20,"partner":"الكنترول","escIf":"عدم حل المشكلة خلال الفترة المحددة","escTo":"المشرف","closeIf":"تأكيد محسن بأنتهاء الحالة وتوثيق النتيجة.","d1":20,"d2":20,"docs":"بيان المستلزمات المطلوبة والكمية الناقصة"},{"id":"ES119","loc":"مكة المكرمة","sec":"إسكان","name":"عدم تطابق عدد الحجاج","must":"ملاحظة","hint":"المسجل ... حاج، والموجود ... حاج.","risk":"mid","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توجيه البلاغ إلى ليدر لتحديد عدد الحجاج المشمولين بالتنسيق مع موظفين البعثه","sla":0,"partner":"المشرف - البعثة","escIf":"عدم معرفة أعداد المشمولين في المرحلة","escTo":"الكنترول مع فريق تجربة العميل","closeIf":"وضوح وإكتمال العدد","d1":0,"d2":15,"docs":"كشف الحجاج المعتمد والعدد الفعلي"},{"id":"ES120","loc":"مكة المكرمة","sec":"إسكان","name":"خدمات ذوي الإحتياجات الخاصة","must":"ملاحظة","hint":"الحاج يحتاج مساعدة في ....","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"تحديد احتياج المساعدة والتواصل مع الخدمات المساندة والكنترول لتوفير التجهيز أو المساعدة المناسبة ومتابعة وصولها للحاج.","sla":15,"partner":"المشرف - إدارة الفندق - البعثة","escIf":"استمرارية عدم توافر المستلزمات المطلوبة","escTo":"امتثال","closeIf":"تأكيد محسن بأنتهاء الحالة وتوثيق النتيجة.","d1":15,"d2":15,"docs":"بيانات الحاج وموقعه ونوع المساعدة المطلوبة"},{"id":"ES121","loc":"مكة المكرمة","sec":"إعاشة","name":"نقص الوجبات","must":"ملاحظة","hint":"ناقص ... وجبة من أصل ....","risk":"high","raise":["محسن","ليدر"],"owner":"مشرف","rule":"توجيه البلاغ للمشرف لحصر الكمية الناقصة ومتابعة توفير الكمية المطلوبة مع توثيق العجز","sla":60,"partner":"الكنترول - المشرف - الاعاشة","escIf":"تجاوز ساعة واحدة دون توفير الكمية الناقصة","escTo":"الاعاشة","closeIf":"إستكمال العدد المطلوب وتوزيعه","d1":120,"d2":null,"docs":"عدد الوجبات المطلوبة والمستلمة وموقع التوزيع"},{"id":"ES122","loc":"مكة المكرمة","sec":"إعاشة","name":"تأخر الوجبات","must":"","hint":"","risk":"high","raise":["محسن","ليدر"],"owner":"مشرف","rule":"توجيه البلاغ لـلمشرف لمتابعة التأخير والتأكد من وصول الوجبات حسب التوقيت المعتمد, ومتابعة التوزيع حتى إكتماله","sla":60,"partner":"الكنترول - المشرف - الاعاشة","escIf":"تجاوز ساعة دون وصول الوجبات","escTo":"الاعاشة","closeIf":"وصول الوجبات واستكمال توزيعها","d1":120,"d2":null,"docs":"موعد الوجبة المعتمد وموقع التوزيع وبيانات المورد"},{"id":"ES123","loc":"مكة المكرمة","sec":"إعاشة","name":"الجودة","must":"صورة","hint":"صوّر الوجبة لتوثيق المشكلة.","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توثيق الوجبات المتأثرة وإبلاغ الكنترول ومطبخ الإعاشة للتحقق من المطابقة ومعالجة الوجبات محل البلاغ وفق الإجراء المختص.","sla":0,"partner":"الكنترول - المشرف","escIf":"اشتباه عدم سلامة الغذاء","escTo":"ادارة الاعاشة","closeIf":"تأكيد الجهة المختصة مطابقة الوجبات البديلة أو المعالجة؛ يتحقق الليدر من النتيجة ميدانيًا.","d1":0,"d2":10,"docs":"نوع الوجبة وموقعها ووصف الملاحظة وصورة إن توفرت"},{"id":"ES124","loc":"مكة المكرمة","sec":"صحة ومساندة","name":"حالة صحية","must":"ملاحظة","hint":"الحاج انتقل الى المستفى ... الحاج طلب دواء ...","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدر لتقييم الحالة وتوجيهها للجهة المعنية لتقديم الرعاية وتحويلها عند الحاجة","sla":0,"partner":"المشرف - الكنترول - البعثة الطبية","escIf":"تدهور الحالة الصحية, والتأكد من الإحتياج المناسب بالعلاج أو النقل للمستشفى","escTo":"الخدمات المساندة","closeIf":"الإغلاق بعد التأكد من تسليم الحالة للجهة الصحية","d1":0,"d2":null,"docs":"بيانات الحاج وموقعه ووصف الحالة الظاهر ووسيلة التواصل ، البلاغ الطبي بعد الانتهاء"},{"id":"ES125","loc":"مكة المكرمة","sec":"صحة ومساندة","name":"وفاة حاج","must":"","hint":"","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"البلاغ الفوري للخدمات المساندة عن الحالة والتنسيق مع الجهات المختصة لإستكمال الاجراءات ونقل الجثمان وفق الاجراءات المعتمدة","sla":0,"partner":"محسن - البعثة - مركز الخدمة - الخدمات المساندة","escIf":"فوري عند حدوث الوفاة","escTo":"الخدمات المساندة","closeIf":"استكمال الاجراءات النظامية وتوثيق الدفن, يتحقق منها محسن والبعثة مع الخدمات المساندة","d1":0,"d2":null,"docs":"بيانات الحاج وموقعه وبيانات البعثة؛ الجواز الاصلي ، بلاغ المستشفى ، اذن الدفن من البعثه ، تصريح الدفن من المستشفى ، توقيع استلام الجثمان من المستشفى ، شهادة الوفاة بعد الدفن من الاحوال المدنية صادرة"},{"id":"ES126","loc":"مكة المكرمة","sec":"صحة ومساندة","name":"حاج مفقود","must":"","hint":"","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدروجمع البيانات الخاصة بالحاج ويحدد الكنترول موقع الحاج , والتنسيق للبحث عنه","sla":0,"partner":"الكنترول","escIf":"عدم العثور على الحاج","escTo":"الخدمات المساندة","closeIf":"العثور على الحاج والتأكد من سلامته وتوثيق نتيجة البلاغ, يتحقق منها الليدر ميدانيًا","d1":0,"d2":30,"docs":"بيانات الحاج ورقم الجواز وصورته إن توفرت وآخر موقع ووقت شوهد فيه"},{"id":"ES127","loc":"مكة المكرمة","sec":"مناسك مكة (عمرة, طواف الوداع)","name":"تغيير وقت المناسك","must":"ملاحظة","hint":"تعديل موعد المناسك من ... إلى ....","risk":"low","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توثيق الموعد الحالي والتعديل المطلوب وسببه، ومراجعته مع الكنترول قبل تحديث الجدول وإبلاغ الأطراف المعنية.","sla":15,"partner":"المشرف - البعثة","escIf":"تعارض التعديل مع مهمة مرتبطة أو تعذر تأكيد الموعد.","escTo":"الكنترول","closeIf":"تأكيد الموعد المتفق عليه وتحديثه وإبلاغ المسؤولين عنه؛ يتحقق الكنترول من ذلك.","d1":15,"d2":0,"docs":"الموعد الحالي والمطلوب وبيانات المجموعة"},{"id":"ES128","loc":"مكة المكرمة","sec":"مناسك مكة (عمرة, طواف الوداع)","name":"مفقودات","must":"ملاحظة","hint":"حاج فقد ...، وآخر مكان شوهد فيه ....","risk":"low","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"تحديد نوع المفقود وبيانات صاحبه وآخر موقع له، ثم تطبيق آلية الأمتعة أو الوثائق حسب البلاغ في مركز المفقودات بالحرم المكي","sla":null,"partner":"الليدر","escIf":"","escTo":"","closeIf":"رفع طلب المفقودات للجهة المختصة بالحرم وتوثيق تقديمه، وإبلاغ صاحب البلاغ بطريقة المتابعة. يُغلق البلاغ بعد إتمام الإحالة، ولا يعني إغلاقه العثور على المفقود","d1":null,"d2":null,"docs":"وصف المفقود وبيانات صاحبه وآخر موقع شوهد فيه"},{"id":"ES129","loc":"مكة المكرمة","sec":"مناسك مكة (عمرة, طواف الوداع)","name":"طلب كرسي متحرك","must":"","hint":"","risk":"low","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ لـ المشرف لتوفير الكرسي المتحرك ومتابعة وصوله للحاج.","sla":20,"partner":"المشرف - ادارة الفندق","escIf":"استمرارية عدم توفر الكرسي للحاج","escTo":"مركز الخدمة","closeIf":"توفير الكرسي المتحرك والتأكد من تسليمه للحاج","d1":20,"d2":20,"docs":"بيانات الحاج وموقع التسليم وعدد الكراسي المطلوبة"},{"id":"ES130","loc":"مكة المكرمة","sec":"مزارات","name":"تغيير الوقت","must":"ملاحظة","hint":"تعديل موعد الزيارة من ... إلى ....","risk":"low","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توثيق الموعد الحالي والتعديل المطلوب وسببه، ومراجعته مع الكنترول قبل تحديث الجدول وإبلاغ الأطراف المعنية.","sla":10,"partner":"البعثة - الكنترول","escIf":"تعارض التعديل مع مهمة مرتبطة أو تعذر تأكيد الموعد.","escTo":"الكنترول","closeIf":"تأكيد الموعد المتفق عليه وتحديثه وإبلاغ المسؤولين عنه؛ يتحقق الكنترول من ذلك.","d1":null,"d2":null,"docs":"الموعد الحالي والمطلوب وبيانات المجموعة"},{"id":"ES131","loc":"المشاعر","sec":"نقل","name":"حافلة أو لوحة خاطئة","must":"صورة","hint":"صوّر لوحة الحافلة ورقمها التشغيلي بوضوح.","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"التحقق من بلاغ «حافلة / لوحة خاطئة» ومطابقة المجموعة والحافلة والموقع مع برنامج الحركة، والتنسيق مع النقل والبعثة والكنترول لتصحيح الحالة.","sla":10,"partner":"موظفين البعثه و أخصائي النقل في المركز","escIf":"استمرار تعذر انتظام الحركة أو عدم تطابق المجموعة أو الحافلة أو الموقع.","escTo":"الكنترول","closeIf":"تصحيح مسار الحركة أو بياناتها وتأكيد وصول المجموعة إلى الموقع الصحيح بواسطة المسؤول الميداني.","d1":10,"d2":15,"docs":"بيانات الحافلة رقم اللوحة ، الرقم التشغيلي ، رقم سائق الحافلة"},{"id":"ES132","loc":"المشاعر","sec":"نقل","name":"نقص عدد الحافلات","must":"ملاحظة","hint":"ناقص ... باص من أصل ....","risk":"high","raise":["محسن","ليدر"],"owner":"مشرف","rule":"التحقق من بلاغ «نقص عدد الحافلات» ومطابقة المجموعة والحافلة والموقع مع برنامج الحركة، والتنسيق مع النقل والبعثة والكنترول لتصحيح الحالة.","sla":20,"partner":"موظفين البعثه و أخصائي النقل في المركز","escIf":"استمرار تعذر انتظام الحركة أو عدم تطابق المجموعة أو الحافلة أو الموقع.","escTo":"قطاع النقل هولدي ان","closeIf":"توفير عدد الحافلات المطلوب للمجموعة، وتأكيد أحد أفراد فريق محسن اكتمال العدد","d1":20,"d2":30,"docs":"اعتماد الحافلات ، عدد الحافلات المطلوبة والمتوفرة وعدد الحجاج"},{"id":"ES133","loc":"المشاعر","sec":"نقل","name":"عدم اكتمال عدد الحجاج","must":"ملاحظة","hint":"ناقص ... حاج من أصل ....","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ إلى الليدر لتحديد عدد الحجاج المشمولين مع موظفين البعثه","sla":0,"partner":"موظفين البعثه","escIf":"عدم معرفة أعداد المشمولين في المرحلة","escTo":"المشرف","closeIf":"وضوح وإكتمال العدد","d1":0,"d2":15,"docs":"كشف الحجاج المشمولين بالحركة وعدد الحاضرين"},{"id":"ES134","loc":"المشاعر","sec":"نقل","name":"تأخر وصول الحافلات","must":"ملاحظة","hint":"لم يصل ... باص من أصل ....","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"التحقق من سبب تأخر الحافلة أو المجموعة وموقعها، والتنسيق مع مسؤول النقل والكنترول لتأكيد الوصول ومتابعة أثر التأخير على المهمة.","sla":30,"partner":"المشرف - الكنترول - مركز الخدمة","escIf":"استمرارية عدم وصول الحافلة","escTo":"قطاع النقل هولدي ان","closeIf":"وصول الحافلة أو المجموعة إلى الموقع المحدد وتأكيد المسؤول الميداني اكتمال الحركة.","d1":30,"d2":10,"docs":"بيانات الحافلة وموقعها وموعد الوصول المقرر"},{"id":"ES135","loc":"المشاعر","sec":"نقل","name":"عطل الحافلة","must":"صورة","hint":"صوّر موضع العطل لتوثيق الحدث.","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"مشرف","rule":"توجيه البلاغ إلى المشرف لطلب حافلة بديلة","sla":20,"partner":"مسؤولين النقل في المركز","escIf":"التأخر في توجيه حافلة بديلة","escTo":"قطاع النقل هولدي ان","closeIf":"استلام حافلة بديلة ، ويؤكد ذلك محسن ( مرشد الباص) .","d1":0,"d2":20,"docs":"بيانات الحافلة ، رقم السائق ، وموقعها ونوع العطل إن عُرف"},{"id":"ES136","loc":"المشاعر","sec":"نقل","name":"موقع إنزال خاطئ","must":"ملاحظة","hint":"تم الإنزال عند ...، والموقع المطلوب ....","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"التحقق من بلاغ «موقع إنزال خاطئ» ومطابقة المجموعة والحافلة والموقع مع برنامج الحركة، والتنسيق مع النقل والبعثة والكنترول لتصحيح الحالة.","sla":0,"partner":"أخصائي النقل في المركز","escIf":"استمرار تعذر انتظام الحركة أو عدم تطابق المجموعة أو الحافلة أو الموقع.","escTo":"المشرف","closeIf":"تصحيح مسار الحركة أو بياناتها وتأكيد وصول المجموعة إلى الموقع الصحيح بواسطة المسؤول الميداني.","d1":15,"d2":30,"docs":"موقع الإنزال المعتمد والموقع الفعلي وبيانات المجموعة"},{"id":"ES137","loc":"المشاعر","sec":"نقل","name":"بيان الاركاب","must":"ملاحظة","hint":"بيان الإركاب غير متوفر، أو غير مطابق.","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدر للتأكد من وجود بيان الإركاب","sla":0,"partner":"أخصائي النقل في المركز","escIf":"استمرارية عدم وجود البيان","escTo":"المشرف","closeIf":"وجود بيان الإركاب","d1":0,"d2":20,"docs":"بيان الإركاب المعتمد وبيانات المجموعة والحافلة"},{"id":"ES138","loc":"المشاعر","sec":"نقل","name":"عدم حضور المرشد","must":"ملاحظة","hint":"المرشد لم يحضر، وحالة التواصل معه ....","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"التحقق من سبب تأخر المرشد ومتابعة أثر التأخير على المهمة.","sla":10,"partner":"المشرف - الكنترول","escIf":"استمرارية عدم حضور المرشد","escTo":"المشرف","closeIf":"وصول المرشد إلى الموقع وتأكيد المسؤول ميدانيًا","d1":10,"d2":0,"docs":"بيانات المرشد المكلف والمجموعة وموعد الحركة"},{"id":"ES139","loc":"المشاعر","sec":"إسكان المخيمات","name":"نظافة المخيمات","must":"صورة","hint":"صوّر موضع عدم النظافة في الخيمة.","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ إلى الليدر للتحقق من نظافة المخيم ومعالجة الحالة","sla":10,"partner":"المشرف","escIf":"استمرارية عدم نظافة المخيم دون المعالجة","escTo":"ادارة المشاعر","closeIf":"تأكيد إتمام نظافة البوفيه، ويتأكد منها محسن (ضيافة).","d1":10,"d2":15,"docs":"رقم المخيم أو موقع المرفق وصورة الملاحظة إن توفرت"},{"id":"ES140","loc":"المشاعر","sec":"إسكان المخيمات","name":"نظافة البوفيهات","must":"صورة","hint":"صوّر موضع عدم النظافة في البوفيه.","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ إلى الليدر للتحقق من نظافة البوفيه ومعالجة الحالة مع إدارة الاعاشة","sla":10,"partner":"المشرف","escIf":"استمرارية عدم نظافة البوفيه دون المعالجة","escTo":"الاعاشة","closeIf":"تأكيد إتمام نظافة البوفيه، ويتأكد منها محسن (ضيافة).","d1":10,"d2":15,"docs":"موقع البوفيه وصورة الملاحظة إن توفرت"},{"id":"ES141","loc":"المشاعر","sec":"إسكان المخيمات","name":"مفقودات","must":"ملاحظة","hint":"حاج فقد ...، وآخر مكان شوهد فيه ....","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"تحديد نوع المفقود وبيانات صاحبه وآخر موقع له، ثم تطبيق الآلية حسب البلاغ.","sla":null,"partner":"المشرف - مشرف الموقع","escIf":"يُحدد حسب نوع المفقود بعد استكمال البيانات.","escTo":"ادارة المشاعر","closeIf":"يُغلق البلاغ عند العثور على الغرض وتسليمه لصاحبه، أو بعد استكمال إجراءات البحث والتصعيد وتوثيق عدم العثور عليه وإبلاغ صاحبه بالنتيجة.","d1":null,"d2":null,"docs":"وصف الغرض المفقود وبيانات صاحبه وآخر موقع شوهد فيه"},{"id":"ES142","loc":"المشاعر","sec":"إسكان المخيمات","name":"مشكلة التسكين","must":"ملاحظة","hint":"عدد ... حجاج، ومشكلة التسكين ....","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيهه البلاغ للمشرف للتحقق من توزيع الحجاج وجاهزية الأماكن المخصصة، والتنسيق مع مسؤول التسكين لمعالجة المشكلة؛ متابعة الكنترول حتى اكتمال التسكين","sla":20,"partner":"المشرف - مشرف الموقع","escIf":"استمرارية المشكلة","escTo":"ادارة المشاعر","closeIf":"تسكين جميع المتأثرين في أماكنهم الصحيحة؛ يؤكد المشرف اكتمال التسكين وتطابق التوزيع","d1":20,"d2":10,"docs":"كشف توزيع الحجاج ومواقع التسكين المعتمدة وبيان المشكلة"},{"id":"ES143","loc":"المشاعر","sec":"إسكان المخيمات","name":"الصيانة","must":"صورة","hint":"صوّر موضع العطل في الخيمة.","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"مشرف","rule":"توجيه البلاغ للمشرف لمتابعة الإصلاح مع إدارة المشاعر","sla":0,"partner":"المشرف - مشرف الموقع","escIf":"عدم حل المشكلة خلال الفترة المحددة","escTo":"ادارة المشاعر","closeIf":"تأكيد محسن بأنتهاء الحالة وتوثيق النتيجة.","d1":0,"d2":20,"docs":"رقم المخيم أو موقع المرفق ونوع العطل"},{"id":"ES144","loc":"المشاعر","sec":"إعاشة","name":"نقص الوجبات","must":"ملاحظة","hint":"ناقص ... وجبة من أصل ....","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدر لحصر الكمية الناقصة ومتابعة المتعهد لتوفير الكمية المطلوبة مع توثيق العجز","sla":0,"partner":"الكنترول - المشرف","escIf":"تجاوز 10 دقائق دون توفير الكمية الناقصة","escTo":"ادارة الاعاشة","closeIf":"وصول الوجبات الناقصة وبدء تقديمها للحجاج، ويتأكد من ذلك محسن (ضيافة).","d1":0,"d2":10,"docs":"عدد الوجبات المطلوبة او قائمة الطعام والمستلمة وموقع التوزيع"},{"id":"ES145","loc":"المشاعر","sec":"إعاشة","name":"تأخر الوجبات","must":"","hint":"","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدر لمتابعة مطبخ الإعاشة والتأكد من وصول الوجبات حسب التوقيت المعتمد, ومتابعة التوزيع حتى إكتماله","sla":0,"partner":"الكنترول - المشرف","escIf":"تجاوز 5 دقائق دون بدء التوزيع أو معالجة التأخير","escTo":"ادارة الاعاشة","closeIf":"وصول الوجبات وجاهزيتها وبدء تقديمها للحجاج، ويتأكد من ذلك محسن (ضيافة).","d1":0,"d2":10,"docs":"موعد الوجبة المعتمد وموقع البوفيه وبيانات المتعهد"},{"id":"ES146","loc":"المشاعر","sec":"إعاشة","name":"الجودة","must":"صورة","hint":"صوّر الوجبة لتوثيق المشكلة.","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توثيق الوجبات المتأثرة وإبلاغ الكنترول ومطبخ الإعاشة للتحقق من المطابقة ومعالجة الوجبات محل البلاغ وفق الإجراء المختص.","sla":0,"partner":"الكنترول - المشرف","escIf":"اشتباه عدم سلامة الغذاء","escTo":"ادارة الاعاشة","closeIf":"تأكيد إدارة الاعاشة مطابقة الوجبات البديلة أو المعالجة","d1":0,"d2":10,"docs":"نوع الوجبة وموقعها ووصف الملاحظة وصورة إن توفرت"},{"id":"ES147","loc":"المشاعر","sec":"صحة ومساندة","name":"حالة صحية","must":"ملاحظة","hint":"الحاج يشكو من ....","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدر لتقييم الحالة وتوجيهها للجهة المعنية لتقديم الرعاية وتحويلها عند الحاجة","sla":0,"partner":"المشرف - الكنترول - البعثة الطبية","escIf":"تدهور الحالة الصحية, والتأكد من الإحتياج المناسب بالعلاج أو النقل للمستشفى","escTo":"الخدمات المساندة","closeIf":"الإغلاق بعد التأكد من تسليم الحالة للجهة الصحية","d1":0,"d2":null,"docs":"بيانات الحاج وموقعه ووصف الحالة الظاهر ووسيلة التواصل ، البلاغ الطبي بعد الانتهاء"},{"id":"ES148","loc":"المشاعر","sec":"صحة ومساندة","name":"وفاة حاج","must":"","hint":"","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"البلاغ الفوري من قِبل الليدرعن الحالة والتنسيق مع الجهات المختصة لإستكمال الاجراءات ونقل الجثمان وفق الاجراءات المعتمدة","sla":0,"partner":"محسن - البعثة - مركز الخدمة - الخدمات المساندة","escIf":"فوري عند حدوث الوفاة","escTo":"الخدمات المساندة","closeIf":"استكمال الاجراءات النظامية وتوثيق الحالة, يتحقق منها محسن والبعثة مع الجهات المختصة","d1":0,"d2":null,"docs":"بيانات الحاج وموقعه وبيانات البعثة؛ الجواز الاصلي ، بلاغ المستشفى ، اذن الدفن من البعثه ، تصريح الدفن من المستشفى ، توقيع استلام الجثمان من المستشفى ، شهادة الوفاة بعد الدفن من الاحوال المدنية صادرة"},{"id":"ES149","loc":"المشاعر","sec":"صحة ومساندة","name":"حاج مفقود","must":"","hint":"","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدروجمع البيانات الخاصة بالحاج ويحدد الكنترول موقع الحاج , والتنسيق للبحث عنه","sla":0,"partner":"الكنترول","escIf":"عدم العثور على الحاج","escTo":"الخدمات المساندة","closeIf":"العثور على الحاج والتأكد من سلامته وتوثيق نتيجة البلاغ, يتحقق منها الليدر ميدانيًا","d1":0,"d2":30,"docs":"بيانات الحاج ورقم الجواز وصورته إن توفرت وآخر موقع ووقت شوهد فيه"},{"id":"ES150","loc":"المشاعر","sec":"مناسك المشاعر","name":"تغيير وقت التفويج","must":"ملاحظة","hint":"تعديل موعد التفويج من ... إلى ....","risk":"mid","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توثيق الموعد الحالي والتعديل المطلوب وسببه، ومراجعته مع الكنترول قبل تحديث الجدول وإبلاغ الأطراف المعنية.","sla":15,"partner":"المشرف - البعثة","escIf":"تعارض التعديل مع مهمة مرتبطة أو تعذر تأكيد الموعد.","escTo":"الكنترول","closeIf":"تأكيد الموعد المتفق عليه وتحديثه وإبلاغ المسؤولين عنه؛ يتحقق الكنترول من ذلك.","d1":15,"d2":0,"docs":"جدول التفويج المعتمد والموعد المطلوب وبيانات المجموعة"},{"id":"ES151","loc":"المشاعر","sec":"مناسك المشاعر","name":"طلب كرسي متحرك","must":"","hint":"","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"تحديد احتياج المساعدة والتواصل مع الخدمات المساندة والكنترول لتوفير التجهيز أو المساعدة المناسبة ومتابعة وصولها للحاج.","sla":null,"partner":"المشرف - مشرف الموقع","escIf":"","escTo":"","closeIf":"توفير الكرسي المتحرك وتسليمه للحاج، ويتأكد من ذلك محسن (مرشد جمرات)","d1":null,"d2":null,"docs":"بيانات الحاج وموقع التسليم وعدد الكراسي المطلوبة"},{"id":"ES152","loc":"المشاعر","sec":"مناسك المشاعر","name":"عدم تواجد الاعلام الخاصة بالجمرات","must":"","hint":"","risk":"mid","raise":["محسن"],"owner":"ليدر","rule":"توجيه البلاغ إلى الليدر لتوفير الاعلام","sla":15,"partner":"المشرف - اخصائي تفويض الجمرات","escIf":"استمرارية عدم توفر الاعلام","escTo":"مركز الخدمة","closeIf":"توفر الاعلام يتحقق منها الليدر ميدانيًا","d1":15,"d2":10,"docs":"بيانات المجموعة ونقطة التجمع وعدد الأعلام المطلوبة"},{"id":"ES153","loc":"المدينة المنورة","sec":"نقل","name":"تأخير إستلام الحافلات","must":"ملاحظة","hint":"لم يُستلم ... باص من أصل ....","risk":"high","raise":["محسن","ليدر"],"owner":"مشرف","rule":"التحقق من سبب تأخر الحافلة أو المجموعة وموقعها، والتنسيق مع مسؤول النقل والكنترول لتأكيد الوصول ومتابعة أثر التأخير على المهمة.","sla":30,"partner":"ادارة النقل في المركز أو هوليدي ان","escIf":"في حال لم تصل الحافلة الى الموقع بعد صرفها من المستودع","escTo":"امتثال","closeIf":"وصول الحافلة أو المجموعة إلى الموقع المحدد وتأكيد المسؤول الميداني اكتمال الحركة.","d1":30,"d2":30,"docs":"بيانات الحافلة، موقعها وموعد وصولها المقرر"},{"id":"ES154","loc":"المدينة المنورة","sec":"نقل","name":"حافلة أو لوحة خاطئة","must":"صورة","hint":"صوّر لوحة الحافلة ورقمها التشغيلي بوضوح.","risk":"mid","raise":["محسن","ليدر"],"owner":"ليدر","rule":"التحقق من بلاغ «حافلة / لوحة خاطئة» ومطابقة المجموعة والحافلة والموقع مع برنامج الحركة، والتنسيق مع النقل والبعثة والكنترول لتصحيح الحالة.","sla":10,"partner":"موظفين البعثه و أخصائي النقل في المركز","escIf":"استمرار تعذر انتظام الحركة أو عدم تطابق المجموعة أو الحافلة أو الموقع.","escTo":"الكنترول","closeIf":"تصحيح مسار الحركة أو بياناتها وتأكيد وصول المجموعة إلى الموقع الصحيح بواسطة المسؤول الميداني.","d1":10,"d2":15,"docs":"بيانات الحافلة المخصصة ورقم اللوحة الفعلية"},{"id":"ES155","loc":"المدينة المنورة","sec":"نقل","name":"نقص عدد الحافلات","must":"ملاحظة","hint":"ناقص ... باص من أصل ....","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"مشرف","rule":"التحقق من بلاغ «نقص عدد الحافلات» ومطابقة المجموعة والحافلة والموقع مع برنامج الحركة، والتنسيق مع النقل والبعثة والكنترول لتصحيح الحالة.","sla":10,"partner":"موظفين البعثه و أخصائي النقل في المركز","escIf":"استمرار تعذر انتظام الحركة أو عدم تطابق المجموعة أو الحافلة أو الموقع.","escTo":"قطاع النقل هولدي ان","closeIf":"توفير عدد الحافلات المطلوب للمجموعة، وتأكيد أحد أفراد فريق محسن اكتمال العدد","d1":10,"d2":30,"docs":"الاعتماد عدد الحافلات المطلوبة والمتوفرة وعدد الحجاج"},{"id":"ES156","loc":"المدينة المنورة","sec":"نقل","name":"مشكلة تكييف الحافلة","must":"صورة","hint":"صوّر موضع المشكلة.","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"محسن","rule":"توجيه البلاغ للمسؤول النقل لمتابعة عطل الحافلة مع مسؤول النقل وتوفير البديل حسب الحالة، وإبلاغ الكنترول بأثره على المهمة.","sla":30,"partner":"مسؤولين النقل في المركز","escIf":"رفض تسليم حافلة بديلة","escTo":"قطاع النقل هولدي ان","closeIf":"استلام حافله بديلة","d1":0,"d2":30,"docs":"بيانات الحافلة وموقعها ووصف مختصر لخلل التكييف عند الحاجة"},{"id":"ES157","loc":"المدينة المنورة","sec":"نقل","name":"نظافة الحافلة","must":"صورة","hint":"صوّر النفايات لتوثيق الحدث.","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"محسن","rule":"توجيه البلاغ إلى الليدر للتحقق من إتمام نظافة الحافلة قبل صعود الحجاج","sla":30,"partner":"مسؤولين النقل في المركز","escIf":"رفض تسليم حافلة بديلة","escTo":"قطاع النقل هولدي ان","closeIf":"التأكد من نظافة الحافلة الحالية أو استلام حافلة بديلة نظيفة، ويؤكد ذلك محسن ( مرشد الباص) .","d1":0,"d2":30,"docs":"بيانات الحافلة وموقعها وصورة موضع الملاحظة إن توفرت"},{"id":"ES158","loc":"المدينة المنورة","sec":"نقل","name":"عدم اكتمال عدد الحجاج","must":"ملاحظة","hint":"ناقص ... حاج من أصل ....","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ إلى الليدر لتحديد عدد الحجاج المشمولين مع موظفين البعثه","sla":0,"partner":"موظفين البعثه","escIf":"عدم معرفة أعداد المشمولين في المرحلة","escTo":"المشرف","closeIf":"وضوح وإكتمال العدد","d1":0,"d2":15,"docs":"كشف الحجاج المشمولين بالحركة وعدد الحاضرين"},{"id":"ES159","loc":"المدينة المنورة","sec":"نقل","name":"عطل الحافلة","must":"صورة","hint":"صوّر موضع العطل لتوثيق الحدث.","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"مشرف","rule":"توجيه البلاغ إلى المشرف لطلب حافلة بديلة","sla":20,"partner":"مسؤولين النقل في المركز","escIf":"التأخر في توجيه حافلة بديلة","escTo":"مسؤولين النقل في هوليدي ان","closeIf":"إستلام حافلة بديلة","d1":0,"d2":20,"docs":"بيانات الحافلة وموقعها ونوع العطل إن عُرف"},{"id":"ES160","loc":"المدينة المنورة","sec":"نقل","name":"تغيير وقت","must":"ملاحظة","hint":"تعديل المغادرة من ... إلى ....","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توثيق الموعد الحالي والمطلوب ، ثم تنسيق الكنترول مع الجهة المعنية لاعتماد الموعد وتحديث الجدول.","sla":15,"partner":"المشرف - الكنترول - مركز الخدمة","escIf":"عدم تحرك المجموعة خلال المدة المقررة","escTo":"المشرف","closeIf":"إتمام تغير الوقت","d1":15,"d2":0,"docs":"الموعد الحالي والموعد المطلوب وبيانات المجموعة"},{"id":"ES161","loc":"المدينة المنورة","sec":"نقل","name":"تأخر وصول الدينات الخاصة بالأمتعة","must":"ملاحظة","hint":"لم تصل ... دينة أمتعة من أصل ....","risk":"low","raise":["محسن","ليدر"],"owner":"ليدر","rule":"التحقق من سبب تأخر الدينات، والتنسيق مع مسؤول النقل والكنترول لتأكيد الوصول ومتابعة أثر التأخير على المهمة.","sla":60,"partner":"المشرف - الكنترول - البعثة","escIf":"عدم معرفه وقت الوصول المتوقع","escTo":"بونقوروس ( مكتب خدمات البعثة )","closeIf":"وصول دينة الأمتعة إلى الموقع المطلوب، وتأكيد أحد أفراد فريق محسن وصولها","d1":60,"d2":30,"docs":"بيانات ناقل الأمتعة وموقع التسليم والموعد المقرر"},{"id":"ES162","loc":"المدينة المنورة","sec":"إسكان","name":"النظافة","must":"صورة","hint":"صوّر موضع عدم النظافة في الغرفة.","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"مشرف","rule":"توجيه البلاغ إلى المشرف للتحقق من نظافة الغرف والمرافق ومعالجة الحالة مع إدارة الفندق","sla":15,"partner":"المشرف - إدارة الفندق","escIf":"استمرارية عدم نظافة الغرف أو المرافق دون المعالجة","escTo":"امتثال","closeIf":"تأكيد إتمام نظافة الغرف , يتأكد منها المشرف ميدانيًا","d1":15,"d2":15,"docs":"رقم الغرفة أو موقع المرفق وصورة الملاحظة إن توفرت"},{"id":"ES163","loc":"المدينة المنورة","sec":"إسكان","name":"مفقودات","must":"ملاحظة","hint":"حاج فقد ...، وآخر مكان شوهد فيه ....","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"تحديد نوع المفقود وبيانات صاحبه وآخر موقع له، ثم تطبيق آلية الشخص التائه أو الأمتعة أو الوثائق أو بطاقة نسك حسب البلاغ.","sla":20,"partner":"المشرف - الكنترول","escIf":"استمرار المشكلة وعدم استلام المفقود","escTo":"المشرف","closeIf":"التحقق من العثور على المفقود وتسليمه لصاحبه، أو توثيق الإجراء المختص.","d1":20,"d2":20,"docs":"وصف المفقود وبيانات صاحبه وآخر موقع شوهد فيه"},{"id":"ES164","loc":"المدينة المنورة","sec":"إسكان","name":"عدم مطابقة العقد مع عدد الغرف أو الاسرة","must":"ملاحظة","hint":"العقد ... غرفة من نوع ...، والمستلم ... غرفة.","risk":"high","raise":["محسن","ليدر"],"owner":"مشرف","rule":"توجيه البلاغ إلى المشرف للتحقق من مطابقة العقد مع الواقع ومعالجة الاختلاف مع إدارة الفندق","sla":30,"partner":"المشرف - إدارة الفندق","escIf":"استمرار المشكلة وعدم معالجتها","escTo":"امتثال","closeIf":"تطابق العقد مع الواقع","d1":30,"d2":null,"docs":"العقد أو تأكيد الحجز وكشف الغرف والأسرّة المستلمة"},{"id":"ES165","loc":"المدينة المنورة","sec":"إسكان","name":"تغيير الوقت","must":"ملاحظة","hint":"تعديل موعد التسكين من ... إلى ....","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ للكنترول وتوثيق الموعد الحالي والتعديل المطلوب وسببه، ومراجعته مع الجهة المختصة قبل تحديث الجدول وإبلاغ الأطراف المعنية.","sla":0,"partner":"المشرف - الكنترول - البعثة أو الشركة - الاستعداد المسبق","escIf":"تعارض التعديل مع مهمة مرتبطة أو تعذر تأكيد الموعد.","escTo":"","closeIf":"تم توثيق الوقت الصحيح , وإبلاغ الأطراف المعنية","d1":null,"d2":null,"docs":"الموعد الحالي والموعد المطلوب وبيانات المجموعة"},{"id":"ES166","loc":"المدينة المنورة","sec":"إسكان","name":"الصيانة","must":"صورة","hint":"صوّر موضع العطل في الغرفة.","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"مشرف","rule":"توجيه البلاغ للمشرف لمتابعة الإصلاح مع إدارة الفندق","sla":30,"partner":"إدارة الفندق","escIf":"عدم حل المشكلة خلال الفترة المحددة","escTo":"امتثال","closeIf":"تأكيد محسن بأنتهاء الحالة وتوثيق النتيجة.","d1":30,"d2":20,"docs":"رقم الغرفة أو موقع المرفق ونوع العطل"},{"id":"ES167","loc":"المدينة المنورة","sec":"إسكان","name":"عدم تواجد العفاشة","must":"ملاحظة","hint":"لا يوجد عمال لنقل الأمتعة عند ....","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توجيه البلاغ للمشرف والكنترول لمتابعة الحالة مع فريق العفاشة","sla":15,"partner":"الكنترول","escIf":"استمرار المشكلة وعدم تواجد العفاشة","escTo":"امتثال","closeIf":"وصول العفاشة وتأكيد المسؤول ميدانيًا","d1":15,"d2":15,"docs":"موعد الخدمة وموقعها وحجم الأمتعة التقريبي"},{"id":"ES168","loc":"المدينة المنورة","sec":"إسكان","name":"نقص مستلزمات الاستقبال","must":"ملاحظة","hint":"ناقص ... من مستلزمات ....","risk":"mid","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توجيه البلاغ للمشرف لمتابعة نقص المستلزمات","sla":20,"partner":"الكنترول","escIf":"عدم حل المشكلة خلال الفترة المحددة","escTo":"المشرف","closeIf":"تأكيد محسن بأنتهاء الحالة وتوثيق النتيجة.","d1":20,"d2":20,"docs":"بيان المستلزمات المطلوبة والكمية الناقصة"},{"id":"ES169","loc":"المدينة المنورة","sec":"إسكان","name":"عدم تطابق عدد الحجاج","must":"ملاحظة","hint":"المسجل ... حاج، والموجود ... حاج.","risk":"mid","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توجيه البلاغ إلى ليدر لتحديد عدد الحجاج المشمولين بالتنسيق مع موظفين البعثه","sla":0,"partner":"المشرف - البعثة","escIf":"عدم معرفة أعداد المشمولين في المرحلة","escTo":"الكنترول مع فريق تجربة العميل","closeIf":"وضوح وإكتمال العدد","d1":0,"d2":15,"docs":"كشف الحجاج المعتمد والعدد الفعلي"},{"id":"ES170","loc":"المدينة المنورة","sec":"إسكان","name":"خدمات ذوي الإحتياجات الخاصة","must":"ملاحظة","hint":"الحاج يحتاج مساعدة في ....","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"تحديد احتياج المساعدة والتواصل مع الخدمات المساندة والكنترول لتوفير التجهيز أو المساعدة المناسبة ومتابعة وصولها للحاج.","sla":15,"partner":"المشرف - إدارة الفندق - البعثة","escIf":"استمرارية عدم توافر المستلزمات المطلوبة","escTo":"امتثال","closeIf":"تأكيد محسن بأنتهاء الحالة وتوثيق النتيجة.","d1":15,"d2":15,"docs":"بيانات الحاج وموقعه ونوع المساعدة المطلوبة"},{"id":"ES171","loc":"المدينة المنورة","sec":"إعاشة","name":"نقص الوجبات","must":"ملاحظة","hint":"ناقص ... وجبة من أصل ....","risk":"high","raise":["محسن","ليدر"],"owner":"مشرف","rule":"توجيه البلاغ للمشرف لحصر الكمية الناقصة ومتابعة توفير الكمية المطلوبة مع توثيق العجز","sla":60,"partner":"الكنترول - المشرف - الاعاشة","escIf":"تجاوز ساعة واحدة دون توفير الكمية الناقصة","escTo":"الاعاشة","closeIf":"إستكمال العدد المطلوب وتوزيعه","d1":120,"d2":null,"docs":"عدد الوجبات المطلوبة والمستلمة وموقع التوزيع"},{"id":"ES172","loc":"المدينة المنورة","sec":"إعاشة","name":"تأخر الوجبات","must":"","hint":"","risk":"high","raise":["محسن","ليدر"],"owner":"مشرف","rule":"توجيه البلاغ لـلمشرف لمتابعة التأخير والتأكد من وصول الوجبات حسب التوقيت المعتمد, ومتابعة التوزيع حتى إكتماله","sla":60,"partner":"الكنترول - المشرف - الاعاشة","escIf":"تجاوز ساعة دون وصول الوجبات","escTo":"الاعاشة","closeIf":"وصول الوجبات واستكمال توزيعها","d1":120,"d2":null,"docs":"موعد الوجبة المعتمد وموقع التوزيع وبيانات المورد"},{"id":"ES173","loc":"المدينة المنورة","sec":"إعاشة","name":"الجودة","must":"صورة","hint":"صوّر الوجبة لتوثيق المشكلة.","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توثيق الوجبات المتأثرة وإبلاغ الكنترول ومطبخ الإعاشة للتحقق من المطابقة ومعالجة الوجبات محل البلاغ وفق الإجراء المختص.","sla":0,"partner":"الكنترول - المشرف","escIf":"اشتباه عدم سلامة الغذاء","escTo":"ادارة الاعاشة","closeIf":"تأكيد الجهة المختصة مطابقة الوجبات البديلة أو المعالجة؛ يتحقق الليدر من النتيجة ميدانيًا.","d1":0,"d2":10,"docs":"نوع الوجبة وموقعها ووصف الملاحظة وصورة إن توفرت"},{"id":"ES174","loc":"المدينة المنورة","sec":"صحة ومساندة","name":"حالة صحية","must":"ملاحظة","hint":"الحاج يشكو من ....","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدر لتقييم الحالة وتوجيهها للجهة المعنية لتقديم الرعاية وتحويلها عند الحاجة","sla":0,"partner":"المشرف - الكنترول - البعثة الطبية","escIf":"تدهور الحالة الصحية, والتأكد من الإحتياج المناسب بالعلاج أو النقل للمستشفى","escTo":"الخدمات المساندة","closeIf":"الإغلاق بعد التأكد من تسليم الحالة للجهة الصحية","d1":0,"d2":null,"docs":"بيانات الحاج وموقعه ووصف الحالة الظاهر ووسيلة التواصل ، البلاغ الطبي بعد الانتهاء"},{"id":"ES175","loc":"المدينة المنورة","sec":"صحة ومساندة","name":"وفاة حاج","must":"","hint":"","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"البلاغ الفوري للخدمات المساندة عن الحالة والتنسيق مع الجهات المختصة لإستكمال الاجراءات ونقل الجثمان وفق الاجراءات المعتمدة","sla":0,"partner":"محسن - البعثة - مركز الخدمة - الخدمات المساندة","escIf":"فوري عند حدوث الوفاة","escTo":"الخدمات المساندة","closeIf":"استكمال الاجراءات النظامية وتوثيق الدفن, يتحقق منها محسن والبعثة مع الخدمات المساندة","d1":0,"d2":null,"docs":"بيانات الحاج وموقعه وبيانات البعثة؛ الجواز الاصلي ، بلاغ المستشفى ، اذن الدفن من البعثه ، تصريح الدفن من المستشفى ، توقيع استلام الجثمان من المستشفى ، شهادة الوفاة بعد الدفن من الاحوال المدنية صادرة"},{"id":"ES176","loc":"المدينة المنورة","sec":"صحة ومساندة","name":"حاج مفقود","must":"","hint":"","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدروجمع البيانات الخاصة بالحاج ويحدد الكنترول موقع الحاج , والتنسيق للبحث عنه","sla":0,"partner":"الكنترول","escIf":"عدم العثور على الحاج","escTo":"الخدمات المساندة","closeIf":"العثور على الحاج والتأكد من سلامته وتوثيق نتيجة البلاغ, يتحقق منها الليدر ميدانيًا","d1":0,"d2":30,"docs":"بيانات الحاج ورقم الجواز وصورته إن توفرت وآخر موقع ووقت شوهد فيه"},{"id":"ES177","loc":"المدينة المنورة","sec":"مناسك المدينة المنورة (الروضة)","name":"تغيير وقت المناسك","must":"ملاحظة","hint":"تعديل موعد زيارة الروضة من ... إلى ....","risk":"low","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توثيق الموعد الحالي والتعديل المطلوب وسببه، ومراجعته مع الكنترول قبل تحديث الجدول وإبلاغ الأطراف المعنية.","sla":15,"partner":"المشرف - البعثة","escIf":"تعارض التعديل مع مهمة مرتبطة أو تعذر تأكيد الموعد.","escTo":"الكنترول","closeIf":"تأكيد الموعد المتفق عليه وتحديثه وإبلاغ المسؤولين عنه؛ يتحقق الكنترول من ذلك.","d1":15,"d2":0,"docs":"الموعد الحالي والمطلوب وبيانات المجموعة"},{"id":"ES178","loc":"المدينة المنورة","sec":"مناسك المدينة المنورة (الروضة)","name":"مفقودات","must":"ملاحظة","hint":"حاج فقد ...، وآخر مكان شوهد فيه ....","risk":"low","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"تحديد نوع المفقود وبيانات صاحبه وآخر موقع له، ثم تطبيق آلية الأمتعة أو الوثائق حسب البلاغ في مركز المفقودات بالحرم المدني","sla":null,"partner":"الليدر","escIf":"","escTo":"","closeIf":"رفع طلب المفقودات للجهة المختصة بالحرم وتوثيق تقديمه، وإبلاغ صاحب البلاغ بطريقة المتابعة. يُغلق البلاغ بعد إتمام الإحالة، ولا يعني إغلاقه العثور على المفقود","d1":null,"d2":null,"docs":"وصف المفقود وبيانات صاحبه وآخر موقع شوهد فيه"},{"id":"ES179","loc":"المدينة المنورة","sec":"مناسك المدينة المنورة (الروضة)","name":"تصريح الروضة","must":"","hint":"","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدر للتأكد من توفير تصريح الروضة الشريفة","sla":0,"partner":"المشرف - مركز المدينة","escIf":"","escTo":"البعثة / PJH","closeIf":"صدور تصريح الروضة والتأكد من صحة بيانات الحاج والموعد، بتأكيد أحد أفراد فريق محسن.","d1":null,"d2":null,"docs":"بيانات الحاج اللازمة لإصدار التصريح وحالة الطلب إن وُجد"},{"id":"ES180","loc":"المدينة المنورة","sec":"مناسك المدينة المنورة (الروضة)","name":"طلب كرسي متحرك","must":"","hint":"","risk":"low","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ لـ المشرف لتوفير الكرسي المتحرك ومتابعة وصوله للحاج.","sla":20,"partner":"المشرف - ادارة الفندق","escIf":"استمرارية عدم توفر الكرسي للحاج","escTo":"مركز الخدمة","closeIf":"توفير الكرسي المتحرك والتأكد من تسليمه للحاج","d1":20,"d2":20,"docs":"بيانات الحاج وموقع التسليم وعدد الكراسي المطلوبة"},{"id":"ES181","loc":"المدينة المنورة","sec":"مزارات","name":"تغيير الوقت","must":"ملاحظة","hint":"تعديل موعد الزيارة من ... إلى ....","risk":"low","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توثيق الموعد الحالي والتعديل المطلوب وسببه، ومراجعته مع الكنترول قبل تحديث الجدول وإبلاغ الأطراف المعنية.","sla":10,"partner":"البعثة - الكنترول","escIf":"تعارض التعديل مع مهمة مرتبطة أو تعذر تأكيد الموعد.","escTo":"الكنترول","closeIf":"تأكيد الموعد المتفق عليه وتحديثه وإبلاغ المسؤولين عنه؛ يتحقق الكنترول من ذلك.","d1":null,"d2":null,"docs":"الموعد الحالي والمطلوب وبيانات المجموعة"}];
+const ESCAL = [{"id":"ES101","loc":"مكة المكرمة","sec":"نقل","name":"تأخير إستلام / وصول الحافلات","must":"","hint":"","risk":"high","raise":["محسن","ليدر"],"owner":"مشرف","rule":"التحقق من سبب تأخر الحافلة أو المجموعة وموقعها، والتنسيق مع مسؤول النقل والكنترول لتأكيد الوصول ومتابعة أثر التأخير على المهمة.","sla":30,"partner":"ادارة النقل في المركز أو هوليدي ان","escIf":"في حال لم تصل الحافلة الى الموقع بعد صرفها من المستودع","escTo":"امتثال","closeIf":"وصول الحافلة أو المجموعة إلى الموقع المحدد وتأكيد المسؤول الميداني اكتمال الحركة.","d1":30,"d2":null,"docs":"بيانات الحافلة، موقعها وموعد وصولها المقرر"},{"id":"ES102","loc":"مكة المكرمة","sec":"نقل","name":"حافلة أو لوحة خاطئة","must":"صورة","hint":"صوّر لوحة الحافلة ورقمها التشغيلي بوضوح.","risk":"mid","raise":["محسن","ليدر"],"owner":"ليدر","rule":"التحقق من بلاغ «حافلة / لوحة خاطئة» ومطابقة المجموعة والحافلة والموقع مع برنامج الحركة، والتنسيق مع النقل والبعثة والكنترول لتصحيح الحالة.","sla":10,"partner":"موظفين البعثه و أخصائي النقل في المركز","escIf":"استمرار تعذر انتظام الحركة أو عدم تطابق المجموعة أو الحافلة أو الموقع.","escTo":"الكنترول","closeIf":"تصحيح مسار الحركة أو بياناتها وتأكيد وصول المجموعة إلى الموقع الصحيح بواسطة المسؤول الميداني.","d1":10,"d2":15,"docs":"بيانات الحافلة المخصصة ورقم اللوحة الفعلية"},{"id":"ES103","loc":"مكة المكرمة","sec":"نقل","name":"نقص عدد الحافلات","must":"ملاحظة","hint":"ناقص ... باص من أصل ....","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"مشرف","rule":"التحقق من بلاغ «نقص عدد الحافلات» ومطابقة المجموعة والحافلة والموقع مع برنامج الحركة، والتنسيق مع النقل والبعثة والكنترول لتصحيح الحالة.","sla":10,"partner":"موظفين البعثه و أخصائي النقل في المركز","escIf":"استمرار تعذر انتظام الحركة أو عدم تطابق المجموعة أو الحافلة أو الموقع.","escTo":"قطاع النقل هولدي ان","closeIf":"توفير عدد الحافلات المطلوب للمجموعة، وتأكيد أحد أفراد فريق محسن اكتمال العدد","d1":10,"d2":30,"docs":"الاعتماد عدد الحافلات المطلوبة والمتوفرة وعدد الحجاج"},{"id":"ES104","loc":"مكة المكرمة","sec":"نقل","name":"مشكلة تكييف الحافلة","must":"صورة","hint":"صوّر موضع المشكلة.","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"محسن","rule":"توجيه البلاغ للمسؤول النقل لمتابعة عطل الحافلة مع مسؤول النقل وتوفير البديل حسب الحالة، وإبلاغ الكنترول بأثره على المهمة.","sla":30,"partner":"مسؤولين النقل في المركز","escIf":"رفض تسليم حافلة بديلة","escTo":"قطاع النقل هولدي ان","closeIf":"استلام حافله بديلة","d1":0,"d2":30,"docs":"بيانات الحافلة وموقعها ووصف مختصر لخلل التكييف عند الحاجة"},{"id":"ES105","loc":"مكة المكرمة","sec":"نقل","name":"نظافة الحافلة","must":"صورة","hint":"صوّر النفايات لتوثيق الحدث.","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"محسن","rule":"توجيه البلاغ إلى الليدر للتحقق من إتمام نظافة الحافلة قبل صعود الحجاج","sla":30,"partner":"مسؤولين النقل في المركز","escIf":"رفض تسليم حافلة بديلة","escTo":"قطاع النقل هولدي ان","closeIf":"التأكد من نظافة الحافلة الحالية أو استلام حافلة بديلة نظيفة، ويؤكد ذلك محسن ( مرشد الباص) .","d1":0,"d2":30,"docs":"بيانات الحافلة وموقعها وصورة موضع الملاحظة إن توفرت"},{"id":"ES106","loc":"مكة المكرمة","sec":"نقل","name":"عدم اكتمال عدد الحجاج","must":"ملاحظة","hint":"ناقص ...حاج من أصل ....","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ إلى الليدر لتحديد عدد الحجاج المشمولين مع موظفين البعثه","sla":0,"partner":"موظفين البعثه","escIf":"عدم معرفة أعداد المشمولين في المرحلة","escTo":"المشرف","closeIf":"وضوح وإكتمال العدد","d1":0,"d2":15,"docs":"كشف الحجاج المشمولين بالحركة وعدد الحاضرين"},{"id":"ES107","loc":"مكة المكرمة","sec":"نقل","name":"عطل الحافلة","must":"صورة","hint":"صوّر موضع العطل لتوثيق الحدث","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"مشرف","rule":"توجيه البلاغ إلى المشرف لطلب حافلة بديلة","sla":20,"partner":"مسؤولين النقل في المركز","escIf":"التأخر في توجيه حافلة بديلة","escTo":"قطاع النقل هولدي ان","closeIf":"إستلام حافلة بديلة","d1":0,"d2":20,"docs":"بيانات الحافلة وموقعها ونوع العطل إن عُرف"},{"id":"ES108","loc":"مكة المكرمة","sec":"نقل","name":"تغيير وقت","must":"ملاحظة","hint":"تعديل المغادرة من 8 مساء إلى 9 صباحًا.","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توثيق الموعد الحالي والمطلوب ، ثم تنسيق الكنترول مع الجهة المعنية لاعتماد الموعد وتحديث الجدول.","sla":15,"partner":"المشرف - الكنترول - البعثة / PJH","escIf":"عدم تحرك المجموعة خلال المدة المقررة","escTo":"البعثة / PJH","closeIf":"تأكيد الموعد المعتمد وتحديث الجدول وإبلاغ الأطراف المعنية برسائل ، ويتحقق الكنترول وصول المعلومه .","d1":15,"d2":0,"docs":"الموعد الحالي والموعد المطلوب وبيانات المجموعة"},{"id":"ES109","loc":"مكة المكرمة","sec":"نقل","name":"تأخر وصول الدينات الخاصة بالأمتعة","must":"","hint":"","risk":"low","raise":["محسن","ليدر"],"owner":"ليدر","rule":"التحقق من سبب تأخر الدينات، والتنسيق مع مسؤول النقل والكنترول لتأكيد الوصول ومتابعة أثر التأخير على المهمة.","sla":60,"partner":"المشرف - الكنترول - البعثة / PJH","escIf":"عدم معرفه وقت الوصول المتوقع","escTo":"بونقوروس ( مكتب خدمات البعثة )","closeIf":"وصول دينة الأمتعة إلى الموقع المطلوب، وتأكيد أحد أفراد فريق محسن وصولها","d1":60,"d2":30,"docs":"بيانات ناقل الأمتعة وموقع التسليم والموعد المقرر"},{"id":"ES110","loc":"مكة المكرمة","sec":"نقل","name":"عدم وجود ملصقات الحافلات","must":"","hint":"","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدر للتأكد من سبب عدم توفر الملصقات وتوفيرها","sla":10,"partner":"المشرف - مركز الخدمة","escIf":"استمرارية عدم توفر الملصقات","escTo":"المشرف","closeIf":"توفر الملصقات وإلصاقها","d1":10,"d2":0,"docs":"بيانات الحافلة والمجموعة ونسخة الملصق المعتمد"},{"id":"ES111","loc":"مكة المكرمة","sec":"نقل","name":"كشف المغادرة","must":"ملاحظة","hint":"المغادرة غير متوفر، أوغير مطابق.","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدر لتوفير كشف المغادرة من مركز الخدمة","sla":15,"partner":"المشرف - مركز الخدمة","escIf":"استمرارية عدم وجود كشف المغادرة","escTo":"المشرف","closeIf":"تأكيد إتمام وجود كشف المغادرة الصحيح","d1":15,"d2":0,"docs":"كشف المغادرة المعتمد وبيانات المجموعة"},{"id":"ES112","loc":"مكة المكرمة","sec":"إسكان","name":"النظافة","must":"صورة","hint":"صوّر موضع عدم النظافة في الغرفة.","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"مشرف","rule":"توجيه البلاغ إلى المشرف للتحقق من نظافة الغرف والمرافق ومعالجة الحالة مع إدارة الفندق","sla":15,"partner":"المشرف - إدارة الفندق","escIf":"استمرارية عدم نظافة الغرف أو المرافق دون المعالجة","escTo":"امتثال","closeIf":"تأكيد إتمام نظافة الغرف , يتأكد منها المشرف ميدانيًا","d1":15,"d2":15,"docs":"رقم الغرفة أو موقع المرفق وصورة الملاحظة إن توفرت"},{"id":"ES113","loc":"مكة المكرمة","sec":"إسكان","name":"مفقودات","must":"ملاحظة","hint":"اكتب الغرض المفقود ووصفه : حاج فقد حقيبة سوداء في الاستقبال.","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"تحديد نوع المفقود وبيانات صاحبه وآخر موقع له، ثم تطبيق آلية الشخص التائه أو الأمتعة أو الوثائق أو بطاقة نسك حسب البلاغ.","sla":20,"partner":"المشرف - الكنترول","escIf":"استمرار المشكلة وعدم استلام المفقود","escTo":"المشرف","closeIf":"التحقق من العثور على المفقود وتسليمه لصاحبه، أو توثيق الإجراء المختص.","d1":20,"d2":20,"docs":"وصف المفقود وبيانات صاحبه وآخر موقع شوهد فيه"},{"id":"ES114","loc":"مكة المكرمة","sec":"إسكان","name":"عدم مطابقة العقد مع عدد الغرف أو الاسرة","must":"ملاحظة","hint":"العقد 20 غرفة دبل ، والمستلم 18 غرفة.","risk":"high","raise":["محسن","ليدر"],"owner":"مشرف","rule":"توجيه البلاغ إلى المشرف للتحقق من مطابقة العقد مع الواقع ومعالجة الاختلاف مع إدارة الفندق","sla":30,"partner":"المشرف - إدارة الفندق","escIf":"استمرار المشكلة وعدم معالجتها","escTo":"امتثال","closeIf":"تطابق العقد مع الواقع","d1":30,"d2":null,"docs":"العقد أو تأكيد الحجز وكشف الغرف والأسرّة المستلمة"},{"id":"ES115","loc":"مكة المكرمة","sec":"إسكان","name":"تغيير الوقت","must":"ملاحظة","hint":"تعديل موعد ال... من ... إلى ....","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ للكنترول وتوثيق الموعد الحالي والتعديل المطلوب وسببه، ومراجعته مع الجهة المختصة قبل تحديث الجدول وإبلاغ الأطراف المعنية.","sla":0,"partner":"المشرف - الكنترول - البعثة أو الشركة - الاستعداد المسبق","escIf":"تعارض التعديل مع مهمة مرتبطة أو تعذر تأكيد الموعد.","escTo":"","closeIf":"تم توثيق الوقت الصحيح , وإبلاغ الأطراف المعنية","d1":null,"d2":null,"docs":"الموعد الحالي والموعد المطلوب وبيانات المجموعة"},{"id":"ES116","loc":"مكة المكرمة","sec":"إسكان","name":"الصيانة","must":"صورة","hint":"صوّر موضع العطل في الغرفة.","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"مشرف","rule":"توجيه البلاغ للمشرف لمتابعة الإصلاح مع إدارة الفندق","sla":30,"partner":"إدارة الفندق","escIf":"عدم حل المشكلة خلال الفترة المحددة","escTo":"امتثال","closeIf":"تأكيد محسن بأنتهاء الحالة وتوثيق النتيجة.","d1":30,"d2":20,"docs":"رقم الغرفة أو موقع المرفق ونوع العطل"},{"id":"ES117","loc":"مكة المكرمة","sec":"إسكان","name":"عدم تواجد العفاشة","must":"","hint":"","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توجيه البلاغ للمشرف والكنترول لمتابعة الحالة مع فريق العفاشة","sla":15,"partner":"الكنترول","escIf":"استمرار المشكلة وعدم تواجد العفاشة","escTo":"امتثال","closeIf":"وصول العفاشة وتأكيد المسؤول ميدانيًا","d1":15,"d2":15,"docs":"موعد الخدمة وموقعها وحجم الأمتعة التقريب ، و بيان طلب العمال"},{"id":"ES118","loc":"مكة المكرمة","sec":"إسكان","name":"نقص مستلزمات الاستقبال","must":"ملاحظة","hint":"ناقص ... من مستلزمات ....","risk":"mid","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توجيه البلاغ للمشرف لمتابعة نقص المستلزمات","sla":20,"partner":"الكنترول","escIf":"عدم حل المشكلة خلال الفترة المحددة","escTo":"المشرف","closeIf":"تأكيد محسن بأنتهاء الحالة وتوثيق النتيجة.","d1":20,"d2":20,"docs":"بيان المستلزمات المطلوبة والكمية الناقصة"},{"id":"ES119","loc":"مكة المكرمة","sec":"إسكان","name":"عدم تطابق عدد الحجاج","must":"ملاحظة","hint":"المسجل ... حاج، والموجود ... حاج.","risk":"mid","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توجيه البلاغ إلى ليدر لتحديد عدد الحجاج المشمولين بالتنسيق مع موظفين البعثه","sla":0,"partner":"المشرف - البعثة","escIf":"عدم معرفة أعداد المشمولين في المرحلة","escTo":"الكنترول مع فريق تجربة العميل","closeIf":"وضوح وإكتمال العدد","d1":0,"d2":15,"docs":"كشف الحجاج المعتمد والعدد الفعلي"},{"id":"ES120","loc":"مكة المكرمة","sec":"إسكان","name":"خدمات ذوي الإحتياجات الخاصة","must":"ملاحظة","hint":"الحاج يحتاج مساعدة في ....","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"تحديد احتياج المساعدة والتواصل مع الخدمات المساندة والكنترول لتوفير التجهيز أو المساعدة المناسبة ومتابعة وصولها للحاج.","sla":15,"partner":"المشرف - إدارة الفندق - البعثة","escIf":"استمرارية عدم توافر المستلزمات المطلوبة","escTo":"امتثال","closeIf":"تأكيد محسن بأنتهاء الحالة وتوثيق النتيجة.","d1":15,"d2":15,"docs":"بيانات الحاج وموقعه ونوع المساعدة المطلوبة"},{"id":"ES121","loc":"مكة المكرمة","sec":"إعاشة","name":"نقص الوجبات","must":"ملاحظة","hint":"ناقص ... وجبة من أصل ....","risk":"high","raise":["محسن","ليدر"],"owner":"مشرف","rule":"توجيه البلاغ للمشرف لحصر الكمية الناقصة ومتابعة توفير الكمية المطلوبة مع توثيق العجز","sla":60,"partner":"الكنترول - المشرف - الاعاشة","escIf":"تجاوز ساعة واحدة دون توفير الكمية الناقصة","escTo":"الاعاشة","closeIf":"إستكمال العدد المطلوب وتوزيعه","d1":120,"d2":null,"docs":"عدد الوجبات المطلوبة والمستلمة وموقع التوزيع"},{"id":"ES122","loc":"مكة المكرمة","sec":"إعاشة","name":"تأخر الوجبات","must":"","hint":"","risk":"high","raise":["محسن","ليدر"],"owner":"مشرف","rule":"توجيه البلاغ لـلمشرف لمتابعة التأخير والتأكد من وصول الوجبات حسب التوقيت المعتمد, ومتابعة التوزيع حتى إكتماله","sla":60,"partner":"الكنترول - المشرف - الاعاشة","escIf":"تجاوز ساعة دون وصول الوجبات","escTo":"الاعاشة","closeIf":"وصول الوجبات واستكمال توزيعها","d1":120,"d2":null,"docs":"موعد الوجبة المعتمد وموقع التوزيع وبيانات المورد"},{"id":"ES123","loc":"مكة المكرمة","sec":"إعاشة","name":"الجودة","must":"صورة","hint":"صوّر الوجبة لتوثيق المشكلة.","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توثيق الوجبات المتأثرة وإبلاغ الكنترول ومطبخ الإعاشة للتحقق من المطابقة ومعالجة الوجبات محل البلاغ وفق الإجراء المختص.","sla":0,"partner":"الكنترول - المشرف","escIf":"اشتباه عدم سلامة الغذاء","escTo":"ادارة الاعاشة","closeIf":"تأكيد الجهة المختصة مطابقة الوجبات البديلة أو المعالجة؛ يتحقق الليدر من النتيجة ميدانيًا.","d1":0,"d2":10,"docs":"نوع الوجبة وموقعها ووصف الملاحظة وصورة إن توفرت"},{"id":"ES124","loc":"مكة المكرمة","sec":"صحة ومساندة","name":"حالة صحية","must":"ملاحظة","hint":"الحاج انتقل الى المستفى ... الحاج طلب دواء ...","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدر لتقييم الحالة وتوجيهها للجهة المعنية لتقديم الرعاية وتحويلها عند الحاجة","sla":0,"partner":"المشرف - الكنترول - البعثة الطبية","escIf":"تدهور الحالة الصحية, والتأكد من الإحتياج المناسب بالعلاج أو النقل للمستشفى","escTo":"الخدمات المساندة","closeIf":"الإغلاق بعد التأكد من تسليم الحالة للجهة الصحية","d1":0,"d2":null,"docs":"بيانات الحاج وموقعه ووصف الحالة الظاهر ووسيلة التواصل ، البلاغ الطبي بعد الانتهاء"},{"id":"ES125","loc":"مكة المكرمة","sec":"صحة ومساندة","name":"وفاة حاج","must":"","hint":"","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"البلاغ الفوري للخدمات المساندة عن الحالة والتنسيق مع الجهات المختصة لإستكمال الاجراءات ونقل الجثمان وفق الاجراءات المعتمدة","sla":0,"partner":"محسن - البعثة - مركز الخدمة - الخدمات المساندة","escIf":"فوري عند حدوث الوفاة","escTo":"الخدمات المساندة","closeIf":"استكمال الاجراءات النظامية وتوثيق الدفن, يتحقق منها محسن والبعثة مع الخدمات المساندة","d1":0,"d2":null,"docs":"بيانات الحاج وموقعه وبيانات البعثة؛ الجواز الاصلي ، بلاغ المستشفى ، اذن الدفن من البعثه ، تصريح الدفن من المستشفى ، توقيع استلام الجثمان من المستشفى ، شهادة الوفاة بعد الدفن من الاحوال المدنية صادرة"},{"id":"ES126","loc":"مكة المكرمة","sec":"صحة ومساندة","name":"حاج مفقود","must":"","hint":"","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدروجمع البيانات الخاصة بالحاج ويحدد الكنترول موقع الحاج , والتنسيق للبحث عنه","sla":0,"partner":"الكنترول","escIf":"عدم العثور على الحاج","escTo":"الخدمات المساندة","closeIf":"العثور على الحاج والتأكد من سلامته وتوثيق نتيجة البلاغ, يتحقق منها الليدر ميدانيًا","d1":0,"d2":30,"docs":"بيانات الحاج ورقم الجواز وصورته إن توفرت وآخر موقع ووقت شوهد فيه"},{"id":"ES127","loc":"مكة المكرمة","sec":"مناسك مكة (عمرة, طواف الوداع)","name":"تغيير وقت المناسك","must":"ملاحظة","hint":"تعديل موعد المناسك من ... إلى ....","risk":"low","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توثيق الموعد الحالي والتعديل المطلوب وسببه، ومراجعته مع الكنترول قبل تحديث الجدول وإبلاغ الأطراف المعنية.","sla":15,"partner":"المشرف - البعثة","escIf":"تعارض التعديل مع مهمة مرتبطة أو تعذر تأكيد الموعد.","escTo":"الكنترول","closeIf":"تأكيد الموعد المتفق عليه وتحديثه وإبلاغ المسؤولين عنه؛ يتحقق الكنترول من ذلك.","d1":15,"d2":0,"docs":"الموعد الحالي والمطلوب وبيانات المجموعة"},{"id":"ES128","loc":"مكة المكرمة","sec":"مناسك مكة (عمرة, طواف الوداع)","name":"مفقودات","must":"ملاحظة","hint":"حاج فقد ...، وآخر مكان شوهد فيه ....","risk":"low","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"تحديد نوع المفقود وبيانات صاحبه وآخر موقع له، ثم تطبيق آلية الأمتعة أو الوثائق حسب البلاغ في مركز المفقودات بالحرم المكي","sla":null,"partner":"الليدر","escIf":"","escTo":"","closeIf":"رفع طلب المفقودات للجهة المختصة بالحرم وتوثيق تقديمه، وإبلاغ صاحب البلاغ بطريقة المتابعة. يُغلق البلاغ بعد إتمام الإحالة، ولا يعني إغلاقه العثور على المفقود","d1":null,"d2":null,"docs":"وصف المفقود وبيانات صاحبه وآخر موقع شوهد فيه"},{"id":"ES129","loc":"مكة المكرمة","sec":"مناسك مكة (عمرة, طواف الوداع)","name":"طلب كرسي متحرك","must":"","hint":"","risk":"low","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ لـ المشرف لتوفير الكرسي المتحرك ومتابعة وصوله للحاج.","sla":20,"partner":"المشرف - ادارة الفندق","escIf":"استمرارية عدم توفر الكرسي للحاج","escTo":"مركز الخدمة","closeIf":"توفير الكرسي المتحرك والتأكد من تسليمه للحاج","d1":20,"d2":20,"docs":"بيانات الحاج وموقع التسليم وعدد الكراسي المطلوبة"},{"id":"ES130","loc":"مكة المكرمة","sec":"مزارات","name":"تغيير الوقت","must":"ملاحظة","hint":"تعديل موعد الزيارة من ... إلى ....","risk":"low","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توثيق الموعد الحالي والتعديل المطلوب وسببه، ومراجعته مع الكنترول قبل تحديث الجدول وإبلاغ الأطراف المعنية.","sla":10,"partner":"البعثة - الكنترول","escIf":"تعارض التعديل مع مهمة مرتبطة أو تعذر تأكيد الموعد.","escTo":"الكنترول","closeIf":"تأكيد الموعد المتفق عليه وتحديثه وإبلاغ المسؤولين عنه؛ يتحقق الكنترول من ذلك.","d1":null,"d2":null,"docs":"الموعد الحالي والمطلوب وبيانات المجموعة"},{"id":"ES131","loc":"المشاعر","sec":"نقل","name":"حافلة أو لوحة خاطئة","must":"صورة","hint":"صوّر لوحة الحافلة ورقمها التشغيلي بوضوح.","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"التحقق من بلاغ «حافلة / لوحة خاطئة» ومطابقة المجموعة والحافلة والموقع مع برنامج الحركة، والتنسيق مع النقل والبعثة والكنترول لتصحيح الحالة.","sla":10,"partner":"موظفين البعثه و أخصائي النقل في المركز","escIf":"استمرار تعذر انتظام الحركة أو عدم تطابق المجموعة أو الحافلة أو الموقع.","escTo":"الكنترول","closeIf":"تصحيح مسار الحركة أو بياناتها وتأكيد وصول المجموعة إلى الموقع الصحيح بواسطة المسؤول الميداني.","d1":10,"d2":15,"docs":"بيانات الحافلة رقم اللوحة ، الرقم التشغيلي ، رقم سائق الحافلة"},{"id":"ES132","loc":"المشاعر","sec":"نقل","name":"نقص عدد الحافلات","must":"ملاحظة","hint":"ناقص ... باص من أصل ....","risk":"high","raise":["محسن","ليدر"],"owner":"مشرف","rule":"التحقق من بلاغ «نقص عدد الحافلات» ومطابقة المجموعة والحافلة والموقع مع برنامج الحركة، والتنسيق مع النقل والبعثة والكنترول لتصحيح الحالة.","sla":20,"partner":"موظفين البعثه و أخصائي النقل في المركز","escIf":"استمرار تعذر انتظام الحركة أو عدم تطابق المجموعة أو الحافلة أو الموقع.","escTo":"قطاع النقل هولدي ان","closeIf":"توفير عدد الحافلات المطلوب للمجموعة، وتأكيد أحد أفراد فريق محسن اكتمال العدد","d1":20,"d2":30,"docs":"اعتماد الحافلات ، عدد الحافلات المطلوبة والمتوفرة وعدد الحجاج"},{"id":"ES133","loc":"المشاعر","sec":"نقل","name":"عدم اكتمال عدد الحجاج","must":"ملاحظة","hint":"ناقص ... حاج من أصل ....","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ إلى الليدر لتحديد عدد الحجاج المشمولين مع موظفين البعثه","sla":0,"partner":"موظفين البعثه","escIf":"عدم معرفة أعداد المشمولين في المرحلة","escTo":"المشرف","closeIf":"وضوح وإكتمال العدد","d1":0,"d2":15,"docs":"كشف الحجاج المشمولين بالحركة وعدد الحاضرين"},{"id":"ES134","loc":"المشاعر","sec":"نقل","name":"تأخر وصول الحافلات","must":"ملاحظة","hint":"لم يصل ... باص من أصل ....","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"التحقق من سبب تأخر الحافلة أو المجموعة وموقعها، والتنسيق مع مسؤول النقل والكنترول لتأكيد الوصول ومتابعة أثر التأخير على المهمة.","sla":30,"partner":"المشرف - الكنترول - مركز الخدمة","escIf":"استمرارية عدم وصول الحافلة","escTo":"قطاع النقل هولدي ان","closeIf":"وصول الحافلة أو المجموعة إلى الموقع المحدد وتأكيد المسؤول الميداني اكتمال الحركة.","d1":30,"d2":10,"docs":"بيانات الحافلة وموقعها وموعد الوصول المقرر"},{"id":"ES135","loc":"المشاعر","sec":"نقل","name":"عطل الحافلة","must":"صورة","hint":"صوّر موضع العطل لتوثيق الحدث.","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"مشرف","rule":"توجيه البلاغ إلى المشرف لطلب حافلة بديلة","sla":20,"partner":"مسؤولين النقل في المركز","escIf":"التأخر في توجيه حافلة بديلة","escTo":"قطاع النقل هولدي ان","closeIf":"استلام حافلة بديلة ، ويؤكد ذلك محسن ( مرشد الباص) .","d1":0,"d2":20,"docs":"بيانات الحافلة ، رقم السائق ، وموقعها ونوع العطل إن عُرف"},{"id":"ES136","loc":"المشاعر","sec":"نقل","name":"موقع إنزال خاطئ","must":"ملاحظة","hint":"تم الإنزال عند ...، والموقع المطلوب ....","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"التحقق من بلاغ «موقع إنزال خاطئ» ومطابقة المجموعة والحافلة والموقع مع برنامج الحركة، والتنسيق مع النقل والبعثة والكنترول لتصحيح الحالة.","sla":0,"partner":"أخصائي النقل في المركز","escIf":"استمرار تعذر انتظام الحركة أو عدم تطابق المجموعة أو الحافلة أو الموقع.","escTo":"المشرف","closeIf":"تصحيح مسار الحركة أو بياناتها وتأكيد وصول المجموعة إلى الموقع الصحيح بواسطة المسؤول الميداني.","d1":15,"d2":30,"docs":"موقع الإنزال المعتمد والموقع الفعلي وبيانات المجموعة"},{"id":"ES137","loc":"المشاعر","sec":"نقل","name":"بيان الاركاب","must":"ملاحظة","hint":"بيان الإركاب غير متوفر، أو غير مطابق.","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدر للتأكد من وجود بيان الإركاب","sla":0,"partner":"أخصائي النقل في المركز","escIf":"استمرارية عدم وجود البيان","escTo":"المشرف","closeIf":"وجود بيان الإركاب","d1":0,"d2":20,"docs":"بيان الإركاب المعتمد وبيانات المجموعة والحافلة"},{"id":"ES138","loc":"المشاعر","sec":"نقل","name":"عدم حضور المرشد","must":"ملاحظة","hint":"المرشد لم يحضر، وحالة التواصل معه ....","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"التحقق من سبب تأخر المرشد ومتابعة أثر التأخير على المهمة.","sla":10,"partner":"المشرف - الكنترول","escIf":"استمرارية عدم حضور المرشد","escTo":"المشرف","closeIf":"وصول المرشد إلى الموقع وتأكيد المسؤول ميدانيًا","d1":10,"d2":0,"docs":"بيانات المرشد المكلف والمجموعة وموعد الحركة"},{"id":"ES139","loc":"المشاعر","sec":"إسكان المخيمات","name":"نظافة المخيمات","must":"صورة","hint":"صوّر موضع عدم النظافة في الخيمة.","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ إلى الليدر للتحقق من نظافة المخيم ومعالجة الحالة","sla":10,"partner":"المشرف","escIf":"استمرارية عدم نظافة المخيم دون المعالجة","escTo":"ادارة المشاعر","closeIf":"تأكيد إتمام نظافة البوفيه، ويتأكد منها محسن (ضيافة).","d1":10,"d2":15,"docs":"رقم المخيم أو موقع المرفق وصورة الملاحظة إن توفرت"},{"id":"ES140","loc":"المشاعر","sec":"إسكان المخيمات","name":"نظافة البوفيهات","must":"صورة","hint":"صوّر موضع عدم النظافة في البوفيه.","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ إلى الليدر للتحقق من نظافة البوفيه ومعالجة الحالة مع إدارة الاعاشة","sla":10,"partner":"المشرف","escIf":"استمرارية عدم نظافة البوفيه دون المعالجة","escTo":"الاعاشة","closeIf":"تأكيد إتمام نظافة البوفيه، ويتأكد منها محسن (ضيافة).","d1":10,"d2":15,"docs":"موقع البوفيه وصورة الملاحظة إن توفرت"},{"id":"ES141","loc":"المشاعر","sec":"إسكان المخيمات","name":"مفقودات","must":"ملاحظة","hint":"حاج فقد ...، وآخر مكان شوهد فيه ....","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"تحديد نوع المفقود وبيانات صاحبه وآخر موقع له، ثم تطبيق الآلية حسب البلاغ.","sla":null,"partner":"المشرف - مشرف الموقع","escIf":"يُحدد حسب نوع المفقود بعد استكمال البيانات.","escTo":"ادارة المشاعر","closeIf":"يُغلق البلاغ عند العثور على الغرض وتسليمه لصاحبه، أو بعد استكمال إجراءات البحث والتصعيد وتوثيق عدم العثور عليه وإبلاغ صاحبه بالنتيجة.","d1":null,"d2":null,"docs":"وصف الغرض المفقود وبيانات صاحبه وآخر موقع شوهد فيه"},{"id":"ES142","loc":"المشاعر","sec":"إسكان المخيمات","name":"مشكلة التسكين","must":"ملاحظة","hint":"عدد ... حجاج، ومشكلة التسكين ....","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيهه البلاغ للمشرف للتحقق من توزيع الحجاج وجاهزية الأماكن المخصصة، والتنسيق مع مسؤول التسكين لمعالجة المشكلة؛ متابعة الكنترول حتى اكتمال التسكين","sla":20,"partner":"المشرف - مشرف الموقع","escIf":"استمرارية المشكلة","escTo":"ادارة المشاعر","closeIf":"تسكين جميع المتأثرين في أماكنهم الصحيحة؛ يؤكد المشرف اكتمال التسكين وتطابق التوزيع","d1":20,"d2":10,"docs":"كشف توزيع الحجاج ومواقع التسكين المعتمدة وبيان المشكلة"},{"id":"ES143","loc":"المشاعر","sec":"إسكان المخيمات","name":"الصيانة","must":"صورة","hint":"صوّر موضع العطل في الخيمة.","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"مشرف","rule":"توجيه البلاغ للمشرف لمتابعة الإصلاح مع إدارة المشاعر","sla":0,"partner":"المشرف - مشرف الموقع","escIf":"عدم حل المشكلة خلال الفترة المحددة","escTo":"ادارة المشاعر","closeIf":"تأكيد محسن بأنتهاء الحالة وتوثيق النتيجة.","d1":0,"d2":20,"docs":"رقم المخيم أو موقع المرفق ونوع العطل"},{"id":"ES144","loc":"المشاعر","sec":"إعاشة","name":"نقص الوجبات","must":"ملاحظة","hint":"ناقص ... وجبة من أصل ....","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدر لحصر الكمية الناقصة ومتابعة المتعهد لتوفير الكمية المطلوبة مع توثيق العجز","sla":0,"partner":"الكنترول - المشرف","escIf":"تجاوز 10 دقائق دون توفير الكمية الناقصة","escTo":"ادارة الاعاشة","closeIf":"وصول الوجبات الناقصة وبدء تقديمها للحجاج، ويتأكد من ذلك محسن (ضيافة).","d1":0,"d2":10,"docs":"عدد الوجبات المطلوبة او قائمة الطعام والمستلمة وموقع التوزيع"},{"id":"ES145","loc":"المشاعر","sec":"إعاشة","name":"تأخر الوجبات","must":"","hint":"","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدر لمتابعة مطبخ الإعاشة والتأكد من وصول الوجبات حسب التوقيت المعتمد, ومتابعة التوزيع حتى إكتماله","sla":0,"partner":"الكنترول - المشرف","escIf":"تجاوز 5 دقائق دون بدء التوزيع أو معالجة التأخير","escTo":"ادارة الاعاشة","closeIf":"وصول الوجبات وجاهزيتها وبدء تقديمها للحجاج، ويتأكد من ذلك محسن (ضيافة).","d1":0,"d2":10,"docs":"موعد الوجبة المعتمد وموقع البوفيه وبيانات المتعهد"},{"id":"ES146","loc":"المشاعر","sec":"إعاشة","name":"الجودة","must":"صورة","hint":"صوّر الوجبة لتوثيق المشكلة.","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توثيق الوجبات المتأثرة وإبلاغ الكنترول ومطبخ الإعاشة للتحقق من المطابقة ومعالجة الوجبات محل البلاغ وفق الإجراء المختص.","sla":0,"partner":"الكنترول - المشرف","escIf":"اشتباه عدم سلامة الغذاء","escTo":"ادارة الاعاشة","closeIf":"تأكيد إدارة الاعاشة مطابقة الوجبات البديلة أو المعالجة","d1":0,"d2":10,"docs":"نوع الوجبة وموقعها ووصف الملاحظة وصورة إن توفرت"},{"id":"ES147","loc":"المشاعر","sec":"صحة ومساندة","name":"حالة صحية","must":"ملاحظة","hint":"الحاج يشكو من ....","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدر لتقييم الحالة وتوجيهها للجهة المعنية لتقديم الرعاية وتحويلها عند الحاجة","sla":0,"partner":"المشرف - الكنترول - البعثة الطبية","escIf":"تدهور الحالة الصحية, والتأكد من الإحتياج المناسب بالعلاج أو النقل للمستشفى","escTo":"الخدمات المساندة","closeIf":"الإغلاق بعد التأكد من تسليم الحالة للجهة الصحية","d1":0,"d2":null,"docs":"بيانات الحاج وموقعه ووصف الحالة الظاهر ووسيلة التواصل ، البلاغ الطبي بعد الانتهاء"},{"id":"ES148","loc":"المشاعر","sec":"صحة ومساندة","name":"وفاة حاج","must":"","hint":"","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"البلاغ الفوري من قِبل الليدرعن الحالة والتنسيق مع الجهات المختصة لإستكمال الاجراءات ونقل الجثمان وفق الاجراءات المعتمدة","sla":0,"partner":"محسن - البعثة - مركز الخدمة - الخدمات المساندة","escIf":"فوري عند حدوث الوفاة","escTo":"الخدمات المساندة","closeIf":"استكمال الاجراءات النظامية وتوثيق الحالة, يتحقق منها محسن والبعثة مع الجهات المختصة","d1":0,"d2":null,"docs":"بيانات الحاج وموقعه وبيانات البعثة؛ الجواز الاصلي ، بلاغ المستشفى ، اذن الدفن من البعثه ، تصريح الدفن من المستشفى ، توقيع استلام الجثمان من المستشفى ، شهادة الوفاة بعد الدفن من الاحوال المدنية صادرة"},{"id":"ES149","loc":"المشاعر","sec":"صحة ومساندة","name":"حاج مفقود","must":"","hint":"","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدروجمع البيانات الخاصة بالحاج ويحدد الكنترول موقع الحاج , والتنسيق للبحث عنه","sla":0,"partner":"الكنترول","escIf":"عدم العثور على الحاج","escTo":"الخدمات المساندة","closeIf":"العثور على الحاج والتأكد من سلامته وتوثيق نتيجة البلاغ, يتحقق منها الليدر ميدانيًا","d1":0,"d2":30,"docs":"بيانات الحاج ورقم الجواز وصورته إن توفرت وآخر موقع ووقت شوهد فيه"},{"id":"ES150","loc":"المشاعر","sec":"مناسك المشاعر","name":"تغيير وقت التفويج","must":"ملاحظة","hint":"تعديل موعد التفويج من ... إلى ....","risk":"mid","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توثيق الموعد الحالي والتعديل المطلوب وسببه، ومراجعته مع الكنترول قبل تحديث الجدول وإبلاغ الأطراف المعنية.","sla":15,"partner":"المشرف - البعثة","escIf":"تعارض التعديل مع مهمة مرتبطة أو تعذر تأكيد الموعد.","escTo":"الكنترول","closeIf":"تأكيد الموعد المتفق عليه وتحديثه وإبلاغ المسؤولين عنه؛ يتحقق الكنترول من ذلك.","d1":15,"d2":0,"docs":"جدول التفويج المعتمد والموعد المطلوب وبيانات المجموعة"},{"id":"ES151","loc":"المشاعر","sec":"مناسك المشاعر","name":"طلب كرسي متحرك","must":"","hint":"","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"تحديد احتياج المساعدة والتواصل مع الخدمات المساندة والكنترول لتوفير التجهيز أو المساعدة المناسبة ومتابعة وصولها للحاج.","sla":null,"partner":"المشرف - مشرف الموقع","escIf":"","escTo":"","closeIf":"توفير الكرسي المتحرك وتسليمه للحاج، ويتأكد من ذلك محسن (مرشد جمرات)","d1":null,"d2":null,"docs":"بيانات الحاج وموقع التسليم وعدد الكراسي المطلوبة"},{"id":"ES152","loc":"المشاعر","sec":"مناسك المشاعر","name":"عدم تواجد الاعلام الخاصة بالجمرات","must":"","hint":"","risk":"mid","raise":["محسن"],"owner":"ليدر","rule":"توجيه البلاغ إلى الليدر لتوفير الاعلام","sla":15,"partner":"المشرف - اخصائي تفويض الجمرات","escIf":"استمرارية عدم توفر الاعلام","escTo":"مركز الخدمة","closeIf":"توفر الاعلام يتحقق منها الليدر ميدانيًا","d1":15,"d2":10,"docs":"بيانات المجموعة ونقطة التجمع وعدد الأعلام المطلوبة"},{"id":"ES153","loc":"المدينة المنورة","sec":"نقل","name":"تأخير إستلام الحافلات","must":"ملاحظة","hint":"لم يُستلم ... باص من أصل ....","risk":"high","raise":["محسن","ليدر"],"owner":"مشرف","rule":"التحقق من سبب تأخر الحافلة أو المجموعة وموقعها، والتنسيق مع مسؤول النقل والكنترول لتأكيد الوصول ومتابعة أثر التأخير على المهمة.","sla":30,"partner":"ادارة النقل في المركز أو هوليدي ان","escIf":"في حال لم تصل الحافلة الى الموقع بعد صرفها من المستودع","escTo":"امتثال","closeIf":"وصول الحافلة أو المجموعة إلى الموقع المحدد وتأكيد المسؤول الميداني اكتمال الحركة.","d1":30,"d2":30,"docs":"بيانات الحافلة، موقعها وموعد وصولها المقرر"},{"id":"ES154","loc":"المدينة المنورة","sec":"نقل","name":"حافلة أو لوحة خاطئة","must":"صورة","hint":"صوّر لوحة الحافلة ورقمها التشغيلي بوضوح.","risk":"mid","raise":["محسن","ليدر"],"owner":"ليدر","rule":"التحقق من بلاغ «حافلة / لوحة خاطئة» ومطابقة المجموعة والحافلة والموقع مع برنامج الحركة، والتنسيق مع النقل والبعثة والكنترول لتصحيح الحالة.","sla":10,"partner":"موظفين البعثه و أخصائي النقل في المركز","escIf":"استمرار تعذر انتظام الحركة أو عدم تطابق المجموعة أو الحافلة أو الموقع.","escTo":"الكنترول","closeIf":"تصحيح مسار الحركة أو بياناتها وتأكيد وصول المجموعة إلى الموقع الصحيح بواسطة المسؤول الميداني.","d1":10,"d2":15,"docs":"بيانات الحافلة المخصصة ورقم اللوحة الفعلية"},{"id":"ES155","loc":"المدينة المنورة","sec":"نقل","name":"نقص عدد الحافلات","must":"ملاحظة","hint":"ناقص ... باص من أصل ....","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"مشرف","rule":"التحقق من بلاغ «نقص عدد الحافلات» ومطابقة المجموعة والحافلة والموقع مع برنامج الحركة، والتنسيق مع النقل والبعثة والكنترول لتصحيح الحالة.","sla":10,"partner":"موظفين البعثه و أخصائي النقل في المركز","escIf":"استمرار تعذر انتظام الحركة أو عدم تطابق المجموعة أو الحافلة أو الموقع.","escTo":"قطاع النقل هولدي ان","closeIf":"توفير عدد الحافلات المطلوب للمجموعة، وتأكيد أحد أفراد فريق محسن اكتمال العدد","d1":10,"d2":30,"docs":"الاعتماد عدد الحافلات المطلوبة والمتوفرة وعدد الحجاج"},{"id":"ES156","loc":"المدينة المنورة","sec":"نقل","name":"مشكلة تكييف الحافلة","must":"صورة","hint":"صوّر موضع المشكلة.","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"محسن","rule":"توجيه البلاغ للمسؤول النقل لمتابعة عطل الحافلة مع مسؤول النقل وتوفير البديل حسب الحالة، وإبلاغ الكنترول بأثره على المهمة.","sla":30,"partner":"مسؤولين النقل في المركز","escIf":"رفض تسليم حافلة بديلة","escTo":"قطاع النقل هولدي ان","closeIf":"استلام حافله بديلة","d1":0,"d2":30,"docs":"بيانات الحافلة وموقعها ووصف مختصر لخلل التكييف عند الحاجة"},{"id":"ES157","loc":"المدينة المنورة","sec":"نقل","name":"نظافة الحافلة","must":"صورة","hint":"صوّر النفايات لتوثيق الحدث.","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"محسن","rule":"توجيه البلاغ إلى الليدر للتحقق من إتمام نظافة الحافلة قبل صعود الحجاج","sla":30,"partner":"مسؤولين النقل في المركز","escIf":"رفض تسليم حافلة بديلة","escTo":"قطاع النقل هولدي ان","closeIf":"التأكد من نظافة الحافلة الحالية أو استلام حافلة بديلة نظيفة، ويؤكد ذلك محسن ( مرشد الباص) .","d1":0,"d2":30,"docs":"بيانات الحافلة وموقعها وصورة موضع الملاحظة إن توفرت"},{"id":"ES158","loc":"المدينة المنورة","sec":"نقل","name":"عدم اكتمال عدد الحجاج","must":"ملاحظة","hint":"ناقص ... حاج من أصل ....","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ إلى الليدر لتحديد عدد الحجاج المشمولين مع موظفين البعثه","sla":0,"partner":"موظفين البعثه","escIf":"عدم معرفة أعداد المشمولين في المرحلة","escTo":"المشرف","closeIf":"وضوح وإكتمال العدد","d1":0,"d2":15,"docs":"كشف الحجاج المشمولين بالحركة وعدد الحاضرين"},{"id":"ES159","loc":"المدينة المنورة","sec":"نقل","name":"عطل الحافلة","must":"صورة","hint":"صوّر موضع العطل لتوثيق الحدث.","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"مشرف","rule":"توجيه البلاغ إلى المشرف لطلب حافلة بديلة","sla":20,"partner":"مسؤولين النقل في المركز","escIf":"التأخر في توجيه حافلة بديلة","escTo":"مسؤولين النقل في هوليدي ان","closeIf":"إستلام حافلة بديلة","d1":0,"d2":20,"docs":"بيانات الحافلة وموقعها ونوع العطل إن عُرف"},{"id":"ES160","loc":"المدينة المنورة","sec":"نقل","name":"تغيير وقت","must":"ملاحظة","hint":"تعديل المغادرة من ... إلى ....","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توثيق الموعد الحالي والمطلوب ، ثم تنسيق الكنترول مع الجهة المعنية لاعتماد الموعد وتحديث الجدول.","sla":15,"partner":"المشرف - الكنترول - مركز الخدمة","escIf":"عدم تحرك المجموعة خلال المدة المقررة","escTo":"المشرف","closeIf":"إتمام تغير الوقت","d1":15,"d2":0,"docs":"الموعد الحالي والموعد المطلوب وبيانات المجموعة"},{"id":"ES161","loc":"المدينة المنورة","sec":"نقل","name":"تأخر وصول الدينات الخاصة بالأمتعة","must":"ملاحظة","hint":"لم تصل ... دينة أمتعة من أصل ....","risk":"low","raise":["محسن","ليدر"],"owner":"ليدر","rule":"التحقق من سبب تأخر الدينات، والتنسيق مع مسؤول النقل والكنترول لتأكيد الوصول ومتابعة أثر التأخير على المهمة.","sla":60,"partner":"المشرف - الكنترول - البعثة","escIf":"عدم معرفه وقت الوصول المتوقع","escTo":"بونقوروس ( مكتب خدمات البعثة )","closeIf":"وصول دينة الأمتعة إلى الموقع المطلوب، وتأكيد أحد أفراد فريق محسن وصولها","d1":60,"d2":30,"docs":"بيانات ناقل الأمتعة وموقع التسليم والموعد المقرر"},{"id":"ES162","loc":"المدينة المنورة","sec":"إسكان","name":"النظافة","must":"صورة","hint":"صوّر موضع عدم النظافة في الغرفة.","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"مشرف","rule":"توجيه البلاغ إلى المشرف للتحقق من نظافة الغرف والمرافق ومعالجة الحالة مع إدارة الفندق","sla":15,"partner":"المشرف - إدارة الفندق","escIf":"استمرارية عدم نظافة الغرف أو المرافق دون المعالجة","escTo":"امتثال","closeIf":"تأكيد إتمام نظافة الغرف , يتأكد منها المشرف ميدانيًا","d1":15,"d2":15,"docs":"رقم الغرفة أو موقع المرفق وصورة الملاحظة إن توفرت"},{"id":"ES163","loc":"المدينة المنورة","sec":"إسكان","name":"مفقودات","must":"ملاحظة","hint":"حاج فقد ...، وآخر مكان شوهد فيه ....","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"تحديد نوع المفقود وبيانات صاحبه وآخر موقع له، ثم تطبيق آلية الشخص التائه أو الأمتعة أو الوثائق أو بطاقة نسك حسب البلاغ.","sla":20,"partner":"المشرف - الكنترول","escIf":"استمرار المشكلة وعدم استلام المفقود","escTo":"المشرف","closeIf":"التحقق من العثور على المفقود وتسليمه لصاحبه، أو توثيق الإجراء المختص.","d1":20,"d2":20,"docs":"وصف المفقود وبيانات صاحبه وآخر موقع شوهد فيه"},{"id":"ES164","loc":"المدينة المنورة","sec":"إسكان","name":"عدم مطابقة العقد مع عدد الغرف أو الاسرة","must":"ملاحظة","hint":"العقد ... غرفة من نوع ...، والمستلم ... غرفة.","risk":"high","raise":["محسن","ليدر"],"owner":"مشرف","rule":"توجيه البلاغ إلى المشرف للتحقق من مطابقة العقد مع الواقع ومعالجة الاختلاف مع إدارة الفندق","sla":30,"partner":"المشرف - إدارة الفندق","escIf":"استمرار المشكلة وعدم معالجتها","escTo":"امتثال","closeIf":"تطابق العقد مع الواقع","d1":30,"d2":null,"docs":"العقد أو تأكيد الحجز وكشف الغرف والأسرّة المستلمة"},{"id":"ES165","loc":"المدينة المنورة","sec":"إسكان","name":"تغيير الوقت","must":"ملاحظة","hint":"تعديل موعد التسكين من ... إلى ....","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ للكنترول وتوثيق الموعد الحالي والتعديل المطلوب وسببه، ومراجعته مع الجهة المختصة قبل تحديث الجدول وإبلاغ الأطراف المعنية.","sla":0,"partner":"المشرف - الكنترول - البعثة أو الشركة - الاستعداد المسبق","escIf":"تعارض التعديل مع مهمة مرتبطة أو تعذر تأكيد الموعد.","escTo":"","closeIf":"تم توثيق الوقت الصحيح , وإبلاغ الأطراف المعنية","d1":null,"d2":null,"docs":"الموعد الحالي والموعد المطلوب وبيانات المجموعة"},{"id":"ES166","loc":"المدينة المنورة","sec":"إسكان","name":"الصيانة","must":"صورة","hint":"صوّر موضع العطل في الغرفة.","risk":"mid","raise":["محسن","ليدر","حاجّ"],"owner":"مشرف","rule":"توجيه البلاغ للمشرف لمتابعة الإصلاح مع إدارة الفندق","sla":30,"partner":"إدارة الفندق","escIf":"عدم حل المشكلة خلال الفترة المحددة","escTo":"امتثال","closeIf":"تأكيد محسن بأنتهاء الحالة وتوثيق النتيجة.","d1":30,"d2":20,"docs":"رقم الغرفة أو موقع المرفق ونوع العطل"},{"id":"ES167","loc":"المدينة المنورة","sec":"إسكان","name":"عدم تواجد العفاشة","must":"ملاحظة","hint":"لا يوجد عمال لنقل الأمتعة عند ....","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توجيه البلاغ للمشرف والكنترول لمتابعة الحالة مع فريق العفاشة","sla":15,"partner":"الكنترول","escIf":"استمرار المشكلة وعدم تواجد العفاشة","escTo":"امتثال","closeIf":"وصول العفاشة وتأكيد المسؤول ميدانيًا","d1":15,"d2":15,"docs":"موعد الخدمة وموقعها وحجم الأمتعة التقريبي"},{"id":"ES168","loc":"المدينة المنورة","sec":"إسكان","name":"نقص مستلزمات الاستقبال","must":"ملاحظة","hint":"ناقص ... من مستلزمات ....","risk":"mid","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توجيه البلاغ للمشرف لمتابعة نقص المستلزمات","sla":20,"partner":"الكنترول","escIf":"عدم حل المشكلة خلال الفترة المحددة","escTo":"المشرف","closeIf":"تأكيد محسن بأنتهاء الحالة وتوثيق النتيجة.","d1":20,"d2":20,"docs":"بيان المستلزمات المطلوبة والكمية الناقصة"},{"id":"ES169","loc":"المدينة المنورة","sec":"إسكان","name":"عدم تطابق عدد الحجاج","must":"ملاحظة","hint":"المسجل ... حاج، والموجود ... حاج.","risk":"mid","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توجيه البلاغ إلى ليدر لتحديد عدد الحجاج المشمولين بالتنسيق مع موظفين البعثه","sla":0,"partner":"المشرف - البعثة","escIf":"عدم معرفة أعداد المشمولين في المرحلة","escTo":"الكنترول مع فريق تجربة العميل","closeIf":"وضوح وإكتمال العدد","d1":0,"d2":15,"docs":"كشف الحجاج المعتمد والعدد الفعلي"},{"id":"ES170","loc":"المدينة المنورة","sec":"إسكان","name":"خدمات ذوي الإحتياجات الخاصة","must":"ملاحظة","hint":"الحاج يحتاج مساعدة في ....","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"تحديد احتياج المساعدة والتواصل مع الخدمات المساندة والكنترول لتوفير التجهيز أو المساعدة المناسبة ومتابعة وصولها للحاج.","sla":15,"partner":"المشرف - إدارة الفندق - البعثة","escIf":"استمرارية عدم توافر المستلزمات المطلوبة","escTo":"امتثال","closeIf":"تأكيد محسن بأنتهاء الحالة وتوثيق النتيجة.","d1":15,"d2":15,"docs":"بيانات الحاج وموقعه ونوع المساعدة المطلوبة"},{"id":"ES171","loc":"المدينة المنورة","sec":"إعاشة","name":"نقص الوجبات","must":"ملاحظة","hint":"ناقص ... وجبة من أصل ....","risk":"high","raise":["محسن","ليدر"],"owner":"مشرف","rule":"توجيه البلاغ للمشرف لحصر الكمية الناقصة ومتابعة توفير الكمية المطلوبة مع توثيق العجز","sla":60,"partner":"الكنترول - المشرف - الاعاشة","escIf":"تجاوز ساعة واحدة دون توفير الكمية الناقصة","escTo":"الاعاشة","closeIf":"إستكمال العدد المطلوب وتوزيعه","d1":120,"d2":null,"docs":"عدد الوجبات المطلوبة والمستلمة وموقع التوزيع"},{"id":"ES172","loc":"المدينة المنورة","sec":"إعاشة","name":"تأخر الوجبات","must":"","hint":"","risk":"high","raise":["محسن","ليدر"],"owner":"مشرف","rule":"توجيه البلاغ لـلمشرف لمتابعة التأخير والتأكد من وصول الوجبات حسب التوقيت المعتمد, ومتابعة التوزيع حتى إكتماله","sla":60,"partner":"الكنترول - المشرف - الاعاشة","escIf":"تجاوز ساعة دون وصول الوجبات","escTo":"الاعاشة","closeIf":"وصول الوجبات واستكمال توزيعها","d1":120,"d2":null,"docs":"موعد الوجبة المعتمد وموقع التوزيع وبيانات المورد"},{"id":"ES173","loc":"المدينة المنورة","sec":"إعاشة","name":"الجودة","must":"صورة","hint":"صوّر الوجبة لتوثيق المشكلة.","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توثيق الوجبات المتأثرة وإبلاغ الكنترول ومطبخ الإعاشة للتحقق من المطابقة ومعالجة الوجبات محل البلاغ وفق الإجراء المختص.","sla":0,"partner":"الكنترول - المشرف","escIf":"اشتباه عدم سلامة الغذاء","escTo":"ادارة الاعاشة","closeIf":"تأكيد الجهة المختصة مطابقة الوجبات البديلة أو المعالجة؛ يتحقق الليدر من النتيجة ميدانيًا.","d1":0,"d2":10,"docs":"نوع الوجبة وموقعها ووصف الملاحظة وصورة إن توفرت"},{"id":"ES174","loc":"المدينة المنورة","sec":"صحة ومساندة","name":"حالة صحية","must":"ملاحظة","hint":"الحاج يشكو من ....","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدر لتقييم الحالة وتوجيهها للجهة المعنية لتقديم الرعاية وتحويلها عند الحاجة","sla":0,"partner":"المشرف - الكنترول - البعثة الطبية","escIf":"تدهور الحالة الصحية, والتأكد من الإحتياج المناسب بالعلاج أو النقل للمستشفى","escTo":"الخدمات المساندة","closeIf":"الإغلاق بعد التأكد من تسليم الحالة للجهة الصحية","d1":0,"d2":null,"docs":"بيانات الحاج وموقعه ووصف الحالة الظاهر ووسيلة التواصل ، البلاغ الطبي بعد الانتهاء"},{"id":"ES175","loc":"المدينة المنورة","sec":"صحة ومساندة","name":"وفاة حاج","must":"","hint":"","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"البلاغ الفوري للخدمات المساندة عن الحالة والتنسيق مع الجهات المختصة لإستكمال الاجراءات ونقل الجثمان وفق الاجراءات المعتمدة","sla":0,"partner":"محسن - البعثة - مركز الخدمة - الخدمات المساندة","escIf":"فوري عند حدوث الوفاة","escTo":"الخدمات المساندة","closeIf":"استكمال الاجراءات النظامية وتوثيق الدفن, يتحقق منها محسن والبعثة مع الخدمات المساندة","d1":0,"d2":null,"docs":"بيانات الحاج وموقعه وبيانات البعثة؛ الجواز الاصلي ، بلاغ المستشفى ، اذن الدفن من البعثه ، تصريح الدفن من المستشفى ، توقيع استلام الجثمان من المستشفى ، شهادة الوفاة بعد الدفن من الاحوال المدنية صادرة"},{"id":"ES176","loc":"المدينة المنورة","sec":"صحة ومساندة","name":"حاج مفقود","must":"","hint":"","risk":"high","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدروجمع البيانات الخاصة بالحاج ويحدد الكنترول موقع الحاج , والتنسيق للبحث عنه","sla":0,"partner":"الكنترول","escIf":"عدم العثور على الحاج","escTo":"الخدمات المساندة","closeIf":"العثور على الحاج والتأكد من سلامته وتوثيق نتيجة البلاغ, يتحقق منها الليدر ميدانيًا","d1":0,"d2":30,"docs":"بيانات الحاج ورقم الجواز وصورته إن توفرت وآخر موقع ووقت شوهد فيه"},{"id":"ES177","loc":"المدينة المنورة","sec":"مناسك المدينة المنورة (الروضة)","name":"تغيير وقت المناسك","must":"ملاحظة","hint":"تعديل موعد زيارة الروضة من ... إلى ....","risk":"low","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توثيق الموعد الحالي والتعديل المطلوب وسببه، ومراجعته مع الكنترول قبل تحديث الجدول وإبلاغ الأطراف المعنية.","sla":15,"partner":"المشرف - البعثة","escIf":"تعارض التعديل مع مهمة مرتبطة أو تعذر تأكيد الموعد.","escTo":"الكنترول","closeIf":"تأكيد الموعد المتفق عليه وتحديثه وإبلاغ المسؤولين عنه؛ يتحقق الكنترول من ذلك.","d1":15,"d2":0,"docs":"الموعد الحالي والمطلوب وبيانات المجموعة"},{"id":"ES178","loc":"المدينة المنورة","sec":"مناسك المدينة المنورة (الروضة)","name":"مفقودات","must":"ملاحظة","hint":"حاج فقد ...، وآخر مكان شوهد فيه ....","risk":"low","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"تحديد نوع المفقود وبيانات صاحبه وآخر موقع له، ثم تطبيق آلية الأمتعة أو الوثائق حسب البلاغ في مركز المفقودات بالحرم المدني","sla":null,"partner":"الليدر","escIf":"","escTo":"","closeIf":"رفع طلب المفقودات للجهة المختصة بالحرم وتوثيق تقديمه، وإبلاغ صاحب البلاغ بطريقة المتابعة. يُغلق البلاغ بعد إتمام الإحالة، ولا يعني إغلاقه العثور على المفقود","d1":null,"d2":null,"docs":"وصف المفقود وبيانات صاحبه وآخر موقع شوهد فيه"},{"id":"ES179","loc":"المدينة المنورة","sec":"مناسك المدينة المنورة (الروضة)","name":"تصريح الروضة","must":"","hint":"","risk":"high","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توجيه البلاغ لـ الليدر للتأكد من توفير تصريح الروضة الشريفة","sla":0,"partner":"المشرف - مركز المدينة","escIf":"","escTo":"البعثة / PJH","closeIf":"صدور تصريح الروضة والتأكد من صحة بيانات الحاج والموعد، بتأكيد أحد أفراد فريق محسن.","d1":null,"d2":null,"docs":"بيانات الحاج اللازمة لإصدار التصريح وحالة الطلب إن وُجد"},{"id":"ES180","loc":"المدينة المنورة","sec":"مناسك المدينة المنورة (الروضة)","name":"طلب كرسي متحرك","must":"","hint":"","risk":"low","raise":["محسن","ليدر","حاجّ"],"owner":"ليدر","rule":"توجيه البلاغ لـ المشرف لتوفير الكرسي المتحرك ومتابعة وصوله للحاج.","sla":20,"partner":"المشرف - ادارة الفندق","escIf":"استمرارية عدم توفر الكرسي للحاج","escTo":"مركز الخدمة","closeIf":"توفير الكرسي المتحرك والتأكد من تسليمه للحاج","d1":20,"d2":20,"docs":"بيانات الحاج وموقع التسليم وعدد الكراسي المطلوبة"},{"id":"ES181","loc":"المدينة المنورة","sec":"مزارات","name":"تغيير الوقت","must":"ملاحظة","hint":"تعديل موعد الزيارة من ... إلى ....","risk":"low","raise":["محسن","ليدر"],"owner":"ليدر","rule":"توثيق الموعد الحالي والتعديل المطلوب وسببه، ومراجعته مع الكنترول قبل تحديث الجدول وإبلاغ الأطراف المعنية.","sla":10,"partner":"البعثة - الكنترول","escIf":"تعارض التعديل مع مهمة مرتبطة أو تعذر تأكيد الموعد.","escTo":"الكنترول","closeIf":"تأكيد الموعد المتفق عليه وتحديثه وإبلاغ المسؤولين عنه؛ يتحقق الكنترول من ذلك.","d1":null,"d2":null,"docs":"الموعد الحالي والمطلوب وبيانات المجموعة"}];
 
 /* ---------- البذر: الكتالوج بياناتٌ تُعدَّل لا ثابتٌ في الشيفرة ---------- */
 function seedEscal(st) {
@@ -35934,7 +35936,7 @@ function showShortcuts() {
   openDrawer('اختصارات لوحة المفاتيح', 'أسرع طريق في غرفة العمليات', 'i-info',
     '<div class="rows">' + [
       ['Ctrl + K', 'لوحة الأوامر — كل شيء من مكان واحد'],
-      ['١ – ٩',    'الانتقال المباشر بين الأقسام'],
+      ['1 – 9',    'الانتقال المباشر بين الأقسام'],
       ['B',        'طيّ لوح التنقّل'],
       ['F',        'جدار العرض — دوران تلقائي'],
       ['T',        'تبديل الوضع الليلي والنهاري'],
@@ -36141,7 +36143,7 @@ document.addEventListener('click', ev => {
     case 'wall': S.wall = !S.wall; if (!S.wall) S.wallAuto = false;
       toast(S.wall ? 'جدار العرض — Esc أو F للخروج' : 'عاد العرض العادي'); break;
     case 'wallauto': S.wallAuto = !S.wallAuto;
-      toast(S.wallAuto ? 'يدور بين اللوحات كل ١٢ ثانية' : 'أُوقف الدوران'); break;
+      toast(S.wallAuto ? 'يدور بين اللوحات كل 12 ثانية' : 'أُوقف الدوران'); break;
     case 'lang': setLang(v); return;
     case 'welcomestart':
       controlWelcomeSeen = true;
@@ -38017,7 +38019,7 @@ document.addEventListener('click', ev => {
     }
     case 'cfgsave': {
       S.cfg.name = (S.q.cfgname || '').trim() || 'مُحسن · الكنترول';
-      S.cfg.season = (S.q.cfgseason || '').trim() || 'موسم حج ١٤٤٨ هـ';
+      S.cfg.season = (S.q.cfgseason || '').trim() || 'موسم حج 1448 هـ';
       S.cfg.theme = S.tab.cfgtheme || 'sys';
       logIt('حُفظت إعدادات الموقع', 'info');
       toast('حُفظت'); break;
@@ -38144,6 +38146,7 @@ render();
 
 
 
+
 /* MUHSEN-CORE-LAYER-JS */
 /* ══════════════════════════════════════════════════════════════
    الطبقة الجامعة — ما لا يُكتب بالأنماط وحدها.
@@ -38205,6 +38208,173 @@ function chartPolish() {
     li.classList.toggle('zero', width === 0);
   });
 }
+
+/* ══════════════════════════════════════════════════════════════
+   القاموسُ: كلُّ نصٍّ جديدٍ بالإنجليزيّةِ والماليزيّة
+   ──────────────────────────────────────────────────────────────
+   الصفحةُ ثلاثيّةُ اللغة، وما لا يُترجَم يبقى عربيًّا داخلَ تخطيطٍ
+   لاتينيّ. فكلُّ ما أُضيف اليومَ — نموذجُ البرنامج، وسلسلةُ الفلاتر،
+   وشاشةُ المراقبة، وتسليمُ الدخول، وهويّةُ البنّيِّ وتفضيلُ الحركة —
+   يُكتب هنا باللغتين. و«{n}» فجوةُ عددٍ تُغني عن مدخلٍ لكلِّ رقم.
+   ══════════════════════════════════════════════════════════════ */
+Object.assign(DICT.en, {
+  /* ── نموذجُ البرنامج والتشكيل ── */
+  'الفرق على البرامج': 'Teams on programs',
+  'لكل فريق برنامج، ولكل برنامج جهة': 'Every team has a program, every program an entity',
+  'البرامج': 'Programs',
+  'لكل برنامج جهة، ولكل فريق برنامج': 'Every program has an entity, every team a program',
+  '{n} برنامجًا': '{n} programs',
+  'ابحث باسم برنامج أو رمزه…': 'Search by program name or code…',
+  'لا برنامج يطابق': 'No program matches',
+  '{n} فريق': '{n} teams',
+  '{n} محسنًا · {n} مهمّة': '{n} muhsens · {n} tasks',
+  'لا فريقَ على هذا البرنامج بعد': 'No team on this program yet',
+  'العملُ الباقي': 'Remaining work',
+  '{n} برنامجًا بلا فريق · {n} فريقًا بلا برنامج': '{n} programs without a team · {n} teams without a program',
+  '{n} من {n} مُشكَّل': '{n} of {n} staffed',
+  'برامجُ طُرحت ولم يُشكَّل لها فريقٌ بعد — أوّلُ عشرة:': 'Programs offered but not yet staffed — first ten:',
+  'بلا فريق': 'No team',
+  'و{n} برنامجًا آخر.': 'And {n} more programs.',
+  'كلُّ برنامجٍ له فريق': 'Every program has a team',
+  'يمكنك المضيُّ إلى المشرفين.': 'You can move on to supervisors.',
+  'اربط ببرنامج': 'Link to a program',
+  'برنامج {n}': 'Program {n}',
+  'الجهةُ تتبع البرنامجَ تلقائيًّا': 'The entity follows the program automatically',
+  'الليدر يقود حتى خمسة فرق': 'A leader runs up to five teams',
+  'الليدر يقود حتى خمسة فرق — ولكل فريق برنامج': 'A leader runs up to five teams — each with its program',
+  'البرامج والمشرفون والليدرز والمحسنون — أربع خطوات': 'Programs, supervisors, leaders and muhsens — four steps',
+  'لا يقود الليدر أكثر من خمسة فرق. من يخرج هنا يعود إلى قائمة الليدرز.':
+    'A leader runs no more than five teams. Whoever leaves here returns to the leaders list.',
+  'كل ليدر بلغ خمسة فرق': 'Every leader has reached five teams',
+  'اقتصادي': 'Economy', 'شامل': 'Full', 'ممتاز': 'Premium', 'قصير': 'Short', 'ممتد': 'Extended',
+
+  /* ── سلسلةُ الفلاترِ الهرميّة ── */
+  'الدولة': 'Country', 'التصنيف': 'Category', 'البرنامج': 'Program', 'الفريق': 'Team',
+  'نطاق العرض': 'Current scope',
+  'ابحث بليدر أو جهة أو اسم محسن…': 'Search by leader, entity or muhsen name…',
+
+  /* ── شاشةُ المراقبة ── */
+  'شاشة المراقبة': 'Watch wall',
+  'توسيع': 'Expand',
+  'إغلاق · Esc': 'Close · Esc',
+  'متعثّرة': 'Stalled', 'جارية الآن': 'Running now', 'تذاكر مفتوحة': 'Open tickets',
+  'خلال {n} ساعات': 'Within {n} hours',
+  'لا شيء': 'None',
+  'متعثّر': 'Stalled', 'جارٍ': 'Running', 'قريب': 'Soon', 'هادئ': 'Quiet',
+  'اسحب لتحريك الخريطة · عجلة الفأرة للتقريب · الأسهم للتنقّل':
+    'Drag to pan · scroll to zoom · arrows to move',
+  'المشاعر': 'The holy sites', 'الرحلة كاملة': 'Whole journey',
+  'لا تعثّر في الميدان الآن': 'Nothing stalled in the field right now',
+  'مكّة والمشاعر · مُكبَّرة': 'Makkah and the holy sites · magnified',
+  'البحر الأحمر': 'Red Sea', 'جدّة': 'Jeddah', 'مكّة المكرّمة': 'Makkah',
+  'طريق مكّة — جدّة السريع': 'Makkah–Jeddah Expressway',
+  '{n} كم': '{n} km', 'ش': 'N',
+  'في الطريق': 'En route', 'قريبة': 'Soon', 'جارية': 'Running',
+  'لا حركةَ على هذا الخطِّ الآن.': 'No movement on this leg right now.',
+  'لا مهامَّ جاريةً أو متعثّرةً أو قريبةً هنا.': 'No running, stalled or upcoming tasks here.',
+
+  /* ── تسليمُ الدخول والانتظار ── */
+  'نُجهّز غرفة العمليات': 'Preparing the operations room',
+  'لحظة — نبني ما تراه بصفتك.': 'One moment — building what your role can see.',
+  'التحقّق من الصفة والنطاق': 'Checking role and scope',
+  'بناء الفرق والبرامج': 'Building teams and programs',
+  'تجهيز لوحة العمليات': 'Preparing the operations board',
+
+  /* ── الهويّةُ والحركة ── */
+  'بنّي': 'Brown',
+  'خمسُ هويّاتٍ من الأفتحِ إلى الأدكن': 'Five identities, lightest to darkest',
+  'حركةُ الواجهة': 'Interface motion',
+  'يتبع الجهاز': 'Follow device', 'مُفعّلة': 'On', 'مُخفّفة': 'Reduced',
+  '«يتبع الجهاز» يُطفئها إن كانت الرسومُ المتحرّكةُ مُعطّلةً في النظام.':
+    '“Follow device” turns it off when animations are disabled system-wide.',
+  'الحركة مُفعّلة': 'Motion on', 'الحركة مُخفّفة': 'Motion reduced',
+  'الحركة تتبع الجهاز': 'Motion follows the device',
+  'خلفيةٌ وقائمةٌ بيضاوان': 'White background and menu',
+  'قائمةٌ خضراءُ ومحتوًى أبيض': 'Green menu, white content',
+  'هويّةٌ خضراءُ في القوائمِ والمحتوى': 'Green identity across menu and content',
+  'أسطحٌ بنّيّةٌ دافئةٌ ولمساتٌ ذهبيّة': 'Warm brown surfaces with gold accents',
+  'أسطحٌ داكنةٌ محايدةٌ ولمساتٌ ذهبيّة': 'Neutral dark surfaces with gold accents',
+
+  /* ── متفرّقات ── */
+  'لا يوجد': 'None', 'المتوسّط': 'Average', 'حسابك ونطاقك': 'Your account and scope'
+});
+
+Object.assign(DICT.ms, {
+  'الفرق على البرامج': 'Pasukan pada program',
+  'لكل فريق برنامج، ولكل برنامج جهة': 'Setiap pasukan ada program, setiap program ada entiti',
+  'البرامج': 'Program',
+  'لكل برنامج جهة، ولكل فريق برنامج': 'Setiap program ada entiti, setiap pasukan ada program',
+  '{n} برنامجًا': '{n} program',
+  'ابحث باسم برنامج أو رمزه…': 'Cari nama atau kod program…',
+  'لا برنامج يطابق': 'Tiada program sepadan',
+  '{n} فريق': '{n} pasukan',
+  '{n} محسنًا · {n} مهمّة': '{n} muhsin · {n} tugasan',
+  'لا فريقَ على هذا البرنامج بعد': 'Belum ada pasukan pada program ini',
+  'العملُ الباقي': 'Kerja berbaki',
+  '{n} برنامجًا بلا فريق · {n} فريقًا بلا برنامج': '{n} program tanpa pasukan · {n} pasukan tanpa program',
+  '{n} من {n} مُشكَّل': '{n} daripada {n} telah dibentuk',
+  'برامجُ طُرحت ولم يُشكَّل لها فريقٌ بعد — أوّلُ عشرة:': 'Program ditawarkan tetapi belum dibentuk — sepuluh pertama:',
+  'بلا فريق': 'Tiada pasukan',
+  'و{n} برنامجًا آخر.': 'Dan {n} program lagi.',
+  'كلُّ برنامجٍ له فريق': 'Setiap program ada pasukan',
+  'يمكنك المضيُّ إلى المشرفين.': 'Anda boleh teruskan ke penyelia.',
+  'اربط ببرنامج': 'Pautkan ke program',
+  'برنامج {n}': 'Program {n}',
+  'الجهةُ تتبع البرنامجَ تلقائيًّا': 'Entiti mengikut program secara automatik',
+  'الليدر يقود حتى خمسة فرق': 'Ketua mengetuai sehingga lima pasukan',
+  'الليدر يقود حتى خمسة فرق — ولكل فريق برنامج': 'Ketua mengetuai sehingga lima pasukan — setiap satu dengan programnya',
+  'البرامج والمشرفون والليدرز والمحسنون — أربع خطوات': 'Program, penyelia, ketua dan muhsin — empat langkah',
+  'لا يقود الليدر أكثر من خمسة فرق. من يخرج هنا يعود إلى قائمة الليدرز.':
+    'Ketua tidak mengetuai lebih daripada lima pasukan. Sesiapa yang keluar di sini kembali ke senarai ketua.',
+  'كل ليدر بلغ خمسة فرق': 'Setiap ketua telah mencapai lima pasukan',
+  'اقتصادي': 'Ekonomi', 'شامل': 'Lengkap', 'ممتاز': 'Premium', 'قصير': 'Pendek', 'ممتد': 'Lanjutan',
+
+  'الدولة': 'Negara', 'التصنيف': 'Kategori', 'البرنامج': 'Program', 'الفريق': 'Pasukan',
+  'نطاق العرض': 'Skop semasa',
+  'ابحث بليدر أو جهة أو اسم محسن…': 'Cari ketua, entiti atau nama muhsin…',
+
+  'شاشة المراقبة': 'Skrin pemantauan',
+  'توسيع': 'Kembangkan',
+  'إغلاق · Esc': 'Tutup · Esc',
+  'متعثّرة': 'Tergendala', 'جارية الآن': 'Sedang berjalan', 'تذاكر مفتوحة': 'Tiket terbuka',
+  'خلال {n} ساعات': 'Dalam {n} jam',
+  'لا شيء': 'Tiada',
+  'متعثّر': 'Tergendala', 'جارٍ': 'Berjalan', 'قريب': 'Hampir', 'هادئ': 'Tenang',
+  'اسحب لتحريك الخريطة · عجلة الفأرة للتقريب · الأسهم للتنقّل':
+    'Seret untuk menggerakkan peta · tatal untuk zum · anak panah untuk bergerak',
+  'المشاعر': 'Tanah suci', 'الرحلة كاملة': 'Seluruh perjalanan',
+  'لا تعثّر في الميدان الآن': 'Tiada gangguan di lapangan sekarang',
+  'مكّة والمشاعر · مُكبَّرة': 'Makkah dan tanah suci · dibesarkan',
+  'البحر الأحمر': 'Laut Merah', 'جدّة': 'Jeddah', 'مكّة المكرّمة': 'Makkah',
+  'طريق مكّة — جدّة السريع': 'Lebuh Raya Makkah–Jeddah',
+  '{n} كم': '{n} km', 'ش': 'U',
+  'في الطريق': 'Dalam perjalanan', 'قريبة': 'Hampir', 'جارية': 'Berjalan',
+  'لا حركةَ على هذا الخطِّ الآن.': 'Tiada pergerakan di laluan ini sekarang.',
+  'لا مهامَّ جاريةً أو متعثّرةً أو قريبةً هنا.': 'Tiada tugasan berjalan, tergendala atau hampir di sini.',
+
+  'نُجهّز غرفة العمليات': 'Menyediakan bilik operasi',
+  'لحظة — نبني ما تراه بصفتك.': 'Sekejap — membina paparan mengikut peranan anda.',
+  'التحقّق من الصفة والنطاق': 'Menyemak peranan dan skop',
+  'بناء الفرق والبرامج': 'Membina pasukan dan program',
+  'تجهيز لوحة العمليات': 'Menyediakan papan operasi',
+
+  'بنّي': 'Perang',
+  'خمسُ هويّاتٍ من الأفتحِ إلى الأدكن': 'Lima identiti, paling cerah ke paling gelap',
+  'حركةُ الواجهة': 'Gerakan antara muka',
+  'يتبع الجهاز': 'Ikut peranti', 'مُفعّلة': 'Hidup', 'مُخفّفة': 'Dikurangkan',
+  '«يتبع الجهاز» يُطفئها إن كانت الرسومُ المتحرّكةُ مُعطّلةً في النظام.':
+    '“Ikut peranti” mematikannya apabila animasi dilumpuhkan pada sistem.',
+  'الحركة مُفعّلة': 'Gerakan hidup', 'الحركة مُخفّفة': 'Gerakan dikurangkan',
+  'الحركة تتبع الجهاز': 'Gerakan mengikut peranti',
+  'خلفيةٌ وقائمةٌ بيضاوان': 'Latar dan menu putih',
+  'قائمةٌ خضراءُ ومحتوًى أبيض': 'Menu hijau, kandungan putih',
+  'هويّةٌ خضراءُ في القوائمِ والمحتوى': 'Identiti hijau pada menu dan kandungan',
+  'أسطحٌ بنّيّةٌ دافئةٌ ولمساتٌ ذهبيّة': 'Permukaan perang hangat dengan aksen emas',
+  'أسطحٌ داكنةٌ محايدةٌ ولمساتٌ ذهبيّة': 'Permukaan gelap neutral dengan aksen emas',
+
+  'لا يوجد': 'Tiada', 'المتوسّط': 'Purata', 'حسابك ونطاقك': 'Akaun dan skop anda'
+});
+i18nReset();
 
 /* ══════════════════════════════════════════════════════════════
    شاشةُ المراقبة — خريطةٌ تفاعليّةٌ بمنظورٍ ثلاثيٍّ تملأ الصفحة
@@ -38409,7 +38579,7 @@ function wwBuild() {
 
   /* المقياسُ وسهمُ الشمال: يبقيان مواجهَين للناظرِ كما في لوحاتِ العمليّات */
   const scale =
-    '<div class="ww-scalebar"><i></i><span>٢٠ كم</span></div>' +
+    '<div class="ww-scalebar"><i></i><span>20 كم</span></div>' +
     '<div class="ww-northmark"><svg viewBox="0 0 24 24" aria-hidden="true">' +
       '<path d="M12 2.5 L17 20 L12 16.4 L7 20 Z"/></svg><span>ش</span></div>';
 
@@ -38469,7 +38639,7 @@ function wwBuild() {
       '<div class="ww-vitals">' +
         vital('متعثّرة', totalLate, totalLate ? 'bad' : 'good') +
         vital('جارية الآن', totalLive, totalLive ? 'good' : '') +
-        vital('خلال ٦ ساعات', totalSoon, totalSoon ? 'warn' : '') +
+        vital('خلال 6 ساعات', totalSoon, totalSoon ? 'warn' : '') +
         vital('تذاكر مفتوحة', tickets, tickets ? 'warn' : 'good') +
       '</div>' +
       '<button class="ww-close" data-ww-close>' + icon('i-x', 's16') + 'إغلاق · Esc</button>' +
@@ -38890,7 +39060,7 @@ function tablePolish() {
   document.querySelectorAll('.tbl .tr b.num').forEach(cell => {
     if (cell.dataset.dash === '1') return;
     const text = (cell.textContent || '').trim();
-    if (text === '٠' || text === '0') { cell.textContent = '—'; cell.classList.add('faint'); }
+    if (text === '0' || text === '0') { cell.textContent = '—'; cell.classList.add('faint'); }
     cell.dataset.dash = '1';
   });
 
