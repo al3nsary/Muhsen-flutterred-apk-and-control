@@ -5404,6 +5404,35 @@ body.wallmode .control-hero-metrics .kpi .num,
 .ops-prep-item .meter, .meter{ overflow:hidden }
 .meter i{ transition:width .55s var(--e3) }
 
+/* ───────── التكرارُ في كلِّ أنواعِ الصفوف ─────────
+   الحاوياتُ الثلاثُ: ops-widget-body وqlist وplist. والعنوانُ قد يكون
+   <b> أو <strong>؛ فحين يتكرّر يُخفَض ويعلو ما يفرّق. */
+.ops-widget-body.rep .rep-row :is(b, strong),
+.qlist.rep .rep-row :is(b, strong),
+.plist.rep .rep-row > .nm > b{
+  display:block; order:2;
+  font-size:11px; font-weight:500; color:var(--dim2);
+}
+.ops-widget-body.rep .rep-row small,
+.qlist.rep .rep-row .nm > span,
+.plist.rep .rep-row > .nm > span{
+  display:block; order:1;
+  font-size:13px; font-weight:650; color:var(--ink);
+}
+.ops-widget-body.rep .rep-row > time{
+  font-size:14px; font-weight:800; color:var(--ink);
+  font-variant-numeric:tabular-nums;
+}
+/* بطاقةُ الاستعداد: النسبةُ واحدةٌ في كلِّ الصفوف فلا تتصدّر —
+   يتصدّر النقصُ نفسُه، وهو ما يُعمل عليه. */
+.ops-widget-body.rep .ops-prep-item{ grid-template-columns:minmax(0,1fr) auto; align-items:center }
+.ops-widget-body.rep .ops-prep-item .ops-prep-gap{
+  order:0; grid-column:1/-1;
+  font-size:12.5px; font-weight:700; color:var(--amber);
+}
+.ops-widget-body.rep .ops-prep-item .ops-prep-meter{ order:3 }
+.ops-widget-body.rep .ops-prep-item .ops-prep-meter b{ color:var(--dim2); font-weight:600 }
+
 
 /* ===== layer-tables.css ===== */
 /* ══════════════════════════════════════════════════════════════════════
@@ -5572,6 +5601,73 @@ body.wallmode .control-hero-metrics .kpi .num,
 /* عمودُ النجومِ يبدأ من الطرفِ فلا يسبح في وسطِ خانته */
 .tbl .tr .stars{ justify-content:flex-start }
 
+
+
+/* ===== layer-fit.css ===== */
+/* ══════════════════════════════════════════════════════════════════════
+   مُحسن · الكنترول — البطاقةُ بقَدرِ محتواها  (٢٢ نوفمبر ٢٠٢٦)
+   ──────────────────────────────────────────────────────────────────────
+   جردٌ مقيسٌ على ستَّ عشرةَ لوحةً كشف أنّ أكثرَ الفراغِ الميّتِ سببُه
+   واحد: الشبكةُ تمطّط البطاقةَ القصيرةَ لتساوي أطولَ جارٍ لها. وأفدحُه
+   «العملُ الباقي» في التشكيل: ارتفاعٌ ١٢٣٨٠ بكسل منها ١١٦١٠ فراغ،
+   لأنّها بجانبِ قائمةِ مئةٍ واثنين من البرامج.
+   العلاج: كلُّ شبكةِ بطاقاتٍ تُحاذي البدايةَ لا تُمطَّط، والبطاقةُ
+   الطويلةُ تُمرَّر في جوفِها بدل أن تمطّ الصفَّ كلَّه.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ───────── ١ · لا تمطيطَ في أيِّ شبكةِ بطاقات ───────── */
+.view .grid,
+.view .grid.g2, .view .grid.g3, .view .grid.g4, .view .grid.g23,
+.view .bandgrid,
+.control-incident-layout, .control-team-layout, .release-priority{
+  align-items:start;
+}
+/* والبطاقةُ نفسُها تُرتّب محتواها من أعلى */
+.view .card{ align-content:start }
+
+/* ───────── ٢ · القوائمُ الطويلةُ تُمرَّر في جوفِها ─────────
+   قائمةٌ من مئةِ صفٍّ تمطّ الصفحةَ كلَّها وتُفقد ما بجانبها. */
+.view .card > .plist,
+.view .card > .qlist,
+.view .ops-widget-body,
+.view .card > .control-bars{
+  max-block-size:min(62vh, 560px);
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  scrollbar-width:thin;
+  scrollbar-gutter:stable;
+}
+/* الجدولُ الطويلُ كذلك — ورأسُه لاصقٌ فوقَه */
+.view .card > .tbl{
+  max-block-size:min(70vh, 640px);
+  overflow:auto;
+  overscroll-behavior:contain;
+  scrollbar-width:thin;
+}
+
+/* ───────── ٣ · حالةُ «لا شيء» لا تحجز نصفَ شاشة ───────── */
+.view .card > .empty{ padding-block:22px !important }
+.view .card:has(> .empty){ min-block-size:0 }
+
+/* ───────── ٤ · الرسمُ لا يتمدّد خلفَ جارِه ───────── */
+.view .card:has(> .control-chart),
+.view .card:has(> .donutwrap){ align-self:start }
+.control-chart{ min-block-size:0 }
+
+/* ───────── ٥ · ما بقي من تمطيطٍ بعد الجرد ───────── */
+.control-incident-layout > .card,
+.control-team-layout > .card,
+.control-escalation-board,
+.view > .grid > .card,
+.view > .grid > section,
+.view .g2 > .card, .view .g3 > .card, .view .g4 > .card, .view .g23 > .card{
+  align-self:start;
+}
+/* لوحُ البلاغِ المفتوحِ: سجلُّه يُمرَّر في جوفِه فلا يمطّ اللوح */
+.control-incident-layout .control-incident-log,
+.control-incident-layout .plist{
+  max-block-size:min(46vh, 420px); overflow-y:auto; overscroll-behavior:contain;
+}
 
 
 /* ===== layer-motion.css ===== */
@@ -38148,6 +38244,9 @@ render();
 
 
 
+
+
+
 /* MUHSEN-CORE-LAYER-JS */
 /* ══════════════════════════════════════════════════════════════
    الطبقة الجامعة — ما لا يُكتب بالأنماط وحدها.
@@ -39086,20 +39185,22 @@ document.addEventListener('click', ev => {
    آمنةٌ للاستدعاء المتكرّر: تُعيد الحسابَ وتزيل أثرَها إن زال السبب.
    ══════════════════════════════════════════════════════════════ */
 function repetitionPolish() {
-  document.querySelectorAll('.ops-widget-body').forEach(body => {
-    const rows = [...body.children].filter(el => el.querySelector && el.querySelector('b'));
+  /* الحاوياتُ التي تُعرض فيها صفوفٌ متشابهة */
+  const hosts = document.querySelectorAll('.ops-widget-body, .qlist, .view .card > .plist');
+  hosts.forEach(body => {
+    const rows = [...body.children].filter(el => el.querySelector && el.querySelector('b, strong'));
     const card = body.closest('.card');
-    const slot = card?.querySelector('.h .sp');
-    const old = slot?.querySelector('.rep-chip');
+    const slot = card && card.querySelector('.h .sp');
+    const old = slot && slot.querySelector('.rep-chip');
 
     const clear = () => {
       body.classList.remove('rep');
       rows.forEach(r => r.classList.remove('rep-row'));
-      old?.remove();
+      if (old) old.remove();
     };
     if (rows.length < 3) return clear();
 
-    const titleOf = el => (el.querySelector('b')?.textContent || '').trim();
+    const titleOf = el => { const t = el.querySelector('b, strong'); return t ? (t.textContent || '').trim() : ''; };
     const freq = new Map();
     rows.forEach(r => { const k = titleOf(r); if (k) freq.set(k, (freq.get(k) || 0) + 1); });
     const top = [...freq.entries()].sort((a, b) => b[1] - a[1])[0];
@@ -39110,15 +39211,14 @@ function repetitionPolish() {
     rows.forEach(r => r.classList.toggle('rep-row', titleOf(r) === label));
 
     if (slot) {
-      const text = label;
-      if (old && old.dataset.label === text && old.dataset.n === String(count)) return;
-      old?.remove();
+      if (old && old.dataset.label === label && old.dataset.n === String(count)) return;
+      if (old) old.remove();
       const chip = document.createElement('span');
       chip.className = 'rep-chip';
-      chip.dataset.label = text;
+      chip.dataset.label = label;
       chip.dataset.n = String(count);
       chip.innerHTML = '<b>' + (typeof AR === 'function' ? AR(count) : count) + '×</b>' +
-        (typeof E === 'function' ? E(text) : text);
+        (typeof E === 'function' ? E(label) : label);
       slot.append(chip);
     }
   });
@@ -39129,7 +39229,7 @@ function repetitionPolish() {
     cell.dataset.dashed = '1';
     const small = cell.querySelector('small');
     cell.textContent = '—';
-    if (small) cell.append(small);
+    if (small) small.remove();
   });
 }
 
