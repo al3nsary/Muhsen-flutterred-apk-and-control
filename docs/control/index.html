@@ -5637,6 +5637,27 @@ body.wallmode .control-hero-metrics .kpi .num,
   font-size:12.5px; font-weight:600; color:var(--ink) }
 .plist.grouped[data-g="kt"] .prow > .nm > b{ font-size:12.5px }
 
+/* ───────── ١٦ · ذيلُ «الساعة القادمة»: وبعدها ماذا؟ ───────── */
+.hour-next{
+  display:flex; align-items:center; gap:10px; width:100%; margin-top:auto;
+  padding:10px 11px; border:0; border-top:1px solid var(--line);
+  background:none; text-align:start; color:var(--ink); cursor:pointer;
+}
+.hour-next:hover{ background:var(--panel2) }
+.hour-next-lab{ flex:none; padding:3px 9px; border-radius:999px;
+  font-size:10.5px; font-weight:650; color:var(--dim);
+  background:var(--panel2); border:1px solid var(--line) }
+.hour-next-t{ flex:1; min-width:0; display:grid; gap:1px }
+.hour-next-t b{ font-size:12.5px; font-weight:650; overflow:hidden;
+  text-overflow:ellipsis; white-space:nowrap }
+.hour-next-t small{ font-size:10.5px; color:var(--dim) }
+.hour-next-w{ flex:none; display:grid; justify-items:end; gap:1px;
+  font-size:11.5px; font-weight:700; color:var(--gold3);
+  font-variant-numeric:tabular-nums }
+.hour-next-w > em{ font-style:normal; font-size:10.5px; font-weight:500; color:var(--dim) }
+.control-hour-card{ display:flex; flex-direction:column }
+.control-hour-list{ flex:1; min-height:0; overflow-y:auto }
+
 
 /* ===== layer-gantt.css ===== */
 /* ══════════════════════════════════════════════════════════════════════
@@ -5809,6 +5830,20 @@ body.wallmode .control-hero-metrics .kpi .num,
    ثلاثةٌ في صفٍّ — صفّان كاملان، ووصفُ المجموعةِ يجد سطرَه. */
 .gcards{ grid-template-columns:repeat(auto-fill, minmax(min(100%,400px), 1fr)) }
 
+/* ───────── صفُّ التكرار: الوسطُ يحمل القرارَ لا الفراغ ───────── */
+.prow.wrep{ gap:12px }
+.wrep-k{ display:flex; flex-wrap:wrap; gap:6px; flex:none }
+.wrep-g{ display:flex; align-items:center; gap:10px; flex:1; min-width:150px }
+.wrep-bar{ flex:1; min-inline-size:60px; block-size:6px; border-radius:99px;
+  background:var(--line); overflow:hidden; display:block }
+.wrep-bar > i{ display:block; block-size:100%; border-radius:99px; background:var(--wg) }
+.wrep-g > b{ flex:none; font-size:11.5px; font-weight:700; color:var(--wg) }
+.wrep-g > em{ flex:none; font-style:normal; font-size:11px; color:var(--dim);
+  font-variant-numeric:tabular-nums }
+/* شريطٌ بثمانِمئةِ بكسلٍ لمقارنةِ ستّةِ أرقامٍ إسرافٌ — يُقصَر ويُحاذى */
+.wrep-g{ flex:0 1 420px; justify-content:flex-start }
+.wrep-bar{ max-inline-size:240px }
+
 
 /* ===== layer-a11y.css ===== */
 /* ══════════════════════════════════════════════════════════════════════
@@ -5878,6 +5913,17 @@ body.wallmode .control-hero-metrics .kpi .num,
 :root[data-appearance="forest"] .tc-flags > span,
 :root[data-appearance="brown"] .tc-flags > span{
   color:color-mix(in srgb, var(--fc) 82%, #FFFFFF) }
+
+/* ───────── ٦ · هدفُ النقرِ لا يقلُّ عن ٢٤ بكسلًا (WCAG 2.2) ─────────
+   قياسٌ وجد قضبانَ المسارِ ٢٢ ورؤوسَ الفرزِ ٢١ — تُرفع بلا تغييرِ شكل. */
+.gx-bar{ block-size:26px }
+.gx-track{ min-block-size:calc(var(--depth,1) * 30px + 6px) }
+.gx-bar{ inset-block-start:calc(var(--sub,0) * 30px + 3px) }
+.tbl .th button, .tbl th button, button[data-a="sort"]{
+  min-block-size:26px; display:inline-flex; align-items:center }
+:root[data-appearance="day"] .wrep-g > b, :root[data-appearance="green"] .wrep-g > b{
+  color:color-mix(in srgb, var(--wg) 66%, #10180F) }
+.hour-next-w{ color:var(--goldT) }
 
 
 /* ===== layer-tables.css ===== */
@@ -6116,16 +6162,19 @@ body.wallmode .control-hero-metrics .kpi .num,
 }
 
 /* ───────── ٦ · سيّدٌ وتفصيل: التفصيلُ يلاصق والقائمةُ تُمرَّر ─────────
-   في البلاغاتِ والفرقِ لوحٌ تفصيليٌّ أقصرُ من قائمتِه، فيظهر تحته فراغٌ
-   بمئاتِ البكسلات. والصوابُ أن يلاصق التفصيلُ أعلى الشاشةِ وتُمرَّر
-   القائمةُ بجانبه — فلا يغيب ما يُقرأ ولا يُهدر فراغ. */
+   في البلاغاتِ لوحٌ تفصيليٌّ (release-side) أقصرُ من قائمتِه، فكانت الشبكةُ
+   تمطّطه إلى ٨٦٢ بكسلًا ومحتواه ٥٢٣ — ثلاثُمئةٍ وتسعةٌ وثلاثون فراغًا.
+   ⚠ محاولةٌ أولى ألصقتِ القائمةَ بدل التفصيل — وهو عكسُ المطلوب: القائمةُ
+   هي ما يُمرَّر، والتفصيلُ هو ما يجب أن يبقى في العين. */
 @media (min-width:1051px){
   .control-incident-layout, .control-team-layout{ align-items:start }
-  .control-incident-layout > .card:first-child,
-  .control-team-layout > .card:first-child{
-    position:sticky; top:10px; max-block-size:calc(100vh - 128px);
+  .control-incident-layout > .release-side,
+  .control-team-layout > .release-side{
+    position:sticky; top:10px; align-self:start;
+    max-block-size:calc(100vh - 128px);
     overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin;
   }
+  .release-side > .card{ align-self:start }
 }
 
 
@@ -22740,7 +22789,8 @@ function seed() {
     for (let i = 0; i < L.pilgrims; i++) {
       const g = (i * 7 + li) % 5 < 2 ? 'f' : 'm';
       arr.push({
-        id: 'P' + L.kt + '-' + (1 + i),
+        id: 'P' + L.kt + '-' + li + '-' + (1 + i),
+        leaderId: L.id, programId: L.programId || null,
         name: pilgrimName(pool, g, i + li * 3),
         no: 'HJ-' + (70000 + li * 1000 + i),
         g: g,
@@ -22752,7 +22802,7 @@ function seed() {
         flag: (i % 23 === 0) ? 'حالة صحية' : (i % 37 === 0) ? 'كرسي متحرّك' : null
       });
     }
-    st.pilgrims[L.kt] = arr;
+    st.pilgrims[L.kt] = (st.pilgrims[L.kt] || []).concat(arr);
   });
 
   /* المهام: لكل ليدر خطة كاملة، مسكَّنة بفريقه */
@@ -23040,8 +23090,17 @@ const subsOf = fid => VV().subs.filter(b => b.formId === fid);
 const freeEnrich = () => VV().enrich.filter(x => x.status === 'unassigned');
 
 /* ---- أدوات الشاشات الجديدة ---- */
-const allPilgrimRows = () => leaders().reduce((a, L) =>
-  a.concat((VV().pilgrims[L.kt] || []).map(p => Object.assign({ kt: L.kt, leaderId: L.id }, p))), []);
+const allPilgrimRows = () => {
+  /* الجهةُ لها ليدران ببرنامجَين، فلو مررنا على الليدرز لقرأنا
+     قائمةَ الجهةِ مرّتين — ومن هنا جاء التكرارُ وتضاعفُ الإجمالي. */
+  const seen = Object.create(null), out = [];
+  leaders().forEach(L => {
+    if (seen[L.kt]) return; seen[L.kt] = 1;
+    (VV().pilgrims[L.kt] || []).forEach(p =>
+      out.push(Object.assign({ kt: L.kt, leaderId: L.id }, p)));
+  });
+  return out;
+};
 const guideOf = k => S.guides.find(g => g.kind === k);
 const openSwaps = () => S.swaps.filter(w => w.state === 'pending');
 /* تقييم الفريق: متوسط مهامه المنجزة */
@@ -24926,8 +24985,9 @@ function screenPilgrims() {
 
     '<div class="card control-records control-pilgrim-registry">' +
       head('سجلّ الحجاج', 'الوصول والسكن وحالات الرعاية',
-        (function(){ const free = all.filter(u => u.role === 'muhsen' && !u.reserve && !u.groupId).length;
-          return free ? pill(arCount(free,'محسن') + ' بلا مجموعة', 'no') : pill('كلٌّ مُسكَّن', 'live'); })(),
+        (function(){ const care = all.filter(p => p.flag).length;
+          return care ? pill(arCount(care,'حالة') + ' تحتاج رعاية', 'no')
+                      : pill('لا حالاتِ رعاية', 'live'); })(),
         'i-users') +
       filterBar('pil', [
         { k:'kt',    label:'الـKT',   opts:optKT() },
@@ -27502,10 +27562,10 @@ function screenSettings() {
   const cfg = S.cfg = S.cfg || {};
   return '<div class="grid g2">' +
     '<div class="card">' + head('هوية الموقع', 'ما يظهر في الترويسة والبوّابة', '', 'i-shield') +
-      '<label class="fl2" style="margin-top:0">اسم النظام</label>' +
+      '<label class="fl2" for="q-cfgname" style="margin-top:0">اسم النظام</label>' +
       '<input class="fld" id="q-cfgname" data-q="cfgname" value="' +
         E(cfg.name || 'مُحسن · الكنترول') + '">' +
-      '<label class="fl2">الموسم</label>' +
+      '<label class="fl2" for="q-cfgseason">الموسم</label>' +
       '<input class="fld" id="q-cfgseason" data-q="cfgseason" value="' +
         E(cfg.season || 'موسم حج 1448 هـ') + '">' +
       '<label class="fl2">الوضع الافتراضي عند أوّل دخول</label>' +
@@ -28130,6 +28190,9 @@ const PLU = {
   'فريق':   ['لا فرق','فريق واحد','فريقان','فرق','فريقًا'],
   'إجراء':  ['بلا سوابق','إجراءٌ واحد','إجراءان','إجراءات','إجراءً'],
   'مورد':   ['بلا موارد','موردٌ واحد','موردان','موارد','موردًا'],
+  'إنذار':  ['بلا إنذارات','إنذارٌ واحد','إنذاران','إنذارات','إنذارًا'],
+  'حدث':    ['لا أحداث','حدثٌ واحد','حدثان','أحداث','حدثًا'],
+  'حالة':   ['لا حالات','حالةٌ واحدة','حالتان','حالات','حالة'],
   'فعل':    ['بلا أفعال','فعلٌ واحد','فعلان','أفعال','فعلًا'],
   'صفة':    ['غير ممنوحة','صفةٌ واحدة','صفتان','صفات','صفة'],
   'محسن2':  ['بلا محسنين','محسنٌ واحد','محسنان','محسنين','محسنًا']
@@ -28328,8 +28391,21 @@ function wNowStrip() {
       t:'رحلة إلى ' + t.to, s:(busById(t.busId) || {}).no + ' · ' + AR(t.riders.length) + ' راكبًا',
       a:'tropen', id:t.id, artwork:'transport' })))
     .sort((a, b) => a.at - b.at);
+  /* وبعد الساعة؟ سؤالٌ يليه مباشرةً، فيُجاب في الذيل بدل فراغٍ صامت */
+  const after = V.tasks.filter(t => t.start > t1).sort((a, b) => a.start - b.start)[0];
+  const afterTrip = V.trips.filter(t => t.at > t1).sort((a, b) => a.at - b.at)[0];
+  const nxt = (!after && !afterTrip) ? null
+    : (!afterTrip || (after && after.start <= afterTrip.at))
+      ? { t:after.title, s:LTR(after.kt), at:after.start, a:'tlopen', id:after.id }
+      : { t:'رحلة إلى ' + afterTrip.to, s:(busById(afterTrip.busId) || {}).no || '',
+          at:afterTrip.at, a:'tropen', id:afterTrip.id };
+  const tail = nxt ? '<button class="hour-next" data-a="' + nxt.a + '" data-id="' + E(nxt.id) + '">' +
+      '<span class="hour-next-lab">وبعد الساعة</span>' +
+      '<span class="hour-next-t"><b>' + E(nxt.t) + '</b><small>' + nxt.s + '</small></span>' +
+      '<span class="hour-next-w">' + untilTxt(nxt.at) + '<em>' + t12(nxt.at) + '</em></span>' +
+    '</button>' : '';
   return '<div class="card control-hour-card">' +
-    head('الساعة القادمة', AR(items.length) + ' حدثًا خلال 60 دقيقة', '', 'i-hour') +
+    head('الساعة القادمة', arCount(items.length, 'حدث') + ' خلال ساعة', '', 'i-hour') +
     (items.length ? '<div class="control-hour-list">' + items.map(x =>
       '<button class="control-hour-item" data-a="' + x.a + '" data-id="' + E(x.id) + '">' +
       (x.photo ? '<span class="control-task-thumb bg-' + E(x.photo) + '" aria-hidden="true"></span>' :
@@ -28337,7 +28413,7 @@ function wNowStrip() {
         '<span class="ico">' + icon(x.i,'s18') + '</span>') +
       '<span class="nm"><b>' + E(x.t) + '</b><span>' + E(x.s) + '</span></span>' +
       '<time class="num">' + t12(x.at) + '</time></button>').join('') + '</div>' :
-      empty('لا شيء خلال ساعة', '', 'i-hour')) + '</div>';
+      empty('لا شيء خلال ساعة', '', 'i-hour')) + tail + '</div>';
 }
 
 /* ============================================================
@@ -28505,7 +28581,7 @@ function wDayLine() {
         '<div class="dfact' + (risk ? ' bad' : '') + '"><span>متأخّرٌ أو فات</span>' +
           '<b class="num">' + NUM(risk) + '</b></div>' +
         '<div class="dfact"><span>أقربُ موعد</span><b>' +
-          (nextUp[0] ? t12(nextUp[0].start) : '—') + '</b></div>' +
+          (nextUp[0] && nextUp[0].items[0] ? t12(nextUp[0].items[0].start) : '—') + '</b></div>' +
       '</div>' +
     '</div>' +
     '<div class="dayline">' + parts.map(p =>
@@ -33463,18 +33539,33 @@ function screenWarns() {
     (rep.length ? '<div class="card gold">' +
       head('تكرارٌ يستحقّ النظر', 'نوعٌ واحد تكرّر على الشخص — والتكرار غير الحادثة',
         pill(AR(rep.length), 'no'), 'i-reset') +
-      '<div class="plist">' + rep.slice(0, 6).map(x => {
-        const u = userById(x.id) || {};
-        return '<div class="prow" data-a="wuser" data-id="' + x.id + '">' + avatar(u, 'sm') +
-          '<span class="nm" style="flex:1"><b>' + E(u.name || '') + '</b>' +
-          '<span>' + LTR(u.code || '') + ' · ' + E(u.specialty || '') + '</span></span>' +
-          '<span class="fl" style="gap:6px;flex-wrap:wrap">' + x.r.map(r =>
-            '<span class="actk" style="color:' + WARN_KIND[r.kind].c +
-            ';background:color-mix(in srgb,' + WARN_KIND[r.kind].c + ' 14%,transparent)">' +
-            icon(WARN_KIND[r.kind].i,'s13') + E(WARN_KIND[r.kind].ar) + ' ×' + AR(r.n) +
-            '</span>').join('') + '</span>' +
-          pill('ثِقل ' + AR(x.s), x.s >= 8 ? 'no' : 'wait') + '</div>';
-      }).join('') + '</div></div>' : '') +
+      (function () {
+        const top = rep.slice(0, 6);
+        const peak = Math.max.apply(null, rep.map(r => r.s)) || 1;
+        return '<div class="plist">' + top.map(x => {
+          const u = userById(x.id) || {};
+          const tot = x.r.reduce((a, r) => a + r.n, 0);
+          const lvl = x.s >= 8 ? { ar:'خطورةٌ مرتفعة', c:'var(--red)' }
+                    : x.s >= 5 ? { ar:'تحت المتابعة',  c:'var(--amber)' }
+                               : { ar:'يُنبَّه',        c:'var(--dim2)' };
+          return '<div class="prow wrep" data-a="wuser" data-id="' + E(x.id) + '">' +
+            avatar(u, 'sm') +
+            '<span class="nm" style="flex:none;min-width:150px"><b>' + E(u.name || '') + '</b>' +
+            '<span>' + LTR(u.code || '') + ' · ' + E(u.specialty || '') + '</span></span>' +
+            '<span class="wrep-k">' + x.r.map(r =>
+              '<span class="actk" style="color:' + WARN_KIND[r.kind].c +
+              ';background:color-mix(in srgb,' + WARN_KIND[r.kind].c + ' 14%,transparent)">' +
+              icon(WARN_KIND[r.kind].i,'s13') + E(WARN_KIND[r.kind].ar) + ' ×' + NUM(r.n) +
+              '</span>').join('') + '</span>' +
+            '<span class="wrep-g" style="--wg:' + lvl.c + '" title="' +
+              E('الثِقل ' + NUM(x.s) + ' من ' + NUM(peak) + ' — مقارنةً بأثقلِ حالةٍ في القائمة') + '">' +
+              '<span class="wrep-bar"><i style="inline-size:' +
+                Math.max(6, Math.round(x.s / peak * 100)) + '%"></i></span>' +
+              '<b>' + E(lvl.ar) + '</b>' +
+              '<em>' + arCount(tot, 'إنذار') + '</em>' +
+            '</span>' +
+            '<span class="chev">' + icon('i-fwd','s15') + '</span></div>';
+        }).join('') + '</div></div>'; })() : '') +
 
     '<div class="card">' +
       head('الإنذارات', 'ما يرصده النظام وما يكتبه الكنترول — في سجلٍّ واحد',
@@ -39106,6 +39197,13 @@ render();
 
 
 
+
+
+
+
+
+
+
 /* MUHSEN-CORE-LAYER-JS */
 /* ══════════════════════════════════════════════════════════════
    الطبقة الجامعة — ما لا يُكتب بالأنماط وحدها.
@@ -39177,6 +39275,49 @@ function chartPolish() {
    يُكتب هنا باللغتين. و«{n}» فجوةُ عددٍ تُغني عن مدخلٍ لكلِّ رقم.
    ══════════════════════════════════════════════════════════════ */
 Object.assign(DICT.en, {
+  "حالةٌ واحدة": "One case",
+  "حالتان": "Two cases",
+  "{n} حالات": "{n} cases",
+  "{n} حالة": "{n} cases",
+  "لا حالات": "No cases",
+  "{n} تحتاج رعاية": "{n} need care",
+  "لا حالاتِ رعاية": "No care cases",
+  /* ── ذيلُ الساعةِ وصيغُ الجمعِ الباقية ── */
+  "وبعد الساعة": "Beyond the hour",
+  "{n} خلال ساعة": "{n} within the hour",
+  "حدثٌ واحد": "One event",
+  "حدثان": "Two events",
+  "{n} أحداث": "{n} events",
+  "{n} حدثًا": "{n} events",
+  "لا أحداث": "No events",
+  "إنذارٌ واحد": "One warning",
+  "إنذاران": "Two warnings",
+  "{n} إنذارات": "{n} warnings",
+  "{n} إنذارًا": "{n} warnings",
+  "بلا إنذارات": "No warnings",
+  "موردٌ واحد": "One resource",
+  "موردان": "Two resources",
+  "{n} موارد": "{n} resources",
+  "{n} موردًا": "{n} resources",
+  "بلا موارد": "No resources",
+  "فعلٌ واحد": "One action",
+  "فعلان": "Two actions",
+  "{n} أفعال": "{n} actions",
+  "{n} فعلًا": "{n} actions",
+  "بلا أفعال": "No actions",
+  "صفةٌ واحدة": "One role",
+  "صفتان": "Two roles",
+  "{n} صفات": "{n} roles",
+  "{n} صفة": "{n} roles",
+  "غير ممنوحة": "Not granted",
+  "خطورةٌ مرتفعة": "High severity",
+  "تحت المتابعة": "Being watched",
+  "يُنبَّه": "Noted",
+  "مهامٌّ بلا فريق": "Tasks with no team",
+  "كلٌّ مُسكَّن": "All assigned",
+  "لا تعثّر": "Nothing stalled",
+  "{n} بلا مجموعة": "{n} with no group",
+  "الثِقل {n} من {n} — مقارنةً بأثقلِ حالةٍ في القائمة": "Weight {n} of {n} — against the heaviest case listed",
   /* ── إضافةُ المسارِ الزمنيِّ والبطاقات ── */
   "موجة واحدة": "One wave",
   "موجتان": "Two waves",
@@ -39364,6 +39505,48 @@ Object.assign(DICT.en, {
 });
 
 Object.assign(DICT.ms, {
+  "حالةٌ واحدة": "Satu kes",
+  "حالتان": "Dua kes",
+  "{n} حالات": "{n} kes",
+  "{n} حالة": "{n} kes",
+  "لا حالات": "Tiada kes",
+  "{n} تحتاج رعاية": "{n} perlu penjagaan",
+  "لا حالاتِ رعاية": "Tiada kes penjagaan",
+  "وبعد الساعة": "Selepas sejam",
+  "{n} خلال ساعة": "{n} dalam sejam",
+  "حدثٌ واحد": "Satu peristiwa",
+  "حدثان": "Dua peristiwa",
+  "{n} أحداث": "{n} peristiwa",
+  "{n} حدثًا": "{n} peristiwa",
+  "لا أحداث": "Tiada peristiwa",
+  "إنذارٌ واحد": "Satu amaran",
+  "إنذاران": "Dua amaran",
+  "{n} إنذارات": "{n} amaran",
+  "{n} إنذارًا": "{n} amaran",
+  "بلا إنذارات": "Tiada amaran",
+  "موردٌ واحد": "Satu sumber",
+  "موردان": "Dua sumber",
+  "{n} موارد": "{n} sumber",
+  "{n} موردًا": "{n} sumber",
+  "بلا موارد": "Tiada sumber",
+  "فعلٌ واحد": "Satu tindakan",
+  "فعلان": "Dua tindakan",
+  "{n} أفعال": "{n} tindakan",
+  "{n} فعلًا": "{n} tindakan",
+  "بلا أفعال": "Tiada tindakan",
+  "صفةٌ واحدة": "Satu peranan",
+  "صفتان": "Dua peranan",
+  "{n} صفات": "{n} peranan",
+  "{n} صفة": "{n} peranan",
+  "غير ممنوحة": "Tidak diberikan",
+  "خطورةٌ مرتفعة": "Keterukan tinggi",
+  "تحت المتابعة": "Dalam pemantauan",
+  "يُنبَّه": "Dicatat",
+  "مهامٌّ بلا فريق": "Tugasan tanpa pasukan",
+  "كلٌّ مُسكَّن": "Semua ditugaskan",
+  "لا تعثّر": "Tiada tergendala",
+  "{n} بلا مجموعة": "{n} tanpa kumpulan",
+  "الثِقل {n} من {n} — مقارنةً بأثقلِ حالةٍ في القائمة": "Berat {n} daripada {n} — berbanding kes terberat dalam senarai",
   "موجة واحدة": "Satu gelombang",
   "موجتان": "Dua gelombang",
   "{n} موجات": "{n} gelombang",
