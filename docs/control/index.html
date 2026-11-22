@@ -5665,83 +5665,228 @@ body.wallmode .control-hero-metrics .kpi .num,
    القاعدة: الموضعُ وقتٌ، والعرضُ مدّةٌ، وما تداخلَ ارتفع فوقَ أخيه.
    والاتّجاهُ منطقيٌّ (inset-inline-start) فيسري الزمنُ يمينًا←يسارًا في
    العربيّة كما في رسمِ الساعاتِ في اللوحة، وينقلب وحدَه في الإنجليزيّة.
+
+   ما أُضيف في هذه النسخة، وكلُّه إشارةُ تشغيلٍ لا زخرفة:
+   • الماضي يَخبو، فما بقي من اليومِ يُقرأ بلا حساب.
+   • الجاريةُ تمتلئ إلى «الآن» وفي حدِّها كوسترٌ يتقدّم — فالحركةُ تقول
+     «هذه تتحرّك الآن»، ولا تُشبهها ساكنةٌ بأيِّ حال.
+   • الفراغُ بين رحلتَين يُسمّى بمدّته، والنقلُ الفارغُ (تنتهي في موضعٍ
+     وتبدأ من غيرِه) يُعلَّم — وهو هدرُ وقودٍ وساعاتِ سائق.
+   • القضبانُ تُرسم من حدِّ بدايتِها لا تظهر دفعةً، فيُقرأ المسارُ كخطٍّ
+     يُخَطُّ. وكلُّ ذلك يسكن عند `prefers-reduced-motion`.
    ══════════════════════════════════════════════════════════════════════ */
-.gx{ display:grid; gap:0; margin-top:4px }
-.gx-head{ position:sticky; top:0; z-index:4; display:grid;
-  grid-template-columns:var(--gxlane,178px) minmax(0,1fr); align-items:end;
+.gx{ display:grid; gap:0; margin-top:4px; --gxh:28px }
+.gx-head{ position:sticky; top:0; z-index:6; display:grid;
+  grid-template-columns:var(--gxlane,196px) minmax(0,1fr); align-items:end;
   gap:10px; padding-bottom:6px; margin-bottom:4px;
   background:linear-gradient(var(--panel) 72%, transparent);
   border-bottom:1px solid var(--line) }
 .gx-headlab{ font-size:10.5px; font-weight:650; letter-spacing:.3px; color:var(--faint) }
-.gx-ruler{ position:relative; height:15px }
+.gx-ruler{ position:relative; height:16px }
 .gx-ruler > span{ position:absolute; bottom:0; transform:translateX(50%);
   font-size:9.5px; color:var(--faint); font-variant-numeric:tabular-nums;
   white-space:nowrap }
+.gx-ruler > span.peak{ color:var(--dim); font-weight:650 }
 :root[dir="ltr"] .gx-ruler > span{ transform:translateX(-50%) }
 
-.gx-row{ display:grid; grid-template-columns:var(--gxlane,178px) minmax(0,1fr);
+/* علامةُ «الآن» في المسطرة: وتدٌ ذهبيٌّ ونصٌّ، فيُعرف موضعُ الساعة
+   قبل النظرِ إلى الصفوف */
+.gx-nowtag{ position:absolute; bottom:0; z-index:2; transform:translateX(50%);
+  display:inline-flex; align-items:center; gap:4px; white-space:nowrap;
+  padding:1px 7px; border-radius:999px; font-size:9.5px; font-weight:700;
+  color:var(--bg); background:var(--gold2); font-variant-numeric:tabular-nums }
+:root[dir="ltr"] .gx-nowtag{ transform:translateX(-50%) }
+
+.gx-row{ display:grid; grid-template-columns:var(--gxlane,196px) minmax(0,1fr);
   gap:10px; align-items:stretch; padding:4px 0;
   border-bottom:1px solid var(--line);
   animation:rise .45s var(--e3) both; animation-delay:var(--row-delay,0ms) }
 .gx-row:last-of-type{ border-bottom:0 }
-.gx-row > header{ display:flex; align-items:center; gap:7px; min-width:0;
+.gx-row > header{ display:grid; grid-template-columns:auto minmax(0,1fr);
+  align-content:center; gap:2px 7px; min-width:0;
   padding-inline-start:9px; border-inline-start:3px solid var(--lane);
   border-radius:3px }
-.gx-ic{ flex:none; display:inline-flex; color:var(--lane) }
-.gx-row > header > strong{ font-size:12.5px; font-weight:700; white-space:nowrap }
-.gx-row > header > span{ flex:1; min-width:0; font-size:10.5px; color:var(--dim);
-  overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
-.gx-row > header > small{ flex:none; font-size:10px; color:var(--faint);
-  font-variant-numeric:tabular-nums }
+.gx-ic{ flex:none; display:inline-flex; color:var(--lane); grid-row:span 2;
+  align-self:center }
+.gx-row > header > strong{ font-size:12.5px; font-weight:700; white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis }
+.gx-hsub{ display:flex; align-items:center; gap:6px; min-width:0;
+  font-size:10px; color:var(--faint); font-variant-numeric:tabular-nums }
+.gx-hsub > span{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+/* حالُ الصفِّ الآن: كلمةٌ واحدةٌ بلونِها — وهي أوّلُ ما تُقرأ في غرفةِ مراقبة */
+.gx-st{ flex:none; padding:1px 7px; border-radius:999px; font-size:9.5px;
+  font-weight:700; color:var(--sc,var(--dim2));
+  background:color-mix(in srgb, var(--sc,var(--dim2)) 13%, transparent);
+  border:1px solid color-mix(in srgb, var(--sc,var(--dim2)) 30%, transparent) }
+.gx-st[data-s="live"]{ --sc:var(--live) }
+.gx-st[data-s="no"]  { --sc:var(--red) }
+.gx-st[data-s="wait"]{ --sc:var(--amber) }
+.gx-st[data-s="grey"]{ --sc:var(--dim2) }
 
-.gx-track{ position:relative; min-block-size:calc(var(--depth,1) * 26px + 6px);
+.gx-track{ position:relative; min-block-size:calc(var(--depth,1) * 30px + 6px);
   border-radius:7px; background:var(--panel2); overflow:hidden }
 .gx-grid{ position:absolute; inset-block:0; inline-size:1px;
   background:var(--line); opacity:.6 }
+/* ظلُّ الماضي: ما انقضى لا يُلغى من الرسم، لكنّه يتأخّر خطوةً عن الحاضر */
+.gx-past{ position:absolute; inset-block:0; inset-inline-start:0;
+  inline-size:var(--pw,0%); pointer-events:none;
+  background:color-mix(in srgb, var(--ink) 5%, transparent);
+  border-inline-end:1px dashed color-mix(in srgb, var(--gold2) 34%, transparent) }
 .gx-now{ position:absolute; inset-block:0; inline-size:2px; z-index:3;
-  background:var(--gold2); box-shadow:0 0 7px color-mix(in srgb,var(--gold2) 55%,transparent) }
+  background:var(--gold2);
+  box-shadow:0 0 7px color-mix(in srgb,var(--gold2) 55%,transparent) }
+
+/* شعرةُ المؤشّر: يُحاذى بها عمودُ الوقتِ بين الصفوفِ كلّها */
+.gx.hair .gx-track::after{ content:''; position:absolute; inset-block:0;
+  inset-inline-start:var(--cx,-10%); inline-size:1px; z-index:4;
+  pointer-events:none; background:color-mix(in srgb,var(--ink) 34%,transparent) }
+.gx-cxtag{ position:absolute; top:0; z-index:7; transform:translateX(50%);
+  padding:1px 6px; border-radius:4px; font-size:9.5px; font-weight:650;
+  white-space:nowrap; color:var(--ink); background:var(--panel);
+  border:1px solid var(--line); font-variant-numeric:tabular-nums;
+  opacity:0; transition:opacity .12s linear }
+:root[dir="ltr"] .gx-cxtag{ transform:translateX(-50%) }
+.gx.hair .gx-cxtag{ opacity:1 }
 
 .gx-bar{
-  position:absolute; inset-block-start:calc(var(--sub,0) * 26px + 3px);
-  block-size:22px; display:flex; align-items:center; gap:6px;
+  position:absolute; inset-block-start:calc(var(--sub,0) * 30px + 4px);
+  block-size:26px; display:flex; align-items:center; gap:6px;
   padding:0 7px; border-radius:6px; cursor:pointer; overflow:hidden;
-  color:var(--ink); text-align:start; min-inline-size:5px;
+  color:var(--ink); text-align:start; min-inline-size:5px; z-index:2;
   background:color-mix(in srgb, var(--tone,var(--g2)) 26%, var(--panel));
   border:1px solid color-mix(in srgb, var(--tone,var(--g2)) 58%, transparent);
   border-inline-start:3px solid var(--tone,var(--g2));
-  transition:filter .16s var(--e3), transform .16s var(--e3);
+  transition:filter .16s var(--e3), transform .16s var(--e3),
+             box-shadow .16s var(--e3);
+  transform-origin:right center;
+  animation:gxdraw .42s var(--e3) both; animation-delay:var(--bd,0ms);
 }
+:root[dir="ltr"] .gx-bar{ transform-origin:left center }
+@keyframes gxdraw{ from{ transform:scaleX(.02); opacity:.25 }
+                   to  { transform:scaleX(1);   opacity:1 } }
 .gx-bar:hover{ filter:brightness(1.22); transform:translateY(-1px); z-index:5 }
 .gx-bar:focus-visible{ outline:2px solid var(--gold2); outline-offset:1px; z-index:6 }
 .gx-bar > b{ font-size:11px; font-weight:650; white-space:nowrap;
-  overflow:hidden; text-overflow:ellipsis }
+  overflow:hidden; text-overflow:ellipsis; position:relative; z-index:2 }
 .gx-bar > em{ flex:none; font-style:normal; font-size:10px; color:var(--dim);
-  font-variant-numeric:tabular-nums }
+  font-variant-numeric:tabular-nums; position:relative; z-index:2 }
 /* القضيبُ الضيّقُ لا يتّسع لنصّ: يبقى لونًا وموضعًا، والتفصيلُ في التلميح */
 .gx-bar[style*="inline-size:0"] > b, .gx-bar[style*="inline-size:1"] > b,
 .gx-bar[style*="inline-size:2"] > b, .gx-bar[style*="inline-size:3"] > b{ display:none }
 
-/* ألوانُ الحالات تُقرأ من data-tone كما في بقيّة الموقع */
+/* ───────── الجاريةُ الآن: تمتلئ إلى اللحظةِ وكوسترُها يتقدّم ───────── */
+.gx-bar.on{ z-index:4;
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--live) 55%,transparent),
+             0 3px 12px color-mix(in srgb,var(--live) 22%,transparent) }
+.gx-fill{ position:absolute; inset-block:0; inset-inline-start:0; z-index:1;
+  inline-size:var(--prog,0%); pointer-events:none;
+  background:linear-gradient(to left,
+    color-mix(in srgb, var(--tone,var(--live)) 46%, transparent),
+    color-mix(in srgb, var(--tone,var(--live)) 16%, transparent));
+  transition:inline-size .6s linear }
+:root[dir="ltr"] .gx-fill{ background:linear-gradient(to right,
+    color-mix(in srgb, var(--tone,var(--live)) 46%, transparent),
+    color-mix(in srgb, var(--tone,var(--live)) 16%, transparent)) }
+/* الكوستر: قرصٌ في حدِّ ما تحقّق، ونبضُه بطيءٌ لا يُشتّت */
+.gx-dot{ position:absolute; inset-block-start:50%; z-index:3;
+  inset-inline-start:var(--prog,0%); inline-size:9px; block-size:9px;
+  margin-block-start:-4.5px; margin-inline-start:-4.5px; border-radius:99px;
+  background:var(--gold2); box-shadow:0 0 0 2px var(--panel),
+    0 0 9px color-mix(in srgb,var(--gold2) 70%,transparent);
+  transition:inset-inline-start .6s linear;
+  animation:gxpulse 2.4s var(--e3) infinite }
+@keyframes gxpulse{ 0%,100%{ transform:scale(1) } 50%{ transform:scale(1.32) } }
+
+/* ───────── ألوانُ الحالات تُقرأ من data-tone كما في بقيّة الموقع ───────── */
 .gx-bar[data-tone="ok"],   .gx-bar[data-tone="live"]{ --tone:var(--live) }
 .gx-bar[data-tone="no"],   .gx-bar[data-tone="bad"] { --tone:var(--red) }
 .gx-bar[data-tone="wait"], .gx-bar[data-tone="warn"]{ --tone:var(--amber) }
 .gx-bar[data-tone="grey"], .gx-bar[data-tone="done"]{ --tone:var(--dim2) }
 .gx-bar[data-tone="gold"]{ --tone:var(--gold2) }
 
+/* ───────── الفراغُ بين رحلتَين: مدّةٌ تُسمّى، لا بياضٌ صامت ───────── */
+/* الفراغُ أثرٌ لا بطاقة: شريطٌ رفيعٌ في وسطِ المسارِ بلا حدٍّ ولا ارتفاعِ
+   قضيب، فلا يُنازع الرحلةَ على النظر. وأطولُه وحدَه يُسمّى. */
+.gx-gap{ position:absolute; z-index:1; display:grid; place-items:center;
+  block-size:4px; pointer-events:none; border-radius:99px;
+  inset-block-start:calc(var(--sub,0) * 30px + 15px);
+  background:repeating-linear-gradient(135deg,
+    color-mix(in srgb, var(--dim2) 26%, transparent) 0 3px,
+    transparent 3px 7px) }
+.gx-gap.named{ block-size:18px; inset-block-start:calc(var(--sub,0) * 30px + 8px);
+  border-radius:5px;
+  background:repeating-linear-gradient(135deg,
+    color-mix(in srgb, var(--dim2) 10%, transparent) 0 4px,
+    transparent 4px 9px) }
+.gx-gap > span{ font-size:9.5px; font-weight:650; color:var(--faint);
+  font-variant-numeric:tabular-nums; padding:0 4px;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+
 .gx-empty{ position:absolute; inset:0; display:grid; place-items:center;
   font-size:10.5px; color:var(--faint) }
 .gx-row.clash > .gx-track{ box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--amber) 40%,transparent) }
 
-.gx-legend{ display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+.gx-legend{ display:flex; align-items:center; gap:7px; flex-wrap:wrap;
   margin-top:11px; padding-top:9px; border-top:1px solid var(--line);
   font-size:10.5px; color:var(--faint) }
+.gx-key{ display:inline-flex; align-items:center; gap:5px; padding:2px 8px;
+  border-radius:999px; border:1px solid var(--line); background:var(--panel2) }
+.gx-key > i{ inline-size:11px; block-size:7px; border-radius:2px; flex:none }
+.gx-key.now > i{ inline-size:2px; block-size:11px; border-radius:1px;
+  background:var(--gold2) }
+.gx-key.run > i{ background:var(--live) }
+.gx-key.gap > i{ background:repeating-linear-gradient(135deg,
+    var(--dim2) 0 3px, transparent 3px 6px);
+  border:1px dashed color-mix(in srgb,var(--dim2) 50%,transparent) }
 .gx-clashnote{ padding:2px 8px; border-radius:999px; color:var(--amber);
   background:color-mix(in srgb,var(--amber) 12%,transparent) }
 
 @media (max-width:860px){
-  .gx-head, .gx-row{ grid-template-columns:110px minmax(0,1fr); gap:7px }
-  .gx-row > header > span{ display:none }
+  .gx-head, .gx-row{ grid-template-columns:116px minmax(0,1fr); gap:7px }
+  .gx-hsub > span{ display:none }
 }
+/* من أطفأ الحركةَ: المسارُ يظهر تامًّا، والكوسترُ يبقى موضعًا بلا نبض */
+@media (prefers-reduced-motion:reduce){
+  .gx-bar{ animation:none }
+  .gx-dot{ animation:none; transition:none }
+  .gx-fill{ transition:none }
+}
+:root[data-motion="off"] .gx-bar{ animation:none }
+:root[data-motion="off"] .gx-dot{ animation:none; transition:none }
+
+/* ══════════════════════════════════════════════════════════════════════
+   «الأسطولُ الآن» — صفٌّ واحدٌ يجيب: أين كلُّ كوسترٍ في هذه اللحظة؟
+   وهو ما كانت تُسأل عنه بطاقاتُ الأسطولِ ولا تجيب.
+   ══════════════════════════════════════════════════════════════════════ */
+.fleetnow{ display:grid; gap:8px;
+  grid-template-columns:repeat(auto-fill,minmax(min(100%,232px),1fr));
+  margin-bottom:12px }
+.fn{ position:relative; display:grid; grid-template-columns:auto minmax(0,1fr);
+  gap:3px 9px; align-items:center; padding:9px 11px; border-radius:9px;
+  text-align:start; cursor:pointer; background:var(--panel2);
+  border:1px solid var(--line); border-inline-start:3px solid var(--bc,var(--dim2));
+  transition:background .16s var(--e3), transform .16s var(--e3) }
+.fn:hover{ background:var(--panel); transform:translateY(-1px) }
+.fn:focus-visible{ outline:2px solid var(--gold2); outline-offset:2px }
+.fn-ic{ grid-row:span 2; display:inline-flex; color:var(--bc,var(--dim2)) }
+.fn-no{ display:flex; align-items:center; gap:6px; min-width:0;
+  font-size:12.5px; font-weight:750 }
+.fn-no > em{ flex:none; font-style:normal; font-size:9.5px; font-weight:700;
+  padding:1px 6px; border-radius:999px; color:var(--sc,var(--dim2));
+  background:color-mix(in srgb, var(--sc,var(--dim2)) 14%, transparent) }
+.fn[data-s="live"]{ --sc:var(--live) }
+.fn[data-s="no"]  { --sc:var(--red) }
+.fn[data-s="wait"]{ --sc:var(--amber) }
+.fn[data-s="grey"]{ --sc:var(--dim2) }
+.fn-wh{ min-width:0; font-size:10.5px; color:var(--dim);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  font-variant-numeric:tabular-nums }
+/* شريطُ تقدّمِ الرحلةِ الجاريةِ في حدِّ البطاقةِ السفليّ */
+.fn-pr{ position:absolute; inset-inline:0; inset-block-end:0; block-size:2px;
+  border-end-end-radius:9px; border-end-start-radius:9px;
+  background:var(--line); overflow:hidden }
+.fn-pr > i{ display:block; block-size:100%; inline-size:var(--prog,0%);
+  background:var(--live); transition:inline-size .6s linear }
 
 /* ───────── إشغالُ المقاعد: حالةٌ ولونٌ ومقدارٌ في عرضٍ صغير ───────── */
 .seat{ display:inline-flex; align-items:center; gap:8px; flex:none }
@@ -5765,6 +5910,32 @@ body.wallmode .control-hero-metrics .kpi .num,
 
 /* القضيبُ الضيّقُ جدًّا: علامةٌ لا بطاقة */
 .gx-bar.tiny{ padding:0; border-inline-start-width:2px }
+
+/* ══════════════════════════════════════════════════════════════════════
+   الصندوقُ الحاوي: كان يقصُّ «الأسطولَ الآن» وأدواتِ التصفيةِ معه لأنّه
+   مقصوصٌ بارتفاعٍ ثابت. فيُحيَّد عن المسار، ويحمل المسارُ تمريرَه بنفسِه
+   — ورأسُه لاصقٌ داخلَه فتبقى المسطرةُ ظاهرةً مهما نزلتَ في الصفوف.
+   ══════════════════════════════════════════════════════════════════════ */
+.control-schedule-scroll:has(.gx){ max-height:none; padding:0; background:none;
+  border:0; overflow:visible }
+.gx{ max-block-size:min(62vh,560px); overflow-y:auto; overflow-x:hidden;
+  scrollbar-gutter:stable; padding-inline-end:2px }
+.gx > .gx-legend{ position:sticky; inset-block-end:0; z-index:5;
+  background:var(--panel); margin-top:7px }
+
+/* المجدولُ بلونِ الهويّةِ الهادئ: موعدٌ قادمٌ لا إنذار */
+.gx-bar[data-tone="plan"]{ --tone:var(--g3) }
+.gx{ --gxlane:228px }
+
+/* البرنامجُ لصقَ الجهةِ: يفرّق بين صفَّين متطابقَي الاسم */
+.gx-pg{ font-size:9.5px; font-weight:650; color:var(--faint);
+  padding:1px 5px; border-radius:4px; background:var(--panel2);
+  border:1px solid var(--line); margin-inline-start:4px }
+
+/* اسمُ القائدِ لصقَ الجهة: لا إطارَ له، فهو جزءُ الاسمِ لا وسمٌ عليه */
+.gx-pg{ background:none; border:0; padding:0; color:var(--dim);
+  font-weight:600; overflow:hidden; text-overflow:ellipsis }
+.gx-row > header > strong{ display:flex; align-items:baseline; gap:5px }
 
 
 /* ===== layer-cards.css ===== */
@@ -5924,6 +6095,15 @@ body.wallmode .control-hero-metrics .kpi .num,
 :root[data-appearance="day"] .wrep-g > b, :root[data-appearance="green"] .wrep-g > b{
   color:color-mix(in srgb, var(--wg) 66%, #10180F) }
 .hour-next-w{ color:var(--goldT) }
+
+/* نصُّ الشارةِ ٩٫٥px على طلاءٍ خفيف: يحتاج الرمزَ النصّيَّ لا اللونَ الخام
+   (قياسُ التباينِ أعطى ٣٫١٤ في النهاريّ والأخضر) */
+.gx-st[data-s="live"]{ --sc:var(--liveT) }
+.gx-st[data-s="no"]  { --sc:var(--redT) }
+.gx-st[data-s="wait"]{ --sc:var(--amberT) }
+.fn[data-s="live"]{ --sc:var(--liveT) }
+.fn[data-s="no"]  { --sc:var(--redT) }
+.fn[data-s="wait"]{ --sc:var(--amberT) }
 
 
 /* ===== layer-tables.css ===== */
@@ -23782,6 +23962,44 @@ function controlAppearancePicker() {
     '</div></section>';
 }
 
+/* الفراغُ بين موعدَين على المسارِ الواحد: ما دون نصفِ الساعةِ تنفُّسٌ
+   طبيعيٌّ فلا يُعلَّم، وما فوقَه طاقةٌ معطّلةٌ تُسمّى بمدّتِها. وإن انتهى
+   الأوّلُ في موضعٍ وانطلق الثاني من غيرِه فذاك نقلٌ فارغٌ: وقودٌ وساعاتُ
+   سائقٍ بلا راكبٍ واحد. */
+function gxGaps(placed, pos, word) {
+  const lanes = Object.create(null);
+  placed.forEach(p => { (lanes[p.s] = lanes[p.s] || []).push(p.e); });
+  let out = '';
+  Object.keys(lanes).forEach(lane => {
+    const es = lanes[lane].sort((a, b) => a.start - b.start);
+    /* أطولُ فجوةٍ في المسارِ وحدَها تُسمّى: هي وحدَها قرارٌ قابلٌ للاتّخاذ،
+       وما دونَها أثرٌ باهتٌ يحفظ الإيقاعَ ولا يزاحم الرحلات. */
+    let topI = -1, topMin = 0;
+    for (let i = 1; i < es.length; i++) {
+      const m = Math.round((es[i].start - es[i - 1].end) / MIN);
+      if (m > topMin) { topMin = m; topI = i; }
+    }
+    for (let i = 1; i < es.length; i++) {
+      const a = es[i - 1], b = es[i];
+      const mins = Math.round((b.start - a.end) / MIN);
+      if (mins < 90) continue;
+      const x = pos(a.end), w = pos(b.start) - x;
+      if (w < 1.2) continue;
+      const dead = !!(a.to && b.from && a.to !== b.from);
+      const txt = mins >= 60 ? NUM((mins / 60).toFixed(1)) + ' ساعة' : NUM(mins) + ' دقيقة';
+      const lbl = (dead ? 'نقلٌ فارغ: ' : (word || 'توقّف') + ' ') + txt +
+        (dead ? ' · ينتهي في ' + a.to + ' ويبدأ من ' + b.from : '');
+      const named = i === topI && w > 7;
+      out += '<i class="gx-gap' + (named ? ' named' : '') + '" title="' + E(lbl) +
+        '" style="inset-inline-start:' + x.toFixed(2) + '%;inline-size:' + w.toFixed(2) +
+        '%;--sub:' + lane + '">' + (named ? '<span>' + E((word || 'توقّف') + ' ' + txt) +
+        '</span>' : '') +
+        '</i>';
+    }
+  });
+  return out;
+}
+
 function controlSchedule(rows, labels, action) {
   if (!rows.length) return empty(labels.empty, '', 'i-cal');
   const all = [];
@@ -23804,14 +24022,29 @@ function controlSchedule(rows, labels, action) {
   else { for (let i = 0; i <= 8; i++) { const at = t0 + span * i / 8;
     ticks.push({ at, l:(dayStart(at) === dayStart(t0) ? '' : dayName(at) + ' ') + t12(at) }); } }
 
-  const ruler = '<div class="gx-ruler" aria-hidden="true">' + ticks.map(k =>
-    '<span style="inset-inline-start:' + pos(k.at).toFixed(2) + '%">' + E(k.l) + '</span>').join('') +
+  const nowAt = now();
+  const nowIn = nowAt > t0 && nowAt < t1;
+  const nowPos = nowIn ? pos(nowAt) : (nowAt <= t0 ? 0 : 100);
+
+  /* الساعةُ الأكثرُ ازدحامًا تُثقَّل في المسطرة، فيُرى الذروةُ موضعًا */
+  const load = ticks.map(k => all.filter(e => e.start < k.at + 2 * HR && e.end > k.at).length);
+  const peak = Math.max.apply(null, load.concat([0]));
+
+  const ruler = '<div class="gx-ruler">' + ticks.map((k, i) =>
+    pos(k.at) > 97.5 ? '' :
+    '<span class="' + (peak > 1 && load[i] === peak ? 'peak' : '') +
+    '" style="inset-inline-start:' + pos(k.at).toFixed(2) + '%">' + E(k.l) + '</span>').join('') +
+    (nowIn ? '<b class="gx-nowtag" style="inset-inline-start:' + nowPos.toFixed(2) + '%">' +
+      t12(nowAt) + '</b>' : '') +
+    '<b class="gx-cxtag" aria-hidden="true" style="inset-inline-start:var(--cx,-10%)"></b>' +
     '</div>';
   const grid = ticks.map(k =>
     '<i class="gx-grid" style="inset-inline-start:' + pos(k.at).toFixed(2) + '%"></i>').join('');
-  const nowAt = now();
-  const nowLine = (nowAt > t0 && nowAt < t1)
-    ? '<i class="gx-now" style="inset-inline-start:' + pos(nowAt).toFixed(2) + '%"></i>' : '';
+  /* ظلُّ الماضي: ما انقضى لا يُحذف، لكنّه يتأخّر خطوةً عن الحاضرِ في القراءة */
+  const past = nowAt > t0
+    ? '<i class="gx-past" style="--pw:' + Math.min(100, nowPos).toFixed(2) + '%"></i>' : '';
+  const nowLine = nowIn
+    ? '<i class="gx-now" style="inset-inline-start:' + nowPos.toFixed(2) + '%"></i>' : '';
 
   const body = rows.map((row, index) => {
     const entries = (row.entries || []).slice().sort((a, b) => a.start - b.start);
@@ -23823,42 +24056,95 @@ function controlSchedule(rows, labels, action) {
     });
     const depth = Math.max(1, ends.length);
     const clash = depth > 1;
+
+    /* حالُ الصفِّ في هذه اللحظة — أوّلُ ما تُقرأ في غرفةِ مراقبة */
+    /* إن أعلن المدخلُ حالَه فهو الحَكَم، وإلّا فاحتواءُ النافذةِ للّحظة —
+       وبذلك لا تخالف الصفوفُ بطاقاتِ الشاشةِ نفسِها. */
+    const live = entries.filter(e => e.live != null
+      ? e.live : (e.start <= nowAt && e.end > nowAt));
+    const over = entries.filter(e => e.tone === 'no' || e.tone === 'bad');
+    const soon = entries.filter(e => e.start > nowAt).sort((a, b) => a.start - b.start)[0];
+    const busyMin = Math.round(entries.reduce((a, e) => a + (e.end - e.start), 0) / MIN);
+    const state = live.length ? { s:'live', ar:labels.stLive || 'جارية' }
+      : over.length         ? { s:'no',   ar:labels.stLate || 'متأخّرة' }
+      : soon                ? { s:'wait', ar:(labels.stNext || 'بعد') + ' ' + t12(soon.start) }
+      : entries.length      ? { s:'grey', ar:labels.stDone || 'انتهت' }
+                            : { s:'grey', ar:labels.stIdle || 'بلا جدول' };
+    /* «ساعة» تُقصُّ في مسربٍ عرضُه ٢٠٨ بكسل، والاختصارُ مفهومٌ في جدول */
+    const hours = busyMin >= 60 ? NUM((busyMin / 60).toFixed(1)) + ' س'
+                : busyMin       ? NUM(busyMin) + ' د' : '';
+
     return '<section class="gx-row' + (clash ? ' clash' : '') +
       '" style="--lane:' + E(row.accent || 'var(--g3)') +
       ';--depth:' + depth + ';--row-delay:' + Math.min(165, index * 23) + 'ms">' +
       '<header><span class="gx-ic" aria-hidden="true">' + icon(labels.icon || 'i-users','s15') +
         '</span><strong>' + row.name + '</strong>' +
-        '<span>' + E(row.detail || '') + '</span>' +
-        '<small>' + E(arCount(entries.length, labels.unit)) + '</small></header>' +
-      '<div class="gx-track">' + grid + nowLine +
-        (placed.length ? placed.map(function (p) {
+        '<span class="gx-hsub"><em class="gx-st" data-s="' + state.s + '">' + E(state.ar) + '</em>' +
+          '<span>' + E([arCount(entries.length, labels.unit), hours]
+            .filter(Boolean).join(' · ')) + '</span></span></header>' +
+      '<div class="gx-track">' + grid + past + nowLine +
+        /* الفراغُ بين رحلتَين على المسارِ نفسِه: هدرٌ يُسمّى بمدّتِه، وإن
+           اختلف موضعُ الانتهاءِ عن موضعِ الانطلاقِ فهو نقلٌ فارغ. */
+        gxGaps(placed, pos, labels.gapWord || 'توقّف') +
+        (placed.length ? placed.map(function (p, bi) {
           const e = p.e;
           const w = Math.max(0.9, pos(e.end) - pos(e.start));
+    /* الحركةُ ادّعاءٌ: لا تُعرَض إلّا إن أعلن المدخلُ أنّه جارٍ فعلًا.
+       فالمنجزةُ قد تحتوي نافذتُها اللحظةَ وهي لا تتحرّك. */
+          const running = (e.live == null || e.live) && e.start <= nowAt && e.end > nowAt;
+          const prog = running ? Math.max(2, Math.min(100,
+            (nowAt - e.start) / Math.max(1, e.end - e.start) * 100)) : 0;
           const lbl = (e.title || '') + ' · ' + t12(e.start) + ' – ' + t12(e.end) +
-            (e.detail ? ' · ' + e.detail : '');
+            (e.detail ? ' · ' + e.detail : '') +
+            (running ? ' · ' + 'جارية الآن · مضى ' + NUM(Math.round(prog)) + '٪' : '');
           /* ما ضاق عن نصِّه لا يُقطَع: يبقى موضعًا ولونًا، وتفصيلُه في التلميح */
-          const inner = w > 6.5 ? '<b>' + E(e.title || '') + '</b><em>' + t12(e.start) + '</em>'
-                      : w > 3.2 ? '<em>' + t12(e.start) + '</em>' : '';
-          return '<button class="gx-bar' + (w <= 4.5 ? ' tiny' : '') +
+          const inner = w > 9.5 ? '<b>' + E(e.title || '') + '</b><em>' + t12(e.start) + '</em>'
+                      : w > 3.8 ? '<em>' + t12(e.start) + '</em>' : '';
+          /* الحركةُ هنا معنًى: الامتلاءُ هو ما تحقّق، والقرصُ موضعُ الكوسترِ الآن */
+          const motion = running
+            ? '<i class="gx-fill" aria-hidden="true" style="--prog:' + prog.toFixed(1) + '%"></i>' +
+              '<s class="gx-dot" aria-hidden="true" style="--prog:' + prog.toFixed(1) + '%"></s>'
+            : '';
+          return '<button class="gx-bar' + (w <= 4.5 ? ' tiny' : '') + (running ? ' on' : '') +
             '" data-tone="' + E(e.tone) + '" data-a="' + action +
-            '" data-id="' + E(e.id) + '" title="' + E(lbl) + '" aria-label="' + E(lbl) + '"' +
+            '" data-id="' + E(e.id) + '" data-s="' + e.start + '" data-e="' + e.end +
+            (e.live == null ? '' : '" data-live="' + (e.live ? '1' : '0')) +
+            '" title="' + E(lbl) + '" aria-label="' + E(lbl) + '"' +
             ' style="inset-inline-start:' + pos(e.start).toFixed(2) + '%;inline-size:' +
-            w.toFixed(2) + '%;--sub:' + p.s + '">' + inner + '</button>';
+            w.toFixed(2) + '%;--sub:' + p.s + ';--bd:' + Math.min(240, bi * 34) + 'ms">' +
+            motion + inner + '</button>';
         }).join('') : '<span class="gx-empty">' + E(labels.emptyRow || 'لا شيء مجدول') + '</span>') +
       '</div></section>';
   }).join('');
 
-  return '<div class="gx" role="region" aria-label="' + E(labels.title) + '">' +
+  const clashAny = rows.some(r => {
+    const es = (r.entries || []).slice().sort((a, b) => a.start - b.start), ends = [];
+    es.forEach(e => { let s = 0; while (s < ends.length && ends[s] > e.start) s++; ends[s] = e.end; });
+    return ends.length > 1;
+  });
+  return '<div class="gx" role="region" aria-label="' + E(labels.title) +
+    '" data-t0="' + t0 + '" data-t1="' + t1 + '">' +
     '<div class="gx-head"><span class="gx-headlab">' + E(labels.laneLab || '') + '</span>' +
     ruler + '</div>' + body +
-    '<div class="gx-legend">الموضعُ وقتٌ والعرضُ مدّة · الخطُّ الذهبيُّ هو الآن' +
-    '<span class="gx-clashnote">الصفُّ المرتفعُ فيه تداخلٌ زمنيّ</span></div></div>';
+    '<div class="gx-legend">' +
+      '<span>الموضعُ وقتٌ والعرضُ مدّة</span>' +
+      '<span class="gx-key now"><i></i>الآن ' + t12(nowAt) + '</span>' +
+      '<span class="gx-key run"><i></i>جارية: الممتلئُ ما مضى</span>' +
+      '<span class="gx-key gap"><i></i>توقّفٌ طويلٌ بين موعدَين</span>' +
+      (clashAny ? '<span class="gx-clashnote">الصفُّ المرتفعُ فيه تداخلٌ زمنيّ</span>' : '') +
+    '</div></div>';
 }
 
 function controlTimeline(tasks, rows) {
   if (!tasks.length) return empty('لا مهام في هذه النافذة', 'غيّر المدة أو الفلاتر', 'i-cal');
+  /* الجهةُ لها ليدران ببرنامجَين: الاسمُ وحدَه يتكرّر، والبرنامجُ يفرّق */
   const groups = rows.map(leader => ({
-    name:LTR(leader.kt), detail:leader.name, accent:['#548a70','#b59057','#6d8cb0','#9b7060'][rows.indexOf(leader)%4],
+    /* للجهةِ قائدان، والاسمُ وحدَه يتكرّر — فيُلحَق به قائدُه */
+    name:LTR(leader.kt) + ' <small class="gx-pg">' +
+      E((function (w) { /* «سعود بن» قطعٌ في منتصفِ الكنية: الاسمُ الأوّلُ والعائلة */
+        return w.length > 2 ? w[0] + ' ' + w[w.length - 1] : w.join(' ');
+      })(String(leader.name || '').trim().split(/s+/).filter(Boolean))) + '</small>',
+    detail:leader.name, accent:['#548a70','#b59057','#6d8cb0','#9b7060'][rows.indexOf(leader)%4],
     entries:tasks.filter(t => t.leaderId === leader.id)
   }));
   const unassigned = tasks.filter(t => !rows.some(leader => leader.id === t.leaderId));
@@ -23868,9 +24154,14 @@ function controlTimeline(tasks, rows) {
     entries:group.entries.map(t => {
       const state = tState(t);
       return { id:t.id, start:t.start, end:t.end, title:t.title, detail:t.place,
+        live:state === 'live',
         trackOverlap:state !== 'cancelled' && group.detail !== '', status:tsOf(t).ar, tone:tsOf(t).p };
     })
-  })), {title:'مسار المهام على الزمن', unit:'مهمة', laneLab:'الفريق', emptyRow:'لا مهام في هذه النافذة', empty:'لا مهام في هذه النافذة'}, 'tlopen');
+  })), {title:'مسار المهام على الزمن', unit:'مهمة', laneLab:'الفريق',
+    stLive:'على المهمّة', stLate:'متأخّرة', stNext:'تبدأ', stDone:'أنهى نافذته',
+    gapWord:'بلا مهمّة',
+    stIdle:'بلا مهامّ',
+    emptyRow:'لا مهام في هذه النافذة', empty:'لا مهام في هذه النافذة'}, 'tlopen');
 }
 
 function controlBars(data, options = {}) {
@@ -27126,6 +27417,48 @@ function seatChip(riders, cap) {
     '<b class="num">' + NUM(riders) + '<s>/</s>' + NUM(c) + '</b>' +
     '<em>' + s.ar + '</em></span>';
 }
+/* ---------- الأسطولُ الآن: أين كلُّ كوسترٍ في هذه اللحظة ----------
+   ثلاثُ حالاتٍ لا رابعَ لها، وكلٌّ منها يجيب سؤالًا مختلفًا:
+   • في الطريق → إلى أين، ويصل متى، وكم مضى من الرحلة.
+   • واقفةٌ تنتظر → رحلتُها القادمةُ ومتى، فيُعرف أتُستغَلُّ أم لا.
+   • أنهت أو لم تبدأ → فهي طاقةٌ متاحةٌ الآن، وهذا بابُ إعادةِ التوزيع. */
+function fleetNow(trips) {
+  const t = now();
+  const cards = S.buses.map(b => {
+    const mine = trips.filter(x => x.busId === b.id).sort((a, b2) => a.at - b2.at);
+    const run = mine.find(x => x.at <= t && x.at + x.dur * MIN > t && !x.done);
+    const late = mine.find(x => tripState(x) === 'late');
+    const next = mine.find(x => x.at > t);
+    let s, wh, prog = 0;
+    if (run) {
+      prog = Math.max(3, Math.min(100, (t - run.at) / Math.max(1, run.dur * MIN) * 100));
+      s = 'live';
+      wh = 'إلى ' + run.to + ' · تصل ' + t12(run.at + run.dur * MIN);
+    } else if (late) {
+      s = 'no';
+      wh = 'تأخّرت عن ' + t12(late.at) + ' نحو ' + late.to;
+    } else if (next) {
+      s = 'wait';
+      wh = 'واقفةٌ في ' + next.from + ' · تنطلق ' + untilTxt(next.at);
+    } else {
+      s = 'grey';
+      wh = mine.length ? 'أنهت ' + arCount(mine.length, 'رحلة') + ' اليوم' : 'بلا رحلةٍ اليوم';
+    }
+    return '<button class="fn" data-s="' + s + '" style="--bc:' + E(b.color) + '"' +
+      (run || next ? ' data-a="tropen" data-id="' + E((run || next).id) + '"' : ' data-a="noop"') +
+      ' aria-label="' + E(b.no + ' · ' + wh) + '">' +
+      '<span class="fn-ic" aria-hidden="true">' + icon('i-bus','s17') + '</span>' +
+      '<span class="fn-no">' + E(b.no) +
+        '<em>' + (s === 'live' ? 'في الطريق' : s === 'no' ? 'متأخّرة'
+                : s === 'wait' ? 'واقفة' : 'متاحة') + '</em></span>' +
+      '<span class="fn-wh">' + E(wh) + '</span>' +
+      (run ? '<i class="fn-pr" data-s="' + run.at + '" data-e="' + (run.at + run.dur * MIN) +
+        '"><i style="--prog:' + prog.toFixed(1) + '%"></i></i>' : '') +
+      '</button>';
+  }).join('');
+  return '<div class="fleetnow" role="list" aria-label="حال الأسطول الآن">' + cards + '</div>';
+}
+
 /* ---------- مسار اليوم: صفّ لكل باص ---------- */
 function busSchedule(day, filterable = false) {
   const trips = tripsOn(day);
@@ -27133,15 +27466,22 @@ function busSchedule(day, filterable = false) {
   const active = filter === 'all' ? trips : trips.filter(t => tripState(t) === filter);
   const counts = Object.keys(BUS_ST).map(key => [key, BUS_ST[key].ar, trips.filter(t => tripState(t) === key).length]);
   const filters = filterable ? '<div class="control-bus-tools">' +
-    segmented('busState', [['all','كل الرحلات',trips.length], ...counts], filter) + '</div>' : '';
+    segmented('busState', [['all','كل الرحلات',trips.length], ...counts], filter) + '</div>' +
+    fleetNow(trips) : '';
   return filters + controlSchedule(V.buses.filter(bus => filter === 'all' || active.some(t => t.busId === bus.id)).map(bus => ({
     name:E(bus.no), detail:bus.plate || '', dayOnly:true, accent:bus.color,
     entries:active.filter(t => t.busId === bus.id).map(t => {
       const state = BUS_ST[tripState(t)];
+      const tone = tripState(t) === 'planned' ? 'plan' : state.c;
       return { id:t.id, start:t.at, end:t.at + t.dur * MIN, title:t.to,
-        detail:'من ' + t.from + ' · ' + t.no, trackOverlap:!t.done, status:state.ar, tone:state.c };
+        live:tripState(t) === 'running',
+        from:t.from, to:t.to,
+        detail:'من ' + t.from + ' · ' + t.no, trackOverlap:!t.done, status:state.ar, tone:tone };
     })
-  })), {title:'مسار الرحلات على اليوم', icon:'i-bus', unit:'رحلة', laneLab:'الحافلة', emptyRow:'لا رحلات مجدولة', empty:'لا رحلات بهذه الحالة'}, 'tropen');
+  })), {title:'مسار الرحلات على اليوم', icon:'i-bus', unit:'رحلة', laneLab:'الحافلة',
+    stLive:'في الطريق', stLate:'متأخّرة', stNext:'تنطلق', stDone:'أنهت يومها',
+    stIdle:'عاطلة اليوم',
+    emptyRow:'لا رحلات مجدولة', empty:'لا رحلات بهذه الحالة'}, 'tropen');
 }
 
 /* ---------- درج الرحلة ---------- */
@@ -39204,6 +39544,18 @@ render();
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 /* MUHSEN-CORE-LAYER-JS */
 /* ══════════════════════════════════════════════════════════════
    الطبقة الجامعة — ما لا يُكتب بالأنماط وحدها.
@@ -39812,847 +40164,115 @@ Object.assign(DICT.ms, {
 });
 i18nReset();
 
-/* ══════════════════════════════════════════════════════════════
-   شاشةُ المراقبة — خريطةٌ تفاعليّةٌ بمنظورٍ ثلاثيٍّ تملأ الصفحة
-   ──────────────────────────────────────────────────────────────
-   المراقبُ لا يقرأ: الموقعُ عمودُ ضوءٍ ارتفاعُه حِملٌ ولونُه خطورة،
-   والرقمُ فوقه، والحدثُ يقفز وهجًا من مكانِه فيُرى طرفُ العينِ قبل
-   أن يُقرأ. والتفصيلُ على اللوحِ الجانبيِّ لمن أراده.
-   مبنيّةٌ على بياناتِ الصفحة نفسِها: MAP_NODES وMAP_LEG وV.tasks.
-   ══════════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════════════════
+   المسارُ الزمنيُّ حيًّا — ما لا تُنجزه الأنماطُ وحدَها.
 
-let wwState = null;
+   ١ · شعرةُ المؤشّر: في مسارٍ فيه عشرون صفًّا، العينُ لا تُحاذي عمودًا
+       واحدًا بين الصفوف. فتُرسم شعرةٌ تتبع المؤشّرَ في الصفوفِ كلّها،
+       ومعها الوقتُ الذي تقف عليه — فيُسأل «من كان يتحرّك الساعةَ الرابعة؟»
+       ويُجاب بالنظرِ لا بالحساب.
+   ٢ · النبضُ كلَّ نصفِ دقيقة: «الآن» يزحف، والجاريةُ تمتلئ، والكوسترُ
+       يتقدّم — بلا إعادةِ رسمٍ للصفحةِ ولا فقدِ موضعِ التمرير. وما خرج
+       من نافذتِه أو دخلها يُبدَّل حالُه في موضعِه.
+   والاتّجاه: النسبةُ من حدِّ البداية المنطقيّ، فتُقاس من اليمينِ في
+   العربيّةِ ومن اليسارِ في الإنجليزيّة — والقياسُ الماديُّ لا ينقلبه dir.
+   ══════════════════════════════════════════════════════════════════════ */
 
-/* ══════════════════════════════════════════════════════════════
-   الجغرافيا — إحداثيّاتٌ حقيقيّةٌ لا مخطّطٌ مجرّد
-   ──────────────────────────────────────────────────────────────
-   المسقطُ مستوٍ متساوي المسافات مصحَّحٌ بجيبِ تمامِ خطِّ العرض،
-   فالمسافاتُ والاتّجاهاتُ على الشاشةِ هي التي في الأرض:
-     س = (الطول − ٣٩٫٠٦) × ١٠٠           [١٠٠ وحدة ≈ ١٠٣٫٦ كم]
-     ص = (٢١٫٧٦ − العرض) × ١٠٦٫٧٣
-   المقياسُ واحدٌ في المحورين، فالشكلُ غيرُ مشوَّه.
-   ══════════════════════════════════════════════════════════════ */
-const WW_LON0 = 39.06, WW_LAT1 = 21.76;
-const WW_KX = 100, WW_KY = 106.73;          /* وحدةُ الخريطةِ لكلِّ درجة */
-const WW_UNIT_KM = 103.58 / 100;            /* كم في الوحدةِ الواحدة */
-const wwX = lon => (lon - WW_LON0) * WW_KX;
-const wwY = lat => (WW_LAT1 - lat) * WW_KY;
-const wwPath = pts => pts.map((p, i) => (i ? 'L' : 'M') + wwX(p[0]).toFixed(2) + ' ' + wwY(p[1]).toFixed(2)).join(' ');
-const wwPoly = pts => pts.map(p => wwX(p[0]).toFixed(2) + ',' + wwY(p[1]).toFixed(2)).join(' ');
-
-/* مواضعُ محطّاتِ الرحلة — مواضعُها الحقيقيّة */
-const WW_PLACES = {
-  jeddah:  [39.1565, 21.6796],   /* مطار الملك عبدالعزيز */
-  makkah:  [39.8262, 21.4225],   /* المسجد الحرام */
-  aziziah: [39.8720, 21.4100],   /* العزيزية — السكن */
-  mina:    [39.8933, 21.4133],   /* منى */
-  muzd:    [39.9370, 21.3830],   /* مزدلفة */
-  arafah:  [39.9840, 21.3550]    /* عرفة */
-};
-
-/* البحرُ الأحمر: الساحلُ شمالَ جدّة وجنوبَها */
-const WW_COAST = [
-  [39.06,21.76],[39.14,21.74],[39.155,21.70],[39.14,21.66],[39.155,21.62],
-  [39.13,21.57],[39.145,21.52],[39.12,21.47],[39.135,21.41],[39.11,21.36],[39.12,21.30],[39.06,21.30]
-];
-/* العمرانُ: جدّة ومكّة */
-const WW_JEDDAH_CITY = [
-  [39.145,21.76],[39.30,21.74],[39.33,21.63],[39.28,21.53],[39.20,21.48],[39.14,21.51]
-];
-const WW_MAKKAH_CITY = [
-  [39.74,21.50],[39.86,21.49],[39.92,21.44],[39.90,21.36],[39.80,21.33],[39.73,21.38]
-];
-/* المشاعرُ المقدّسة */
-const WW_MINA   = [[39.875,21.423],[39.906,21.421],[39.912,21.405],[39.880,21.404]];
-const WW_MUZD   = [[39.915,21.398],[39.958,21.391],[39.962,21.372],[39.918,21.377]];
-const WW_ARAFAH = [[39.962,21.369],[40.006,21.366],[40.008,21.342],[39.963,21.344]];
-/* طريقُ مكّة — جدّة السريع (٤٠)، ثمّ طريقُ المشاعر */
-const WW_HIGHWAY = [
-  [39.19,21.57],[39.28,21.555],[39.40,21.52],[39.52,21.495],[39.62,21.47],[39.70,21.452],[39.78,21.433],[39.8262,21.4225]
-];
-const WW_MASHAER_ROAD = [
-  [39.8262,21.4225],[39.850,21.419],[39.872,21.410],[39.8933,21.4133],[39.915,21.396],[39.9370,21.383],[39.962,21.368],[39.9840,21.355]
-];
-/* سلاسلُ الجبالِ حولَ مكّة — إشاراتٌ لا تضاريسُ دقيقة */
-const WW_RIDGES = [
-  [[39.70,21.52],[39.78,21.515],[39.84,21.50],[39.88,21.49]],
-  [[39.72,21.355],[39.80,21.335],[39.88,21.335],[39.93,21.35]],
-  [[39.90,21.46],[39.95,21.44],[39.99,21.41],[40.02,21.39]]
-];
-
-function wwReduce() {
-  return window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* موضعُ المؤشّرِ نسبةً من حدِّ البداية المنطقيّ */
+function gxFrac(rect, clientX) {
+  const rtl = (document.documentElement.getAttribute('dir') || 'rtl') !== 'ltr';
+  const f = rtl ? (rect.right - clientX) / rect.width : (clientX - rect.left) / rect.width;
+  return Math.max(0, Math.min(1, f));
 }
 
-/* حالةُ كلِّ موقعٍ من المهامِّ الحيّة — المنطقُ نفسُه الذي تستعمله opsMap */
-function wwSites() {
-  const at = now();
-  const d0 = dayStart(at), d1 = d0 + 24 * HR;
-  const sites = new Map(MAP_NODES.map(n => [n.k, { ...n, live: [], late: [], soon: [], day: 0 }]));
-  for (const task of V.tasks) {
-    const site = sites.get(KIND_NODE[task.kind]);
-    if (!site) continue;
-    /* حِملُ اليومِ المخطَّط — يرسم أفقَ الخريطةِ ولو هدأ الميدانُ الآن */
-    if (task.start < d1 && task.end > d0 && task.status !== 'cancelled') site.day++;
-    if (task.status === 'done' || task.status === 'cancelled') continue;
-    const state = tState(task);
-    if (state === 'over' || state === 'late') site.late.push(task);
-    else if (state === 'live') site.live.push(task);
-    else if (task.start > at && task.start <= at + 6 * HR) site.soon.push(task);
-  }
-  return sites;
-}
-const wwStateOf = n => n.late.length ? 'late' : n.live.length ? 'live' : n.soon.length ? 'soon' : 'quiet';
+function gxHair() {
+  document.querySelectorAll('.gx').forEach(gx => {
+    if (gx.dataset.hairOn === '1') return;
+    gx.dataset.hairOn = '1';
+    const tag = gx.querySelector('.gx-cxtag');
+    const t0 = Number(gx.dataset.t0 || 0), t1 = Number(gx.dataset.t1 || 0);
 
-/* ───────── أقواسُ الرحلة ─────────
-   مسارُ الحاجِّ محطّةً بعد محطّة. كلُّ قوسٍ يحمل ما يتحرّك نحوَ وجهتِه:
-   الجاري هناك والذي يبدأ قريبًا — فالخطُّ يقول «من أين إلى أين، وكم». */
-const WW_LEGS = [
-  ['jeddah', 'makkah'], ['makkah', 'aziziah'], ['aziziah', 'mina'],
-  ['mina', 'muzd'], ['muzd', 'arafah']
-];
-let wwState0 = { legs: [] };
-
-function wwLegsBuild(sites) {
-  wwState0.legs = WW_LEGS.map(([a, b]) => {
-    const from = sites.get(a), to = sites.get(b);
-    const A = WW_PLACES[a], B = WW_PLACES[b];
-    const x1 = wwX(A[0]), y1 = wwY(A[1]), x2 = wwX(B[0]), y2 = wwY(B[1]);
-    /* الانحناءُ عموديٌّ على الوتر، بقدرٍ من طولِه */
-    const dx = x2 - x1, dy = y2 - y1;
-    const len = Math.hypot(dx, dy) || 1;
-    const bow = Math.min(9, len * 0.17);
-    const cx = (x1 + x2) / 2 - dy / len * bow;
-    const cy = (y1 + y2) / 2 + dx / len * bow;
-    const moving = to.live.length + to.soon.length;
-    const tone = to.late.length ? 'late' : moving ? 'live' : 'idle';
-    return {
-      from, to, x1, y1, x2, y2, cx, cy, moving, tone,
-      d: 'M' + x1.toFixed(2) + ' ' + y1.toFixed(2) + ' Q' + cx.toFixed(2) + ' ' +
-         cy.toFixed(2) + ' ' + x2.toFixed(2) + ' ' + y2.toFixed(2)
-    };
-  });
-  return wwState0.legs;
-}
-/* نقطةٌ على قوسٍ تربيعيٍّ عند النسبة t */
-function wwOnArc(leg, t) {
-  const u = 1 - t;
-  return [
-    u * u * leg.x1 + 2 * u * t * leg.cx + t * t * leg.x2,
-    u * u * leg.y1 + 2 * u * t * leg.cy + t * t * leg.y2
-  ];
-}
-
-/* ───────── البناء ───────── */
-function wwBuild() {
-  const sites = wwSites();
-  const list = [...sites.values()];
-  const totalLate = list.reduce((a, n) => a + n.late.length, 0);
-  const totalLive = list.reduce((a, n) => a + n.live.length, 0);
-  const totalSoon = list.reduce((a, n) => a + n.soon.length, 0);
-  const tickets = (typeof openTickets === 'function') ? openTickets().length : 0;
-  const maxLoad = Math.max(1, ...list.map(n => n.late.length + n.live.length + n.soon.length));
-
-  /* «٠» في الأرقامِ العربيّةِ نقطةٌ صغيرةٌ تُقرأ فراغًا؛ وفي شاشةِ مراقبةٍ
-     يُنظَر إليها من بُعدٍ تُكتب كلمةً لا رمزًا. */
-  const vital = (label, value, tone) =>
-    '<div class="ww-vital ' + tone + (value ? '' : ' nil') + '">' +
-      '<span>' + E(label) + '</span>' +
-      '<b>' + (value ? AR(value) : 'لا شيء') + '</b></div>';
-
-  /* ───────── الخريطة: يابسةٌ وبحرٌ وطرقٌ ومشاعر ───────── */
-  const graticule =
-    [39.2, 39.4, 39.6, 39.8, 40.0].map(lon =>
-      '<path class="ww-grat" d="M' + wwX(lon).toFixed(1) + ' 0 V49"/>').join('') +
-    [21.7, 21.6, 21.5, 21.4].map(lat =>
-      '<path class="ww-grat" d="M0 ' + wwY(lat).toFixed(1) + ' H100"/>').join('');
-
-  const ridges = WW_RIDGES.map(r =>
-    '<path class="ww-ridge" d="' + wwPath(r) + '"/>').join('');
-
-  /* أقواسُ الرحلة: من محطّةٍ إلى التي تليها، منحنيةً مُنقَّطةً كما في المرجع.
-     حِملُ القوسِ هو ما يتحرّك نحوَ وجهتِه: الجاري والقريبُ هناك. */
-  wwLegsBuild(sites);
-  const legs = wwState0.legs.map((leg, i) =>
-    '<path class="ww-arc ' + leg.tone + '" d="' + leg.d + '"/>' +
-    '<path class="ww-arc-hit" d="' + leg.d + '" data-ww-leg="' + i + '"><title>' +
-      E(leg.from.l + ' ← ' + leg.to.l) + '</title></path>').join('');
-
-  const map =
-    /* أرضيّةٌ مُنقَّطةٌ — نسيجُ خرائطِ غرفِ العمليّات */
-    '<defs>' +
-      '<pattern id="ww-dots" width="1.25" height="1.25" patternUnits="userSpaceOnUse">' +
-        '<circle cx=".34" cy=".34" r=".2" class="ww-dot"/>' +
-      '</pattern>' +
-    '</defs>' +
-    '<rect class="ww-land" x="0" y="0" width="100" height="49"/>' +
-    '<rect x="0" y="0" width="100" height="49" fill="url(#ww-dots)"/>' +
-    '<polygon class="ww-sea" points="' + wwPoly(WW_COAST) + '"/>' +
-    '<path class="ww-surf" d="' + wwPath(WW_COAST.slice(0, -2)) + '"/>' +
-    graticule + ridges +
-    '<polygon class="ww-urban" points="' + wwPoly(WW_JEDDAH_CITY) + '"/>' +
-    '<polygon class="ww-urban" points="' + wwPoly(WW_MAKKAH_CITY) + '"/>' +
-    '<polygon class="ww-holy" points="' + wwPoly(WW_MINA) + '"/>' +
-    '<polygon class="ww-holy" points="' + wwPoly(WW_MUZD) + '"/>' +
-    '<polygon class="ww-holy" points="' + wwPoly(WW_ARAFAH) + '"/>' +
-    /* الطريقُ السريعُ باهتًا تحتَ الأقواس — مرجعٌ جغرافيٌّ لا بطل */
-    '<path class="ww-road-faint" d="' + wwPath(WW_HIGHWAY) + '"/>' +
-    '<path class="ww-road-faint" d="' + wwPath(WW_MASHAER_ROAD) + '"/>' +
-    legs +
-    '<g data-ww-tokens></g>';
-
-  /* أسماءُ المعالم: عناصرُ HTML لا <text> — فحروفُ العربيّةِ تنفصل في
-     نصِّ SVG مع التباعدِ والميل، والعنصرُ هنا يواجه الناظرَ مهما دار المستوى. */
-  const mapLabel = (lon, lat, text, cls) =>
-    '<div class="ww-maplabel ' + (cls || '') + '" style="--x:' + wwX(lon).toFixed(2) +
-    '%;--y:' + (wwY(lat) / 49 * 100).toFixed(2) + '%">' + E(text) + '</div>';
-
-  const labels =
-    mapLabel(39.095, 21.50, 'البحر الأحمر', 'sea') +
-    mapLabel(39.235, 21.615, 'جدّة', 'city') +
-    mapLabel(39.80, 21.475, 'مكّة المكرّمة', 'city') +
-    mapLabel(39.47, 21.513, 'طريق مكّة — جدّة السريع', 'road');
-
-  /* المقياسُ وسهمُ الشمال: يبقيان مواجهَين للناظرِ كما في لوحاتِ العمليّات */
-  const scale =
-    '<div class="ww-scalebar"><i></i><span>20 كم</span></div>' +
-    '<div class="ww-northmark"><svg viewBox="0 0 24 24" aria-hidden="true">' +
-      '<path d="M12 2.5 L17 20 L12 16.4 L7 20 Z"/></svg><span>ش</span></div>';
-
-  /* المشاعرُ متلاصقةٌ على مقياسِ الممرِّ كلِّه (جدّة على بعدِ ٧٠ كم)، فتُعلَّم
-     على الخريطةِ الأمِّ بلا لوحةِ اسمٍ، وتُقرأ في المُكبِّرِ أسفلَ الشاشة —
-     كما تصنع الخرائطُ المهنيّةُ بالمقاطعِ المُكبَّرة. */
-  const TIGHT = new Set(['aziziah', 'mina', 'muzd', 'arafah']);
-
-  const pin = (n, inset) => {
-    const state = wwStateOf(n);
-    const load = n.late.length + n.live.length + n.soon.length;
-    const place = WW_PLACES[n.k] || [39.5, 21.5];
-    const pos = inset
-      ? { x: ((place[0] - 39.80) / 0.22 * 100), y: ((21.45 - place[1]) / 0.115 * 100) }
-      : { x: wwX(place[0]), y: wwY(place[1]) / 49 * 100 };
-    const quiet = state === 'quiet';
-    const tag = (inset || !TIGHT.has(n.k))
-      ? '<span class="ww-tag"><span class="ww-name">' + E(n.l) + '</span>' +
-        (load ? '<b>' + AR(load) + '</b>' : '<i class="ww-calm">هادئ</i>') + '</span>'
-      : '';
-    return '<div class="ww-node' + (inset ? ' ins' : '') + '" data-k="' + n.k + '" data-state="' + state + '"' +
-      ' style="--x:' + pos.x.toFixed(2) + '%;--y:' + pos.y.toFixed(2) + '%">' +
-      '<span class="ww-pin">' + icon(n.icon, 's14') + '</span>' +
-      (quiet ? '' : '<span class="ww-ring"></span>') + tag +
-      '<button class="ww-hit" data-ww-node="' + n.k + '" aria-label="' + E(n.l) + '"></button>' +
-      '</div>';
-  };
-
-  const nodes = list.map(n => pin(n, false)).join('');
-
-  /* المُكبِّر: مكّةُ والمشاعرُ على مقياسِها */
-  const insetRoad = WW_MASHAER_ROAD.map((p, i) =>
-    (i ? 'L' : 'M') + ((p[0] - 39.80) / 0.22 * 100).toFixed(2) + ' ' +
-    ((21.45 - p[1]) / 0.115 * 100).toFixed(2)).join(' ');
-  const insetHoly = pts => pts.map(p =>
-    ((p[0] - 39.80) / 0.22 * 100).toFixed(2) + ',' +
-    ((21.45 - p[1]) / 0.115 * 100).toFixed(2)).join(' ');
-  const inset =
-    '<div class="ww-inset">' +
-      '<div class="ww-inset-head">مكّة والمشاعر · مُكبَّرة</div>' +
-      '<div class="ww-inset-map">' +
-        '<svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">' +
-          '<polygon class="ww-holy" points="' + insetHoly(WW_MINA) + '"/>' +
-          '<polygon class="ww-holy" points="' + insetHoly(WW_MUZD) + '"/>' +
-          '<polygon class="ww-holy" points="' + insetHoly(WW_ARAFAH) + '"/>' +
-                    '<path class="ww-mash ins" d="' + insetRoad + '"/>' +
-        '</svg>' +
-        list.filter(n => n.k !== 'jeddah').map(n => pin(n, true)).join('') +
-      '</div>' +
-    '</div>';
-
-  return '' +
-    '<div class="ww-sky"></div>' +
-    '<header class="ww-head">' +
-      '<div class="ww-brand">' + icon('i-target', 's18') +
-        '<span>شاشة المراقبة<br><small>' + E(dayName(now())) + ' · ' + E(hijri(now())) + '</small></span></div>' +
-      '<div class="ww-vitals">' +
-        vital('متعثّرة', totalLate, totalLate ? 'bad' : 'good') +
-        vital('جارية الآن', totalLive, totalLive ? 'good' : '') +
-        vital('خلال 6 ساعات', totalSoon, totalSoon ? 'warn' : '') +
-        vital('تذاكر مفتوحة', tickets, tickets ? 'warn' : 'good') +
-      '</div>' +
-      '<button class="ww-close" data-ww-close>' + icon('i-x', 's16') + 'إغلاق · Esc</button>' +
-    '</header>' +
-
-    '<div class="ww-stage" data-ww-stage>' +
-      '<div class="ww-plane" data-ww-plane style="--panX:0px;--panY:0px;--zoom:1">' +
-        '<div class="ww-ground"></div>' +
-        '<svg class="ww-terrain" viewBox="0 0 100 49" preserveAspectRatio="none" aria-hidden="true">' +
-          map +
-        '</svg>' +
-        labels + nodes + scale +
-        '<div data-ww-flares></div>' +
-      '</div>' +
-    '</div>' +
-
-    /* أخطرُ ما يجري الآن — سطرٌ واحدٌ وسطَ الشاشةِ يُرى قبل كلِّ شيء */
-    (totalLate
-      ? '<div class="ww-alarm" role="status">' + icon('i-warn','s18') +
-          '<b>' + AR(totalLate) + '</b><span>مهمّة متعثّرة — ' +
-          E(list.filter(n => n.late.length).map(n => n.l).join(' · ')) + '</span></div>'
-      : '<div class="ww-alarm calm" role="status">' + icon('i-checkc','s18') +
-          '<span>لا تعثّر في الميدان الآن</span></div>') +
-
-    inset +
-    '<aside class="ww-side" data-ww-side></aside>' +
-
-    '<footer class="ww-foot">' +
-      '<div class="ww-key">' +
-        '<span class="late"><i></i>متعثّر</span><span class="live"><i></i>جارٍ</span>' +
-        '<span class="soon"><i></i>قريب</span><span class="quiet"><i></i>هادئ</span>' +
-      '</div>' +
-      '<span class="ww-hint">اسحب لتحريك الخريطة · عجلة الفأرة للتقريب · الأسهم للتنقّل</span>' +
-      '<div class="ww-ctrl">' +
-        '<button data-ww-act="mashaer">' + icon('i-kaaba', 's16') + 'المشاعر</button>' +
-        '<button data-ww-act="zoom-" aria-label="تبعيد">−</button>' +
-        '<button data-ww-act="zoom+" aria-label="تقريب">+</button>' +
-        '<button data-ww-act="reset">الرحلة كاملة</button>' +
-      '</div>' +
-    '</footer>';
-}
-
-/* ───────── اللوحُ الجانبيّ لموقعٍ بعينه ───────── */
-function wwSide(key) {
-  const sites = wwSites();
-  const n = sites.get(key) || [...sites.values()].find(s => s.late.length) ||
-            [...sites.values()].find(s => s.live.length) || [...sites.values()][0];
-  if (!n) return;
-  wwState.key = n.k;
-  /* المتكرّرُ يُجمع: سبعةُ صفوفٍ بالعنوان نفسِه قراءةٌ بلا فائدة،
-     والصحيحُ عنوانٌ واحدٌ ومعه عددُه وأقربُ وقت. */
-  const all = [...n.late, ...n.live, ...n.soon.slice().sort((a, b) => a.start - b.start)];
-  const groups = [];
-  const index = new Map();
-  for (const t of all) {
-    const state = tState(t);
-    const late = state === 'late' || state === 'over';
-    const key = t.title + '|' + (late ? 'late' : 'ok');
-    let g = index.get(key);
-    if (!g) { g = { t, late, n: 0, at: t.start }; index.set(key, g); groups.push(g); }
-    g.n++;
-    if (t.start < g.at) g.at = t.start;
-  }
-  const rows = groups.slice(0, 7);
-  const box = wwState.root.querySelector('[data-ww-side]');
-  box.innerHTML = TR(
-    '<h3>' + E(n.l) + '</h3>' +
-    '<div class="ww-counts">' +
-      pill(AR(n.late.length) + ' متعثّرة', n.late.length ? 'no' : 'grey') +
-      pill(AR(n.live.length) + ' جارية', n.live.length ? 'live' : 'grey') +
-      pill(AR(n.soon.length) + ' قريبة', n.soon.length ? 'gold' : 'grey') +
-    '</div>' +
-    (rows.length ? rows.map(g =>
-      '<button class="ww-task ' + (g.late ? 'late' : '') + '" data-ww-task="' + E(g.t.id) + '">' +
-        icon((CAT[g.t.kind] || {}).i || 'i-tasks', 's16') +
-        '<b>' + E(g.t.title) + (g.n > 1 ? ' <i class="ww-x">×' + AR(g.n) + '</i>' : '') + '</b>' +
-        '<time>' + t12(g.at) + '</time></button>').join('')
-      : '<div class="tiny faint">لا مهامَّ جاريةً أو متعثّرةً أو قريبةً هنا.</div>')
-  );
-  wwState.root.querySelectorAll('.ww-node').forEach(el =>
-    el.classList.toggle('on', el.dataset.k === n.k));
-}
-
-/* ───────── الحركة: حافلاتٌ تسير، وأحداثٌ تقفز وهجًا ───────── */
-/* نقطةٌ على مسارِ الرحلةِ عند نسبةٍ من طولِه — الحافلاتُ تسير على الطريقِ
-   الحقيقيِّ لا على خطٍّ مستقيمٍ بين دائرتين. */
-function wwAlong(points, p) {
-  const segs = [];
-  let total = 0;
-  for (let i = 1; i < points.length; i++) {
-    const a = points[i - 1], b = points[i];
-    const ax = wwX(a[0]), ay = wwY(a[1]), bx = wwX(b[0]), by = wwY(b[1]);
-    const len = Math.hypot(bx - ax, by - ay);
-    segs.push({ ax, ay, bx, by, len });
-    total += len;
-  }
-  let d = Math.max(0, Math.min(1, p)) * total;
-  for (const s of segs) {
-    if (d <= s.len) {
-      const r = s.len ? d / s.len : 0;
-      return [s.ax + (s.bx - s.ax) * r, s.ay + (s.by - s.ay) * r];
-    }
-    d -= s.len;
-  }
-  const last = segs[segs.length - 1];
-  return [last.bx, last.by];
-}
-
-function wwTick(time) {
-  if (!wwState) return;
-  const tokens = wwState.root.querySelector('[data-ww-tokens]');
-  if (tokens) {
-    const t = time / 1000;
-    let out = '';
-    wwState0.legs.forEach((leg, li) => {
-      /* عددُ النقاطِ على الخطِّ يحكي حِملَه: ما لا حِملَ له نقطةٌ واحدةٌ باهتة */
-      const count = leg.moving ? Math.min(5, 1 + Math.round(leg.moving / 4)) : 1;
-      for (let i = 0; i < count; i++) {
-        const p = (t * 0.085 + (i / count) + li * 0.13) % 1;
-        const [x, y] = wwOnArc(leg, p);
-        out += '<g class="ww-mover ' + leg.tone + (leg.moving ? '' : ' idle') +
-          '" transform="translate(' + x.toFixed(2) + ' ' + y.toFixed(2) + ')">' +
-          '<circle r="1.1" class="ww-mover-glow"/><circle r=".45"/></g>';
+    gx.addEventListener('pointermove', ev => {
+      const track = ev.target.closest ? ev.target.closest('.gx-track') : null;
+      if (!track) return;
+      const f = gxFrac(track.getBoundingClientRect(), ev.clientX);
+      gx.classList.add('hair');
+      gx.style.setProperty('--cx', (f * 100).toFixed(2) + '%');
+      if (tag && t1 > t0) {
+        const at = t0 + (t1 - t0) * f;
+        tag.textContent = (typeof dayName === 'function' && typeof dayStart === 'function'
+          && dayStart(at) !== dayStart(t0) ? dayName(at) + ' ' : '') +
+          (typeof t12 === 'function' ? t12(at) : '');
       }
+    }, { passive: true });
+
+    gx.addEventListener('pointerleave', () => {
+      gx.classList.remove('hair');
+      gx.style.removeProperty('--cx');
     });
-    tokens.innerHTML = out;
-  }
-  wwState.raf = requestAnimationFrame(wwTick);
-}
-
-/* وصفُ خطٍّ عند النقرِ عليه — من أين إلى أين وما الذي يتحرّك */
-function wwLegSide(index) {
-  const leg = wwState0.legs[index];
-  if (!leg || !wwState) return;
-  wwState.key = null;
-  const next = [...leg.to.soon].sort((a, b) => a.start - b.start)[0];
-  const box = wwState.root.querySelector('[data-ww-side]');
-  box.innerHTML = TR(
-    '<div class="ww-legline">' + E(leg.from.l) + '<i>→</i>' + E(leg.to.l) + '</div>' +
-    '<h3>' + E(leg.to.l) + '</h3>' +
-    '<div class="ww-counts">' +
-      pill(AR(leg.to.late.length) + ' متعثّرة', leg.to.late.length ? 'no' : 'grey') +
-      pill(AR(leg.to.live.length) + ' جارية', leg.to.live.length ? 'live' : 'grey') +
-      pill(AR(leg.to.soon.length) + ' في الطريق', leg.to.soon.length ? 'gold' : 'grey') +
-    '</div>' +
-    '<div class="tiny faint" style="margin-block:6px 10px">' +
-      (leg.moving
-        ? 'يتحرّك على هذا الخطِّ ' + AR(leg.moving) + ' عملًا' +
-          (next ? ' · أقربُ انطلاقٍ ' + t12(next.start) : '')
-        : 'لا حركةَ على هذا الخطِّ الآن.') +
-    '</div>' +
-    [...leg.to.late, ...leg.to.live, ...leg.to.soon].slice(0, 5).map(task => {
-      const state = tState(task);
-      return '<button class="ww-task ' + (state === 'late' || state === 'over' ? 'late' : '') +
-        '" data-ww-task="' + E(task.id) + '">' +
-        icon((CAT[task.kind] || {}).i || 'i-tasks', 's16') +
-        '<b>' + E(task.title) + '</b><time>' + t12(task.start) + '</time></button>';
-    }).join('')
-  );
-  wwState.root.querySelectorAll('.ww-node').forEach(el => el.classList.remove('on'));
-  wwState.root.querySelectorAll('[data-ww-leg]').forEach(el =>
-    el.classList.toggle('on', el.dataset.wwLeg === String(index)));
-}
-
-/* وهجُ حدث: يرتفع من الموقعِ ويتلاشى — يُرى بطرفِ العينِ قبل أن يُقرأ */
-function wwFlare(key, text, tone) {
-  if (!wwState || wwReduce()) return;
-  const node = wwState.root.querySelector('.ww-node[data-k="' + key + '"]');
-  const host = wwState.root.querySelector('[data-ww-flares]');
-  if (!node || !host) return;
-  const el = document.createElement('div');
-  el.className = 'ww-flare';
-  el.style.cssText =
-    'position:absolute;inset-inline-start:' + node.style.getPropertyValue('--x') +
-    ';inset-block-start:' + node.style.getPropertyValue('--y') +
-    ';transform:translate(-50%,-50%) rotateZ(calc(-1 * var(--az,0deg))) rotateX(calc(-1 * var(--tilt,56deg)));' +
-    'padding:4px 9px;border-radius:999px;white-space:nowrap;font-size:11.5px;font-weight:650;' +
-    'color:var(--onGold);background:var(--' + (tone || 'gold2') + ');pointer-events:none;' +
-    'box-shadow:0 0 22px -4px var(--' + (tone || 'gold2') + ');';
-  el.textContent = TT ? TT(text) : text;
-  host.append(el);
-  el.animate(
-    [{ opacity: 0, translate: '0 0' }, { opacity: 1, offset: .18 }, { opacity: 0, translate: '0 -64px' }],
-    { duration: 2600, easing: 'cubic-bezier(.16,1,.3,1)' }
-  ).onfinish = () => el.remove();
-}
-
-/* الأحداثُ الحيّة: أبرزُ ما تغيّر يُعرض وهجًا، واحدًا بعد واحد */
-function wwAnnounce() {
-  if (!wwState) return;
-  const sites = wwSites();
-  const hot = [...sites.values()].filter(n => n.late.length);
-  const warm = [...sites.values()].filter(n => !n.late.length && n.live.length);
-  const pick = hot.length ? hot[wwState.turn % hot.length]
-             : warm.length ? warm[wwState.turn % warm.length] : null;
-  wwState.turn++;
-  if (!pick) return;
-  if (pick.late.length) wwFlare(pick.k, AR(pick.late.length) + ' متعثّرة', 'red');
-  else wwFlare(pick.k, AR(pick.live.length) + ' جارية', 'live');
-}
-
-/* ───────── الفتحُ والإغلاق ───────── */
-function openWatchWall(key) {
-  if (wwState) { wwSide(key || wwState.key); return; }
-  let root = document.getElementById('watchwall');
-  if (!root) {
-    root = document.createElement('div');
-    root.id = 'watchwall';
-    root.className = 'ww';
-    root.setAttribute('role', 'dialog');
-    root.setAttribute('aria-modal', 'true');
-    root.setAttribute('aria-label', 'شاشة المراقبة');
-    document.body.append(root);
-  }
-  root.hidden = false;
-  root.innerHTML = TR(wwBuild());
-
-  const sites = wwSites();
-  const anyLate = [...sites.values()].some(n => n.late.length);
-  wwState = {
-    root, key: null, turn: 0, raf: 0, timer: 0,
-    panX: 0, panY: 0, zoom: 1,
-    route: WW_HIGHWAY.concat(WW_MASHAER_ROAD.slice(1)),
-    buses: Array.from({ length: 7 }, (_, i) => ({
-      offset: i / 7,
-      speed: 0.016 + (i % 3) * 0.004,
-      late: anyLate && i % 4 === 0
-    }))
-  };
-
-  wwSide(key);
-  if (!wwReduce()) {
-    wwState.raf = requestAnimationFrame(wwTick);
-    wwState.timer = setInterval(wwAnnounce, 4200);
-    setTimeout(wwAnnounce, 900);
-  }
-  wwBind();
-  root.querySelector('[data-ww-close]')?.focus({ preventScroll: true });
-  document.documentElement.style.overflow = 'hidden';
-}
-
-function closeWatchWall() {
-  if (!wwState) return;
-  cancelAnimationFrame(wwState.raf);
-  clearInterval(wwState.timer);
-  wwState.root.hidden = true;
-  wwState.root.innerHTML = '';
-  wwState = null;
-  document.documentElement.style.overflow = '';
-}
-
-function wwApply() {
-  const plane = wwState?.root.querySelector('[data-ww-plane]');
-  if (!plane) return;
-  plane.style.setProperty('--panX', wwState.panX + 'px');
-  plane.style.setProperty('--panY', wwState.panY + 'px');
-  plane.style.setProperty('--zoom', String(wwState.zoom));
-}
-
-function wwBind() {
-  const root = wwState.root;
-  const stage = root.querySelector('[data-ww-stage]');
-
-  root.addEventListener('click', ev => {
-    const close = ev.target.closest('[data-ww-close]');
-    if (close) return closeWatchWall();
-    const node = ev.target.closest('[data-ww-node]');
-    if (node) return wwSide(node.dataset.wwNode);
-    const leg = ev.target.closest('[data-ww-leg]');
-    if (leg) return wwLegSide(Number(leg.dataset.wwLeg));
-    const task = ev.target.closest('[data-ww-task]');
-    if (task) { closeWatchWall(); go('timeline'); return; }
-    const act = ev.target.closest('[data-ww-act]')?.dataset.wwAct;
-    if (!act) return;
-    if (act === 'zoom+') wwState.zoom = Math.min(3.2, wwState.zoom * 1.25);
-    if (act === 'zoom-') wwState.zoom = Math.max(.75, wwState.zoom / 1.25);
-    if (act === 'reset') { wwState.panX = 0; wwState.panY = 0; wwState.zoom = 1; }
-    if (act === 'mashaer') { wwState.zoom = 2.6; wwState.panX = -640; wwState.panY = -40; }
-    wwApply();
-  });
-
-  /* السحبُ يحرّك الخريطة */
-  let drag = null;
-  stage.addEventListener('pointerdown', ev => {
-    if (ev.target.closest('.ww-hit')) return;
-    drag = { x: ev.clientX, y: ev.clientY, px: wwState.panX, py: wwState.panY };
-    stage.setPointerCapture(ev.pointerId);
-  });
-  stage.addEventListener('pointermove', ev => {
-    if (!drag) return;
-    wwState.panX = drag.px + (ev.clientX - drag.x);
-    wwState.panY = drag.py + (ev.clientY - drag.y);
-    wwApply();
-  });
-  const drop = () => { drag = null; };
-  stage.addEventListener('pointerup', drop);
-  stage.addEventListener('pointercancel', drop);
-
-  stage.addEventListener('wheel', ev => {
-    ev.preventDefault();
-    const factor = ev.deltaY < 0 ? 1.12 : 1 / 1.12;
-    wwState.zoom = Math.max(.75, Math.min(3.2, wwState.zoom * factor));
-    wwApply();
-  }, { passive: false });
-
-  root.addEventListener('keydown', ev => {
-    if (ev.key === 'Escape') { closeWatchWall(); return; }
-    const step = ev.shiftKey ? 90 : 36;
-    if (ev.key === 'ArrowLeft')  { wwState.panX -= step; wwApply(); ev.preventDefault(); }
-    if (ev.key === 'ArrowRight') { wwState.panX += step; wwApply(); ev.preventDefault(); }
-    if (ev.key === 'ArrowUp')    { wwState.panY -= step; wwApply(); ev.preventDefault(); }
-    if (ev.key === 'ArrowDown')  { wwState.panY += step; wwApply(); ev.preventDefault(); }
-    if (ev.key === '+' || ev.key === '=') { wwState.zoom = Math.min(3.2, wwState.zoom * 1.2); wwApply(); }
-    if (ev.key === '-') { wwState.zoom = Math.max(.75, wwState.zoom / 1.2); wwApply(); }
-  });
-  root.tabIndex = -1;
-}
-
-/* ───────── المدخل: زرٌّ في شريط لوحة العمليّات وعلى بطاقة الخريطة ───────── */
-function opsPolish() {
-  document.querySelectorAll('.opsbar.release-opsbar').forEach(bar => {
-    if (bar.querySelector('.ww-open')) return;
-    const button = document.createElement('button');
-    button.className = 'ww-open';
-    button.type = 'button';
-    button.dataset.wwOpen = '1';
-    button.innerHTML = (typeof icon === 'function' ? icon('i-fullscreen', 's16') : '') +
-      (typeof TT === 'function' ? TT('شاشة المراقبة') : 'شاشة المراقبة');
-    bar.append(button);
-  });
-  /* بطاقةُ الخريطة تُفتح بالنقرِ على ترويستها */
-  document.querySelectorAll('.operation-map').forEach(map => {
-    const card = map.closest('.card');
-    if (!card || card.querySelector('.ww-open')) return;
-    const headRow = card.querySelector('.h');
-    if (!headRow) return;
-    const button = document.createElement('button');
-    button.className = 'ww-open';
-    button.type = 'button';
-    button.dataset.wwOpen = '1';
-    button.innerHTML = (typeof icon === 'function' ? icon('i-fullscreen', 's16') : '') +
-      (typeof TT === 'function' ? TT('توسيع') : 'توسيع');
-    headRow.append(button);
   });
 }
 
-/* مستمعٌ واحدٌ مفوَّض، مستقلٌّ عن مُرسِل أفعالِ الصفحة */
-document.addEventListener('click', ev => {
-  if (ev.target.closest('[data-ww-open]')) { ev.preventDefault(); openWatchWall(); }
-}, true);
+/* نبضُ اللحظة: يُحدَّث الموضعُ والامتلاءُ في مواضعِها دون إعادةِ رسم */
+function gxTick() {
+  const t = (typeof now === 'function') ? now() : Date.now();
 
-/* ══════════════════════════════════════════════════════════════
-   بطاقاتُ اللوحة — قلبُ التسلسلِ حيث يتكرّر العنوان
-   ──────────────────────────────────────────────────────────────
-   قائمةٌ فيها اثنا عشرَ صفًّا بالعنوانِ نفسِه لا تُقرأ: العنوانُ لا
-   يميّز شيئًا. فيُخفَض، ويعلو ما يفرّق — الوقتُ والفريقُ والمكان —
-   ويُقال العنوانُ مرّةً واحدةً شارةً في الترويسة.
-   آمنةٌ للاستدعاء المتكرّر: تُعيد الحسابَ وتزيل أثرَها إن زال السبب.
-   ══════════════════════════════════════════════════════════════ */
-function repetitionPolish() {
-  /* الحاوياتُ التي تُعرض فيها صفوفٌ متشابهة */
-  const hosts = document.querySelectorAll('.ops-widget-body, .qlist, .view .card > .plist');
-  hosts.forEach(body => {
-    const rows = [...body.children].filter(el => el.querySelector && el.querySelector('b, strong'));
-    const card = body.closest('.card');
-    const slot = card && card.querySelector('.h .sp');
-    const old = slot && slot.querySelector('.rep-chip');
+  document.querySelectorAll('.gx').forEach(gx => {
+    const t0 = Number(gx.dataset.t0 || 0), t1 = Number(gx.dataset.t1 || 0);
+    if (!(t1 > t0)) return;
+    const p = Math.max(0, Math.min(100, (t - t0) / (t1 - t0) * 100));
+    const inWin = t > t0 && t < t1;
 
-    const clear = () => {
-      body.classList.remove('rep');
-      rows.forEach(r => r.classList.remove('rep-row'));
-      if (old) old.remove();
-    };
-    if (rows.length < 3) return clear();
-
-    const titleOf = el => { const t = el.querySelector('b, strong'); return t ? (t.textContent || '').trim() : ''; };
-    const freq = new Map();
-    rows.forEach(r => { const k = titleOf(r); if (k) freq.set(k, (freq.get(k) || 0) + 1); });
-    const top = [...freq.entries()].sort((a, b) => b[1] - a[1])[0];
-    if (!top || top[1] < 3 || top[1] / rows.length < 0.6) return clear();
-
-    const [label, count] = top;
-    body.classList.add('rep');
-    rows.forEach(r => r.classList.toggle('rep-row', titleOf(r) === label));
-
-    if (slot) {
-      if (old && old.dataset.label === label && old.dataset.n === String(count)) return;
-      if (old) old.remove();
-      const chip = document.createElement('span');
-      chip.className = 'rep-chip';
-      chip.dataset.label = label;
-      chip.dataset.n = String(count);
-      chip.innerHTML = '<b>' + (typeof AR === 'function' ? AR(count) : count) + '×</b>' +
-        (typeof E === 'function' ? E(label) : label);
-      slot.append(chip);
+    const line = gx.querySelector('.gx-now');
+    if (line) line.style.insetInlineStart = p.toFixed(2) + '%';
+    const tag = gx.querySelector('.gx-nowtag');
+    if (tag && inWin) {
+      tag.style.insetInlineStart = p.toFixed(2) + '%';
+      if (typeof t12 === 'function') tag.textContent = t12(t);
     }
-  });
+    gx.querySelectorAll('.gx-past').forEach(sh =>
+      sh.style.setProperty('--pw', p.toFixed(2) + '%'));
 
-  /* الصفرُ في قوائمِ الحالات: شرطةٌ تُقرأ بدل نقطةٍ تُشبه الفراغ */
-  document.querySelectorAll('.control-bars > li.zero > b').forEach(cell => {
-    if (cell.dataset.dashed === '1') return;
-    cell.dataset.dashed = '1';
-    const small = cell.querySelector('small');
-    cell.textContent = '—';
-    if (small) small.remove();
-  });
-}
-
-/* ══════════════════════════════════════════════════════════════
-   الجداولُ والرسوم — ما لا تقوله الأنماطُ وحدَها
-   ──────────────────────────────────────────────────────────────
-   • «٠» في خلايا الأعدادِ نقطةٌ تُقرأ فراغًا، فتصير شرطةً «—».
-   • كلُّ رسمِ أعمدةٍ يُسنَد إليه خطُّ متوسّطٍ مرجعيٌّ وبطاقتُه،
-     محسوبًا من قيمِه هو — لا رقمَ مخترَعًا.
-   آمنةٌ للاستدعاءِ المتكرّر.
-   ══════════════════════════════════════════════════════════════ */
-function tablePolish() {
-  /* الصفرُ شرطة — في خلايا الأعدادِ وحدَها، لا في كلِّ رقم */
-  document.querySelectorAll('.tbl .tr b.num').forEach(cell => {
-    if (cell.dataset.dash === '1') return;
-    const text = (cell.textContent || '').trim();
-    if (text === '0' || text === '0') { cell.textContent = '—'; cell.classList.add('faint'); }
-    cell.dataset.dash = '1';
-  });
-
-  /* خطُّ المتوسّطِ على رسومِ الأعمدة */
-  document.querySelectorAll('.control-chart').forEach(chart => {
-    const cols = [...chart.querySelectorAll('.control-column')];
-    if (cols.length < 3) return;
-    const grid = chart.querySelector('.control-columns');
-    if (!grid) return;
-    const heights = cols.map(c => {
-      const f = c.querySelector('.control-column-fill');
-      return parseFloat(String(f?.style.getPropertyValue('--height') || '').replace('%', '')) || 0;
+    gx.querySelectorAll('.gx-bar[data-s]').forEach(bar => {
+      const s = Number(bar.dataset.s), e = Number(bar.dataset.e);
+      /* ما أعلن أنّه غيرُ جارٍ لا يتحرّك ولو احتوت نافذتُه اللحظة */
+      const declared = bar.dataset.live;
+      const running = (declared === undefined || declared === '1') && s <= t && e > t;
+      bar.classList.toggle('on', running);
+      let fill = bar.querySelector('.gx-fill'), dot = bar.querySelector('.gx-dot');
+      if (!running) { if (fill) fill.remove(); if (dot) dot.remove(); return; }
+      const prog = Math.max(2, Math.min(100, (t - s) / Math.max(1, e - s) * 100)).toFixed(1) + '%';
+      if (!fill) {
+        fill = document.createElement('i');
+        fill.className = 'gx-fill'; fill.setAttribute('aria-hidden', 'true');
+        bar.prepend(fill);
+      }
+      if (!dot) {
+        dot = document.createElement('s');
+        dot.className = 'gx-dot'; dot.setAttribute('aria-hidden', 'true');
+        bar.prepend(dot);
+      }
+      fill.style.setProperty('--prog', prog);
+      dot.style.setProperty('--prog', prog);
     });
-    const sum = heights.reduce((a, b) => a + b, 0);
-    if (!sum) { grid.style.removeProperty('--avg'); return; }
-    const avg = sum / heights.length;
-    if (avg < 4 || avg > 96) { grid.style.removeProperty('--avg'); return; }
-    grid.style.setProperty('--avg', avg.toFixed(2));
-    grid.style.position = 'relative';
-    let tag = chart.querySelector('.chart-avg-tag');
-    if (!tag) {
-      tag = document.createElement('span');
-      tag.className = 'chart-avg-tag';
-      grid.append(tag);
-    }
-    tag.style.setProperty('--avg', avg.toFixed(2));
-    const label = (typeof TT === 'function') ? TT('المتوسّط') : 'المتوسّط';
-    if (tag.textContent !== label) tag.textContent = label;
+  });
+
+  /* بطاقاتُ الأسطول: شريطُ التقدّمِ وحدَه يزحف، والنصُّ يُعاد مع الرسم */
+  document.querySelectorAll('.fn-pr[data-s]').forEach(pr => {
+    const s = Number(pr.dataset.s), e = Number(pr.dataset.e);
+    const bar = pr.firstElementChild;
+    if (!bar || !(e > s)) return;
+    const prog = Math.max(0, Math.min(100, (t - s) / (e - s) * 100));
+    bar.style.setProperty('--prog', prog.toFixed(1) + '%');
   });
 }
 
-/* ══════════════════════════════════════════════════════════════
-   الانتقالُ بين الشاشاتِ وتسليمُ الدخول
-   ──────────────────────────────────────────────────────────────
-   قاعدةُ الخبراء: لا نُري انتظارًا لا وجودَ له. الانتقالُ بين
-   الشاشاتِ سريعٌ فعلًا، فله شريطٌ رفيعٌ يبدأ مع الطلبِ وينتهي مع
-   الرسم. والدخولُ عملٌ حقيقيٌّ (بناءُ الرؤيةِ والصلاحيّاتِ وفكُّ
-   شيفرةِ الأصول) فله تسليمٌ بالهويّة، وخطواتُه تعكس ما يجري.
-   ولكلِّ انتظارٍ نهايةٌ مضمونةٌ ولو تعثّر ما ينتظره.
-   ══════════════════════════════════════════════════════════════ */
-let routeBar = null, routeBarTimer = 0, routeBarEnd = 0;
+function gxPolish() { gxHair(); gxTick(); }
 
-function routeProgressStart() {
-  if (!routeBar) {
-    routeBar = document.createElement('div');
-    routeBar.id = 'route-progress';
-    routeBar.setAttribute('aria-hidden', 'true');
-    routeBar.innerHTML = '<i></i>';
-    document.body.append(routeBar);
-  }
-  const fill = routeBar.firstElementChild;
-  clearTimeout(routeBarTimer); clearTimeout(routeBarEnd);
-  routeBar.classList.add('on');
-  fill.style.transition = 'none';
-  fill.style.inlineSize = '0%';
-  /* إطارٌ واحدٌ حتّى تُحتسب البدايةُ ثمّ يتحرّك */
-  requestAnimationFrame(() => {
-    fill.style.transition = '';
-    fill.style.inlineSize = '72%';
-  });
+/* ساعةٌ واحدةٌ للصفحةِ كلّها، ولا تُنشأ مرّتَين */
+if (!window.__gxClock) {
+  window.__gxClock = setInterval(() => { try { gxTick(); } catch (e) {} }, 30000);
 }
-function routeProgressDone() {
-  if (!routeBar) return;
-  const fill = routeBar.firstElementChild;
-  fill.style.inlineSize = '100%';
-  routeBarTimer = setTimeout(() => {
-    routeBar.classList.remove('on');
-    routeBarEnd = setTimeout(() => { fill.style.transition = 'none'; fill.style.inlineSize = '0%'; }, 220);
-  }, 180);
-}
-
-/* ───────── تسليمُ الدخول ───────── */
-const HANDOVER_STEPS = [
-  ['i-shield', 'التحقّق من الصفة والنطاق'],
-  ['i-users',  'بناء الفرق والبرامج'],
-  ['i-target', 'تجهيز لوحة العمليات']
-];
-function handoverShow() {
-  let host = document.getElementById('handover');
-  if (!host) {
-    host = document.createElement('div');
-    host.id = 'handover';
-    host.setAttribute('role', 'status');
-    host.setAttribute('aria-live', 'polite');
-    document.body.append(host);
-  }
-  host.hidden = false;
-  host.className = '';
-  host.innerHTML = TR(
-    '<div class="hand-wrap">' +
-      '<span class="hand-mark" aria-hidden="true">' +
-        (typeof CONTROL_MEDIA === 'object' && CONTROL_MEDIA['logo-night']
-          ? '<img src="' + CONTROL_MEDIA['logo-night'] + '" alt="">'
-          : icon('i-shield', 's26')) + '</span>' +
-      '<h2 class="hand-title">نُجهّز غرفة العمليات</h2>' +
-      '<p class="hand-sub">لحظة — نبني ما تراه بصفتك.</p>' +
-      '<div class="hand-bar"><i></i></div>' +
-      '<ul class="hand-steps">' + HANDOVER_STEPS.map((s, i) =>
-        '<li' + (i === 0 ? ' class="on"' : '') + '><span class="dot"></span>' + E(s[1]) + '</li>').join('') +
-      '</ul>' +
-    '</div>');
-  return host;
-}
-function handoverStep(host, index) {
-  const items = [...host.querySelectorAll('.hand-steps li')];
-  items.forEach((li, i) => {
-    li.classList.toggle('done', i < index);
-    li.classList.toggle('on', i === index);
-  });
-  const bar = host.querySelector('.hand-bar i');
-  if (bar) bar.style.inlineSize = Math.round(((index + 1) / items.length) * 100) + '%';
-}
-function handoverHide(host) {
-  if (!host) return;
-  host.classList.add('out');
-  setTimeout(() => { host.hidden = true; host.innerHTML = ''; host.className = ''; }, 520);
-}
-
-/* يُلتقط الضغطُ على «دخول» قبل منطقِ الصفحة، فيُعرض التسليمُ ثمّ يُترك
-   الفعلُ يمضي. والإخفاءُ مضمونٌ بمهلةٍ قصوى مهما جرى. */
-document.addEventListener('click', ev => {
-  if (!ev.target.closest('[data-a="gin"]')) return;
-  let host;
-  try { host = handoverShow(); } catch (e) { return; }
-  const started = Date.now();
-  let step = 0;
-  const tick = setInterval(() => {
-    step++;
-    if (step >= HANDOVER_STEPS.length) { clearInterval(tick); return; }
-    try { handoverStep(host, step); } catch (e) { clearInterval(tick); }
-  }, 380);
-  /* لا يُغلق قبل أن يُرسم شيءٌ فعلًا، ولا يبقى بعد ثانيتين ونصف مهما جرى */
-  const close = () => {
-    clearInterval(tick);
-    try { handoverStep(host, HANDOVER_STEPS.length - 1); } catch (e) {}
-    const wait = Math.max(0, 1500 - (Date.now() - started));
-    setTimeout(() => handoverHide(host), wait);
-  };
-  const watch = setInterval(() => {
-    if (document.querySelector('.view .control-route-hero')) { clearInterval(watch); close(); }
-  }, 90);
-  setTimeout(() => { clearInterval(watch); close(); }, 2800);
-}, true);
-
-/* يُلفُّ render فيبدأ الشريطُ مع الطلبِ وينتهي مع الرسم */
-(function wrapRender() {
-  if (typeof render !== 'function') return;
-  const base = render;
-  render = function () {
-    try { routeProgressStart(); } catch (e) {}
-    const out = base.apply(this, arguments);
-    try { routeProgressDone(); } catch (e) {}
-    return out;
-  };
-})();
 
 
 (function wrapAfterRender() {
@@ -40664,6 +40284,7 @@ document.addEventListener('click', ev => {
     try { if (typeof opsPolish === 'function') opsPolish(); } catch (e) { console.error('opsPolish', e); }
     try { if (typeof repetitionPolish === 'function') repetitionPolish(); } catch (e) { console.error('repetitionPolish', e); }
     try { if (typeof tablePolish === 'function') tablePolish(); } catch (e) { console.error('tablePolish', e); }
+    try { if (typeof gxPolish === 'function') gxPolish(); } catch (e) { console.error('gxPolish', e); }
     return out;
   };
 })();
