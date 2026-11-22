@@ -3951,7 +3951,8 @@ h1,h2,h3,h4{line-height:1.35}
 .release-priority-row,.release-priority-labels{grid-template-columns:minmax(0,1.45fr) minmax(68px,.7fr) minmax(70px,auto)}
 .release-priority-labels{display:grid;gap:8px;color:var(--gold3);font-size:11px;padding:8px;background:var(--panel2);border-radius:7px}
 .release-priority>.card,.release-incident-layout .card{border-radius:var(--release-radius)}
-.release-agenda .ops-time-item time{background:var(--panel2);border:1px solid var(--line2);border-radius:7px;padding:7px}
+.release-agenda .ops-time-item time{background:var(--panel2);border:1px solid var(--line2);border-radius:7px;padding:6px 10px;justify-self:start;white-space:nowrap}
+.release-agenda .ops-time-item{grid-template-columns:auto minmax(0,1fr)}
 .release-opsbar .hello>b{display:none}
 .view>.release-incident-layout{grid-template-columns:minmax(0,.85fr) minmax(0,1.45fr)}
 .release-signal-detail{border-color:color-mix(in srgb,var(--gold2) 30%,var(--line))}
@@ -5348,90 +5349,535 @@ body.wallmode .control-hero-metrics .kpi .num,
 
 /* ===== layer-widgets.css ===== */
 /* ══════════════════════════════════════════════════════════════════════
-   مُحسن · الكنترول — بطاقاتُ اللوحة: الفراغُ والتكرار  (٢٢ نوفمبر ٢٠٢٦)
+   مُحسن · الكنترول — جدارُ غرفةِ العمليات  (٢٢ نوفمبر ٢٠٢٦)
    ──────────────────────────────────────────────────────────────────────
-   قياسٌ على ٢٣٠٠ بكسل كشف عيبين:
-   • «الساعة القادمة» بطاقةٌ ارتفاعُها ٤٨٧ بكسل ومحتواها ٢٠٩ — ٢٧٨ فراغًا،
-     لأنّ صفَّ الشريطِ يُمطّط القصيرَ إلى طولِ أطولِ جار.
-   • «المهام القادمة» اثنا عشرَ صفًّا **بالعنوان نفسِه**، فالعنوانُ يتصدّر
-     السطرَ ولا يميّز شيئًا، والمميِّزُ (الفريقُ والوقتُ والمكان) تحته صغيرًا.
-   العلاجُ: البطاقةُ بقَدرِ محتواها، والتسلسلُ يُقلَب حيث يتكرّر العنوان.
+   ⚠ خطأٌ أصلحتُه هنا: كنتُ كتبتُ `.band:not(.bkpi) .dw{height:auto}`،
+   فألغيتُ الارتفاعَ الموحّدَ للبلاطات (`--wh`) الذي يقوم عليه الجدار.
+   فصارت البطاقةُ القصيرةُ تترك تحتها فراغًا بمئاتِ البكسلات في الشبكة.
+   الجدارُ يقوم على بلاطاتٍ متساويةٍ تُمرَّر في جوفها — لا على بطاقاتٍ
+   كلٌّ بطولِه. فأُعيد الأصلَ ولا أمسّ `--wh` إلّا في الشريط العريض.
    ══════════════════════════════════════════════════════════════════════ */
 
-/* ───────── ١ · البطاقةُ بقَدرِ محتواها، لا بقَدرِ جارِها ───────── */
-.band:not(.bkpi) .bandgrid{ align-items:start }
-.band:not(.bkpi) .dw{ height:auto }
-/* حدٌّ أدنى يمنع البطاقةَ القصيرةَ من أن تبدو مبتورة */
-.band:not(.bkpi) .dw>.card{ min-height:188px }
-/* ومتى قصُر المحتوى فلا تمطّطه الطبقاتُ الداخليّة */
+/* ───────── ١ · البلاطةُ موحّدةٌ، والجسدُ يُمرَّر في جوفه ───────── */
+.band:not(.bwide) .dw{ height:var(--wh) }
+.band:not(.bwide) .dw > .card{ height:100% }
 .ops-widget{ align-content:start }
-.ops-widget .wbody{ flex:0 1 auto; max-height:420px }
+.ops-widget .wbody{ flex:1 1 auto; min-height:0 }
 
-/* ───────── ٢ · القوائمُ المتكرّرة: المميِّزُ يتصدّر ─────────
-   حين يتكرّر العنوانُ في أكثرِ القائمة، يصير العنوانُ سطرًا خافتًا
-   ويعلو ما يفرّق بين الصفوف: الوقتُ والفريقُ والمكان. */
-.ops-widget-body.rep .rep-row>time{
-  font-size:14px; font-weight:800; color:var(--ink);
-  font-variant-numeric:tabular-nums; letter-spacing:-.2px;
+/* ───────── ٢ · الموجة: اثنا عشرَ فوجًا حدثٌ واحد ───────── */
+.wv{
+  display:grid; gap:5px; width:100%; padding:9px 11px 11px;
+  border-radius:10px; background:var(--panel2); border:1px solid transparent;
+  text-align:start; color:var(--ink); cursor:pointer;
+  transition:background .18s var(--e3), border-color .18s var(--e3);
 }
-.ops-widget-body.rep .rep-row b{
-  display:block; order:2;
-  font-size:11px; font-weight:500; color:var(--dim2);
+.wv:hover{ background:var(--raise); border-color:var(--line2) }
+.wv-t{ display:flex; align-items:center; gap:7px; min-width:0 }
+.wv-ic{ display:inline-flex; flex:none }
+.wv-t b{ font-size:13.5px; font-weight:700; min-width:0;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.wv-n{
+  flex:none; margin-inline-start:auto; padding:2px 8px; border-radius:999px;
+  font-size:11.5px; font-weight:800; font-variant-numeric:tabular-nums;
+  color:var(--gold3); background:var(--pGoldB);
+  border:1px solid color-mix(in srgb, var(--gold2) 32%, transparent);
 }
-.ops-widget-body.rep .rep-row small{
-  display:block; order:1;
-  font-size:13px; font-weight:650; color:var(--ink);
-}
-.ops-widget-body.rep .rep-row>span{ display:flex; flex-direction:column; gap:1px }
+.wv-s{ font-size:11.5px; color:var(--dim); overflow-wrap:anywhere }
+.wv-s b{ color:var(--ink); font-weight:700 }
 
-/* شارةُ التكرارِ في ترويسةِ البطاقة — تُقال مرّةً بدل اثنتي عشرة */
-.rep-chip{
-  display:inline-flex; align-items:center; gap:6px;
-  margin-inline-start:8px; padding:3px 9px; border-radius:999px;
-  font-size:11px; font-weight:650; white-space:nowrap;
-  color:var(--gold3);
-  background:var(--pGoldB);
-  border:1px solid color-mix(in srgb, var(--gold2) 34%, transparent);
+/* شريطُ الانتشار: أين تقع الموجةُ من الاثنتي عشرةَ ساعةً القادمة.
+   يسري من أوّلِ الشريطِ منطقيًّا (يمينًا في العربيّة) كما في رسمِ الساعات. */
+.wv-tr{
+  position:relative; display:block; height:5px; margin-top:2px;
+  border-radius:99px; background:var(--line);
+  overflow:hidden;
 }
-.rep-chip b{ font-size:12px; font-weight:800; font-variant-numeric:tabular-nums }
+.wv-tr > i{
+  position:absolute; inset-block:0; inline-size:3px; border-radius:99px;
+  background:var(--g2); opacity:.85; transform:translateX(-50%);
+}
+:root[dir="rtl"] .wv-tr > i{ transform:translateX(50%) }
 
-/* ───────── ٣ · الصفرُ في قوائمِ الحالاتِ شرطةٌ لا «٠٠٪» ───────── */
-.control-bars li.zero>b{ color:var(--dim2); font-weight:500 }
-.control-bars li.zero>b small{ display:none }
-.control-bars li.zero>span:first-child{ color:var(--dim2) }
+/* ───────── ٣ · النقص: يُغلق مرّةً فتخرج ستُّ مهامٍ من الخطر ───────── */
+.gp{
+  display:grid; gap:4px; width:100%; padding:9px 11px;
+  border-radius:10px; background:var(--panel2);
+  border-inline-start:3px solid var(--line2);
+  text-align:start; color:var(--ink); cursor:pointer;
+  transition:background .18s var(--e3), border-color .18s var(--e3);
+}
+.gp:hover{ background:var(--raise) }
+.gp.hot{ border-inline-start-color:var(--amber);
+  background:color-mix(in srgb, var(--amber) 7%, var(--panel2)) }
+.gp-h{ display:flex; align-items:center; gap:8px; min-width:0 }
+.gp-h b{ flex:1; min-width:0; font-size:13px; font-weight:700; color:var(--amber);
+  overflow-wrap:anywhere }
+.gp:not(.hot) .gp-h b{ color:var(--ink) }
+.gp-n{
+  flex:none; min-inline-size:24px; text-align:center; padding:2px 7px;
+  border-radius:999px; font-size:11.5px; font-weight:800;
+  font-variant-numeric:tabular-nums;
+  color:var(--ink); background:var(--raise); border:1px solid var(--line2);
+}
+.gp.hot .gp-n{ color:var(--amber);
+  background:color-mix(in srgb, var(--amber) 16%, transparent);
+  border-color:color-mix(in srgb, var(--amber) 36%, transparent) }
+.gp-s{ font-size:11.5px; color:var(--dim) }
+.gp-s b{ color:var(--ink); font-weight:700 }
 
-/* ───────── ٤ · المقاييسُ تُقرأ: قيمةٌ محاذيةٌ ومسارٌ واضح ───────── */
+/* ───────── ٤ · التنبيه: نصٌّ وصل ثمانيَ مرّاتٍ سطرٌ واحد ───────── */
+.al2{
+  display:flex; align-items:center; gap:9px; width:100%;
+  padding:9px 11px; background:none; border:0;
+  border-block-end:1px solid var(--line);
+  text-align:start; color:var(--ink); cursor:pointer;
+}
+.al2:last-child{ border-block-end:0 }
+.al2:hover{ background:var(--panel2) }
+.al2-i{ flex:none; display:inline-flex; padding:6px; border-radius:8px }
+.al2-x{ flex:1; min-width:0; display:grid; gap:2px }
+.al2-x b{ font-size:12.5px; font-weight:650; overflow-wrap:anywhere }
+.al2-x small{ font-size:11px; color:var(--dim) }
+.al2-n{
+  flex:none; padding:3px 9px; border-radius:999px;
+  font-size:12px; font-weight:800; font-variant-numeric:tabular-nums;
+  color:var(--gold3); background:var(--pGoldB);
+  border:1px solid color-mix(in srgb, var(--gold2) 32%, transparent);
+}
+
+/* ───────── ٥ · المنصّة: والمدى يكشف أنّ الفروقَ ضئيلة ───────── */
+.pod{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px }
+.pod-i{
+  display:grid; justify-items:center; align-content:start; gap:5px;
+  padding:11px 6px 9px; border-radius:11px;
+  background:var(--panel2); border:1px solid var(--line);
+  color:var(--ink); cursor:pointer;
+}
+.pod-i:hover{ border-color:var(--gold2) }
+.pod-i.p1{ background:color-mix(in srgb, var(--gold2) 13%, var(--panel2));
+  border-color:color-mix(in srgb, var(--gold2) 46%, transparent) }
+.pod-r{
+  display:grid; place-items:center; inline-size:19px; block-size:19px;
+  border-radius:999px; font-size:11px; font-weight:800;
+  font-variant-numeric:tabular-nums;
+  color:var(--dim2); background:var(--raise);
+}
+.pod-i.p1 .pod-r{ color:var(--void); background:var(--gold2) }
+.pod-i strong{ font-size:11.5px; font-weight:650; text-align:center;
+  overflow-wrap:anywhere; line-height:1.3 }
+.pod-v{ font-size:17px; font-weight:800; font-variant-numeric:tabular-nums;
+  letter-spacing:-.4px; color:var(--gold3) }
+
+.pod-sp{ display:flex; align-items:center; gap:8px; margin-top:4px }
+.pod-e{ flex:none; font-size:11px; font-weight:700; color:var(--dim2);
+  font-variant-numeric:tabular-nums }
+.pod-bar{
+  position:relative; flex:1; height:22px; border-radius:7px;
+  background:var(--panel2); border:1px solid var(--line);
+}
+.pod-bar > i{
+  position:absolute; inset-block:4px; inline-size:2px; border-radius:99px;
+  background:var(--g2); opacity:.7; transform:translateX(-50%);
+}
+:root[dir="rtl"] .pod-bar > i{ transform:translateX(50%) }
+.pod-note{ font-size:11px; color:var(--dim); margin-bottom:3px }
+.pod-note b{ color:var(--ink); font-weight:700;
+  font-variant-numeric:tabular-nums }
+
+.pod-row{
+  display:flex; align-items:center; gap:8px; width:100%;
+  padding:6px 8px; border-radius:9px; background:none; border:0;
+  text-align:start; color:var(--ink); cursor:pointer;
+}
+.pod-row:hover{ background:var(--panel2) }
+.pod-rk{ flex:none; inline-size:16px; font-size:11px; color:var(--dim2);
+  font-variant-numeric:tabular-nums; text-align:center }
+.pod-row > b{ flex:none; max-inline-size:38%; font-size:12px; font-weight:600;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.pod-mini{ flex:1; height:5px; border-radius:99px; background:var(--line);
+  overflow:hidden; display:block }
+.pod-mini > i{ display:block; height:100%; border-radius:99px;
+  background:linear-gradient(90deg, var(--g3), var(--gold2)) }
+.pod-nv{ flex:none; font-size:12px; font-weight:800; color:var(--gold3) }
+
+/* ───────── ٦ · عدّادُ التكرارِ داخلَ مجموعةِ المتعثّرة ───────── */
+.ops-queue-group .qn{
+  margin-inline-start:6px; padding:1px 6px; border-radius:999px;
+  font-size:10.5px; font-weight:800; font-variant-numeric:tabular-nums;
+  color:var(--amber); background:color-mix(in srgb, var(--amber) 15%, transparent);
+}
+
+/* ───────── ٧ · شريطُ المقارنة النسبيّ ─────────
+   مقياسٌ من صفرٍ إلى خمسةٍ يجعل ٤٫٣ و٣٫٧ شريطَين متشابهَين. فالمقياسُ
+   بين أدنى الفرقِ وأعلاها، والرقمُ مكتوبٌ بجانبه فلا يضيع المعنى. */
+.bar2.rel{ position:relative }
+.bar2-v{
+  flex:none; min-inline-size:40px; text-align:end;
+  font-size:13px; font-weight:800; color:var(--ink);
+  font-variant-numeric:tabular-nums;
+}
+
+/* ───────── ٨ · «تُراجَع بسببها» — فالسببُ مكتوب ───────── */
+.wrow .wwhy{ display:flex; flex-wrap:wrap; gap:5px; flex:1.3; min-width:170px;
+  justify-content:flex-start }
+.wtag{
+  padding:3px 9px; border-radius:999px; font-size:11px; font-weight:650;
+  color:var(--wc); background:color-mix(in srgb, var(--wc) 13%, transparent);
+  border:1px solid color-mix(in srgb, var(--wc) 28%, transparent);
+  white-space:nowrap;
+}
+.wrate{ flex:none; min-inline-size:34px; text-align:end;
+  font-size:14px; font-weight:800; color:var(--amber);
+  font-variant-numeric:tabular-nums }
+
+/* ───────── ٩ · القرارُ في الصفّ لا بعد فتحِ درج ───────── */
+.crq{ display:inline-flex; gap:6px; margin-inline-start:9px }
+.crq .btn{ white-space:nowrap }
+@media (max-width:980px){ .crq{ display:none } }
+
+/* ───────── ١٠ · الصفرُ في قوائمِ الحالاتِ شرطةٌ لا «٠٠٪» ───────── */
+.control-bars li.zero > b{ color:var(--dim2); font-weight:500 }
+.control-bars li.zero > b small{ display:none }
+.control-bars li.zero > span:first-child{ color:var(--dim2) }
+
+/* ───────── ١١ · المقاييسُ تتحرّك إلى قيمتها ───────── */
 .ops-prep-item .meter, .meter{ overflow:hidden }
 .meter i{ transition:width .55s var(--e3) }
 
-/* ───────── التكرارُ في كلِّ أنواعِ الصفوف ─────────
-   الحاوياتُ الثلاثُ: ops-widget-body وqlist وplist. والعنوانُ قد يكون
-   <b> أو <strong>؛ فحين يتكرّر يُخفَض ويعلو ما يفرّق. */
-.ops-widget-body.rep .rep-row :is(b, strong),
-.qlist.rep .rep-row :is(b, strong),
-.plist.rep .rep-row > .nm > b{
-  display:block; order:2;
-  font-size:11px; font-weight:500; color:var(--dim2);
+/* ───────── ١٢ · الحالاتُ الصفريّةُ سطرٌ واحدٌ لا أربعة ───────── */
+.zrow{ display:flex; flex-wrap:wrap; align-items:center; gap:7px;
+  margin-top:11px; padding-top:10px; border-top:1px solid var(--line) }
+.ztag{ display:inline-flex; align-items:center; gap:5px;
+  font-size:11px; color:var(--dim2) }
+.ztag > i{ inline-size:7px; block-size:7px; border-radius:99px; opacity:.45 }
+.ztxt{ margin-inline-start:auto; font-size:10.5px; color:var(--faint) }
+
+/* ───────── ١٣ · صفُّ القرار: الخبرُ يتصدّر والتصنيفُ كِسرة ───────── */
+.qrow.flip .nm{ display:grid; gap:2px; min-width:0 }
+.qrow.flip .qkick{ font-size:10.5px; font-weight:650; letter-spacing:.2px;
+  color:var(--dim2); text-transform:none }
+.qrow.flip .nm > b{ font-size:13px; font-weight:650; color:var(--ink);
+  overflow-wrap:anywhere }
+
+/* ───────── ١٤ · يومُ العمليات: رقمٌ ثمّ شريطٌ ثمّ ساعاتٌ ثمّ ما بقي ───────── */
+.dhero{ display:flex; align-items:stretch; gap:14px; margin-bottom:14px }
+.dbig{ flex:none; display:grid; align-content:center; gap:2px;
+  padding:10px 16px; border-radius:12px;
+  background:linear-gradient(145deg, var(--panel2), var(--panel));
+  border:1px solid var(--line) }
+.dbig > b{ font-size:38px; font-weight:800; line-height:1; letter-spacing:-1.6px;
+  color:var(--gold3); font-variant-numeric:tabular-nums }
+.dbig > b > i{ font-size:17px; font-weight:700; font-style:normal;
+  margin-inline-start:3px; color:var(--dim) }
+.dbig > span{ font-size:11px; color:var(--dim) }
+.dfacts{ flex:1; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px }
+.dfact{ display:grid; align-content:center; gap:3px; padding:9px 12px;
+  border-radius:11px; background:var(--panel2); border:1px solid var(--line) }
+.dfact > span{ font-size:11px; color:var(--dim) }
+.dfact > b{ font-size:20px; font-weight:800; letter-spacing:-.5px;
+  font-variant-numeric:tabular-nums }
+.dfact.bad > b{ color:var(--red) }
+
+.dsub{ margin:14px 0 7px; font-size:10.5px; font-weight:650; letter-spacing:.3px;
+  color:var(--faint) }
+.dstrip{ display:grid; grid-template-columns:repeat(12,minmax(0,1fr));
+  gap:4px; align-items:end; height:74px }
+.dcell{ position:relative; display:grid; align-items:end; justify-items:center;
+  height:100%; gap:3px; grid-template-rows:1fr auto }
+.dcell > i{ display:block; inline-size:100%; border-radius:4px 4px 2px 2px;
+  background:color-mix(in srgb, var(--g2) 55%, transparent); align-self:end }
+.dcell > em{ font-style:normal; font-size:9.5px; color:var(--faint);
+  font-variant-numeric:tabular-nums }
+.dcell.now > i{ background:var(--gold2) }
+.dcell.now > em{ color:var(--gold3); font-weight:800 }
+
+.dnext{ display:grid; gap:2px }
+.dnext > button{ display:flex; align-items:center; gap:10px; width:100%;
+  padding:7px 8px; border-radius:9px; background:none; border:0;
+  text-align:start; color:var(--ink); cursor:pointer }
+.dnext > button:hover{ background:var(--panel2) }
+.dnext time{ flex:none; min-inline-size:62px; font-size:11.5px; font-weight:700;
+  color:var(--dim); font-variant-numeric:tabular-nums;
+  border-inline-end:2px solid var(--g3); padding-inline-end:8px }
+.dnext > button > span{ display:grid; gap:2px; min-width:0 }
+.dnext b{ font-size:12.5px; font-weight:650; overflow:hidden;
+  text-overflow:ellipsis; white-space:nowrap }
+.dnext small{ font-size:11px; color:var(--dim) }
+
+/* ───────── ١٥ · رأسُ الطائفةِ في الجداول المُجمَّعة ───────── */
+.grpl{ font-size:11px; color:var(--dim); margin-inline-end:2px; align-self:center }
+.plist.grouped{ position:relative }
+.grph{
+  position:sticky; top:0; z-index:3;
+  display:flex; align-items:center; gap:9px;
+  margin:9px 0 3px; padding:7px 11px; border-radius:9px;
+  background:color-mix(in srgb, var(--panel) 92%, transparent);
+  backdrop-filter:blur(7px); -webkit-backdrop-filter:blur(7px);
+  border:1px solid var(--line); border-inline-start:3px solid var(--g2);
 }
-.ops-widget-body.rep .rep-row small,
-.qlist.rep .rep-row .nm > span,
-.plist.rep .rep-row > .nm > span{
-  display:block; order:1;
-  font-size:13px; font-weight:650; color:var(--ink);
+.grph:first-child{ margin-top:0 }
+.grph.risky{ border-inline-start-color:var(--red) }
+.grph > b{ font-size:13px; font-weight:750; min-width:0;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.grph-n{ flex:none; padding:2px 8px; border-radius:999px;
+  font-size:11px; font-weight:800; font-variant-numeric:tabular-nums;
+  color:var(--gold3); background:var(--pGoldB);
+  border:1px solid color-mix(in srgb, var(--gold2) 30%, transparent) }
+.grph-s{ flex:1; font-size:11px; color:var(--dim);
+  font-variant-numeric:tabular-nums }
+.grph-r{ flex:none; padding:2px 9px; border-radius:999px;
+  font-size:11px; font-weight:700; color:var(--red);
+  background:color-mix(in srgb, var(--red) 13%, transparent);
+  border:1px solid color-mix(in srgb, var(--red) 30%, transparent) }
+
+/* الرأسُ يقول العنوان، فلا يُعاد في كلِّ صفٍّ تحته — ويعلو ما يفرّق:
+   الفريقُ والليدرُ والفندق. */
+.plist.grouped[data-g="kind"] .prow > .nm > b{ display:none }
+.plist.grouped[data-g="kind"] .prow > .nm > span{
+  font-size:12.5px; font-weight:600; color:var(--ink) }
+.plist.grouped[data-g="kt"] .prow > .nm > b{ font-size:12.5px }
+
+
+/* ===== layer-gantt.css ===== */
+/* ══════════════════════════════════════════════════════════════════════
+   المسارُ الزمنيّ — يحلّ محلّ «المصفوفة» في الرحلاتِ والمهامّ.
+   القاعدة: الموضعُ وقتٌ، والعرضُ مدّةٌ، وما تداخلَ ارتفع فوقَ أخيه.
+   والاتّجاهُ منطقيٌّ (inset-inline-start) فيسري الزمنُ يمينًا←يسارًا في
+   العربيّة كما في رسمِ الساعاتِ في اللوحة، وينقلب وحدَه في الإنجليزيّة.
+   ══════════════════════════════════════════════════════════════════════ */
+.gx{ display:grid; gap:0; margin-top:4px }
+.gx-head{ position:sticky; top:0; z-index:4; display:grid;
+  grid-template-columns:var(--gxlane,178px) minmax(0,1fr); align-items:end;
+  gap:10px; padding-bottom:6px; margin-bottom:4px;
+  background:linear-gradient(var(--panel) 72%, transparent);
+  border-bottom:1px solid var(--line) }
+.gx-headlab{ font-size:10.5px; font-weight:650; letter-spacing:.3px; color:var(--faint) }
+.gx-ruler{ position:relative; height:15px }
+.gx-ruler > span{ position:absolute; bottom:0; transform:translateX(50%);
+  font-size:9.5px; color:var(--faint); font-variant-numeric:tabular-nums;
+  white-space:nowrap }
+:root[dir="ltr"] .gx-ruler > span{ transform:translateX(-50%) }
+
+.gx-row{ display:grid; grid-template-columns:var(--gxlane,178px) minmax(0,1fr);
+  gap:10px; align-items:stretch; padding:4px 0;
+  border-bottom:1px solid var(--line);
+  animation:rise .45s var(--e3) both; animation-delay:var(--row-delay,0ms) }
+.gx-row:last-of-type{ border-bottom:0 }
+.gx-row > header{ display:flex; align-items:center; gap:7px; min-width:0;
+  padding-inline-start:9px; border-inline-start:3px solid var(--lane);
+  border-radius:3px }
+.gx-ic{ flex:none; display:inline-flex; color:var(--lane) }
+.gx-row > header > strong{ font-size:12.5px; font-weight:700; white-space:nowrap }
+.gx-row > header > span{ flex:1; min-width:0; font-size:10.5px; color:var(--dim);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.gx-row > header > small{ flex:none; font-size:10px; color:var(--faint);
+  font-variant-numeric:tabular-nums }
+
+.gx-track{ position:relative; min-block-size:calc(var(--depth,1) * 26px + 6px);
+  border-radius:7px; background:var(--panel2); overflow:hidden }
+.gx-grid{ position:absolute; inset-block:0; inline-size:1px;
+  background:var(--line); opacity:.6 }
+.gx-now{ position:absolute; inset-block:0; inline-size:2px; z-index:3;
+  background:var(--gold2); box-shadow:0 0 7px color-mix(in srgb,var(--gold2) 55%,transparent) }
+
+.gx-bar{
+  position:absolute; inset-block-start:calc(var(--sub,0) * 26px + 3px);
+  block-size:22px; display:flex; align-items:center; gap:6px;
+  padding:0 7px; border-radius:6px; cursor:pointer; overflow:hidden;
+  color:var(--ink); text-align:start; min-inline-size:5px;
+  background:color-mix(in srgb, var(--tone,var(--g2)) 26%, var(--panel));
+  border:1px solid color-mix(in srgb, var(--tone,var(--g2)) 58%, transparent);
+  border-inline-start:3px solid var(--tone,var(--g2));
+  transition:filter .16s var(--e3), transform .16s var(--e3);
 }
-.ops-widget-body.rep .rep-row > time{
-  font-size:14px; font-weight:800; color:var(--ink);
-  font-variant-numeric:tabular-nums;
+.gx-bar:hover{ filter:brightness(1.22); transform:translateY(-1px); z-index:5 }
+.gx-bar:focus-visible{ outline:2px solid var(--gold2); outline-offset:1px; z-index:6 }
+.gx-bar > b{ font-size:11px; font-weight:650; white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis }
+.gx-bar > em{ flex:none; font-style:normal; font-size:10px; color:var(--dim);
+  font-variant-numeric:tabular-nums }
+/* القضيبُ الضيّقُ لا يتّسع لنصّ: يبقى لونًا وموضعًا، والتفصيلُ في التلميح */
+.gx-bar[style*="inline-size:0"] > b, .gx-bar[style*="inline-size:1"] > b,
+.gx-bar[style*="inline-size:2"] > b, .gx-bar[style*="inline-size:3"] > b{ display:none }
+
+/* ألوانُ الحالات تُقرأ من data-tone كما في بقيّة الموقع */
+.gx-bar[data-tone="ok"],   .gx-bar[data-tone="live"]{ --tone:var(--live) }
+.gx-bar[data-tone="no"],   .gx-bar[data-tone="bad"] { --tone:var(--red) }
+.gx-bar[data-tone="wait"], .gx-bar[data-tone="warn"]{ --tone:var(--amber) }
+.gx-bar[data-tone="grey"], .gx-bar[data-tone="done"]{ --tone:var(--dim2) }
+.gx-bar[data-tone="gold"]{ --tone:var(--gold2) }
+
+.gx-empty{ position:absolute; inset:0; display:grid; place-items:center;
+  font-size:10.5px; color:var(--faint) }
+.gx-row.clash > .gx-track{ box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--amber) 40%,transparent) }
+
+.gx-legend{ display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  margin-top:11px; padding-top:9px; border-top:1px solid var(--line);
+  font-size:10.5px; color:var(--faint) }
+.gx-clashnote{ padding:2px 8px; border-radius:999px; color:var(--amber);
+  background:color-mix(in srgb,var(--amber) 12%,transparent) }
+
+@media (max-width:860px){
+  .gx-head, .gx-row{ grid-template-columns:110px minmax(0,1fr); gap:7px }
+  .gx-row > header > span{ display:none }
 }
-/* بطاقةُ الاستعداد: النسبةُ واحدةٌ في كلِّ الصفوف فلا تتصدّر —
-   يتصدّر النقصُ نفسُه، وهو ما يُعمل عليه. */
-.ops-widget-body.rep .ops-prep-item{ grid-template-columns:minmax(0,1fr) auto; align-items:center }
-.ops-widget-body.rep .ops-prep-item .ops-prep-gap{
-  order:0; grid-column:1/-1;
-  font-size:12.5px; font-weight:700; color:var(--amber);
+
+/* ───────── إشغالُ المقاعد: حالةٌ ولونٌ ومقدارٌ في عرضٍ صغير ───────── */
+.seat{ display:inline-flex; align-items:center; gap:8px; flex:none }
+.seat-g{ inline-size:58px; block-size:6px; border-radius:99px;
+  background:var(--line); overflow:hidden; display:block }
+.seat-g > i{ display:block; block-size:100%; border-radius:99px; background:var(--st) }
+.seat > b{ font-size:12px; font-weight:750; color:var(--ink);
+  font-variant-numeric:tabular-nums }
+.seat > b > s{ text-decoration:none; color:var(--faint); margin:0 1px }
+.seat > em{ font-style:normal; font-size:10.5px; font-weight:650; color:var(--st);
+  padding:2px 8px; border-radius:999px;
+  background:color-mix(in srgb, var(--st) 13%, transparent);
+  border:1px solid color-mix(in srgb, var(--st) 28%, transparent) }
+
+/* ───────── بطاقةُ الباص: ساعاتٌ وإشغالٌ وعُطلة ───────── */
+.busfoot{ display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  margin-top:7px; font-size:10.5px; color:var(--dim);
+  font-variant-numeric:tabular-nums }
+.busidle{ padding:2px 8px; border-radius:999px; font-weight:650; color:var(--amber);
+  background:color-mix(in srgb, var(--amber) 13%, transparent) }
+
+/* القضيبُ الضيّقُ جدًّا: علامةٌ لا بطاقة */
+.gx-bar.tiny{ padding:0; border-inline-start-width:2px }
+
+
+/* ===== layer-cards.css ===== */
+/* ══════════════════════════════════════════════════════════════════════
+   بطاقةُ الفريق — الهويّةُ لا تنكسر، والبرنامجُ ظاهرٌ، والإنذارُ يتصدّر
+   ══════════════════════════════════════════════════════════════════════ */
+.teamcard.tc2{ display:grid; gap:10px; padding:13px 14px; align-content:start }
+.teamcard.tc-bad{ border-color:color-mix(in srgb, var(--red) 34%, transparent) }
+
+.tc-head{ display:flex; align-items:center; gap:11px; width:100%;
+  background:none; border:0; padding:0; text-align:start; color:var(--ink);
+  cursor:pointer }
+.tc-id{ flex:1; min-width:0; display:grid; gap:1px }
+.tc-id > b{ font-size:12px; font-weight:800; letter-spacing:.4px; color:var(--gold3);
+  font-variant-numeric:tabular-nums }
+.tc-name{ font-size:15px; font-weight:700; color:var(--ink);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.tc-org{ font-size:11px; color:var(--dim);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.tc-badges{ flex:none; display:inline-flex; align-items:center; gap:7px }
+
+.tc-line{ display:flex; flex-wrap:wrap; gap:6px }
+.tc-chip{ display:inline-flex; align-items:center; gap:5px;
+  padding:3px 9px; border-radius:999px; font-size:11px; color:var(--dim);
+  background:var(--panel2); border:1px solid var(--line);
+  max-inline-size:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.tc-chip svg{ flex:none; color:var(--dim2) }
+
+.tc-nums{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px }
+.tc-nums > div{ display:grid; gap:2px; padding:7px 9px; border-radius:9px;
+  background:var(--panel2) }
+.tc-nums span{ font-size:10px; color:var(--dim) }
+.tc-nums b{ font-size:17px; font-weight:800; letter-spacing:-.4px;
+  font-variant-numeric:tabular-nums }
+.tc-pct b{ color:var(--gold3) }
+.tc-pct b > i{ font-size:11px; font-style:normal; color:var(--dim);
+  margin-inline-start:1px }
+
+/* الشريطُ يحمل خبرَين: ما أُنجز (أخضر) وما تعثّر (أحمر على الطرف) */
+.tc-bar{ position:relative; display:flex; height:7px; border-radius:99px;
+  background:var(--line); overflow:hidden }
+.tc-bar > i{ display:block; block-size:100%;
+  background:linear-gradient(90deg, var(--g3), var(--g2)) }
+.tc-bar > u{ display:block; block-size:100%; margin-inline-start:auto;
+  text-decoration:none; background:var(--red); opacity:.8 }
+
+.tc-flags{ display:flex; flex-wrap:wrap; gap:6px }
+.tc-flags > span{ padding:3px 9px; border-radius:999px; font-size:11px;
+  font-weight:650; color:var(--fc);
+  background:color-mix(in srgb, var(--fc) 12%, transparent);
+  border:1px solid color-mix(in srgb, var(--fc) 28%, transparent) }
+
+/* ───────── شبكةُ بطاقاتٍ متساويةُ الصفّ: لا ثقوبَ في الزاوية ───────── */
+.gcards{ grid-auto-rows:1fr; align-items:stretch }
+.gcards > .gcard{ display:flex; flex-direction:column }
+.gcards > .gcard > .pfoot{ margin-top:auto }
+.mchip.off{ color:var(--dim2); opacity:.75 }
+
+/* شريطُ أدواتِ الشاشةِ ليس بطاقةَ محتوى: يُقلَّل حشوُه */
+.view > .card:has(> .tools:last-child){ padding-block:13px 14px }
+.view > .card > .tools:last-child{ margin-bottom:0 }
+/* ستُّ بطاقاتٍ في خمسةِ أعمدةٍ تترك ثقبًا بأربعةِ أعمدة. فعمودٌ أعرضُ:
+   ثلاثةٌ في صفٍّ — صفّان كاملان، ووصفُ المجموعةِ يجد سطرَه. */
+.gcards{ grid-template-columns:repeat(auto-fill, minmax(min(100%,400px), 1fr)) }
+
+
+/* ===== layer-a11y.css ===== */
+/* ══════════════════════════════════════════════════════════════════════
+   قراءةُ النصِّ الخافت — إصلاحٌ على مستوى الرموزِ لا على مستوى المكوّن
+   ──────────────────────────────────────────────────────────────────────
+   قياسٌ على الهويّاتِ الخمسِ كشف أنّ `--faint` و`--dim2` دونَ ٤٫٥:١ في
+   الفاتحِ وفي البنّيّ، فكلُّ تسميةٍ صغيرةٍ في الموقع — لا في مكوّناتي
+   وحدَها — تُقرأ بعناء. والأصلُ أن يُصلَح الرمزُ مرّةً فيصلح كلُّ موضع.
+   ومعها رموزٌ للنصِّ الملوّن: العنبريُّ والأحمرُ والذهبيُّ كما هي تصلح
+   للتعبئةِ والحدود، ولا تصلح نصًّا على أرضيّةٍ فاتحة — فلها نسخةٌ نصّيّة.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ───────── ١ · الخافتُ يُقرأ في الفاتح ───────── */
+:root[data-appearance="day"]{   --dim:#405A4D; --dim2:#4B6558; --faint:#566E62 }
+:root[data-appearance="green"]{ --dim:#3E584B; --dim2:#496356; --faint:#546C60 }
+
+/* ───────── ٢ · والخافتُ يُقرأ في الداكن ───────── */
+:root[data-appearance="night"]{  --dim2:#A9B4C4; --faint:#99A5B6 }
+:root[data-appearance="forest"]{ --dim2:#A3BDAF; --faint:#95B0A1 }
+:root[data-appearance="brown"]{  --dim2:#BCA68A; --faint:#AC957A }
+
+/* ───────── ٣ · رموزٌ للنصِّ الملوّن ─────────
+   التعبئةُ والحدودُ تبقى بالأصل، والنصُّ يأخذ نسخةً تجتاز التباين. */
+:root{ --amberT:var(--amber); --redT:var(--red); --liveT:var(--live); --goldT:var(--gold3) }
+:root[data-appearance="day"], :root[data-appearance="green"]{
+  --amberT: color-mix(in srgb, var(--amber) 62%, #1A1205);
+  --redT:   color-mix(in srgb, var(--red)   78%, #1A0A07);
+  --liveT:  color-mix(in srgb, var(--live)  84%, #04170D);
+  --goldT:  color-mix(in srgb, var(--gold3) 70%, #140E04);
 }
-.ops-widget-body.rep .ops-prep-item .ops-prep-meter{ order:3 }
-.ops-widget-body.rep .ops-prep-item .ops-prep-meter b{ color:var(--dim2); font-weight:600 }
+:root[data-appearance="night"], :root[data-appearance="forest"],
+:root[data-appearance="brown"]{
+  --amberT: color-mix(in srgb, var(--amber) 80%, #FFF4DC);
+  --redT:   color-mix(in srgb, var(--red)   72%, #FFE6E2);
+  --goldT:  var(--gold3);
+}
+
+/* ───────── ٤ · مكوّناتُ اليومِ تأخذ النسخةَ النصّيّة ───────── */
+.tc-flags > span{ color:var(--fcT, var(--fc)) }
+.gp.hot .gp-h b, .gp.hot .gp-n{ color:var(--amberT) }
+.gp-s{ color:var(--dim) }
+.seat > em{ color:var(--stT, var(--st)) }
+.busidle{ color:var(--amberT) }
+.wrate{ color:var(--amberT) }
+.wtag{ color:var(--wcT, var(--wc)) }
+.arec > em{ color:var(--redT) }
+.pod-v, .pod-nv, .al2-n, .wv-n, .grph-n{ color:var(--goldT) }
+.ztxt, .dsub, .gx-headlab, .gx-legend, .gx-empty,
+.gx-ruler > span, .gx-row > header > small, .dcell > em{ color:var(--dim) }
+/* ما كان تحت العشرةِ يُرفع: القياسُ يشتدّ كلّما صغُر الخطّ */
+.gx-ruler > span, .dcell > em{ font-size:10.5px }
+.gx-row > header > small{ font-size:10.5px }
+
+/* ───────── ٥ · تحويلُ لونِ العلامةِ إلى نسختِه النصّيّة ─────────
+   العلامةُ تُمرَّر متغيّرًا (--fc/--wc/--st) بقيمةٍ من لوحةِ الحالات،
+   فيُشتقّ منها نصٌّ أدكنُ في الفاتحِ وأفتحُ في الداكن. */
+:root[data-appearance="day"] .tc-flags > span,
+:root[data-appearance="green"] .tc-flags > span{
+  color:color-mix(in srgb, var(--fc) 68%, #10180F) }
+:root[data-appearance="day"] .wtag, :root[data-appearance="green"] .wtag{
+  color:color-mix(in srgb, var(--wc) 68%, #10180F) }
+:root[data-appearance="day"] .seat > em, :root[data-appearance="green"] .seat > em{
+  color:color-mix(in srgb, var(--st) 66%, #10180F) }
+:root[data-appearance="day"] .arec > b, :root[data-appearance="green"] .arec > b{
+  color:color-mix(in srgb, var(--rt) 70%, #10180F) }
+:root[data-appearance="night"] .tc-flags > span,
+:root[data-appearance="forest"] .tc-flags > span,
+:root[data-appearance="brown"] .tc-flags > span{
+  color:color-mix(in srgb, var(--fc) 82%, #FFFFFF) }
 
 
 /* ===== layer-tables.css ===== */
@@ -5667,6 +6113,19 @@ body.wallmode .control-hero-metrics .kpi .num,
 .control-incident-layout .control-incident-log,
 .control-incident-layout .plist{
   max-block-size:min(46vh, 420px); overflow-y:auto; overscroll-behavior:contain;
+}
+
+/* ───────── ٦ · سيّدٌ وتفصيل: التفصيلُ يلاصق والقائمةُ تُمرَّر ─────────
+   في البلاغاتِ والفرقِ لوحٌ تفصيليٌّ أقصرُ من قائمتِه، فيظهر تحته فراغٌ
+   بمئاتِ البكسلات. والصوابُ أن يلاصق التفصيلُ أعلى الشاشةِ وتُمرَّر
+   القائمةُ بجانبه — فلا يغيب ما يُقرأ ولا يُهدر فراغ. */
+@media (min-width:1051px){
+  .control-incident-layout, .control-team-layout{ align-items:start }
+  .control-incident-layout > .card:first-child,
+  .control-team-layout > .card:first-child{
+    position:sticky; top:10px; max-block-size:calc(100vh - 128px);
+    overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin;
+  }
 }
 
 
@@ -22297,10 +22756,19 @@ function seed() {
   });
 
   /* المهام: لكل ليدر خطة كاملة، مسكَّنة بفريقه */
+  /* مولّدٌ حتميٌّ صغير: يعطي أرقامًا متباينةً تُعاد كما هي كلَّ مرّة،
+     فالعرضُ لا يتغيّر بين تشغيلٍ وآخرَ ولا يبدو مصطنعًا متطابقًا. */
+  const vary = (a, b) => { const x = Math.sin(a * 127.1 + b * 311.7) * 43758.5453;
+    return x - Math.floor(x); };
   LEADERS.forEach((L, li) => {
     PLAN.forEach((p, idx) => {
+      /* ليس كلُّ برنامجٍ يُنفّذ كلَّ بندٍ من الخطّة */
+      if (vary(li + 1, idx + 1) < 0.14) return;
       const c = CAT[p.k];
-      const start = Date.now() + p.h * HR + li * 17 * MIN;
+      /* جداولُ البرامجِ تتباعد ساعاتٍ وأيّامًا لا سبعَ عشرةَ دقيقة */
+      const shift = Math.round((vary(li + 3, 7) - 0.45) * 26) * HR
+        + Math.round(vary(li + 5, idx + 2) * 100) * MIN;
+      const start = Date.now() + p.h * HR + shift;
       const team = st.users.filter(u => u.role === 'muhsen' && u.leaderId === L.id);
       st.tasks.push({
         id: uid('T'), kind: p.k, code: 1200 + idx * 7 + li * 3,
@@ -22309,11 +22777,15 @@ function seed() {
         /* المهمّةُ تندرج تحت برنامجِ فريقِها — بالصيغةِ نفسِها التي يُربط بها الفريق */
         programId: (function(){ const ps = programsOfOrg(L.orgId); return ps.length ? ps[li % ps.length].id : null; })(),  /* يُصحَّح بعد التشكيل */
         start, end: start + c.dur * HR, durH: c.dur,
-        status: start < Date.now() ? 'done' : 'assigned',
+        status: start < Date.now()
+          ? (vary(li + 11, idx + 13) < 0.17 ? 'assigned' : 'done') : 'assigned',
         assigned: team.map(m => m.id),
-        attended: start < Date.now() ? team.slice(0, 4).map(m => m.id) : [],
-        rating: start < Date.now() ? Math.round((3.2 + ((idx + li) % 9) / 5) * 10) / 10 : null,
-        autoStarted: start < Date.now() && (idx + li) % 4 === 0
+        attended: start < Date.now()
+          ? team.slice(0, Math.max(1, Math.round(team.length *
+              (0.55 + vary(li + 17, idx + 19) * 0.45)))).map(m => m.id) : [],
+        rating: start < Date.now()
+          ? Math.round((2.9 + vary(li + 23, idx + 29) * 2.1) * 10) / 10 : null,
+        autoStarted: start < Date.now() && vary(li + 31, idx + 37) < 0.23
       });
     });
   });
@@ -22647,9 +23119,18 @@ function cdText(until) {
   const diff = (until || 0) - now();
   const over = diff < 0;
   let s = Math.floor(Math.abs(diff) / 1000);
+  const d = Math.floor(s / 86400); s -= d * 86400;
   const h = Math.floor(s / 3600); s -= h * 3600;
   const m = Math.floor(s / 60); const q = s - m * 60;
-  return (over ? '+' : '') + AR(cdPad(h) + ':' + cdPad(m) + ':' + cdPad(q));
+  if (over) {
+    if (d) return 'تجاوزت ' + NUM(d) + ' ي';
+    if (h) return 'تجاوزت ' + NUM(h) + ' س';
+    if (m) return 'تجاوزت ' + NUM(m) + ' د';
+    return 'انقضت الآن';
+  }
+  if (d) return NUM(d) + ' ي ' + NUM(h) + ' س';
+  if (h) return NUM(h) + ' س ' + NUM(m) + ' د';
+  return NUM(cdPad(m) + ':' + cdPad(q));
 }
 /* حالةُ العدّاد تُلوَّن كما تُلوَّن الخطورة: أخضرُ متّسعٌ، أصفرُ يوشك،
    أحمرُ انقضى. والخُمسُ الأخير هو «يوشك» — نسبةً إلى المهلة نفسها. */
@@ -23244,23 +23725,75 @@ function controlAppearancePicker() {
 
 function controlSchedule(rows, labels, action) {
   if (!rows.length) return empty(labels.empty, '', 'i-cal');
-  return '<div class="control-matrix" role="region" aria-label="' + E(labels.title) + '">' +
-    rows.map((row, index) => {
-      const entries = row.entries.slice().sort((a,b) => a.start - b.start);
-      const clashes = entries.map((item, i) => item.trackOverlap && entries.some((other, j) =>
-        i !== j && other.trackOverlap && item.start < other.end && item.end > other.start));
-      return '<section class="control-matrix-row" style="--lane:' + E(row.accent || 'var(--g3)') + ';--row-delay:' +
-        Math.min(165, index * 23) + 'ms"><header>' +
-        '<span class="control-lane-icon" aria-hidden="true">' + icon(labels.icon || 'i-users','s16') + '</span><strong>' + row.name + '</strong>' +
-        '<span>' + E(row.detail) + '</span><small>' + AR(entries.length) + ' ' + E(labels.unit) + '</small></header>' +
-        '<div class="control-matrix-entries">' + (entries.length ? entries.map((item, i) =>
-          '<button class="control-matrix-entry" data-tone="' + E(item.tone) + '" data-a="' + action + '" data-id="' + E(item.id) + '">' +
-          '<span class="control-matrix-time">' + (row.dayOnly ? '' : '<span>' + hijri(item.start) + '</span>') + '<b>' + t12(item.start) +
-          ' – ' + t12(item.end) + '</b></span><strong>' + E(item.title) + '</strong><small>' +
-          E(item.detail) + '</small><span class="control-matrix-states">' + pill(item.status, item.tone) +
-          (clashes[i] ? pill('تداخل زمني', 'wait') : '') + '</span></button>').join('') :
-          '<span class="control-matrix-empty">لا رحلات مجدولة</span>') + '</div></section>';
-    }).join('') + '</div>';
+  const all = [];
+  rows.forEach(r => (r.entries || []).forEach(e => all.push(e)));
+  if (!all.length) return empty(labels.empty, '', 'i-cal');
+
+  /* النافذةُ: يومٌ كاملٌ حين تكون الصفوفُ ليومٍ واحد، وإلّا من أوّلِ
+     بدايةٍ إلى آخرِ نهايةٍ مع هامشٍ يسيرٍ كي لا يلتصق الطرفان بالحافّة. */
+  const dayOnly = rows.some(r => r.dayOnly);
+  const lo = Math.min.apply(null, all.map(e => e.start));
+  const hi = Math.max.apply(null, all.map(e => e.end));
+  const t0 = dayOnly ? dayStart(lo) : lo - (hi - lo) * 0.02;
+  const t1 = dayOnly ? dayStart(lo) + DAY : hi + (hi - lo) * 0.02;
+  const span = Math.max(1, t1 - t0);
+  const pos = ms => ((ms - t0) / span * 100);
+
+  /* المسطرة: كلُّ ساعتَين في اليوم، وإلّا ثمانيةُ أوتادٍ موزّعة */
+  const ticks = [];
+  if (dayOnly) { for (let h = 0; h <= 24; h += 2) ticks.push({ at:t0 + h * HR, l:NUM(h) + ':00' }); }
+  else { for (let i = 0; i <= 8; i++) { const at = t0 + span * i / 8;
+    ticks.push({ at, l:(dayStart(at) === dayStart(t0) ? '' : dayName(at) + ' ') + t12(at) }); } }
+
+  const ruler = '<div class="gx-ruler" aria-hidden="true">' + ticks.map(k =>
+    '<span style="inset-inline-start:' + pos(k.at).toFixed(2) + '%">' + E(k.l) + '</span>').join('') +
+    '</div>';
+  const grid = ticks.map(k =>
+    '<i class="gx-grid" style="inset-inline-start:' + pos(k.at).toFixed(2) + '%"></i>').join('');
+  const nowAt = now();
+  const nowLine = (nowAt > t0 && nowAt < t1)
+    ? '<i class="gx-now" style="inset-inline-start:' + pos(nowAt).toFixed(2) + '%"></i>' : '';
+
+  const body = rows.map((row, index) => {
+    const entries = (row.entries || []).slice().sort((a, b) => a.start - b.start);
+    /* المسارُ الفرعيّ: ما تداخلَ زمنيًّا يُرفع سطرًا فيُرى التصادم */
+    const ends = [];
+    const placed = entries.map(e => {
+      let s = 0; while (s < ends.length && ends[s] > e.start) s++;
+      ends[s] = e.end; return { e, s };
+    });
+    const depth = Math.max(1, ends.length);
+    const clash = depth > 1;
+    return '<section class="gx-row' + (clash ? ' clash' : '') +
+      '" style="--lane:' + E(row.accent || 'var(--g3)') +
+      ';--depth:' + depth + ';--row-delay:' + Math.min(165, index * 23) + 'ms">' +
+      '<header><span class="gx-ic" aria-hidden="true">' + icon(labels.icon || 'i-users','s15') +
+        '</span><strong>' + row.name + '</strong>' +
+        '<span>' + E(row.detail || '') + '</span>' +
+        '<small>' + E(arCount(entries.length, labels.unit)) + '</small></header>' +
+      '<div class="gx-track">' + grid + nowLine +
+        (placed.length ? placed.map(function (p) {
+          const e = p.e;
+          const w = Math.max(0.9, pos(e.end) - pos(e.start));
+          const lbl = (e.title || '') + ' · ' + t12(e.start) + ' – ' + t12(e.end) +
+            (e.detail ? ' · ' + e.detail : '');
+          /* ما ضاق عن نصِّه لا يُقطَع: يبقى موضعًا ولونًا، وتفصيلُه في التلميح */
+          const inner = w > 6.5 ? '<b>' + E(e.title || '') + '</b><em>' + t12(e.start) + '</em>'
+                      : w > 3.2 ? '<em>' + t12(e.start) + '</em>' : '';
+          return '<button class="gx-bar' + (w <= 4.5 ? ' tiny' : '') +
+            '" data-tone="' + E(e.tone) + '" data-a="' + action +
+            '" data-id="' + E(e.id) + '" title="' + E(lbl) + '" aria-label="' + E(lbl) + '"' +
+            ' style="inset-inline-start:' + pos(e.start).toFixed(2) + '%;inline-size:' +
+            w.toFixed(2) + '%;--sub:' + p.s + '">' + inner + '</button>';
+        }).join('') : '<span class="gx-empty">' + E(labels.emptyRow || 'لا شيء مجدول') + '</span>') +
+      '</div></section>';
+  }).join('');
+
+  return '<div class="gx" role="region" aria-label="' + E(labels.title) + '">' +
+    '<div class="gx-head"><span class="gx-headlab">' + E(labels.laneLab || '') + '</span>' +
+    ruler + '</div>' + body +
+    '<div class="gx-legend">الموضعُ وقتٌ والعرضُ مدّة · الخطُّ الذهبيُّ هو الآن' +
+    '<span class="gx-clashnote">الصفُّ المرتفعُ فيه تداخلٌ زمنيّ</span></div></div>';
 }
 
 function controlTimeline(tasks, rows) {
@@ -23278,7 +23811,7 @@ function controlTimeline(tasks, rows) {
       return { id:t.id, start:t.start, end:t.end, title:t.title, detail:t.place,
         trackOverlap:state !== 'cancelled' && group.detail !== '', status:tsOf(t).ar, tone:tsOf(t).p };
     })
-  })), {title:'مصفوفة المهام حسب الفريق', unit:'مهمة', empty:'لا مهام في هذه النافذة'}, 'tlopen');
+  })), {title:'مسار المهام على الزمن', unit:'مهمة', laneLab:'الفريق', emptyRow:'لا مهام في هذه النافذة', empty:'لا مهام في هذه النافذة'}, 'tlopen');
 }
 
 function controlBars(data, options = {}) {
@@ -23832,9 +24365,10 @@ function decisionQueue() {
     head('يحتاج قرارك الآن', items.length ? 'رتّبتُها بالأولوية ثم بالأحدث' : 'لا شيء معلّق',
       items.length ? pill(AR(items.length) + ' بند', 'no') : pill('نظيف', 'live')) +
     (items.length ? '<div class="qlist">' + items.slice(0, 5).map((x, i) =>
-      '<div class="qrow ' + x.kind + '" style="animation-delay:' + (i * 60) + 'ms">' +
+      '<div class="qrow flip ' + x.kind + '" style="animation-delay:' + (i * 60) + 'ms">' +
         '<span class="qi">' + icon(x.ic, 's18') + '</span>' +
-        '<span class="nm"><b>' + E(x.t) + '</b><span>' + E(x.s) + '</span></span>' +
+        '<span class="nm"><span class="qkick">' + E(x.t) + '</span>' +
+        '<b>' + E(x.s || x.t) + '</b></span>' +
         '<span class="tiny faint">' + ago(x.at) + '</span>' +
         '<span class="qa">' + x.acts + '</span>' +
       '</div>').join('') + '</div>' +
@@ -24153,8 +24687,8 @@ function screenTeams() {
       empty('لا محسنين', 'لم تُشكَّل المجموعة بعد', 'i-users')) +
     '</aside>' : '';
   return '<div class="card control-records control-team-filters">' +
-      head('الفرق والمجموعات', '',
-        pill(AR(ls.length) + ' من ' + AR(leaders().length), 'gold'), 'i-flag') +
+      head('الفرق والمجموعات', 'كلُّ فريقٍ تحت برنامجِه — والشريطُ يقول ما أُنجز وما تعثّر',
+        '', 'i-flag') +
       hierTrail('tm') +
       filterBar('tm', hierFilters('tm', 5).concat([
         { k:'hotel', label:'السكن', opts:optHotels() }
@@ -24167,22 +24701,50 @@ function screenTeams() {
     const done = ts.filter(t => t.status === 'done').length;
     const g0 = groupsOf(L.id)[0];
     const isOpen = open === L.id;
-    return '<div class="card teamcard' + (isOpen ? ' open' : '') + '">' +
-      '<button class="fl teamhead" aria-expanded="' + isOpen + '" data-a="seg" data-k="tmopen" data-v="' +
+    const pct = ts.length ? Math.round(done / ts.length * 100) : 0;
+    const stuck = ts.filter(t => ['late','over'].indexOf(tState(t)) >= 0).length;
+    const prepGap = ts.filter(t => t.start > now() && prepPct(t) < 100).length;
+    const sup = supOfGroup(g0);
+    const prog = programName(L.programId || (g0 && g0.programId));
+    /* الإنذارُ أهمُّ ما في البطاقة: أيُّ فريقٍ يحتاجني الآن */
+    const flags = [];
+    if (stuck)    flags.push({ t:arCount(stuck,'مهمة') + ' متعثّرة', c:'var(--red)' });
+    if (prepGap)  flags.push({ t:'استعدادٌ ناقصٌ في ' + NUM(prepGap), c:'var(--amber)' });
+    if (!sup)     flags.push({ t:'بلا مشرف سكن', c:'var(--amber)' });
+    if (!flags.length) flags.push({ t:'لا شيء يحتاج تدخّلًا', c:'var(--live)' });
+    return '<div class="card teamcard tc2' + (isOpen ? ' open' : '') +
+      (stuck ? ' tc-bad' : '') + '">' +
+      '<button class="teamhead tc-head" aria-expanded="' + isOpen + '" data-a="seg" data-k="tmopen" data-v="' +
         (isOpen ? '' : L.id) + '">' + avatar(L, 'lg') +
-        '<span class="nm" style="flex:1"><b style="font-size:15px">' + E(L.kt) + ' · ' + E(L.name) + '</b>' +
-        '<span>' + E(org.ar) + ' · ' + E(org.type) + ' · ' + controlCountry(org.country) +
-        (g0 ? ' · ' + E(hotelById(g0.hotelId).ar || '') : '') +
-        (supOfGroup(g0) ? ' · المشرف ' + E(supOfGroup(g0).name) : ' · بلا مشرف') +
-        '</span></span>' +
-        pill(E(org.type), org.type === 'بعثة' ? 'blue' : 'gold') +
-        pill(AR(L.pilgrims) + ' حاج', 'grey') +
-        '<span class="chev">' + icon('i-fwd','s16') + '</span></button>' +
-      '<div class="meta">' +
-        '<div><span class="k">محسنون</span><b class="num">' + AR(team.length) + '</b></div>' +
-        '<div><span class="k">مهام</span><b class="num">' + AR(ts.length) + '</b></div>' +
-        '<div><span class="k">منجزة</span><b class="num">' + AR(done) + '</b></div>' +
+        '<span class="tc-id">' +
+          '<b>' + LTR(L.kt) + '</b>' +
+          '<span class="tc-name">' + E(L.name) + '</span>' +
+          '<span class="tc-org">' + E(org.ar) + ' · ' + controlCountry(org.country) + '</span>' +
+        '</span>' +
+        '<span class="tc-badges">' + pill(E(org.type), org.type === 'بعثة' ? 'blue' : 'gold') +
+          '<span class="chev">' + icon('i-fwd','s16') + '</span></span></button>' +
+
+      '<div class="tc-line">' +
+        '<span class="tc-chip">' + icon('i-flag','s13') + E(prog || 'بلا برنامج') + '</span>' +
+        '<span class="tc-chip">' + icon('i-key','s13') +
+          E(g0 && hotelById(g0.hotelId) ? hotelById(g0.hotelId).ar : 'بلا سكن') + '</span>' +
+        '<span class="tc-chip">' + icon('i-user','s13') +
+          (sup ? E(sup.name) : 'بلا مشرف') + '</span>' +
       '</div>' +
+
+      '<div class="tc-nums">' +
+        '<div><span>الحجاج</span><b class="num">' + NUM(L.pilgrims) + '</b></div>' +
+        '<div><span>المحسنون</span><b class="num">' + NUM(team.length) + '</b></div>' +
+        '<div><span>المهام</span><b class="num">' + NUM(ts.length) + '</b></div>' +
+        '<div class="tc-pct"><span>المنجز</span><b class="num">' + NUM(pct) + '<i>٪</i></b></div>' +
+      '</div>' +
+      '<div class="tc-bar" role="img" aria-label="' +
+        E('أُنجز ' + NUM(done) + ' من ' + NUM(ts.length)) + '">' +
+        '<i style="inline-size:' + pct + '%"></i>' +
+        (stuck ? '<u style="inline-size:' + Math.round(stuck / Math.max(1, ts.length) * 100) +
+          '%"></u>' : '') + '</div>' +
+      '<div class="tc-flags">' + flags.map(f =>
+        '<span style="--fc:' + f.c + '">' + E(f.t) + '</span>').join('') + '</div>' +
     '</div>';
   }).join('') + '</div>' + detail + '</div>' : '<div class="card">' +
     empty('لا فرق بهذه الفلاتر', 'امسح الفلاتر أو غيّر البحث', 'i-users') + '</div>');
@@ -24364,7 +24926,9 @@ function screenPilgrims() {
 
     '<div class="card control-records control-pilgrim-registry">' +
       head('سجلّ الحجاج', 'الوصول والسكن وحالات الرعاية',
-        pill(AR(list.length) + ' معروض', 'gold'), 'i-users') +
+        (function(){ const free = all.filter(u => u.role === 'muhsen' && !u.reserve && !u.groupId).length;
+          return free ? pill(arCount(free,'محسن') + ' بلا مجموعة', 'no') : pill('كلٌّ مُسكَّن', 'live'); })(),
+        'i-users') +
       filterBar('pil', [
         { k:'kt',    label:'الـKT',   opts:optKT() },
         { k:'org',   label:'الجهة',   opts:optOrgs() },
@@ -24463,15 +25027,16 @@ function screenQuality() {
 
     '<div class="grid g23">' +
       '<div class="card hov">' +
-        head('ترتيب الفرق', 'بالمتوسط التراكمي — والعمود الأخير ما يحتاج مراجعة', '', 'i-star') +
-        '<div class="board">' + board.map((b, i) =>
+        head('ترتيب الفرق', 'الشريطُ يقارن بين الفرق لا بالخمسة — فالفروقُ تُرى', '', 'i-star') +
+        '<div class="board rel-board">' + board.map((b, i) =>
           '<div class="brow" style="animation-delay:' + (i * 70) + 'ms" ' +
             'data-a="ktopen" data-id="' + b.L.id + '">' +
             '<span class="rk' + (i === 0 ? ' top' : '') + '">' + AR(i + 1) + '</span>' +
             avatar(b.L, 'sm') +
             '<span class="nm"><b>' + E(b.L.kt) + '</b><span>' + E(b.L.name) + '</span></span>' +
-            '<span class="bar2"><i data-w="' + (b.r / 5 * 100) + '"></i></span>' +
-            stars(b.r) +
+            '<span class="bar2 rel"><i data-w="' +
+              (6 + (b.r - board[board.length-1].r) / Math.max(0.05, board[0].r - board[board.length-1].r) * 94).toFixed(1) + '"></i></span>' +
+            '<b class="num bar2-v">' + NUM(b.r.toFixed(2)) + '</b>' +
             (b.low ? pill(AR(b.low) + ' دون 3.5', 'no') : pill('نظيف', 'live')) +
           '</div>').join('') + '</div>' +
       '</div>' +
@@ -24486,11 +25051,25 @@ function screenQuality() {
       head('أدنى خمس مهام', 'تُراجَع بسببها لا برقمها', '', 'i-flag') +
       '<div class="plist">' + worst.map(t => {
         const L = userById(t.leaderId) || {}, c = CAT[t.kind] || {};
-        return '<div class="prow">' +
+        /* السببُ يُحسب من المهمّة نفسِها: من بدأها، وكم تأخّر البدء،
+           وما بقي من متطلّباتِ الإغلاق، وكم تنبيهًا لم يُقرأ. */
+        const why = [];
+        if (t.autoStarted) why.push({ t:'بدأها النظام لا ليدرها', c:'var(--red)' });
+        const lateM = t.startedAt ? Math.round((t.startedAt - t.start) / MIN) : 0;
+        if (lateM > 0) why.push({ t:'تأخّر البدء ' + NUM(lateM) + ' د', c:'var(--amber)' });
+        try { const m = reqIn(t,'post').filter(r => !r.done).length;
+          if (m) why.push({ t:NUM(m) + ' متطلّبًا بلا إغلاق', c:'var(--amber)' }); } catch (e) {}
+        try { const a = unseenAlerts(t);
+          if (a) why.push({ t:NUM(a) + ' تنبيهًا لم يُقرأ', c:'var(--dim)' }); } catch (e) {}
+        if (!why.length) why.push({ t:'تقييمٌ منخفضٌ بلا سببٍ مسجَّل', c:'var(--dim)' });
+        return '<div class="prow wrow">' +
           '<span class="ico" style="color:' + (c.c || 'var(--dim)') + '">' +
             icon(c.i || 'i-tasks', 's18') + '</span>' +
-          '<span class="nm" style="flex:1"><b>' + E(t.title) + '</b>' +
+          '<span class="nm" style="flex:1;min-width:150px"><b>' + E(t.title) + '</b>' +
           '<span>' + E(t.kt) + ' · ' + E(L.name || '') + ' · ' + hijri(t.start) + '</span></span>' +
+          '<span class="wwhy">' + why.slice(0,3).map(w =>
+            '<span class="wtag" style="--wc:' + w.c + '">' + E(w.t) + '</span>').join('') + '</span>' +
+          '<b class="num wrate">' + NUM(Number(t.rating).toFixed(1)) + '</b>' +
           stars(t.rating) + '</div>';
       }).join('') + '</div>' +
     '</div>';
@@ -24828,7 +25407,7 @@ function screenStaff() {
 
     '<div class="card control-records control-records-staff">' +
       head('سجلّ الموظفين', 'الفرق والتسكين والتقييم حسب الموظف.',
-        pill(AR(list.length) + ' معروض', 'gold'), 'i-idcard') +
+        '', 'i-idcard') +
       '<div class="tools">' + segmented('sr',
         [['all','الكل'],['supervisor','مشرفون'],['leader','ليدرز'],
          ['muhsen','محسنون'],['reserve','احتياط']], role) + '</div>' +
@@ -26192,9 +26771,12 @@ function stepProg() {
           '<span>' + LTR(p.code) + ' · ' + E(o.ar || '—') + ' · ' + E(o.country || '') + '</span></span>' +
           pill(E(p.kind), 'grey') +
           pill(E(o.type || '—'), o.type === 'بعثة' ? 'blue' : 'gold') +
-          pill(AR(gs.length) + ' فريق', gs.length ? 'live' : 'wait') +
+          pill(arCount(gs.length, 'فريق'), gs.length ? 'live' : 'wait') +
+          /* المهامُّ قائمةٌ والفريقُ غائب: خللٌ يُوقف البرنامج */
+          (!gs.length && tasks ? pill('مهامٌّ بلا فريق', 'no') : '') +
           '<div class="pfoot" style="width:100%">' +
-            '<span class="ok">' + AR(muh) + ' محسنًا · ' + AR(tasks) + ' مهمّة</span>' +
+            '<span class="' + (muh ? 'ok' : 'no') + '">' +
+              arCount(muh, 'محسن') + ' · ' + arCount(tasks, 'مهمة') + '</span>' +
             '<span class="fl" style="gap:7px">' + (gs.length
               ? gs.slice(0, 5).map(g => pill(LTR(g.no), 'grey')).join('')
               : '<span class="tiny faint">لا فريقَ على هذا البرنامج بعد</span>') +
@@ -26433,18 +27015,22 @@ function screenTransport() {
           '<span>' + LTR(t.no) + ' · ' + E(b.no || '') + ' · ' + E(t.driver) + '</span></span>' +
           '<span class="when"><b>' + t12(t.at) + '</b>' +
             '<span class="num">' + AR(t.dur) + ' دقيقة</span></span>' +
-          '<span class="fl control-trip-capacity">' +
-            '<span class="meter" style="flex:1"><i data-w="' + full + '"></i></span>' +
-            '<span class="tiny faint num">' + AR(t.riders.length) + '/' + AR(t.cap) + '</span></span>' +
+          seatChip(t.riders.length, t.cap) +
           pill(st.ar, st.c) + '</div>';
       }).join('') + '</div>' : empty('لا رحلة في هذا اليوم', 'جدوِل رحلة من الأعلى', 'i-bus')) +
     '</section>' +
 
     '<section class="card control-fleet">' +
       head('الأسطول', AR(S.buses.length) + ' باصات', '', 'i-bus') +
-      '<div class="grid g3">' + S.buses.map(b => {
-        const mine = tripsOn(day).filter(t => t.busId === b.id);
+      '<div class="grid g3">' + (function () {
+        const dayTrips = tripsOn(day);
+        const peak = Math.max(1, Math.max.apply(null, S.buses.map(x =>
+          dayTrips.filter(t => t.busId === x.id).reduce((a, t) => a + t.dur, 0))));
+        return S.buses.map(b => {
+        const mine = dayTrips.filter(t => t.busId === b.id);
         const busy = mine.reduce((a, t) => a + t.dur, 0);
+        const seats = mine.reduce((a, t) => a + t.riders.length, 0);
+        const caps  = mine.reduce((a, t) => a + t.cap, 0);
         return '<div class="busbox" style="--bc:' + b.color + '">' +
           '<div class="fl" style="gap:10px;margin-bottom:10px">' +
             '<span class="ico" style="color:' + b.color + '">' + icon('i-bus','s18') + '</span>' +
@@ -26452,15 +27038,34 @@ function screenTransport() {
             '<span>' + LTR(b.plate) + ' · ' + AR(b.cap) + ' مقعدًا</span></span>' +
             pill(AR(mine.length) + ' رحلة', mine.length ? 'live' : 'grey') + '</div>' +
           '<div class="tiny faint">' + E(b.driver) + ' · ' + LTR(b.phone) + '</div>' +
-          '<div class="meter gold" style="margin-top:10px"><i data-w="' +
-            Math.min(100, Math.round(busy / 600 * 100)) + '"></i></div>' +
-          '<div class="tiny faint" style="margin-top:6px">' +
-            AR(Math.round(busy / 60)) + ' ساعات تشغيل اليوم</div>' +
+          '<div class="meter gold" style="margin-top:10px" title="' +
+            E('مقارنةً بأكثر الباصات تشغيلًا اليوم') + '"><i data-w="' +
+            Math.round(busy / peak * 100) + '"></i></div>' +
+          '<div class="busfoot">' +
+            '<span>' + (busy ? NUM((busy / 60).toFixed(1)) + ' ساعة تشغيل' : 'لم يتحرّك اليوم') + '</span>' +
+            (caps ? '<span>إشغال ' + NUM(Math.round(seats / caps * 100)) + '٪</span>' : '') +
+            (busy ? '' : '<span class="busidle">عاطل</span>') +
+          '</div>' +
         '</div>';
-      }).join('') + '</div>' +
+      }).join(''); })() + '</div>' +
     '</section>';
 }
 
+
+/* الإشغالُ إشارةُ تشغيل: الفارغةُ هدرٌ، والممتلئةُ خطرُ تكدّس.
+   فيُعطى حالةً ولونًا بدل شريطٍ أربعةٍ بالمئةِ لا يُرى. */
+function seatChip(riders, cap) {
+  const c = Math.max(1, cap), p = Math.round(riders / c * 100);
+  const s = p === 0 ? { ar:'فارغة',   t:'var(--dim2)' }
+        : p < 40  ? { ar:'قليلة',    t:'var(--amber)' }
+        : p < 86  ? { ar:'مناسبة',   t:'var(--live)' }
+                  : { ar:'ممتلئة',   t:'var(--gold2)' };
+  return '<span class="seat" style="--st:' + s.t + '" title="' +
+    E('إشغال المقاعد ' + NUM(p) + '٪') + '">' +
+    '<span class="seat-g"><i style="inline-size:' + Math.max(4, p) + '%"></i></span>' +
+    '<b class="num">' + NUM(riders) + '<s>/</s>' + NUM(c) + '</b>' +
+    '<em>' + s.ar + '</em></span>';
+}
 /* ---------- مسار اليوم: صفّ لكل باص ---------- */
 function busSchedule(day, filterable = false) {
   const trips = tripsOn(day);
@@ -26476,7 +27081,7 @@ function busSchedule(day, filterable = false) {
       return { id:t.id, start:t.at, end:t.at + t.dur * MIN, title:t.to,
         detail:'من ' + t.from + ' · ' + t.no, trackOverlap:!t.done, status:state.ar, tone:state.c };
     })
-  })), {title:'مصفوفة الرحلات حسب الباص', icon:'i-bus', unit:'رحلة', empty:'لا رحلات بهذه الحالة'}, 'tropen');
+  })), {title:'مسار الرحلات على اليوم', icon:'i-bus', unit:'رحلة', laneLab:'الحافلة', emptyRow:'لا رحلات مجدولة', empty:'لا رحلات بهذه الحالة'}, 'tropen');
 }
 
 /* ---------- درج الرحلة ---------- */
@@ -27358,8 +27963,16 @@ function wLoad() {
     pill(AR(runningTasks().length) + ' الآن', runningTasks().length ? 'live' : 'grey'));
 }
 function wStatus() {
-  return card('حالات المهام', 'من ' + AR(V.tasks.length) + ' مهمة',
-    controlBars(Object.keys(TSTATE).map(key => ({l:TSTATE[key].ar, c:TSTATE[key].c, v:V.tasks.filter(t => tState(t) === key).length})), {share:true}), 'i-pie');
+  const all = Object.keys(TSTATE).map(key => ({
+    l:TSTATE[key].ar, c:TSTATE[key].c,
+    v:V.tasks.filter(t => tState(t) === key).length }));
+  const live = all.filter(x => x.v), zero = all.filter(x => !x.v);
+  return card('حالات المهام', 'من ' + NUM(V.tasks.length) + ' مهمة',
+    controlBars(live, {share:true}) +
+    (zero.length ? '<div class="zrow">' + zero.map(z =>
+      '<span class="ztag"><i style="background:' + z.c + '"></i>' + E(z.l) +
+      '</span>').join('') + '<span class="ztxt">لا شيء فيها الآن</span></div>' : ''),
+    'i-pie');
 }
 function wTypes() {
   const d = [
@@ -27499,11 +28112,77 @@ function wFeed() {
     E(f.title) + '</strong><p>' + E(f.body) + '</p></article>'), 'لا أحداث واردة',
     controlHeroButton('البلاغات','i-warn','go','incidents',true));
 }
+
+/* يجمع المتشابهَ تحت مفتاحٍ واحد، ويرتّب الأكبرَ أوّلًا ثم الأقرب.
+   سببُه: المراقبُ لا يقرأ اثني عشر سطرًا متطابقًا ليعلم أنّها حدثٌ واحد. */
+
+/* «موجة» بعددها: ٠ لا موجة · ١ موجةٌ واحدة · ٢ موجتان · ٣–١٠ جمعٌ ·
+   ١١ فأكثر مفردٌ منصوب. تُكتب مرّةً وتُستعمل في كلِّ عنوانٍ فيه عدد. */
+const PLU = {
+  'موجة':   ['لا موجة','موجة واحدة','موجتان','موجات','موجة'],
+  'خبر':    ['لا خبر','خبر واحد','خبران','أخبار','خبرًا'],
+  'نقص':    ['لا نقص','نقص واحد','نقصان','أنقاص','نقصًا'],
+  'مهمة':   ['لا مهام','مهمة واحدة','مهمتان','مهام','مهمة'],
+  'تنبيه':  ['لا تنبيهات','تنبيه واحد','تنبيهان','تنبيهات','تنبيهًا'],
+  'محسن':   ['لا محسنين','محسن واحد','محسنان','محسنين','محسنًا'],
+  'رحلة':   ['لا رحلات','رحلة واحدة','رحلتان','رحلات','رحلة'],
+  'بلاغ':   ['لا بلاغات','بلاغ واحد','بلاغان','بلاغات','بلاغًا'],
+  'فريق':   ['لا فرق','فريق واحد','فريقان','فرق','فريقًا'],
+  'إجراء':  ['بلا سوابق','إجراءٌ واحد','إجراءان','إجراءات','إجراءً'],
+  'مورد':   ['بلا موارد','موردٌ واحد','موردان','موارد','موردًا'],
+  'فعل':    ['بلا أفعال','فعلٌ واحد','فعلان','أفعال','فعلًا'],
+  'صفة':    ['غير ممنوحة','صفةٌ واحدة','صفتان','صفات','صفة'],
+  'محسن2':  ['بلا محسنين','محسنٌ واحد','محسنان','محسنين','محسنًا']
+};
+function arCount(n, word) {
+  const f = PLU[word]; if (!f) return NUM(n) + ' ' + word;
+  if (n === 0) return f[0];
+  if (n === 1) return f[1];
+  if (n === 2) return f[2];
+  if (n <= 10) return NUM(n) + ' ' + f[3];
+  return NUM(n) + ' ' + f[4];
+}
+function rollup(items, keyOf) {
+  const m = new Map();
+  items.forEach(it => {
+    const k = keyOf(it); if (k == null) return;
+    if (!m.has(k)) m.set(k, { key: k, items: [] });
+    m.get(k).items.push(it);
+  });
+  return Array.from(m.values());
+}
+function uniq(a) { return Array.from(new Set(a.filter(Boolean))); }
+/* «KT085 · KT062 +3» — الجهاتُ المعنيّةُ بإيجاز */
+function tagList(arr, keep) {
+  const u = uniq(arr), n = keep || 2;
+  return u.slice(0, n).map(LTR).join(' · ') + (u.length > n ? ' +' + NUM(u.length - n) : '');
+}
 function wNext() {
   const tasks = V.tasks.filter(t => t.start > now()).sort((a,b) => a.start - b.start);
-  return opsWidget('schedule','المهام القادمة', AR(tasks.length) + ' مهمة','i-cal', tasks.slice(0,12).map(t =>
-    '<button class="ops-time-item" data-a="tlopen" data-id="' + E(t.id) + '"><time>' + t12(t.start) + '</time>' +
-    '<span><b>' + E(t.title) + '</b><small>' + E(programName(t.programId)) + ' · ' + E(t.place) + '</small></span></button>'),
+  /* اثنا عشرَ فوجًا يخرجون إلى منى حدثٌ واحدٌ لا اثنا عشر — فيُعرض موجةً:
+     كم فوجًا، ومتى أوّلُها وآخرُها، وكيف تتوزّع على الساعات القادمة. */
+  const t0 = now(), HORIZON = 12 * HR;
+  const waves = rollup(tasks, t => t.title)
+    .sort((a, b) => a.items[0].start - b.items[0].start);
+  const rows = waves.slice(0, 7).map(g => {
+    const first = g.items[0], last = g.items[g.items.length - 1];
+    const c = CAT[first.kind] || {}, many = g.items.length > 1;
+    const dots = g.items.slice(0, 40).map(t =>
+      '<i style="inset-inline-start:' +
+      Math.min(99, Math.max(0, (t.start - t0) / HORIZON * 100)).toFixed(1) + '%"></i>').join('');
+    return '<button class="wv" data-a="tlopen" data-id="' + E(first.id) + '">' +
+      '<span class="wv-t"><span class="wv-ic" style="color:' + (c.c || 'var(--g2)') + '">' +
+        icon(c.i || 'i-tasks', 's15') + '</span><b>' + E(first.title) + '</b>' +
+        (many ? '<span class="wv-n">' + NUM(g.items.length) + '</span>' : '') + '</span>' +
+      '<span class="wv-s">' + (many
+        ? 'أوّلها <b>' + untilTxt(first.start) + '</b> · آخرها <b>' + t12(last.start) + '</b>'
+        : '<b>' + untilTxt(first.start) + '</b> · ' + t12(first.start)) +
+        ' · ' + (tagList(g.items.map(t => t.kt))) +
+        (first.place ? ' · ' + E(first.place) : '') + '</span>' +
+      '<span class="wv-tr" aria-hidden="true">' + dots + '</span></button>';
+  });
+  return opsWidget('waves','المهام القادمة',
+    arCount(tasks.length,'مهمة') + ' في ' + arCount(waves.length,'موجة'),'i-cal', rows,
     'لا مهام قادمة', controlHeroButton('جدول المهام','i-cal','go','timeline',true));
 }
 function wLive() {
@@ -27513,11 +28192,35 @@ function wLive() {
 }
 function wTop() {
   const ranks = V.users.filter(u => u.role === 'muhsen' && u.groupId)
-    .map(u => ({u, rating:muhsenRating(u.id)})).filter(x => x.rating > 0).sort((a,b) => b.rating - a.rating).slice(0,12);
-  return opsWidget('ranking','أعلى المحسنين','حسب تقييم المهام','i-star', ranks.map(({u,rating},i) =>
-    '<button class="ops-rank-item" data-a="staffopen" data-id="' + E(u.id) + '">' +
-    '<span class="ops-rank-index">' + AR(i+1) + '</span>' + avatar(u,'sm') + '<strong>' + E(u.name) + '</strong>' +
-    '<small>' + icon('i-star','s12') + AR(rating.toFixed(1)) + '</small></button>'), 'لا تقييمات بعد');
+    .map(u => ({u, rating:muhsenRating(u.id)})).filter(x => x.rating > 0)
+    .sort((a,b) => b.rating - a.rating);
+  if (!ranks.length) return opsWidget('podium','أعلى المحسنين','حسب تقييم المهام','i-star',
+    [], 'لا تقييمات بعد');
+  /* اثنا عشرَ وجهًا بأرقامٍ بين ٤٫٤ و٤٫٦ لا تفرّق شيئًا. فثلاثةٌ على المنصّة،
+     ثمّ شريطُ مدًى يُري أين يقع الجميعُ بين الأدنى والأعلى — والمقياسُ
+     بين طرفَي المدى لا من صفرٍ إلى خمسة، وإلّا تشابهت كلُّ الأشرطة. */
+  const hi = ranks[0].rating, lo = ranks[ranks.length - 1].rating;
+  const span = Math.max(0.05, hi - lo);
+  const pos = r => ((r - lo) / span * 100);
+  const pod = '<div class="pod">' + ranks.slice(0, 3).map((x, i) =>
+    '<button class="pod-i p' + (i + 1) + '" data-a="staffopen" data-id="' + E(x.u.id) + '">' +
+    '<span class="pod-r">' + NUM(i + 1) + '</span>' + avatar(x.u, 'sm') +
+    '<strong>' + E(x.u.name) + '</strong>' +
+    '<span class="pod-v">' + NUM(x.rating.toFixed(2)) + '</span></button>').join('') + '</div>';
+  const strip = '<div class="pod-sp"><span class="pod-e">' + NUM(lo.toFixed(1)) + '</span>' +
+    '<span class="pod-bar">' + ranks.map(x =>
+      '<i style="inset-inline-start:' + pos(x.rating).toFixed(1) + '%"></i>').join('') +
+    '</span><span class="pod-e">' + NUM(hi.toFixed(1)) + '</span></div>' +
+    '<div class="pod-note">' + arCount(ranks.length,'محسن') + ' · الفارق بين الأوّل والأخير <b>' +
+    NUM((hi - lo).toFixed(2)) + '</b> نجمة</div>';
+  const rest = ranks.slice(3, 8).map((x, i) =>
+    '<button class="pod-row" data-a="staffopen" data-id="' + E(x.u.id) + '">' +
+    '<span class="pod-rk">' + NUM(i + 4) + '</span>' + avatar(x.u, 'sm') +
+    '<b>' + E(x.u.name) + '</b>' +
+    '<span class="pod-mini"><i style="width:' + Math.max(3, pos(x.rating)).toFixed(1) + '%"></i></span>' +
+    '<span class="num pod-nv">' + NUM(x.rating.toFixed(2)) + '</span></button>').join('');
+  return opsWidget('podium','أعلى المحسنين','حسب تقييم المهام','i-star',
+    [pod, strip, rest], 'لا تقييمات بعد');
 }
 function wBusNext() {
   const n = V.trips.filter(t => t.at > now()).sort((a, b) => a.at - b.at).slice(0, 12);
@@ -27672,14 +28375,28 @@ function wStuckKpi() {
 /* قائمة الاستعداد الناقص — أهمّ قائمة في اللوحة: تُنقر فتُفتح المهمّة */
 function wPrepList() {
   const tasks = upcoming().filter(t => prepPct(t) < 100);
-  return opsWidget('readiness','استعداد ناقص قبل الموعد',AR(tasks.length) + ' مهمة تحتاج تجهيزًا','i-shield',tasks.slice(0,10).map(t => {
-    const value = prepPct(t), missing = reqIn(t,'pre').filter(r => !r.done);
-    return '<button class="ops-prep-item" data-a="tlopen" data-id="' + E(t.id) + '">' +
-      '<strong>' + E(t.title) + '</strong><small>' + LTR(t.kt) + ' · ' + untilTxt(t.start) + '</small>' +
-      '<span class="ops-prep-meter"><progress max="100" value="' + value + '" aria-label="الاستعداد"></progress><b>' + AR(value) + '٪</b></span>' +
-      (missing.length ? '<span class="ops-prep-gap">' + E(missing[0].text) +
-        (missing.length > 1 ? ' +' + AR(missing.length - 1) : '') + '</span>' : '') + '</button>';
-  }), 'كل المهام القادمة مستعدة');
+  /* لا تُعرض المهامُّ بل النواقص: نقصٌ واحدٌ يتكرّر في ستِّ مهامٍ يُغلق
+     مرّةً فتخرج الستُّ من الخطر. والترتيبُ بأقربِ موعدٍ يفوت. */
+  const gaps = new Map();
+  tasks.forEach(t => reqIn(t, 'pre').filter(r => !r.done).forEach(r => {
+    if (!gaps.has(r.text)) gaps.set(r.text, { text:r.text, tasks:[], soon:Infinity });
+    const g = gaps.get(r.text);
+    g.tasks.push(t); g.soon = Math.min(g.soon, t.start);
+  }));
+  const list = Array.from(gaps.values()).sort((a, b) =>
+    a.soon - b.soon || b.tasks.length - a.tasks.length);
+  const rows = list.slice(0, 8).map(g => {
+    const urgent = g.soon - now() < 3 * HR;
+    return '<button class="gp' + (urgent ? ' hot' : '') + '" data-a="tlopen" data-id="' +
+      E(g.tasks[0].id) + '">' +
+      '<span class="gp-h"><b>' + E(g.text) + '</b>' +
+        '<span class="gp-n">' + NUM(g.tasks.length) + '</span></span>' +
+      '<span class="gp-s">ناقصٌ في ' + NUM(g.tasks.length) + ' مهمة · أقربها <b>' +
+        untilTxt(g.soon) + '</b> · ' + (tagList(g.tasks.map(t => t.kt))) + '</span></button>';
+  });
+  return opsWidget('gaps2','استعداد ناقص قبل الموعد',
+    arCount(list.length,'نقص') + ' في ' + arCount(tasks.length,'مهمة'),'i-shield',
+    rows, 'كل المهام القادمة مستعدة');
 }
 
 /* المتعثّرة: حان وقتها ولم تبدأ، أو فات وقتها ولم تُغلق */
@@ -27687,10 +28404,17 @@ function wStuckList() {
   const tasks = V.tasks.filter(t => ['late','over'].includes(tState(t))).sort((a,b) => a.start - b.start);
   const groups = ['over','late'].map(state => {
     const active = tasks.filter(t => tState(t) === state);
+    const waves = rollup(active, t => t.title)
+      .sort((a, b) => b.items.length - a.items.length || a.items[0].start - b.items[0].start);
     return '<section class="ops-queue-group ' + state + '"><h3>' + E(TSTATE[state].ar) +
-      '<span>' + AR(active.length) + '</span></h3>' + active.slice(0,6).map(t =>
-      '<button data-a="tlopen" data-id="' + E(t.id) + '"><strong>' + E(t.title) + '</strong>' +
-      '<small>' + LTR(t.kt) + ' · ' + t12(t.start) + '</small></button>').join('') + '</section>';
+      '<span>' + NUM(active.length) + '</span></h3>' + waves.slice(0,6).map(g => {
+      const t = g.items[0], n = g.items.length;
+      return '<button data-a="tlopen" data-id="' + E(t.id) + '"><strong>' + E(t.title) +
+        (n > 1 ? '<span class="qn">' + NUM(n) + '</span>' : '') + '</strong>' +
+        '<small>' + (tagList(g.items.map(x => x.kt))) + ' · ' +
+        (n > 1 ? 'من ' + t12(t.start) + ' إلى ' + t12(g.items[n-1].start)
+               : t12(t.start)) + '</small></button>';
+    }).join('') + '</section>';
   });
   return opsWidget('queue','مهام متعثرة',AR(tasks.length) + ' مهمة','i-warn',tasks.length ? groups : [],'لا مهام متعثرة');
 }
@@ -27698,8 +28422,28 @@ function wStuckList() {
 /* التنبيهات الواصلة الآن */
 function wAlertList() {
   const alerts = allAlerts().filter(a => !a.seen);
-  return opsWidget('inbox','تنبيهات لم تُقرأ',AR(alerts.length) + ' تنبيه','i-bell',
-    alerts.slice(0,12).map(a => alertRow(a,a.task,true)), 'كل التنبيهات مقروءة',
+  /* النصُّ نفسُه واصلًا ثماني مرّاتٍ من ثماني مهامٍ خبرٌ واحد: ماذا وقع،
+     وكم مرّة، وآخرُ مرّةٍ متى، وعلى أيّ الجهات. */
+  const g = rollup(alerts, a => a.text)
+    .sort((a, b) => b.items.length - a.items.length ||
+      Math.max.apply(null, b.items.map(x => x.at)) - Math.max.apply(null, a.items.map(x => x.at)));
+  const rows = g.slice(0, 8).map(x => {
+    const k = ALERT_KIND[x.items[0].kind] || ALERT_KIND.change;
+    const last = Math.max.apply(null, x.items.map(a => a.at));
+    const n = x.items.length;
+    return '<button class="al2" data-a="alopen" data-id="' +
+      E(x.items[0].task ? x.items[0].task.id : '') + '" data-s="' + E(x.items[0].id) + '">' +
+      '<span class="al2-i" style="color:' + k.c + ';background:color-mix(in srgb,' + k.c +
+        ' 15%,transparent)">' + icon(k.i, 's15') + '</span>' +
+      '<span class="al2-x"><b>' + E(x.text || x.key) + '</b><small>' + E(k.ar) +
+        ' · آخرها ' + t12(last) + ' · ' +
+        (tagList(x.items.map(a => a.task && a.task.kt))) + '</small></span>' +
+      (n > 1 ? '<span class="al2-n">' + NUM(n) + '</span>' : '<span class="aldot"></span>') +
+      '</button>';
+  });
+  return opsWidget('inbox2','تنبيهات لم تُقرأ',
+    arCount(alerts.length,'تنبيه') + ' في ' + arCount(g.length,'خبر'),'i-bell',
+    rows, 'كل التنبيهات مقروءة',
     '<button class="btn l sm" data-a="alerts">فتح الوارد</button>');
 }
 
@@ -27735,16 +28479,50 @@ function wDayLine() {
     { k:'soon', ar:'وشيكة' }, { k:'next', ar:'قادمة' }, { k:'over', ar:'فات وقتها' }
   ].map(x => ({ ar:x.ar, n:by(x.k), c:TSTATE[x.k].c })).filter(x => x.n);
   const tot = day.length || 1;
-  return card('يوم العمليات', AR(day.length) + ' مهمة اليوم — أين وصلنا منها',
+  const doneN = by('done'), pct = Math.round(doneN / tot * 100);
+  const left = day.filter(t => ['next','soon','live','late'].indexOf(tState(t)) >= 0);
+  /* ولا تُعاد الموجةُ ثلاثًا: ثلاثةُ عناوينَ مختلفةٍ أنفعُ من ثلاثةِ أفواجٍ لحدثٍ واحد */
+  const nextUp = rollup(day.filter(t => t.start > now()).sort((a,b) => a.start - b.start),
+    t => t.title).slice(0, 3);
+  const risk = by('late') + by('over');
+
+  /* ساعاتُ اليومِ اثنتا عشرةَ خانةً، وعلامةُ «الآن» بينها —
+     فيُقرأ بلمحةٍ أين نحن من اليوم، لا بقراءةِ أرقام. */
+  const hrs = loadByHour(), mxh = Math.max.apply(null, hrs.map(h => h.v)) || 1;
+  const strip = '<div class="dstrip">' + hrs.map(h =>
+    '<span class="dcell' + (h.hot ? ' now' : '') + '" title="' + E(NUM(h.l)) +
+    ':00 · ' + NUM(h.v) + ' مهمة">' +
+    '<i style="height:' + Math.max(6, h.v / mxh * 100) + '%"></i>' +
+    '<em>' + NUM(h.l) + '</em></span>').join('') + '</div>';
+
+  return card('يوم العمليات', arCount(day.length,'مهمة') + ' اليوم — أين وصلنا منها',
+    '<div class="dhero">' +
+      '<div class="dbig"><b class="num">' + NUM(pct) + '<i>٪</i></b>' +
+        '<span>منجزٌ من اليوم</span></div>' +
+      '<div class="dfacts">' +
+        '<div class="dfact"><span>ما زال مفتوحًا</span><b class="num">' +
+          NUM(left.length) + '</b></div>' +
+        '<div class="dfact' + (risk ? ' bad' : '') + '"><span>متأخّرٌ أو فات</span>' +
+          '<b class="num">' + NUM(risk) + '</b></div>' +
+        '<div class="dfact"><span>أقربُ موعد</span><b>' +
+          (nextUp[0] ? t12(nextUp[0].start) : '—') + '</b></div>' +
+      '</div>' +
+    '</div>' +
     '<div class="dayline">' + parts.map(p =>
       '<span class="dseg" style="flex:' + p.n + ';background:' + p.c + '" ' +
-      'title="' + E(p.ar) + ' ' + AR(p.n) + '"></span>').join('') + '</div>' +
-    '<div class="legend" style="margin-top:14px">' + parts.map(p =>
+      'title="' + E(p.ar) + ' ' + NUM(p.n) + '"></span>').join('') + '</div>' +
+    '<div class="legend">' + parts.map(p =>
       '<span><i style="background:' + p.c + '"></i>' + E(p.ar) +
-      '<b class="num">' + AR(p.n) + '</b></span>').join('') + '</div>' +
-    '<div class="tiny faint" style="margin-top:12px">' +
-      'نسبة المنجز من مهام اليوم ' + AR(Math.round(by('done') / tot * 100)) + '٪' +
-    '</div>', 'i-cal');
+      '<b class="num">' + NUM(p.n) + '</b></span>').join('') + '</div>' +
+    '<div class="dsub">حِمل الساعات — والعمودُ المضيء هو الآن</div>' + strip +
+    (nextUp.length ? '<div class="dsub">ما لم يأتِ بعد</div>' +
+      '<div class="dnext">' + nextUp.map(function(g){ var t=g.items[0], n=g.items.length;
+        return '<button data-a="tlopen" data-id="' + E(t.id) + '">' +
+        '<time>' + t12(t.start) + '</time>' +
+        '<span><b>' + E(t.title) + (n>1?'<span class="wv-n">'+NUM(n)+'</span>':'') + '</b>' +
+        '<small>' + (tagList(g.items.map(function(x){return x.kt})) ) +
+        ' · ' + untilTxt(t.start) + '</small></span></button>'; }).join('') + '</div>' : ''),
+    'i-cal');
 }
 
 function opsWidget(kind, title, description, symbol, rows, emptyLabel, action = '') {
@@ -28056,6 +28834,9 @@ function tabHajj() {
   else if (seg === 'risk') list = list.filter(t => ['late','over'].indexOf(tState(t)) >= 0);
   else if (seg === 'done') list = list.filter(t => t.status === 'done');
 
+  const gmode = S.tab.grp || 'none';
+  if (GRP_KEYS[gmode]) list = grpSort(list, gmode);
+
   const rated = all.filter(t => t.rating);
   const avg = rated.length ? (rated.reduce((a, t) => a + t.rating, 0) / rated.length).toFixed(1) : '0.0';
   const nPrep = all.filter(t => prepPct(t) < 100 && t.status !== 'done').length;
@@ -28077,10 +28858,15 @@ function tabHajj() {
         '<button class="bellbtn' + (unAll ? ' has' : '') + '" data-a="alerts" ' +
           'aria-label="تنبيهات المهام">' + icon('i-bell','s16') +
           (unAll ? '<i>' + AR(unAll) + '</i>' : '') + '</button>' +
-        pill(AR(list.length) + ' معروضة', 'gold'), 'i-kaaba') +
+        (function(){ const risk = all.filter(t => ['late','over'].indexOf(tState(t)) >= 0).length;
+          return risk ? pill(arCount(risk,'مهمة') + ' متعثّرة', 'no') : pill('لا تعثّر', 'live'); })(),
+        'i-kaaba') +
 
       '<div class="tools">' + segmented('tf',
         [['all','الكل'],['today','اليوم'],['live','جارية'],['next','قادمة'],['risk','متعثّرة'],['done','منجزة']], seg) +
+        '<span class="fsp"></span>' +
+        '<span class="grpl">تجميع</span>' + segmented('grp',
+        [['none','بلا'],['kind','المهمة'],['kt','الفريق'],['day','اليوم']], gmode) +
       '</div>' +
 
       filterBar(K, [
@@ -28102,9 +28888,54 @@ function tabHajj() {
         '</span>' +
       '</div>' +
 
-      (list.length ? pagedList(list, 'tsk', taskRow)
+      (list.length ? pagedGrouped(list, 'tsk', taskRow, gmode)
         : empty('لا مهام بهذه الفلاتر', 'امسح الفلاتر أو غيّر التصنيف', 'i-cal')) +
     '</div>';
+}
+
+
+/* التجميعُ يرتّب أوّلًا بمفتاحِه ثمّ يُدرج رأسًا قبل كلِّ طائفة.
+   والرأسُ لاصقٌ فلا يضيع عنوانُ الطائفةِ عند التمرير. */
+const GRP_KEYS = {
+  kind:  { ar:'المهمة', of:t => t.title },
+  kt:    { ar:'الفريق', of:t => t.kt || '' },
+  day:   { ar:'اليوم',  of:t => dkey(t.start) }
+};
+function grpSort(list, mode) {
+  const g = GRP_KEYS[mode]; if (!g) return list;
+  return list.slice().sort((a, b) => {
+    const ka = g.of(a), kb = g.of(b);
+    return ka === kb ? a.start - b.start : String(ka).localeCompare(String(kb), 'ar');
+  });
+}
+function pagedGrouped(list, key, rowFn, mode) {
+  const g = GRP_KEYS[mode];
+  if (!g) return pagedList(list, key, rowFn);
+  const pages = Math.max(1, Math.ceil(list.length / PAGE));
+  const p = Math.min(pageOf(key), pages - 1);
+  const slice = list.slice(p * PAGE, p * PAGE + PAGE);
+  let out = '', i = 0;
+  while (i < slice.length) {
+    const k = g.of(slice[i]); let j = i;
+    while (j < slice.length && g.of(slice[j]) === k) j++;
+    const run = slice.slice(i, j);
+    const t0 = Math.min.apply(null, run.map(t => t.start));
+    const t1 = Math.max.apply(null, run.map(t => t.start));
+    const teams = uniq(run.map(t => t.kt)).length;
+    const risky = run.filter(t => ['late','over'].indexOf(tState(t)) >= 0).length;
+    out += '<div class="grph' + (risky ? ' risky' : '') + '">' +
+      '<b>' + E(mode === 'day' ? hijri(t0) : k || '—') + '</b>' +
+      '<span class="grph-n">' + NUM(run.length) + '</span>' +
+      '<span class="grph-s">' +
+        (mode === 'kt' ? '' : arCount(teams,'فريق') + ' · ') +
+        (t0 === t1 ? t12(t0) : 'من ' + t12(t0) + ' إلى ' + t12(t1)) +
+      '</span>' +
+      (risky ? '<span class="grph-r">' + NUM(risky) + ' متعثّرة</span>' : '') +
+      '</div>' + run.map(rowFn).join('');
+    i = j;
+  }
+  return '<div class="plist grouped" data-g="' + mode + '">' + out + '</div>' +
+    pageControls(key, p, pages, PAGE, list.length);
 }
 
 /* ---------- قائمة مرقّمة: ثمانية وثمانون ومئتان في صفحة واحدة تُثقل كل ضغطة ----------
@@ -31565,10 +32396,14 @@ function actRow(a) {
       '<span>' + LTR(a.no) + ' · ' + E(a.title) + '</span></span>' +
     '<span class="actk" style="color:' + k.c + ';background:color-mix(in srgb,' + k.c +
       ' 14%,transparent)">' + icon(k.i,'s13') + E(k.ar) + '</span>' +
-    '<span class="fl" style="gap:9px;min-width:120px">' +
-      '<span class="meter' + (actPerf(a.userId) < 70 ? ' red' : '') + '" style="flex:1">' +
-      '<i data-w="' + actPerf(a.userId) + '"></i></span>' +
-      '<b class="num" style="min-width:32px">' + AR(actPerf(a.userId)) + '٪</b></span>' +
+    (function () {
+      const nAct = actsOf(a.userId).length, p = actPerf(a.userId);
+      const tone = nAct >= 3 ? 'var(--red)' : nAct === 2 ? 'var(--amber)' : 'var(--dim2)';
+      return '<span class="arec" style="--rt:' + tone + '" title="' +
+        E('أداء المحسن ' + NUM(p) + '٪') + '">' +
+        '<b>' + E(arCount(nAct, 'إجراء')) + '</b>' +
+        (p < 80 ? '<em>' + NUM(p) + '٪</em>' : '') + '</span>';
+    })() +
     (a.sms ? pill('رسالة: ' + SMS_ST[a.sms].ar, SMS_ST[a.sms].p) : '') +
     pill(pen.ar, pen.p) +
     '<span class="when"><b>' + hijri(a.at) + '</b>' +
@@ -33461,11 +34296,12 @@ function rolesSets() {
           '<span>' + E(rs.d) + '</span></span>' +
           (rs.sys ? pill('جاهزة','grey') : pill('مخصّصة','gold')) + '</div>' +
         '<div class="mrow">' +
-          '<span class="mchip">' + icon('i-list','s14') + AR(res.length) + ' موردًا</span>' +
-          '<span class="mchip">' + icon('i-checkc','s14') + AR(setCount(rs)) + ' فعلًا</span>' +
+          '<span class="mchip">' + icon('i-list','s14') + arCount(res.length,'مورد') + '</span>' +
+          '<span class="mchip">' + icon('i-checkc','s14') + arCount(setCount(rs),'فعل') + '</span>' +
           (danger ? '<span class="mchip" style="color:var(--red)">' + icon('i-x','s14') +
             AR(danger) + ' حذف</span>' : '') +
-          '<span class="mchip">' + icon('i-users','s14') + AR(used.length) + ' صفة</span>' +
+          '<span class="mchip' + (used.length ? '' : ' off') + '">' + icon('i-users','s14') +
+            arCount(used.length,'صفة') + '</span>' +
         '</div>' +
         '<div class="pfoot">' +
           '<span class="ok">' + (used.length
@@ -35507,7 +36343,14 @@ function crRow(r) {
       (r.state === 'pending'
         ? cdown(chreqDue(r), { sla:CR_SLA, ttl:'حتى يُصعَّد الطلبُ لتأخّر البتّ فيه' })
         : '<span class="num">' + (r.decidedAt ? t12(r.decidedAt) : '—') + '</span>') + '</span>' +
-    '<span class="end">' + pill(st.ar, st.p) + '</span></div>';
+    '<span class="end">' + pill(st.ar, st.p) +
+      (r.state === 'pending'
+        ? '<span class="crq">' +
+            '<button class="btn p sm" data-a="crok" data-id="' + E(r.id) + '">' +
+              icon('i-checkc','s14') + 'اعتماد</button>' +
+            '<button class="btn d sm" data-a="crno" data-id="' + E(r.id) + '">' +
+              icon('i-x','s14') + 'رفض</button></span>'
+        : '') + '</span></div>';
 }
 
 function crDrawer(id) {
@@ -38247,6 +39090,22 @@ render();
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* MUHSEN-CORE-LAYER-JS */
 /* ══════════════════════════════════════════════════════════════
    الطبقة الجامعة — ما لا يُكتب بالأنماط وحدها.
@@ -38318,6 +39177,111 @@ function chartPolish() {
    يُكتب هنا باللغتين. و«{n}» فجوةُ عددٍ تُغني عن مدخلٍ لكلِّ رقم.
    ══════════════════════════════════════════════════════════════ */
 Object.assign(DICT.en, {
+  /* ── إضافةُ المسارِ الزمنيِّ والبطاقات ── */
+  "موجة واحدة": "One wave",
+  "موجتان": "Two waves",
+  "{n} موجات": "{n} waves",
+  "{n} موجة": "{n} waves",
+  "لا موجة": "No waves",
+  "خبر واحد": "One item",
+  "خبران": "Two items",
+  "{n} أخبار": "{n} items",
+  "{n} خبرًا": "{n} items",
+  "لا خبر": "Nothing new",
+  "نقص واحد": "One gap",
+  "نقصان": "Two gaps",
+  "{n} أنقاص": "{n} gaps",
+  "{n} نقصًا": "{n} gaps",
+  "لا نقص": "No gaps",
+  "إجراءٌ واحد": "One record",
+  "إجراءان": "Two records",
+  "{n} إجراءات": "{n} records",
+  "{n} إجراءً": "{n} records",
+  "بلا سوابق": "Clean record",
+  "مهمة واحدة": "One task",
+  "مهمتان": "Two tasks",
+  "{n} مهام": "{n} tasks",
+  "لا مهام": "No tasks",
+  "تنبيه واحد": "One alert",
+  "تنبيهان": "Two alerts",
+  "{n} تنبيهات": "{n} alerts",
+  "لا تنبيهات": "No alerts",
+  "محسن واحد": "One muhsen",
+  "محسنان": "Two muhsens",
+  "{n} محسنين": "{n} muhsens",
+  "لا محسنين": "No muhsens",
+  "فريق واحد": "One team",
+  "فريقان": "Two teams",
+  "{n} فرق": "{n} teams",
+  "لا فرق": "No teams",
+  "رحلة واحدة": "One trip",
+  "رحلتان": "Two trips",
+  "{n} رحلات": "{n} trips",
+  "لا رحلات": "No trips",
+  "بلاغ واحد": "One report",
+  "بلاغان": "Two reports",
+  "{n} بلاغات": "{n} reports",
+  "لا بلاغات": "No reports",
+  "أوّلها": "first",
+  "آخرها": "last",
+  "ناقصٌ في": "Missing in",
+  "أقربها": "soonest",
+  "تجاوزت {n} س": "{n}h overdue",
+  "تجاوزت {n} د": "{n}m overdue",
+  "تجاوزت {n} ي": "{n}d overdue",
+  "انقضت الآن": "Just expired",
+  "منجزٌ من اليوم": "of today done",
+  "ما زال مفتوحًا": "Still open",
+  "متأخّرٌ أو فات": "Late or missed",
+  "أقربُ موعد": "Next due",
+  "حِمل الساعات — والعمودُ المضيء هو الآن": "Hourly load — the lit column is now",
+  "ما لم يأتِ بعد": "Still to come",
+  "لا شيء فيها الآن": "none right now",
+  "الموضعُ وقتٌ والعرضُ مدّة · الخطُّ الذهبيُّ هو الآن": "Position is time, width is duration · the gold line is now",
+  "الصفُّ المرتفعُ فيه تداخلٌ زمنيّ": "A raised row has a time clash",
+  "الحافلة": "Bus",
+  "لا رحلات مجدولة": "No trips scheduled",
+  "لا شيء مجدول": "Nothing scheduled",
+  "فارغة": "Empty",
+  "قليلة": "Low",
+  "مناسبة": "Good",
+  "ممتلئة": "Full",
+  "عاطل": "Idle",
+  "إشغال {n}٪": "{n}% load",
+  "{n} ساعة تشغيل": "{n}h in service",
+  "لم يتحرّك اليوم": "Did not run today",
+  "مقارنةً بأكثر الباصات تشغيلًا اليوم": "Relative to the busiest bus today",
+  "بلا برنامج": "No program",
+  "بلا سكن": "No housing",
+  "بلا مشرف": "No supervisor",
+  "بلا مشرف سكن": "No housing supervisor",
+  "لا شيء يحتاج تدخّلًا": "Nothing needs you",
+  "استعدادٌ ناقصٌ في {n}": "Readiness gap in {n}",
+  "الحجاج": "Pilgrims",
+  "المحسنون": "Muhsens",
+  "المهام": "Tasks",
+  "المنجز": "Done",
+  "كلُّ فريقٍ تحت برنامجِه — والشريطُ يقول ما أُنجز وما تعثّر": "Every team under its program — the bar shows done and stalled",
+  "تجميع": "Group by",
+  "بلا": "None",
+  "المهمة": "Task",
+  "الفريق": "Team",
+  "اليوم": "Day",
+  "{n} متعثّرة": "{n} stalled",
+  "الشريطُ يقارن بين الفرق لا بالخمسة — فالفروقُ تُرى": "The bar compares teams, not against five — so gaps show",
+  "بدأها النظام لا ليدرها": "Started by the system, not its leader",
+  "تأخّر البدء {n} د": "Started {n}m late",
+  "{n} متطلّبًا بلا إغلاق": "{n} requirements unclosed",
+  "{n} تنبيهًا لم يُقرأ": "{n} alerts unread",
+  "تقييمٌ منخفضٌ بلا سببٍ مسجَّل": "Low rating with no recorded cause",
+  "أداء المحسن {n}٪": "Muhsen performance {n}%",
+  "إشغال المقاعد {n}٪": "Seat occupancy {n}%",
+  "أُنجز {n} من {n}": "{n} of {n} done",
+  "الفارق بين الأوّل والأخير": "Gap between first and last",
+  "نجمة": "star",
+  "غير مسند": "Unassigned",
+  "من": "from",
+  "إلى": "to",
   /* ── نموذجُ البرنامج والتشكيل ── */
   'الفرق على البرامج': 'Teams on programs',
   'لكل فريق برنامج، ولكل برنامج جهة': 'Every team has a program, every program an entity',
@@ -38400,6 +39364,110 @@ Object.assign(DICT.en, {
 });
 
 Object.assign(DICT.ms, {
+  "موجة واحدة": "Satu gelombang",
+  "موجتان": "Dua gelombang",
+  "{n} موجات": "{n} gelombang",
+  "{n} موجة": "{n} gelombang",
+  "لا موجة": "Tiada gelombang",
+  "خبر واحد": "Satu perkara",
+  "خبران": "Dua perkara",
+  "{n} أخبار": "{n} perkara",
+  "{n} خبرًا": "{n} perkara",
+  "لا خبر": "Tiada perkara",
+  "نقص واحد": "Satu kekurangan",
+  "نقصان": "Dua kekurangan",
+  "{n} أنقاص": "{n} kekurangan",
+  "{n} نقصًا": "{n} kekurangan",
+  "لا نقص": "Tiada kekurangan",
+  "إجراءٌ واحد": "Satu rekod",
+  "إجراءان": "Dua rekod",
+  "{n} إجراءات": "{n} rekod",
+  "{n} إجراءً": "{n} rekod",
+  "بلا سوابق": "Rekod bersih",
+  "مهمة واحدة": "Satu tugasan",
+  "مهمتان": "Dua tugasan",
+  "{n} مهام": "{n} tugasan",
+  "لا مهام": "Tiada tugasan",
+  "تنبيه واحد": "Satu makluman",
+  "تنبيهان": "Dua makluman",
+  "{n} تنبيهات": "{n} makluman",
+  "لا تنبيهات": "Tiada makluman",
+  "محسن واحد": "Satu muhsin",
+  "محسنان": "Dua muhsin",
+  "{n} محسنين": "{n} muhsin",
+  "لا محسنين": "Tiada muhsin",
+  "فريق واحد": "Satu pasukan",
+  "فريقان": "Dua pasukan",
+  "{n} فرق": "{n} pasukan",
+  "لا فرق": "Tiada pasukan",
+  "رحلة واحدة": "Satu perjalanan",
+  "رحلتان": "Dua perjalanan",
+  "{n} رحلات": "{n} perjalanan",
+  "لا رحلات": "Tiada perjalanan",
+  "بلاغ واحد": "Satu laporan",
+  "بلاغان": "Dua laporan",
+  "{n} بلاغات": "{n} laporan",
+  "لا بلاغات": "Tiada laporan",
+  "أوّلها": "pertama",
+  "آخرها": "terakhir",
+  "ناقصٌ في": "Kurang dalam",
+  "أقربها": "terdekat",
+  "تجاوزت {n} س": "lewat {n} jam",
+  "تجاوزت {n} د": "lewat {n} minit",
+  "تجاوزت {n} ي": "lewat {n} hari",
+  "انقضت الآن": "Baru tamat",
+  "منجزٌ من اليوم": "daripada hari ini siap",
+  "ما زال مفتوحًا": "Masih terbuka",
+  "متأخّرٌ أو فات": "Lewat atau terlepas",
+  "أقربُ موعد": "Tempoh terdekat",
+  "حِمل الساعات — والعمودُ المضيء هو الآن": "Beban mengikut jam — lajur bercahaya ialah sekarang",
+  "ما لم يأتِ بعد": "Yang belum tiba",
+  "لا شيء فيها الآن": "tiada sekarang",
+  "الموضعُ وقتٌ والعرضُ مدّة · الخطُّ الذهبيُّ هو الآن": "Kedudukan ialah masa, lebar ialah tempoh · garis emas ialah sekarang",
+  "الصفُّ المرتفعُ فيه تداخلٌ زمنيّ": "Baris yang tinggi ada pertindihan masa",
+  "الحافلة": "Bas",
+  "لا رحلات مجدولة": "Tiada perjalanan dijadualkan",
+  "لا شيء مجدول": "Tiada yang dijadualkan",
+  "فارغة": "Kosong",
+  "قليلة": "Rendah",
+  "مناسبة": "Sesuai",
+  "ممتلئة": "Penuh",
+  "عاطل": "Tidak bergerak",
+  "إشغال {n}٪": "Muatan {n}%",
+  "{n} ساعة تشغيل": "{n} jam beroperasi",
+  "لم يتحرّك اليوم": "Tidak bergerak hari ini",
+  "مقارنةً بأكثر الباصات تشغيلًا اليوم": "Berbanding bas paling sibuk hari ini",
+  "بلا برنامج": "Tiada program",
+  "بلا سكن": "Tiada penginapan",
+  "بلا مشرف": "Tiada penyelia",
+  "بلا مشرف سكن": "Tiada penyelia penginapan",
+  "لا شيء يحتاج تدخّلًا": "Tiada yang perlu tindakan",
+  "استعدادٌ ناقصٌ في {n}": "Kesediaan kurang dalam {n}",
+  "الحجاج": "Jemaah",
+  "المحسنون": "Muhsin",
+  "المهام": "Tugasan",
+  "المنجز": "Siap",
+  "كلُّ فريقٍ تحت برنامجِه — والشريطُ يقول ما أُنجز وما تعثّر": "Setiap pasukan di bawah programnya — bar menunjukkan yang siap dan tergendala",
+  "تجميع": "Kumpulkan",
+  "بلا": "Tiada",
+  "المهمة": "Tugasan",
+  "الفريق": "Pasukan",
+  "اليوم": "Hari",
+  "{n} متعثّرة": "{n} tergendala",
+  "الشريطُ يقارن بين الفرق لا بالخمسة — فالفروقُ تُرى": "Bar membandingkan pasukan, bukan terhadap lima — jadi jurang kelihatan",
+  "بدأها النظام لا ليدرها": "Dimulakan oleh sistem, bukan ketuanya",
+  "تأخّر البدء {n} د": "Mula lewat {n} minit",
+  "{n} متطلّبًا بلا إغلاق": "{n} keperluan belum ditutup",
+  "{n} تنبيهًا لم يُقرأ": "{n} makluman belum dibaca",
+  "تقييمٌ منخفضٌ بلا سببٍ مسجَّل": "Penilaian rendah tanpa sebab direkodkan",
+  "أداء المحسن {n}٪": "Prestasi muhsin {n}%",
+  "إشغال المقاعد {n}٪": "Muatan tempat duduk {n}%",
+  "أُنجز {n} من {n}": "{n} daripada {n} siap",
+  "الفارق بين الأوّل والأخير": "Jurang antara pertama dan terakhir",
+  "نجمة": "bintang",
+  "غير مسند": "Tidak ditugaskan",
+  "من": "dari",
+  "إلى": "ke",
   'الفرق على البرامج': 'Pasukan pada program',
   'لكل فريق برنامج، ولكل برنامج جهة': 'Setiap pasukan ada program, setiap program ada entiti',
   'البرامج': 'Program',
