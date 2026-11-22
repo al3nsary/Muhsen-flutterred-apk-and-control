@@ -4862,7 +4862,7 @@ h1,h2,h3,h4{line-height:1.35}
 }
 .view[data-control-route=ops] .control-hero-metrics .kpi .lab,
 .view>.control-route-hero .release-hero-card-strip>.kpi .lab{
-  font-size:11.5px; font-weight:600; letter-spacing:.1px;
+  font-size:11.5px; font-weight:600;
   color:var(--banner-muted); padding-inline-end:0;
 }
 .control-hero-metrics .kpi .release-stat-icon,
@@ -5053,12 +5053,12 @@ body.wallmode .control-hero-metrics .kpi .num,
   position:absolute; left:var(--x); top:var(--y);
   translate:-50% -50%;
   white-space:nowrap; pointer-events:none;
-  font-size:15px; font-weight:700; letter-spacing:.2px;
+  font-size:15px; font-weight:700;
   color:color-mix(in srgb, var(--ink) 80%, transparent);
   text-shadow:0 1px 3px var(--void), 0 0 12px var(--void);
 }
 .ww-maplabel.sea{ color:color-mix(in srgb, var(--blue) 72%, var(--ink)); font-weight:600 }
-.ww-maplabel.city{ font-size:17px; letter-spacing:.4px }
+.ww-maplabel.city{ font-size:17px }
 .ww-maplabel.road{
   font-size:12px; font-weight:600;
   color:color-mix(in srgb, var(--gold3) 88%, transparent);
@@ -5405,6 +5405,175 @@ body.wallmode .control-hero-metrics .kpi .num,
 .meter i{ transition:width .55s var(--e3) }
 
 
+/* ===== layer-tables.css ===== */
+/* ══════════════════════════════════════════════════════════════════════
+   مُحسن · الكنترول — الجداولُ والرسوم  (٢٢ نوفمبر ٢٠٢٦)
+   ──────────────────────────────────────────────────────────────────────
+   ملاحظةُ المالك: «لا أرى تغييراتٍ أبدًا على الشارتس والجداول».
+   وهو محقّ: ما سبق مسّ البانرَ والمؤشّراتِ ولم يمسَّ جسمَ البيانات.
+   هنا مرورٌ حاسمٌ على الجدولِ والرسمِ بأصولِ عرضِ البيانات:
+     • رأسُ الجدولِ لاصقٌ، وصفوفُه مخطّطةٌ بتبادلٍ خفيف، والتمريرُ ظاهر.
+     • الأرقامُ تُحاذى من الطرفِ بأرقامٍ جدوليّةٍ متساويةِ العرض.
+     • الفراغُ شرطةٌ «—» لا «٠»: صفرُ العربيّةِ نقطةٌ تُقرأ فراغًا.
+     • الرسمُ له أساسٌ وشبكةٌ وقِيَمٌ ظاهرةٌ وخطُّ متوسّطٍ مرجعيّ.
+   وكلُّ لونٍ من رموزِ الهويّة، فتَرِثه المودات الخمسة.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ───────── ١ · هيكلُ الجدول ───────── */
+.tbl{
+  margin:0;
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+  background:color-mix(in srgb, var(--panel) 55%, transparent);
+}
+/* الرأسُ يلتصق فوقَ المحتوى عند التمرير — فلا تضيع أسماءُ الأعمدة */
+.tbl .th{
+  position:sticky; top:0; z-index:3;
+  padding:10px 12px;
+  background:color-mix(in srgb, var(--panel2) 92%, transparent);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line2);
+  border-radius:0;
+}
+.tbl .th button{
+  font-size:11px; font-weight:800;
+  color:var(--dim);
+}
+.tbl .th button.on{ color:var(--gold3) }
+.tbl .th button:focus-visible{ outline:2px solid var(--gold3); outline-offset:2px; border-radius:6px }
+
+/* الصفوف: كثافةٌ أعلى وتبادلٌ خفيفٌ يقود العين */
+.tbl .tr{
+  padding:9px 12px;
+  border-radius:0;
+  border-bottom:1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  transform:none !important;
+}
+.tbl .tb > .tr:nth-child(even){ background:color-mix(in srgb, var(--ink) 2.5%, transparent) }
+.tbl .tr:hover{
+  background:color-mix(in srgb, var(--gold) 9%, transparent) !important;
+  box-shadow:inset 3px 0 0 var(--gold2);
+}
+.tbl .tr:focus-visible{
+  outline:2px solid var(--gold3); outline-offset:-2px;
+  background:color-mix(in srgb, var(--gold) 11%, transparent) !important;
+}
+.tbl .tr:last-child{ border-bottom:0 }
+.tbl .tr .nm b{ font-size:13px; font-weight:700 }
+.tbl .tr .nm span{ font-size:11px; color:var(--dim2) }
+
+/* ───────── ٢ · الأرقامُ تُحاذى وتُقرأ ───────── */
+.tbl .tr b.num, .tbl .tr .num, .tbl .tr time{
+  font-variant-numeric:tabular-nums;
+  letter-spacing:0;
+}
+/* العمودُ الرقميُّ يُحاذى من الطرفِ فتستقيم الآحادُ تحت الآحاد */
+.tbl .tr > span:has(> b.num){ justify-content:flex-end }
+.tbl .th button:has(+ *) { }
+/* الفراغُ شرطةٌ واضحةٌ لا نقطةٌ تُشبه الفراغ */
+.tbl .faint{ color:var(--dim2); font-weight:600 }
+
+/* تمريرٌ أفقيٌّ بظلٍّ يدلُّ على بقيّةِ الأعمدة */
+.tbl:has(.tr[style*="min-width"]), .control-pilgrim-table{
+  overflow-x:auto;
+  background-image:
+    linear-gradient(to left,  color-mix(in srgb,var(--void) 55%,transparent), transparent 24px),
+    linear-gradient(to right, color-mix(in srgb,var(--void) 55%,transparent), transparent 24px);
+  background-attachment:local, local;
+}
+
+/* ───────── ٣ · النجومُ والمقاييسُ داخلَ الجدول ───────── */
+.tbl .tr .stars{ gap:1px }
+.tbl .tr .meter{ min-width:72px; height:7px; border-radius:99px; overflow:hidden }
+.tbl .tr .meter i{ border-radius:inherit }
+
+/* ───────── ٤ · الرسومُ: أساسٌ وشبكةٌ وقِيَمٌ وخطُّ متوسّط ───────── */
+.band.bchart .dw>.card,
+.card:has(> .control-chart){
+  background:color-mix(in srgb, var(--panel) 72%, transparent);
+}
+.control-chart{ padding:12px 6px 6px }
+.control-axis{
+  color:var(--dim2); font-size:10.5px; font-variant-numeric:tabular-nums;
+  padding-inline-end:4px;
+  border-inline-end:1px solid color-mix(in srgb, var(--line2) 70%, transparent);
+}
+.control-columns::before{
+  border-block-end:1.5px solid var(--line2);
+  background:repeating-linear-gradient(to bottom,
+    color-mix(in srgb, var(--ink) 6%, transparent) 0 1px, transparent 1px 25%);
+}
+.control-column-fill{
+  inset-inline:20%; max-width:48px; min-height:4px;
+  border-radius:7px 7px 2px 2px;
+  background:linear-gradient(180deg,
+    color-mix(in srgb, var(--g3) 92%, var(--ink)),
+    color-mix(in srgb, var(--g) 92%, var(--void)));
+  box-shadow:0 0 0 1px color-mix(in srgb, var(--ink) 9%, transparent) inset,
+             0 6px 14px -8px color-mix(in srgb, var(--g3) 70%, transparent);
+}
+.control-column-value{
+  font-size:12.5px; font-weight:800; color:var(--ink);
+  font-variant-numeric:tabular-nums;
+}
+.control-column-caption{ font-size:10.5px; color:var(--dim2) }
+.control-column.current .control-column-value{ color:var(--gold3) }
+
+/* خطُّ المتوسّطِ المرجعيّ — يُرسم حين تُسند النسبةُ --avg */
+.control-columns[style*="--avg"]::after{
+  content:""; position:absolute; z-index:2; inset-inline:0;
+  inset-block-end:calc(28px + (100% - 28px) * var(--avg) / 100);
+  border-block-start:1px dashed color-mix(in srgb, var(--gold2) 80%, transparent);
+  pointer-events:none;
+}
+.chart-avg-tag{
+  position:absolute; z-index:3; inset-inline-end:2px;
+  inset-block-end:calc(28px + (100% - 28px) * var(--avg) / 100);
+  transform:translateY(-50%);
+  padding:2px 7px; border-radius:999px; white-space:nowrap;
+  font-size:10px; font-weight:700; color:var(--gold3);
+  background:color-mix(in srgb, var(--panel) 90%, transparent);
+  border:1px solid color-mix(in srgb, var(--gold2) 45%, transparent);
+}
+
+/* ───────── ٥ · الأشرطةُ الأفقيّة: نسبةٌ تُقرأ لا مسارٌ فارغ ───────── */
+.control-bars li{
+  grid-template-columns:minmax(86px,1.1fr) minmax(40px,2fr) minmax(58px,auto);
+  padding:6px 8px; border-radius:9px;
+}
+.control-bars li:hover{ background:color-mix(in srgb, var(--ink) 4%, transparent) }
+.control-bar{
+  height:10px; border-radius:99px;
+  background:color-mix(in srgb, var(--ink) 8%, transparent);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--ink) 6%, transparent);
+}
+.control-bar i{
+  min-width:4px; border-radius:99px;
+  box-shadow:0 0 10px -4px currentColor;
+}
+.control-bars li>b{ justify-content:flex-end; gap:8px; font-variant-numeric:tabular-nums }
+.control-bars li>b small{ color:var(--dim2); font-weight:600; min-width:34px; text-align:end }
+
+/* ───────── ٦ · الأسطورةُ تحت الرسم ───────── */
+.control-chart-legend>div{ border-top-color:color-mix(in srgb, var(--line) 80%, transparent) }
+.control-chart-legend b{ font-variant-numeric:tabular-nums }
+.control-chart-foot{
+  padding-block-start:6px; border-block-start:1px solid color-mix(in srgb,var(--line) 70%,transparent);
+  color:var(--dim2); font-size:11.5px;
+}
+
+/* ───────── ٧ · تصحيحاتٌ بعد النظر ───────── */
+/* بطاقةُ المتوسّطِ كانت تقع على المحور — تُنقل إلى الجهةِ المقابلة */
+.chart-avg-tag{ inset-inline-end:auto; inset-inline-start:4px }
+/* فصلُ الأعمدةِ المتجاورة: الرقمُ لا يلتصق بالنجوم */
+.tbl .tr{ column-gap:16px }
+.tbl .th{ column-gap:16px }
+/* عمودُ النجومِ يبدأ من الطرفِ فلا يسبح في وسطِ خانته */
+.tbl .tr .stars{ justify-content:flex-start }
+
+
+
 /* ===== layer-motion.css ===== */
 /* ══════════════════════════════════════════════════════════════════════
    تفضيلُ الحركة — احترامُ الجهاز مع بابٍ صريحٍ لتجاوزه
@@ -5471,6 +5640,307 @@ body.wallmode .control-hero-metrics .kpi .num,
 /* عيّنةُ الهويّة البنّيّة في المُنتقي */
 .control-theme-sample.brown{
   background:linear-gradient(135deg,#20160D 0 48%, #B08A4E 48% 100%);
+}
+
+
+/* ===== layer-polish.css ===== */
+/* ══════════════════════════════════════════════════════════════════════
+   مُحسن · الكنترول — مراجعةٌ أخيرة: الخطوطُ والأيقوناتُ والمسافات
+   ──────────────────────────────────────────────────────────────────────
+   طلبُ المالك: «المراجعةُ لكلِّ شيء — الخطوط، الأيقونات، التوزيع،
+   الترتيب — حسبَ أفضلِ الطرقِ المتّبعة».
+   وأهمُّ ما صحّحته هنا قاعدةٌ تخصُّ لغتَنا: **التباعدُ الموجبُ بين
+   الحروفِ يفكُّ وصلَ العربيّة**، فيُمنع على النصِّ العربيِّ ويُسمح
+   للأرقامِ واللاتينيّةِ وحدَها.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ───────── ١ · العربيّةُ لا تُباعَد حروفُها ───────── */
+:root[lang="ar"], :root[lang="ar"] *{ letter-spacing:normal }
+/* ويُستثنى ما ليس عربيًّا: الأرقامُ والرموزُ اللاتينيّة */
+.num, .kbd2, kbd, code, .control-column-value, .ww-tag b,
+[class*="ltr"], [dir="ltr"]{ letter-spacing:0 }
+
+/* ───────── ٢ · سلّمُ الخطِّ وإيقاعُ السطر ─────────
+   جسمُ النصِّ كان 1.75 — فضفاضٌ لشاشةِ بيانات. يُضبط على 1.6،
+   والعناوينُ أضيقُ لأنّها قصيرةٌ وعريضة. */
+body{ line-height:1.6 }
+h1, h2, h3, .ww-tag .ww-name{ line-height:1.25; text-wrap:balance }
+p, .tiny, small{ line-height:1.65 }
+/* أصغرُ مقاسٍ مقروءٍ على شاشةِ غرفةِ عمليّات: ١١٫٥ بكسل */
+.tiny, small, .control-column-caption, .ww-tag .ww-calm,
+.tbl .tr .nm span, .control-chart-legend>div{ font-size:max(11.5px, 1em) }
+.tbl .th button{ font-size:11.5px }
+/* الأرقامُ في كلِّ موضعٍ جدوليّةٌ متساويةُ العرض */
+.num, b.num, time, .kv b, .ww-vital b, .control-axis,
+.tbl .tr b, .control-bars li>b{ font-variant-numeric:tabular-nums }
+
+/* ───────── ٣ · الأيقونات: مقاسٌ وسمكٌ ومحاذاةٌ واحدة ───────── */
+.s14{ inline-size:14px; block-size:14px }
+.s16{ inline-size:16px; block-size:16px }
+.s18{ inline-size:18px; block-size:18px }
+.s26{ inline-size:26px; block-size:26px }
+svg[class*="s1"], svg[class*="s2"]{ flex:none; vertical-align:middle }
+/* أيقونةُ الزرِّ لا تنكمش ولا تسحب النصَّ عن خطِّ قاعدتِه */
+.btn > svg, .iconbtn > svg, .who > svg{ flex:none }
+/* الأيقوناتُ الزخرفيّةُ خارجَ شجرةِ الوصول */
+.ico > svg, .krail, .control-theme-sample{ pointer-events:none }
+
+/* ───────── ٤ · أهدافُ اللمسِ لا تقلّ عن ٤٠ بكسل ───────── */
+.btn, .iconbtn, .sw button, .pchk, .fmore, .who, .hier-trail button,
+.ww-ctrl button, .control-appearance-choice{
+  min-block-size:40px;
+}
+.btn.sm, .btn.xs, .xbtn, .hier-trail button{ min-block-size:34px }
+/* ولا يتلاصق هدفان: فجوةٌ لا تقلّ عن ٨ بكسل */
+.fl, .pfoot .fl, .control-hero-actions{ gap:max(8px, var(--s2)) }
+
+/* ───────── ٥ · التركيزُ ظاهرٌ على كلِّ ما يُنقَر ───────── */
+a:focus-visible, button:focus-visible, select:focus-visible,
+input:focus-visible, summary:focus-visible, [tabindex]:focus-visible{
+  outline:2px solid var(--gold3);
+  outline-offset:2px;
+  border-radius:8px;
+}
+/* ولا يُزال الإطارُ عن عنصرٍ مقصوصٍ — يُزاح للداخل بدل أن يُحذف */
+.tbl .tr:focus-visible, .control-matrix-entry:focus-visible,
+.ww-hit:focus-visible{ outline-offset:-2px }
+
+/* ───────── ٦ · إيقاعُ البطاقاتِ والمسافات ───────── */
+.view .card{ padding:clamp(12px, 1.1vw, 18px) }
+.view .card > .h{ margin-block-end:10px }
+.view .card > .h b{ font-size:14px; font-weight:800 }
+.view .card > .h .tiny{ font-size:11.5px }
+/* الشبكاتُ تأخذ فجوةً من السلّمِ نفسِه فلا تختلف من شاشةٍ لأخرى */
+.grid, .plist, .qlist, .bandgrid{ gap:var(--s3) }
+
+/* ───────── ٧ · الحبوبُ والشاراتُ على مقاسٍ واحد ───────── */
+.pill{
+  min-block-size:24px; padding-inline:9px; border-radius:999px;
+  font-size:11.5px; font-weight:700; display:inline-flex; align-items:center;
+}
+.bdg{ font-variant-numeric:tabular-nums }
+
+/* ───────── ٨ · الصورُ الرمزيّةُ بمقاسٍ ثابتٍ لا تتشوّه ───────── */
+.av, .avatar, .who-face{ aspect-ratio:1; object-fit:cover; flex:none }
+
+/* ───────── ٩ · النصُّ الطويلُ لا يكسر التخطيط ───────── */
+.nm b, .nm span, .ww-task b, .qrow .nm b{
+  overflow-wrap:anywhere;
+}
+/* ولا تمريرَ أفقيًّا للصفحةِ بسببِ عنصرٍ عنيد */
+.view, .view > *{ max-inline-size:100% }
+
+
+/* ===== layer-loading.css ===== */
+/* ══════════════════════════════════════════════════════════════════════
+   مُحسن · الكنترول — الانتقالُ بين الشاشاتِ وتسليمُ الدخول
+   ──────────────────────────────────────────────────────────────────────
+   طلبُ المالك: «لودينق سكرين احترافيّ بين الشاشات، وعند تسجيل الدخول
+   احترافيّ بمعنى الكلمة».
+   والمهنيّةُ هنا ألّا نكذب: الانتقالُ بين الشاشاتِ سريعٌ فعلًا (البياناتُ
+   محلّيّة)، فيليق به **شريطُ تقدّمٍ رفيعٌ** يبدأ مع الطلبِ وينتهي مع
+   الرسم — لا دوّامةٌ تدور بلا سبب. أمّا الدخولُ فعملٌ حقيقيّ: تُبنى
+   الرؤيةُ والصلاحيّاتُ وتُحمَّل الأصول، فيستحقُّ تسليمًا بالهويّة.
+   وما يتأخّر فعلًا (قصاصةُ البانرِ تُفكُّ شيفرتُها) يُنتظَر بهيكلٍ
+   وامضٍ لا بفراغٍ يقفز — فلا إزاحةَ في التخطيط.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ───────── ١ · شريطُ تقدّمِ المسار ───────── */
+#route-progress{
+  position:fixed; inset-block-start:0; inset-inline:0; z-index:95;
+  block-size:2px; pointer-events:none;
+  background:transparent;
+  opacity:0; transition:opacity .2s var(--e);
+}
+#route-progress.on{ opacity:1 }
+#route-progress i{
+  display:block; block-size:100%; inline-size:0%;
+  background:linear-gradient(90deg,
+    color-mix(in srgb, var(--gold2) 40%, transparent),
+    var(--gold3), color-mix(in srgb, var(--live) 85%, transparent));
+  box-shadow:0 0 12px -2px var(--gold3);
+  transition:inline-size .18s var(--e3);
+}
+
+/* ───────── ٢ · هيكلٌ وامضٌ لما يتأخّر فعلًا ───────── */
+@keyframes skelSweep{ from{ background-position:200% 0 } to{ background-position:-200% 0 } }
+.control-hero-art:not(.control-cutout-ready)::before{
+  content:""; position:absolute; inset:8% 6% 10%;
+  border-radius:18px; z-index:0;
+  background:linear-gradient(100deg,
+    color-mix(in srgb, var(--ink) 4%, transparent) 20%,
+    color-mix(in srgb, var(--ink) 9%, transparent) 50%,
+    color-mix(in srgb, var(--ink) 4%, transparent) 80%);
+  background-size:200% 100%;
+  animation:skelSweep 1.5s linear infinite;
+}
+:root[data-motion="off"] .control-hero-art:not(.control-cutout-ready)::before{ animation:none }
+
+/* ───────── ٣ · تسليمُ الدخول ───────── */
+#handover{
+  position:fixed; inset:0; z-index:120;
+  display:grid; place-items:center;
+  background:
+    radial-gradient(70% 55% at 50% 34%, color-mix(in srgb, var(--g) 26%, transparent), transparent 64%),
+    linear-gradient(168deg,
+      color-mix(in srgb, var(--g2) 46%, var(--void)),
+      var(--void) 72%);
+  animation:handIn .3s var(--e3) both;
+}
+#handover[hidden]{ display:none }
+#handover.out{ animation:handOut .5s var(--e3) both }
+@keyframes handIn{ from{ opacity:0 } to{ opacity:1 } }
+@keyframes handOut{ to{ opacity:0; visibility:hidden } }
+
+.hand-wrap{
+  display:grid; justify-items:center; gap:22px;
+  inline-size:min(420px, 86vw); text-align:center;
+}
+.hand-mark{
+  inline-size:min(220px, 62vw); block-size:auto;
+  display:grid; place-items:center;
+  animation:handMark .6s var(--e2) both;
+}
+.hand-mark img{ inline-size:100%; block-size:auto; display:block }
+
+@keyframes handMark{ from{ opacity:0; scale:.82; filter:blur(8px) } to{ opacity:1; scale:1; filter:none } }
+
+.hand-title{ font-size:22px; font-weight:800; color:var(--ink); margin:0; animation:handRise .45s var(--e3) .10s both }
+.hand-sub{ font-size:13px; color:var(--dim); margin:0; animation:handRise .45s var(--e3) .16s both }
+@keyframes handRise{ from{ opacity:0; translate:0 14px } to{ opacity:1; translate:0 0 } }
+
+/* شريطُ التقدّمِ يعكس خطواتٍ حقيقيّة */
+.hand-bar{
+  inline-size:100%; block-size:4px; border-radius:99px; overflow:hidden;
+  background:color-mix(in srgb, var(--ink) 10%, transparent);
+  animation:handRise .45s var(--e3) .22s both;
+}
+.hand-bar i{
+  display:block; block-size:100%; inline-size:0%;
+  background:linear-gradient(90deg, var(--gold), var(--gold3));
+  transition:inline-size .4s var(--e3);
+}
+.hand-steps{
+  display:grid; gap:7px; inline-size:100%; margin:0; padding:0; list-style:none;
+  animation:handRise .45s var(--e3) .28s both;
+}
+.hand-steps li{
+  display:flex; align-items:center; gap:9px;
+  font-size:12.5px; color:var(--dim2);
+  padding:7px 11px; border-radius:10px;
+  background:color-mix(in srgb, var(--ink) 3%, transparent);
+  border:1px solid transparent;
+  transition:color .25s var(--e), border-color .25s var(--e), background .25s var(--e);
+}
+.hand-steps li .dot{
+  inline-size:8px; block-size:8px; border-radius:50%; flex:none;
+  background:color-mix(in srgb, var(--dim2) 50%, transparent);
+  transition:background .25s var(--e), box-shadow .25s var(--e);
+}
+.hand-steps li.on{
+  color:var(--ink);
+  background:color-mix(in srgb, var(--gold) 10%, transparent);
+  border-color:color-mix(in srgb, var(--gold2) 30%, transparent);
+}
+.hand-steps li.on .dot{ background:var(--gold3); box-shadow:0 0 10px -1px var(--gold3) }
+.hand-steps li.done{ color:var(--dim) }
+.hand-steps li.done .dot{ background:var(--live); box-shadow:none }
+
+@media (prefers-reduced-motion: reduce){
+  :root:not([data-motion="on"]) #handover,
+  :root:not([data-motion="on"]) #handover *{ animation:none !important }
+}
+
+
+/* ===== layer-topbar.css ===== */
+/* ══════════════════════════════════════════════════════════════════════
+   الشريطُ العلويّ — توزيعٌ على أصولِ أشرطةِ التطبيقات
+   ──────────────────────────────────────────────────────────────────────
+   صدرُ الشريطِ نطاقُك، ووسطُه البحثُ يأخذ ما بقي، وآخرُه الساعةُ
+   والتنبيهاتُ والإعداداتُ ثمّ حسابُك. صفٌّ واحدٌ لا يتجاوز ١٢٪ من
+   ارتفاعِ النافذةِ (دليلُ قوقل)، وكلُّ هدفِ لمسٍ ٤٠ بكسل فأكثر.
+   ══════════════════════════════════════════════════════════════════════ */
+.control-top{
+  display:flex; align-items:center; gap:10px;
+  min-block-size:var(--top, 66px);
+  max-block-size:12vh;
+}
+/* صدرُ الشريط: نطاقُك */
+.control-top-location{ display:flex; align-items:center; min-inline-size:0; flex:0 1 auto }
+.top-scope{
+  display:inline-flex; align-items:center; gap:7px;
+  padding:6px 12px; border-radius:999px; min-block-size:34px;
+  background:color-mix(in srgb, var(--ink) 5%, transparent);
+  border:1px solid var(--line);
+  color:var(--dim);
+  max-inline-size:min(32vw, 340px);
+}
+.top-scope b{
+  font-size:12.5px; font-weight:700; color:var(--ink);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.top-scope>svg{ color:var(--gold3); flex:none }
+
+/* الأدواتُ تملأ ما بقي، والبحثُ يتمدّد */
+.control-top-actions{
+  display:flex; align-items:center; gap:8px;
+  flex:1 1 auto; min-inline-size:0; justify-content:flex-end;
+}
+.control-top-search{
+  flex:0 1 300px; min-inline-size:132px; justify-content:flex-start;
+  gap:8px; padding-inline:12px; border-radius:11px;
+  background:color-mix(in srgb, var(--ink) 4%, transparent);
+  border:1px solid var(--line);
+  color:var(--dim);
+}
+.control-top-search:hover{ border-color:var(--line2); color:var(--ink) }
+.control-top-search kbd{ margin-inline-start:auto; opacity:.75 }
+.control-top-clock{ display:flex; align-items:baseline; gap:8px; color:var(--dim2); font-size:11.5px }
+.control-top-clock b{ color:var(--ink); font-size:13px; font-variant-numeric:tabular-nums }
+@media (max-width:1180px){ .control-top-clock .control-top-date{ display:none } }
+@media (max-width:980px){ .control-top-location{ display:none } }
+
+/* فاصلٌ قبل الحساب — كما تفعل الأشرطةُ المتعارفة */
+.who.who-v3{
+  display:inline-flex; align-items:center; gap:9px;
+  padding:5px 10px 5px 6px; border-radius:12px; min-block-size:44px;
+  border:1px solid var(--line);
+  background:color-mix(in srgb, var(--ink) 4%, transparent);
+  margin-inline-start:6px;
+  transition:border-color .2s var(--e), background .2s var(--e);
+}
+.who.who-v3::before{
+  content:""; inline-size:1px; block-size:24px; flex:none;
+  background:var(--line2); margin-inline-end:4px;
+}
+.who.who-v3:hover{ border-color:var(--line2); background:color-mix(in srgb, var(--ink) 7%, transparent) }
+.who.who-v3:focus-visible{ outline:2px solid var(--gold3); outline-offset:2px }
+/* الحرفُ الأوّلُ على سطحٍ هادئ — لا قرصَ لمّاع */
+.who-mono{
+  inline-size:32px; block-size:32px; border-radius:10px; flex:none;
+  display:grid; place-items:center;
+  font-size:14px; font-weight:800; line-height:1;
+  color:var(--gold3);
+  background:color-mix(in srgb, var(--gold) 14%, transparent);
+  border:1px solid color-mix(in srgb, var(--gold2) 28%, transparent);
+}
+.who.who-v3 .av{ inline-size:32px; block-size:32px; border-radius:10px }
+.who-text{ display:flex; align-items:center; gap:8px; min-inline-size:0 }
+.who-text>b{
+  font-size:12.5px; font-weight:700; color:var(--ink);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-inline-size:160px;
+}
+.who-role{
+  font-style:normal; font-size:10.5px; font-weight:700; white-space:nowrap;
+  padding:2px 8px; border-radius:999px;
+  color:var(--dim); background:color-mix(in srgb, var(--ink) 7%, transparent);
+  border:1px solid var(--line);
+}
+.who.who-v3>svg:last-child{ color:var(--dim2); flex:none }
+@media (max-width:860px){
+  .who-text{ display:none }
+  .who.who-v3{ padding:5px; gap:0 }
+  .who.who-v3::before{ display:none }
 }
 
 
@@ -22964,7 +23434,11 @@ function topbar() {
   const route = routeTitle();
   const unread = allAlerts().filter(alert => !alert.seen).length;
   return '<header class="top control-top">' +
-    '<div class="control-top-location"><h2>' + E(route.l) + '</h2></div>' +
+    /* MUHSEN-TOPBAR-V3 — العنوانُ في البانرِ والقائمةِ يكفي، ولا يُكرَّر ثالثةً.
+       ويحلُّ محلَّه ما ينفع: نطاقُك — ما الذي تراه من النظام. */
+    '<div class="control-top-location"><span class="top-scope">' +
+      icon(curPerm().i || 'i-shield','s14') +
+      '<b>' + E(actorLabel() || SCOPE_AR[curPerm().scope]) + '</b></span></div>' +
     '<div class="control-top-actions">' +
       '<time class="control-top-clock" title="' + E(dayName(now()) + ' · ' + hijri(now())) + '">' +
         '<span class="control-top-date">' + dayName(now()) + ' · ' + hijri(now()) + '</span><b id="ctime">' + t12(now()) + '</b></time>' +
@@ -22992,12 +23466,18 @@ function actorLabel() {
 }
 function whoami() {
   const p = curPerm(), u = actorUser();
-  return '<button class="who" data-a="whoami" title="هويتك ونطاقك">' +
-    (u ? avatar(u, 'sm')
-       : '<span class="ico sm" style="color:var(--gold2)">' + icon(p.i, 's16') + '</span>') +
-    '<span class="nm"><b>' + E(u ? u.name : p.ar) + '</b>' +
-    '<span>' + E(u ? p.ar : actorLabel()) + '</span></span>' +
-    icon('i-fwd','s14') + '</button>';
+  const name = u ? u.name : p.ar;
+  /* صورةُ المستخدمِ إن وُجد، وإلّا حرفُه الأوّلُ على سطحٍ هادئ.
+     لا قرصَ ذهبيًّا لمّاعًا: الذهبيُّ لهجةٌ لا هويّةُ حساب. */
+  const face = u ? avatar(u, 'sm')
+    : '<span class="who-mono" aria-hidden="true">' + E(String(name || '؟').trim().charAt(0)) + '</span>';
+  return '<button class="who who-v3" data-a="whoami" aria-label="حسابك ونطاقك">' +
+    face +
+    '<span class="who-text">' +
+      '<b>' + E(name) + '</b>' +
+      (u ? '<i class="who-role">' + E(p.ar) + '</i>' : '') +
+    '</span>' +
+    icon('i-down','s14') + '</button>';
 }
 
 /* ---------- لبنات مشتركة ---------- */
@@ -25589,7 +26069,11 @@ function stepProg() {
   if (fo) list = list.filter(p => p.orgId === fo);
   if (q) list = list.filter(p => (p.ar + ' ' + p.code + ' ' +
     ((orgById(p.orgId) || {}).kt || '')).indexOf(q) >= 0);
+  /* MUHSEN-STEPPROG-V2
+     العملُ الباقي ليس «فرقًا بلا برنامج» — فكلُّها مربوطة — بل
+     **برامجُ بلا فريق**: برنامجٌ طُرح ولم يُشكَّل له ليدرٌ وفريق. */
   const loose = S.groups.filter(g => !g.programId);
+  const unstaffed = PROGRAMS.filter(p => !teamOfProgram(p.id));
 
   return '<div class="grid g23">' +
     '<div class="card">' +
@@ -25606,7 +26090,7 @@ function stepProg() {
           '<span class="krail" style="background:' +
             (o.type === 'بعثة' ? 'var(--blue)' : 'var(--gold)') + '"></span>' +
           '<span class="ico">' + icon('i-flag','s16') + '</span>' +
-          '<span class="nm" style="flex:1"><b>' + E(p.ar) + '</b>' +
+          '<span class="nm" style="flex:1"><b>' + E(programName(p.id)) + '</b>' +
           '<span>' + LTR(p.code) + ' · ' + E(o.ar || '—') + ' · ' + E(o.country || '') + '</span></span>' +
           pill(E(p.kind), 'grey') +
           pill(E(o.type || '—'), o.type === 'بعثة' ? 'blue' : 'gold') +
@@ -25621,18 +26105,34 @@ function stepProg() {
     '</div>' +
 
     '<div class="card gold">' +
-      head('فرقٌ بلا برنامج', loose.length ? AR(loose.length) + ' فريقًا ينتظر الربط' : 'كلُّ فريقٍ مربوط',
-        pill(loose.length ? AR(loose.length) : 'نظيف', loose.length ? 'no' : 'live'), 'i-warn') +
-      (loose.length ? '<div class="plist">' + loose.map(g => {
+      head('العملُ الباقي',
+        AR(unstaffed.length) + ' برنامجًا بلا فريق · ' + AR(loose.length) + ' فريقًا بلا برنامج',
+        pill(AR(PROGRAMS.length - unstaffed.length) + ' من ' + AR(PROGRAMS.length) + ' مُشكَّل',
+          unstaffed.length ? 'wait' : 'live'), 'i-warn') +
+
+      (loose.length ? '<div class="plist" style="margin-bottom:12px">' + loose.map(g => {
         const L = userById(g.leaderId) || {};
         return '<div class="prow">' + avatar(L, 'sm') +
           '<span class="nm" style="flex:1"><b>' + LTR(g.no) + ' · ' + E(L.name || '—') + '</b>' +
           '<span>' + E((orgById(g.orgId) || {}).ar || 'بلا جهة') + '</span></span>' +
           '<button class="btn p sm" data-a="gprog" data-id="' + g.id + '">' +
             icon('i-flag','s16') + 'اربط ببرنامج</button></div>';
-      }).join('') + '</div>'
+      }).join('') + '</div>' : '') +
+
+      (unstaffed.length
+        ? '<div class="tiny faint" style="margin-bottom:8px">برامجُ طُرحت ولم يُشكَّل لها فريقٌ بعد — أوّلُ عشرة:</div>' +
+          '<div class="plist">' + unstaffed.slice(0, 10).map(p => {
+            const o = orgById(p.orgId) || {};
+            return '<div class="prow">' +
+              '<span class="ico">' + icon('i-flag','s16') + '</span>' +
+              '<span class="nm" style="flex:1"><b>' + E(programName(p.id)) + '</b>' +
+              '<span>' + E(o.kt || '') + ' · ' + E(o.ar || '') + ' · ' + E(p.kind) + '</span></span>' +
+              pill('بلا فريق', 'wait') + '</div>';
+          }).join('') + '</div>' +
+          (unstaffed.length > 10 ? '<div class="tiny faint" style="margin-top:9px">و' +
+            AR(unstaffed.length - 10) + ' برنامجًا آخر.</div>' : '')
         : '<div class="empty" style="padding:26px">' + icon('i-checkc','s26') +
-          '<b>كلُّ الفرقِ مربوطةٌ ببرامجها</b>' +
+          '<b>كلُّ برنامجٍ له فريق</b>' +
           '<div class="tiny" style="margin-top:6px">يمكنك المضيُّ إلى المشرفين.</div></div>') +
     '</div></div>';
 }
@@ -37637,6 +38137,13 @@ render();
 
 
 
+
+
+
+
+
+
+
 /* MUHSEN-CORE-LAYER-JS */
 /* ══════════════════════════════════════════════════════════════
    الطبقة الجامعة — ما لا يُكتب بالأنماط وحدها.
@@ -38370,6 +38877,176 @@ function repetitionPolish() {
   });
 }
 
+/* ══════════════════════════════════════════════════════════════
+   الجداولُ والرسوم — ما لا تقوله الأنماطُ وحدَها
+   ──────────────────────────────────────────────────────────────
+   • «٠» في خلايا الأعدادِ نقطةٌ تُقرأ فراغًا، فتصير شرطةً «—».
+   • كلُّ رسمِ أعمدةٍ يُسنَد إليه خطُّ متوسّطٍ مرجعيٌّ وبطاقتُه،
+     محسوبًا من قيمِه هو — لا رقمَ مخترَعًا.
+   آمنةٌ للاستدعاءِ المتكرّر.
+   ══════════════════════════════════════════════════════════════ */
+function tablePolish() {
+  /* الصفرُ شرطة — في خلايا الأعدادِ وحدَها، لا في كلِّ رقم */
+  document.querySelectorAll('.tbl .tr b.num').forEach(cell => {
+    if (cell.dataset.dash === '1') return;
+    const text = (cell.textContent || '').trim();
+    if (text === '٠' || text === '0') { cell.textContent = '—'; cell.classList.add('faint'); }
+    cell.dataset.dash = '1';
+  });
+
+  /* خطُّ المتوسّطِ على رسومِ الأعمدة */
+  document.querySelectorAll('.control-chart').forEach(chart => {
+    const cols = [...chart.querySelectorAll('.control-column')];
+    if (cols.length < 3) return;
+    const grid = chart.querySelector('.control-columns');
+    if (!grid) return;
+    const heights = cols.map(c => {
+      const f = c.querySelector('.control-column-fill');
+      return parseFloat(String(f?.style.getPropertyValue('--height') || '').replace('%', '')) || 0;
+    });
+    const sum = heights.reduce((a, b) => a + b, 0);
+    if (!sum) { grid.style.removeProperty('--avg'); return; }
+    const avg = sum / heights.length;
+    if (avg < 4 || avg > 96) { grid.style.removeProperty('--avg'); return; }
+    grid.style.setProperty('--avg', avg.toFixed(2));
+    grid.style.position = 'relative';
+    let tag = chart.querySelector('.chart-avg-tag');
+    if (!tag) {
+      tag = document.createElement('span');
+      tag.className = 'chart-avg-tag';
+      grid.append(tag);
+    }
+    tag.style.setProperty('--avg', avg.toFixed(2));
+    const label = (typeof TT === 'function') ? TT('المتوسّط') : 'المتوسّط';
+    if (tag.textContent !== label) tag.textContent = label;
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════
+   الانتقالُ بين الشاشاتِ وتسليمُ الدخول
+   ──────────────────────────────────────────────────────────────
+   قاعدةُ الخبراء: لا نُري انتظارًا لا وجودَ له. الانتقالُ بين
+   الشاشاتِ سريعٌ فعلًا، فله شريطٌ رفيعٌ يبدأ مع الطلبِ وينتهي مع
+   الرسم. والدخولُ عملٌ حقيقيٌّ (بناءُ الرؤيةِ والصلاحيّاتِ وفكُّ
+   شيفرةِ الأصول) فله تسليمٌ بالهويّة، وخطواتُه تعكس ما يجري.
+   ولكلِّ انتظارٍ نهايةٌ مضمونةٌ ولو تعثّر ما ينتظره.
+   ══════════════════════════════════════════════════════════════ */
+let routeBar = null, routeBarTimer = 0, routeBarEnd = 0;
+
+function routeProgressStart() {
+  if (!routeBar) {
+    routeBar = document.createElement('div');
+    routeBar.id = 'route-progress';
+    routeBar.setAttribute('aria-hidden', 'true');
+    routeBar.innerHTML = '<i></i>';
+    document.body.append(routeBar);
+  }
+  const fill = routeBar.firstElementChild;
+  clearTimeout(routeBarTimer); clearTimeout(routeBarEnd);
+  routeBar.classList.add('on');
+  fill.style.transition = 'none';
+  fill.style.inlineSize = '0%';
+  /* إطارٌ واحدٌ حتّى تُحتسب البدايةُ ثمّ يتحرّك */
+  requestAnimationFrame(() => {
+    fill.style.transition = '';
+    fill.style.inlineSize = '72%';
+  });
+}
+function routeProgressDone() {
+  if (!routeBar) return;
+  const fill = routeBar.firstElementChild;
+  fill.style.inlineSize = '100%';
+  routeBarTimer = setTimeout(() => {
+    routeBar.classList.remove('on');
+    routeBarEnd = setTimeout(() => { fill.style.transition = 'none'; fill.style.inlineSize = '0%'; }, 220);
+  }, 180);
+}
+
+/* ───────── تسليمُ الدخول ───────── */
+const HANDOVER_STEPS = [
+  ['i-shield', 'التحقّق من الصفة والنطاق'],
+  ['i-users',  'بناء الفرق والبرامج'],
+  ['i-target', 'تجهيز لوحة العمليات']
+];
+function handoverShow() {
+  let host = document.getElementById('handover');
+  if (!host) {
+    host = document.createElement('div');
+    host.id = 'handover';
+    host.setAttribute('role', 'status');
+    host.setAttribute('aria-live', 'polite');
+    document.body.append(host);
+  }
+  host.hidden = false;
+  host.className = '';
+  host.innerHTML = TR(
+    '<div class="hand-wrap">' +
+      '<span class="hand-mark" aria-hidden="true">' +
+        (typeof CONTROL_MEDIA === 'object' && CONTROL_MEDIA['logo-night']
+          ? '<img src="' + CONTROL_MEDIA['logo-night'] + '" alt="">'
+          : icon('i-shield', 's26')) + '</span>' +
+      '<h2 class="hand-title">نُجهّز غرفة العمليات</h2>' +
+      '<p class="hand-sub">لحظة — نبني ما تراه بصفتك.</p>' +
+      '<div class="hand-bar"><i></i></div>' +
+      '<ul class="hand-steps">' + HANDOVER_STEPS.map((s, i) =>
+        '<li' + (i === 0 ? ' class="on"' : '') + '><span class="dot"></span>' + E(s[1]) + '</li>').join('') +
+      '</ul>' +
+    '</div>');
+  return host;
+}
+function handoverStep(host, index) {
+  const items = [...host.querySelectorAll('.hand-steps li')];
+  items.forEach((li, i) => {
+    li.classList.toggle('done', i < index);
+    li.classList.toggle('on', i === index);
+  });
+  const bar = host.querySelector('.hand-bar i');
+  if (bar) bar.style.inlineSize = Math.round(((index + 1) / items.length) * 100) + '%';
+}
+function handoverHide(host) {
+  if (!host) return;
+  host.classList.add('out');
+  setTimeout(() => { host.hidden = true; host.innerHTML = ''; host.className = ''; }, 520);
+}
+
+/* يُلتقط الضغطُ على «دخول» قبل منطقِ الصفحة، فيُعرض التسليمُ ثمّ يُترك
+   الفعلُ يمضي. والإخفاءُ مضمونٌ بمهلةٍ قصوى مهما جرى. */
+document.addEventListener('click', ev => {
+  if (!ev.target.closest('[data-a="gin"]')) return;
+  let host;
+  try { host = handoverShow(); } catch (e) { return; }
+  const started = Date.now();
+  let step = 0;
+  const tick = setInterval(() => {
+    step++;
+    if (step >= HANDOVER_STEPS.length) { clearInterval(tick); return; }
+    try { handoverStep(host, step); } catch (e) { clearInterval(tick); }
+  }, 380);
+  /* لا يُغلق قبل أن يُرسم شيءٌ فعلًا، ولا يبقى بعد ثانيتين ونصف مهما جرى */
+  const close = () => {
+    clearInterval(tick);
+    try { handoverStep(host, HANDOVER_STEPS.length - 1); } catch (e) {}
+    const wait = Math.max(0, 1500 - (Date.now() - started));
+    setTimeout(() => handoverHide(host), wait);
+  };
+  const watch = setInterval(() => {
+    if (document.querySelector('.view .control-route-hero')) { clearInterval(watch); close(); }
+  }, 90);
+  setTimeout(() => { clearInterval(watch); close(); }, 2800);
+}, true);
+
+/* يُلفُّ render فيبدأ الشريطُ مع الطلبِ وينتهي مع الرسم */
+(function wrapRender() {
+  if (typeof render !== 'function') return;
+  const base = render;
+  render = function () {
+    try { routeProgressStart(); } catch (e) {}
+    const out = base.apply(this, arguments);
+    try { routeProgressDone(); } catch (e) {}
+    return out;
+  };
+})();
+
 
 (function wrapAfterRender() {
   const base = afterRender;
@@ -38379,6 +39056,7 @@ function repetitionPolish() {
     try { chartPolish(); } catch (e) { console.error('chartPolish', e); }
     try { if (typeof opsPolish === 'function') opsPolish(); } catch (e) { console.error('opsPolish', e); }
     try { if (typeof repetitionPolish === 'function') repetitionPolish(); } catch (e) { console.error('repetitionPolish', e); }
+    try { if (typeof tablePolish === 'function') tablePolish(); } catch (e) { console.error('tablePolish', e); }
     return out;
   };
 })();
