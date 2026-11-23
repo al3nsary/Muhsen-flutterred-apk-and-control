@@ -9,6 +9,54 @@
 </head>
 <body>
 <style>
+/* ============================================================
+   مُستضيفُ لوحةِ الجدار — ما يُرى حولَ اللوحةِ لا فيها
+   ─────────────────────────────────────────────────────────────
+   اللوحةُ نفسُها في جذرٍ ظلّيّ، فلا أنماطَ لها هنا. هذه القواعدُ
+   للإطارِ وحده: مساحةٌ بنسبةِ 16:9 تُصغَّر فيها لوحةُ 3840×2160
+   بمعاملٍ واحدٍ يُحسب من العرض (الحسابُ في 47-wall.js).
+   والمنشأُ أعلى اليسارِ **ماديًّا** لا منطقيًّا: `transform` لا
+   يقلبه `dir`، فلو كُتب inline-start لانزاحت اللوحةُ كلُّها.
+   ============================================================ */
+.wallpage{ display:grid; gap:14px }
+/* وألوانُه من رموزِ الكنترولِ نفسِها (--panel و--line و--dim) لا من
+   قيمٍ ثابتة: القيمةُ الثابتةُ تُبقيه أبيضَ في الوضعِ الليليّ. */
+.wallnote{
+  display:flex; align-items:center; gap:12px;
+  padding:12px 16px; border-radius:var(--r,14px);
+  background:var(--panel); border:1px solid var(--line); box-shadow:var(--shadow);
+}
+.wallnote > svg{ flex:none; color:var(--g3) }
+.wallnote > div{ display:grid; gap:2px; min-width:0 }
+.wallnote b{ font-size:14px; font-weight:600; color:var(--ink) }
+.wallnote span{ font-size:12.5px; color:var(--dim) }
+.wallnote .btn{ margin-inline-start:auto; flex:none; white-space:nowrap }
+.wallframe{
+  position:relative; overflow:hidden; border-radius:18px;
+  background:#060C09; border:1px solid var(--line,#E4EAE7);
+  /* الارتفاعُ يُضبَط بالحساب؛ وهذا احتياطٌ قبل أوّلِ قياس */
+  aspect-ratio:16 / 9;
+}
+/* وغلافُ اللوحةِ نفسُه يُنسَّق بسمةٍ مباشرةٍ في 47-wall.js: أنماطُ
+   الصفحةِ لا تعبُر إلى الجذرِ الظلّيّ، فلا قاعدةَ له هنا. */
+/* في جدارِ العرض (F) تملأ اللوحةُ الشاشةَ وحدَها: لا شريطَ علويٌّ
+   ولا لوحُ تنقّلٍ ولا حاشية. ولا يُخفى شيءٌ من ذلك إلّا على طريقِ
+   الجدارِ نفسِه (`:has`) — فبقيّةُ الشاشاتِ في وضعِ الجدارِ تبقى
+   كما هي بشريطِها وساعتِها. */
+#room.wall .wallnote{ display:none }
+#room.wall .wallframe{
+  border:0; border-radius:0;
+  position:fixed; inset:0; z-index:40; aspect-ratio:auto;
+}
+#room.wall:has([data-control-route^="wall"]) .control-top{ display:none }
+/* `#sidewrap` نفسُه يحمل `display:contents` بسمةٍ مباشرة، والسمةُ
+   تغلب القاعدة — فيُخفى أبناؤه لا هو. */
+#room.wall:has([data-control-route^="wall"]) #sidewrap > *{ display:none }
+#room.wall:has([data-control-route^="wall"]) .view{ padding:0 }
+#room.wall:has([data-control-route^="wall"]) .stage{ padding:0 }
+</style>
+
+<style>
 /* ══════════════════════════════════════════════════════════════
    مُحسن · الكنترول — نظام التصميم
    وضعان: ليلي (أخضر يميل إلى السواد) · نهاري (أبيض وأخضر كالتطبيق)
@@ -24261,7 +24309,13 @@ const NAV = [
       { k:'guides',                   i:'i-guide',  l:'أدلة التنفيذ' }
     ]},
     { k:'timeline',  i:'i-hist', l:'الخط الزمني', d:'مسار اليوم لكل مجموعة' },
-    { k:'incidents', i:'i-warn', l:'البلاغات', d:'ما يرفعه الميدان والحاجّ — بآليّة تصعيده' }
+    { k:'incidents', i:'i-warn', l:'البلاغات', d:'ما يرفعه الميدان والحاجّ — بآليّة تصعيده' },
+    /* الجدار: لوحتان مقاسهما 3840×2160 لشاشات ١٠٠ بوصة.
+       تُراجعان هنا مصغّرتين، وتُعرضان بحجمهما بـ F. */
+    { p:'wallg', i:'i-fullscreen', l:'جدار غرفة العمليات', d:'لوحتان لشاشات ١٠٠ بوصة', kids:[
+      { k:'wallops', i:'i-target', l:'مراقبة المحسنين والعمليات' },
+      { k:'wallinc', i:'i-warn',   l:'الأحداث الهامة والطارئة' }
+    ]}
   ]},
 
   { g:'إدارة الحركة', items:[
@@ -26185,7 +26239,7 @@ const DEFAULT_GRANTS = {
   mashaer: ['ops','tasks','timeline','incidents','guides'],
   food:    ['tasks','tickets','incidents','quality','guides'],
   trans:   ['ops','tasks','timeline','tickets','incidents','guides'],
-  centers: ['ops','incidents','tickets','reports','timeline'],
+  centers: ['ops','incidents','tickets','reports','timeline','wallops','wallinc'],
   medina:  ['ops','tasks','staff','teams','pilgrims','incidents'],
   /* المقاول: شاشة واحدة — عقده */
 };
@@ -37122,6 +37176,1290 @@ function markFull(root) {
   });
 }
 
+/* ============================================================
+   جدارُ غرفةِ العمليّات — أنماطُ اللوحتين
+   ──────────────────────────────────────────────────────────────
+   منقولةٌ كما هي من ملفِّ الجدارِ المعتمد (٢٢ نوفمبر ٢٠٢٦)، وتُحقن
+   في جذرٍ ظلّيٍّ لا في الصفحة: فلا يمسُّها شيءٌ من أنماطِ الكنترول
+   ولا تمسُّه. ولذلك تبقى الأسماءُ الداخليّةُ (panel · kpi · row)
+   بأسمائها — والجذرُ الظلّيُّ يعزلها، ولو حُقنت في الصفحةِ لتصادمت.
+   ============================================================ */
+const WALL_CSS = `/* ══════════════════════════════════════════════════════════════════
+   جدارُ مُحسن — لوحتا غرفةِ العمليّات · الإصدار 2 (22 نوفمبر 2026)
+   ──────────────────────────────────────────────────────────────────
+   تصحيحُ المالك المعتمَد: الكوسترُ ينقل **المحسنَ إلى مهمّتِه**، لا
+   ينقل حاجًّا. فكلُّ عددٍ على الطريقِ وفي الأسطولِ وفي الخطِّ الزمنيِّ
+   هو محسنٌ ذاهبٌ إلى تكليفٍ أو عائدٌ منه، وحِملُ الموقعِ هو عددُ
+   المحسنين العاملين فيه.
+
+   وللخريطةِ ثلاثةُ أوضاعٍ تُبدَّل: تضاريسُ وكثافةٌ حراريّة، ومخطّطٌ
+   داكنٌ بعلاماتٍ، وأعمدةُ حِمل. لكلٍّ سؤالٌ يجيب عنه، والمقارنةُ في
+   الصور.
+
+   مقاسُ التصميم 3840×2160 لشاشةِ 100 بوصة، والمشاهدُ على بُعدِ 4–8
+   أمتار: أصغرُ نصٍّ 24px، ولا شعرةَ أرقّ من 2px، ولا تمريرَ ولا تحويم.
+   الأرقامُ لاتينيّةٌ في كلِّ الجدارِ بقرارِ المالك.
+   ══════════════════════════════════════════════════════════════════ */
+/* المتغيّرات على :host لا :root — في الجذرِ الظلّيّ لا يطابق :root شيئًا،
+   فكانت اللوحةُ تُرسم بلا أيِّ رمزٍ من رموزِ التصميم. */
+:host,:root{
+  --void:#060C09; --deep:#0A140F; --panel:#0F1C16; --panel2:#14261F;
+  --g:#14593F; --g2:#0C3A29; --g3:#1D7452; --live:#14C273;
+  --gold:#A8875A; --gold2:#C6A86F; --gold3:#E7D1A2;
+  --amber:#E5A62F; --red:#EC4F54; --blue:#3FA3DC; --violet:#9276DA;
+  --ink:#EDF5F0; --dim:#B4C9BD; --dim2:#849A8E; --faint:#4E6459;
+  --line:#1C3329; --line2:#24412F;
+  --pad:40px; --gap:26px; --r:22px; --lane:368px;
+}
+*{ box-sizing:border-box; margin:0; padding:0 }
+html,body{ background:#000 }
+body{
+  font-family:"Readex Pro","Segoe UI",Tahoma,sans-serif;
+  color:var(--ink); -webkit-font-smoothing:antialiased;
+  font-feature-settings:"tnum" 1,"kern" 1;
+}
+.num{ font-variant-numeric:tabular-nums; direction:ltr; unicode-bidi:isolate }
+
+/* ───────── اللوحة ───────── */
+.board{
+  position:relative; width:3840px; height:2160px; overflow:hidden;
+  display:grid; grid-template-rows:140px auto minmax(0,1fr) auto;
+  gap:var(--gap); padding:var(--pad);
+  background:
+    radial-gradient(76% 56% at 50% -10%, color-mix(in srgb,var(--g) 32%, transparent), transparent 64%),
+    radial-gradient(44% 42% at 3% 106%,  color-mix(in srgb,var(--gold) 13%, transparent), transparent 64%),
+    linear-gradient(to bottom, var(--deep), var(--void) 60%);
+}
+.board::before{
+  content:""; position:absolute; inset:0; pointer-events:none; z-index:0;
+  background:
+    repeating-linear-gradient(to right,  rgba(237,245,240,.034) 0 2px, transparent 2px 120px),
+    repeating-linear-gradient(to bottom, rgba(237,245,240,.034) 0 2px, transparent 2px 120px);
+  mask-image:radial-gradient(112% 88% at 50% 0%, #000 16%, transparent 76%);
+}
+/* حُذفت طبقةُ الحبيبة: بلاطةٌ نقطيّةٌ فوق مساحةِ 4K تُكلّف أكثرَ من
+   50 ثانيةِ رسمٍ مقابل نصفِ ثانيةٍ بدونها (قياسٌ بعزلِ الحالات). العمقُ
+   يأتي من تدرّجاتِ الخلفيّةِ وحدَها — وهي مجّانيّة. */
+.board > *{ position:relative; z-index:1 }
+
+/* ───────── الشريطُ العلويّ ───────── */
+.top{
+  display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:34px;
+  padding:0 40px; border-radius:var(--r);
+  background:linear-gradient(to bottom, color-mix(in srgb,var(--g) 17%, var(--panel)), color-mix(in srgb,var(--g2) 44%, var(--void)));
+  border:2px solid color-mix(in srgb,var(--gold2) 27%, var(--line2));
+  box-shadow:inset 0 2px 0 rgba(237,245,240,.09);
+}
+.brand{ display:flex; align-items:center; gap:26px }
+.brand img{ height:62px; width:auto; display:block }
+.brand .bar{ width:2px; height:66px; background:linear-gradient(to bottom, transparent, color-mix(in srgb,var(--gold2) 60%, transparent), transparent) }
+.brand .t1{ font-size:40px; font-weight:600; letter-spacing:-.2px }
+.brand .t2{ font-size:24px; color:var(--gold2); margin-top:5px; font-weight:400; letter-spacing:.2px }
+.tmid{ display:flex; align-items:center; justify-content:center; gap:40px }
+.tdate{ font-size:28px; color:var(--dim) }
+.tdate b{ color:var(--ink); font-weight:500 }
+.fresh{
+  display:flex; align-items:center; gap:14px; font-size:24px; color:var(--dim);
+  padding:10px 22px; border-radius:999px;
+  background:color-mix(in srgb,var(--live) 12%, transparent);
+  border:2px solid color-mix(in srgb,var(--live) 36%, transparent);
+}
+.fresh i{ width:16px; height:16px; border-radius:50%; background:var(--live); box-shadow:0 0 20px var(--live) }
+.tright{ display:flex; align-items:center; gap:34px }
+.clock{ font-size:86px; font-weight:600; line-height:1; letter-spacing:-2px }
+.clock small{ font-size:40px; color:var(--dim2); font-weight:400; letter-spacing:-1px }
+.scr{ text-align:center; font-size:23px; color:var(--dim2); line-height:1.6 }
+.scr b{ display:block; font-size:29px; color:var(--gold2); font-weight:600 }
+
+/* ───────── شريطُ المؤشّرات ───────── */
+.kpis{ display:grid; grid-template-columns:repeat(6,1fr); gap:var(--gap) }
+.kpi{
+  position:relative; padding:22px 26px 18px; border-radius:var(--r); overflow:hidden;
+  background:linear-gradient(to bottom, var(--panel2), var(--panel));
+  border:2px solid var(--line2);
+  display:grid; grid-template-rows:auto auto auto; gap:6px; min-height:258px;
+  box-shadow:inset 0 2px 0 rgba(237,245,240,.05);
+}
+.kpi::before{ content:""; position:absolute; inset-block-start:0; inset-inline:0; height:5px;
+  background:linear-gradient(90deg, transparent, var(--tone,var(--g3)) 22%, var(--tone,var(--g3)) 78%, transparent) }
+.kpi .k-l{ font-size:27px; color:var(--dim); font-weight:400; display:flex; align-items:center; gap:12px; letter-spacing:.1px }
+.kpi .k-l u{ width:14px; height:14px; border-radius:50%; background:var(--tone,var(--g3)); text-decoration:none; flex:none }
+.kpi .k-v{ display:flex; align-items:baseline; gap:14px }
+.kpi .k-v b{ font-size:98px; font-weight:600; line-height:.94; letter-spacing:-3px; color:var(--ink) }
+.kpi .k-v s{ font-size:30px; color:var(--dim2); text-decoration:none; line-height:1.3 }
+.kpi .k-f{ display:flex; align-items:center; justify-content:space-between; gap:14px }
+.dlt{ display:inline-flex; align-items:center; gap:8px; font-size:25px; padding:6px 14px; border-radius:10px;
+  background:color-mix(in srgb,var(--dtone,var(--live)) 15%, transparent); color:var(--dtone,var(--live)); font-weight:500 }
+.dsub{ font-size:22px; color:var(--faint) }
+.kpi.alarm{ --tone:var(--red); border-color:color-mix(in srgb,var(--red) 55%, transparent);
+  background:linear-gradient(to bottom, color-mix(in srgb,var(--red) 21%, var(--panel2)), var(--panel)) }
+.kpi.alarm .k-v b{ color:#FF9A9D }
+.kpi.alarm::after{ content:""; position:absolute; inset:0; border-radius:var(--r); pointer-events:none;
+  box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--red) 70%, transparent), 0 0 64px -10px color-mix(in srgb,var(--red) 60%, transparent) }
+.spark{ display:block; width:100%; height:54px }
+
+/* ───────── المنتصف ───────── */
+.mid{ display:grid; grid-template-columns:900px minmax(0,1fr) 900px; gap:var(--gap); min-height:0 }
+.panel{
+  border-radius:var(--r); border:2px solid var(--line2); overflow:hidden;
+  background:linear-gradient(to bottom, var(--panel2), var(--panel) 52%, var(--deep));
+  display:grid; grid-template-rows:auto minmax(0,1fr);
+  box-shadow:inset 0 2px 0 rgba(237,245,240,.045), 0 24px 60px -40px rgba(0,0,0,.9);
+}
+.ph{
+  display:flex; align-items:center; gap:16px; padding:15px 24px; min-height:64px;
+  border-bottom:2px solid var(--line2);
+  background:linear-gradient(to bottom, color-mix(in srgb,var(--g) 17%, transparent), transparent);
+}
+.ph h2{ font-size:29px; font-weight:600; letter-spacing:-.1px }
+.ph .ag{ margin-inline-start:auto; display:flex; align-items:center; gap:10px; font-size:22px; color:var(--dim2); letter-spacing:.2px }
+.ph .ag i{ width:12px; height:12px; border-radius:50%; background:var(--live); flex:none; box-shadow:0 0 12px var(--live) }
+.ph .cnt{ font-size:23px; color:var(--gold3); padding:5px 15px; border-radius:999px;
+  background:color-mix(in srgb,var(--gold) 17%, transparent); border:2px solid color-mix(in srgb,var(--gold) 30%, transparent); font-weight:500 }
+.pb{ padding:16px 24px; display:grid; gap:12px; align-content:start; min-height:0 }
+.col{ display:grid; gap:var(--gap); min-height:0; grid-template-rows:var(--rows, 1fr) }
+
+.att{ display:grid; grid-template-columns:auto 1fr auto; gap:20px; align-items:center;
+  padding:17px 20px; border-radius:16px; background:color-mix(in srgb,var(--tone) 12%, var(--deep));
+  border:2px solid color-mix(in srgb,var(--tone) 42%, transparent) }
+.gl{ width:62px; height:62px; display:grid; place-items:center; flex:none;
+  color:var(--tone); font-size:32px; font-weight:700; border-radius:14px;
+  background:color-mix(in srgb,var(--tone) 20%, transparent);
+  border:2px solid color-mix(in srgb,var(--tone) 55%, transparent) }
+.att .h{ font-size:31px; font-weight:500; line-height:1.3; letter-spacing:-.1px }
+.att .m{ font-size:23px; color:var(--dim); margin-top:7px; display:flex; gap:16px; flex-wrap:wrap }
+.att .m span{ display:inline-flex; align-items:center; gap:7px }
+.age{ text-align:center; font-size:37px; font-weight:600; color:var(--tone); line-height:1 }
+.age small{ display:block; font-size:21px; color:var(--dim2); font-weight:400; margin-top:7px }
+
+.row{ display:grid; grid-template-columns:auto 1fr auto; gap:18px; align-items:center;
+  padding:6px 4px; border-bottom:2px solid color-mix(in srgb,var(--line) 70%, transparent) }
+.row:last-child{ border-bottom:0 }
+.row .nm{ font-size:26px; font-weight:400 }
+.row .sb{ font-size:21px; color:var(--dim2); margin-top:4px }
+.rk{ width:50px; height:50px; border-radius:12px; display:grid; place-items:center; flex:none;
+  font-size:25px; font-weight:600; color:var(--gold3);
+  background:color-mix(in srgb,var(--gold) 18%, transparent); border:2px solid color-mix(in srgb,var(--gold) 36%, transparent) }
+.val{ font-size:33px; font-weight:600 }
+.val small{ font-size:21px; color:var(--dim2); font-weight:400 }
+
+.hb{ display:grid; grid-template-columns:260px 1fr 110px; gap:18px; align-items:center; padding:2px 0 }
+.hb .l{ font-size:25px; color:var(--dim) }
+.hb .t{ height:26px; border-radius:7px; background:color-mix(in srgb,var(--ink) 7%, transparent); overflow:hidden }
+.hb .t i{ display:block; height:100%; border-radius:7px;
+  background:linear-gradient(90deg, color-mix(in srgb,var(--tone,var(--g3)) 72%, var(--void)), var(--tone,var(--g3))) }
+.hb .v{ font-size:28px; font-weight:600; text-align:start }
+
+/* الحالاتُ أربعٌ: شكلٌ ولونٌ معًا، فلا يضيع المعنى بلونٍ مغسول */
+.chips{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px }
+.chip{ padding:17px 20px; border-radius:16px; background:color-mix(in srgb,var(--tone) 11%, var(--deep));
+  border:2px solid color-mix(in srgb,var(--tone) 40%, transparent); display:grid; gap:8px }
+.chip .c1{ display:flex; align-items:center; gap:12px; font-size:25px; color:var(--dim) }
+.chip .c1 b{ width:20px; height:20px; background:var(--tone); flex:none }
+.chip .c2{ font-size:52px; font-weight:600; line-height:1; color:var(--ink); letter-spacing:-1.5px }
+.chip .c3{ font-size:21px; color:var(--dim2) }
+.sh-live b{ border-radius:50% }
+.sh-late b{ clip-path:polygon(50% 0,100% 100%,0 100%) }
+.sh-wait b{ border-radius:3px }
+.sh-done b{ height:8px !important; border-radius:2px }
+
+/* ───────── الخريطة ───────── */
+.mapwrap{ position:relative; min-height:0; background:#070E0B }
+.mapwrap svg{ position:absolute; inset:0; width:100%; height:100% }
+.mapkey{ position:absolute; inset-inline-start:26px; inset-block-end:22px; display:flex; gap:24px;
+  font-size:23px; color:var(--dim); background:color-mix(in srgb,var(--void) 80%, transparent);
+  padding:12px 20px; border-radius:14px; border:2px solid var(--line2) }
+.mapkey span{ display:inline-flex; align-items:center; gap:10px }
+.mapkey i{ width:16px; height:16px; border-radius:50%; flex:none }
+.mapscale{ position:absolute; inset-inline-end:26px; inset-block-end:22px; font-size:22px; color:var(--dim);
+  display:flex; align-items:center; gap:12px; background:color-mix(in srgb,var(--void) 72%, transparent);
+  padding:8px 16px; border-radius:12px }
+.mapscale u{ width:140px; height:4px; background:var(--dim); text-decoration:none; display:block }
+/* مبدّلُ أوضاعِ الخريطة — ظاهرٌ دائمًا فالجدارُ لا يُحوَّم عليه */
+.maptabs{ position:absolute; inset-inline-end:26px; inset-block-start:22px; display:flex; gap:8px;
+  background:color-mix(in srgb,var(--void) 82%, transparent); padding:8px; border-radius:14px;
+  border:2px solid var(--line2) }
+.maptabs b{ font-size:22px; font-weight:400; color:var(--dim2); padding:9px 18px; border-radius:9px }
+.maptabs b.on{ color:var(--void); background:var(--gold2); font-weight:600 }
+
+/* ───────── الشريطُ السفليّ ───────── */
+.bot{ display:grid; grid-template-columns:minmax(0,1fr) 1060px; gap:var(--gap); height:426px }
+.gx{ position:relative; padding:0 26px 18px }
+/* المسطرةُ تبدأ حيث تبدأ المسارب، وإلّا قاست نسبتَها على عرضٍ أوسعَ
+   من عرضِ الأشرطةِ فانزاحت عنها ساعةً كاملة. */
+.gxruler{ position:relative; height:44px; border-bottom:2px solid var(--line2); margin-bottom:10px;
+  margin-inline-start:calc(var(--lane) + 18px) }
+.gxruler span{ position:absolute; inset-block-start:9px; transform:translateX(50%); font-size:22px; color:var(--dim2) }
+/* الرقمُ لاتينيُّ الاتّجاهِ في ابنٍ وحدَه: لو وُضع direction:ltr على
+   العنصرِ الموضوعِ نفسِه لانقلب معنى inset-inline-start عليه، فسارت
+   المسطرةُ عكسَ أشرطتِها — وهذا ما وقع فعلًا وأظهرَه القياس. */
+.gxruler span > i{ font-style:normal; font-variant-numeric:tabular-nums; direction:ltr; unicode-bidi:isolate }
+.gxruler span::after{ content:""; position:absolute; inset-block-start:26px; inset-inline-start:50%;
+  width:2px; height:12px; background:var(--line2) }
+.gxrow{ position:relative; height:54px; display:grid; grid-template-columns:var(--lane) 1fr; align-items:center; gap:18px }
+.gxrow > .lane{ font-size:25px; color:var(--dim); display:flex; align-items:center; gap:12px;
+  white-space:nowrap; overflow:hidden }
+.gxrow > .lane u{ width:12px; height:12px; border-radius:50%; background:var(--tone,var(--g3)); text-decoration:none; flex:none }
+.gxtrack{ position:relative; height:100% }
+.gxtrack::before{ content:""; position:absolute; inset-block:50% auto; inset-inline:0; height:2px;
+  background:color-mix(in srgb,var(--ink) 6%, transparent); transform:translateY(-1px) }
+.bar{ position:absolute; inset-block-start:9px; height:36px; border-radius:9px;
+  background:color-mix(in srgb,var(--tone) 32%, var(--deep));
+  border:2px solid color-mix(in srgb,var(--tone) 68%, transparent);
+  display:flex; align-items:center; padding:0 14px; gap:10px; overflow:hidden; z-index:1 }
+.bar b{ font-size:23px; font-weight:400; color:var(--ink); white-space:nowrap; position:relative }
+.bar .fill{ position:absolute; inset-block:0; inset-inline-start:0;
+  background:color-mix(in srgb,var(--tone) 55%, transparent);
+  border-inline-end:3px solid var(--tone) }
+.past{ position:absolute; inset-block:0; inset-inline-start:0; z-index:0;
+  background:rgba(237,245,240,.03) }
+.nowline{ position:absolute; inset-block:0; width:4px; background:var(--gold2); z-index:5;
+  box-shadow:0 0 28px var(--gold) }
+
+.feed{ display:grid; gap:11px; align-content:start }
+.ev{ display:grid; grid-template-columns:auto 1fr auto; gap:18px; align-items:center;
+  padding:13px 18px; border-radius:14px; background:var(--deep);
+  border:2px solid var(--line2); border-inline-start:8px solid var(--tone) }
+.ev .h{ font-size:28px; font-weight:500 }
+.ev .m{ font-size:22px; color:var(--dim2); margin-top:6px; display:flex; gap:16px }
+.ev .st{ font-size:22px; padding:5px 14px; border-radius:999px; color:var(--tone);
+  background:color-mix(in srgb,var(--tone) 16%, transparent); border:2px solid color-mix(in srgb,var(--tone) 40%, transparent) }
+.ev .ag2{ font-size:29px; font-weight:600; color:var(--tone); text-align:center; min-width:120px }
+.ev .ag2 small{ display:block; font-size:21px; color:var(--dim2); font-weight:400 }
+
+.lad{ display:grid; gap:7px }
+.lrow{ display:grid; grid-template-columns:170px 1fr auto; gap:18px; align-items:center }
+.lrow .lv{ font-size:25px; color:var(--gold2); font-weight:500; white-space:nowrap }
+.lrow .bar2{ height:28px; border-radius:10px; background:color-mix(in srgb,var(--ink) 6%, transparent); position:relative; overflow:hidden }
+.lrow .bar2 i{ position:absolute; inset-block:0; inset-inline-start:0; background:var(--tone); opacity:.85; border-radius:10px }
+.lrow .n{ font-size:31px; font-weight:600; min-width:70px; text-align:start }
+`;
+
+/* ============================================================
+   جدارُ غرفةِ العمليّات — لوحتان لشاشةِ ١٠٠ بوصة
+   ─────────────────────────────────────────────────────────────
+   اللوحتان هما المعتمدتان في ملفِّ الجدار (٢٢ نوفمبر ٢٠٢٦): مقاسُ
+   التصميمِ 3840×2160، وأصغرُ نصٍّ 24px، ولا تمريرَ ولا تحويم.
+   والفرقُ هنا أنّ الأرقامَ لم تبقَ تمثيليّةً: كلُّ عددٍ في اللوحتين
+   يُحسب من بياناتِ الكنترولِ نفسِها — المهامُّ والردودُ والبلاغاتُ
+   والفرق — فما تراه على الجدارِ هو ما تراه في الشاشاتِ الداخليّة.
+   ومن لم يكن له مصدرٌ في البياناتِ لم يُكتب رقمُه: يُحذف بندُه أو
+   يُعلَن أنّه بلا مصدرٍ بعد — ولا يُخترع رقمٌ ليملأ خانة.
+
+   وتُحقن اللوحةُ في **جذرٍ ظلّيّ** (shadow root) لا في الصفحة:
+   أسماءُ أصنافِها (panel · row · kpi · top) تُشابه أسماءَ الكنترول،
+   ولو حُقنت في الصفحةِ لتصادم التصميمان فانكسر الاثنان. والجذرُ
+   الظلّيُّ يعزلها عزلًا تامًّا، فتبقى اللوحةُ كما اعتُمدت بالحرف.
+
+   والقاعدةُ الواحدةُ المعتمدةُ من المالك: الكوسترُ ينقل **المحسنَ
+   إلى مهمّتِه** لا ينقل حاجًّا — فكلُّ عددٍ على الطريقِ وفي الأسطولِ
+   هو محسنٌ ذاهبٌ إلى تكليفٍ أو عائدٌ منه.
+   ============================================================ */
+
+/* الأرقامُ لاتينيّةٌ في الجدارِ كلِّه بقرارِ المالك: يُقرأ الرقمُ
+   اللاتينيُّ من ثمانيةِ أمتارٍ أسرعَ، والجدارُ لا يُقرأ عن قُرب. */
+const wN = n => (typeof n === 'number' ? n.toLocaleString('en-US') : String(n == null ? '' : n));
+const wE = s => String(s == null ? '' : s).replace(/[&<>"]/g, c =>
+  ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+const wPad = n => String(n).padStart(2, '0');
+/* مدّةٌ بالدقائقِ ← mm:ss أو hh:mm بحسبِ ما يُقاس */
+const wMS = mins => wPad(Math.floor(mins)) + ':' + wPad(Math.round((mins % 1) * 60));
+const wHM = mins => wPad(Math.floor(mins / 60)) + ':' + wPad(Math.round(mins % 60));
+/* العمرُ ساعةً:دقيقةً ما دام دون اليوم، وبالأيّامِ بعدَه: «81:30»
+   تُقرأ وقتًا لا عمرًا، والعينُ من ثمانيةِ أمتارٍ لا تحسبها. */
+const wAge = ms => {
+  const m = Math.max(0, Math.round(ms / MIN));
+  if (m < 24 * 60) return wPad(Math.floor(m / 60)) + ':' + wPad(m % 60);
+  const d = Math.floor(m / (24 * 60));
+  return d === 1 ? 'يوم' : d === 2 ? 'يومان' : wN(d) + ' أيّام';
+};
+
+/* ───────── مواقعُ الجدار ─────────
+   مخطّطٌ تشغيليٌّ تقريبيٌّ (viewBox 100×56) لا خريطةُ إحداثيّات:
+   مواضعُه منسوخةٌ من اللوحةِ المعتمدةِ حرفًا. وكلُّ موقعٍ موصولٌ
+   بنوعِ المهامِّ التي تقع فيه (`kinds`) فتُحسب حالتُه وحِملُه. */
+const W_SITES = [
+  { id:'jed',  l:'مطار الملك عبدالعزيز',   x:13, y:44, kinds:['airport'] },
+  { id:'azz',  l:'العزيزيّة — سكنُ المحسنين', x:30, y:34, kinds:['checkin','checkout'] },
+  { id:'hrm',  l:'المسجد الحرام',          x:20, y:21, kinds:['umrah','wada','tour'] },
+  { id:'mina', l:'مِنى',                   x:50, y:26, kinds:['mina'] },
+  { id:'jmr',  l:'الجمرات',                x:62, y:13, kinds:['jamarat'] },
+  { id:'mzd',  l:'مزدلفة',                 x:70, y:31, kinds:[] },
+  { id:'arf',  l:'عرفة',                   x:89, y:24, kinds:['arafah'] }
+];
+const W_ROAD  = 'M 13 47 L 22 41 L 30 34 L 40 31 L 50 26 L 70 31 L 89 24';
+const W_SPURS = ['M 50 26 L 56 20 L 62 14', 'M 30 34 L 24 28 L 20 23'];
+const W_TONE  = { live:'#14C273', late:'#EC4F54', soon:'#E5A62F', quiet:'#3FA3DC' };
+const W_HEAT  = v => v > .82 ? '#FF4D43' : v > .62 ? '#FF8A1F' : v > .42 ? '#E8D23A' : '#3FD07A';
+/* مزدلفةُ لا مهامَّ لها في بياناتِ هذه النسخة، فحِملُها يأتي من
+   الردودِ المتّجهةِ إليها — ولا يُلفَّق لها رقمٌ من غيرِها. */
+const W_LEG_SITE = { 'مكة المكرمة':'hrm', 'مشعر منى':'mina', 'مشعر عرفة':'arf',
+  'مزدلفة':'mzd', 'جسر الجمرات':'jmr' };
+/* جهةُ عنوانِ البلاغِ عن موقعِه — جهةٌ خاليةٌ لكلِّ موقعٍ بعينِه */
+const W_INC_OFF = { jed:[6, 9], azz:[-10, 12], hrm:[13, 10], mina:[2, 14],
+  jmr:[11, 7], mzd:[7, 10], arf:[-9, 12] };
+
+/* ═════════════════ الحساب: من بياناتِ الكنترول ═════════════════ */
+
+/* مهامُّ اليومِ وحالاتُها — الأساسُ الذي تُبنى عليه اللوحةُ الأولى */
+function wallTasks() {
+  const t0 = dayStart(now()), t1 = t0 + DAY;
+  const all = (VV().tasks || []);
+  return {
+    today: all.filter(t => t.start >= t0 && t.start < t1),
+    live:  all.filter(t => tState(t) === 'live'),
+    late:  all.filter(t => ['late','over'].indexOf(tState(t)) >= 0),
+    soon:  all.filter(t => tState(t) === 'soon'),
+    done:  all.filter(t => t.status === 'done' && t.start >= t0 && t.start < t1)
+  };
+}
+/* عددُ المحسنين في مهامٍّ ما — المكلَّفون لا المعرَّفون */
+const wMen = list => list.reduce((a, t) => a + ((t.assigned || []).length), 0);
+
+/* الردود: حالُ الأسطولِ الآن. لا يُخترع عددٌ لـ«واقفةٍ للصيانة»:
+   لا حقلَ صيانةٍ في البيانات، فالخانةُ الرابعةُ «أنهت رُدودَها». */
+function wallFleet() {
+  const rides = (VV().rides || []);
+  const run = rides.filter(r => r.startedAt && !r.endedAt && rideState(r) !== 'late');
+  const late = rides.filter(r => rideState(r) === 'late');
+  const plan = rides.filter(r => !r.startedAt && rideState(r) === 'planned');
+  const done = rides.filter(r => r.endedAt && r.endedAt >= dayStart(now()));
+  const pax = r => (r.pax || 0);
+  return {
+    rides, run, late, plan, done,
+    onboard: run.reduce((a, r) => a + pax(r), 0),
+    latePax: late.reduce((a, r) => a + pax(r), 0),
+    /* زمنُ الوصول: وسيطُ مددِ الردودِ المنتهيةِ اليوم بالدقائق */
+    median: (() => {
+      const d = done.map(rideDur).filter(Boolean).map(ms => ms / MIN).sort((a, b) => a - b);
+      return d.length ? d[Math.floor(d.length / 2)] : null;
+    })(),
+    worstLate: late.reduce((a, r) => Math.max(a, now() - rideDue(r)), 0)
+  };
+}
+
+/* البلاغات: الحيُّ منها وما أُغلق، بقنواتِه ومخاطرِه */
+function wallSignals() {
+  const sg = (VV().signals || []);
+  const t0 = dayStart(now());
+  const open = sg.filter(s => s.state !== 'closed');
+  return {
+    all: sg, open,
+    high: open.filter(s => s.risk === 'high'),
+    work: sg.filter(s => s.state === 'working'),
+    wait: sg.filter(s => s.state === 'waiting'),
+    closedToday: sg.filter(s => s.closedAt && s.closedAt >= t0),
+    oldest: open.reduce((a, s) => Math.min(a, s.at), now())
+  };
+}
+
+/* حِملُ كلِّ موقعٍ وحالُه — ومنه تُرسم الخريطةُ في أوضاعِها الثلاثة */
+function wallNodes() {
+  const T = wallTasks(), F = wallFleet();
+  const by = k => (list) => list.filter(t => k.indexOf(t.kind) >= 0);
+  const nodes = W_SITES.map(s => {
+    const pick = by(s.kinds);
+    const live = pick(T.live), late = pick(T.late), soon = pick(T.soon);
+    /* ردودٌ متّجهةٌ إلى هذا الموقعِ الآن */
+    const inbound = F.run.filter(r => W_LEG_SITE[r.to] === s.id);
+    const men = wMen(live) + inbound.reduce((a, r) => a + (r.pax || 0), 0);
+    const st = late.length ? 'late' : live.length ? 'live' : soon.length ? 'soon' : 'quiet';
+    return { ...s, live, late, soon, inbound, men, st };
+  });
+  const mx = Math.max(1, ...nodes.map(n => n.men));
+  nodes.forEach(n => {
+    n.load = n.men / mx;
+    n.n = n.men
+      ? wN(n.men) + ' محسنًا' + (n.late.length ? ' · ' + wN(n.late.length) + ' مهمّة متعثّرة'
+        : n.live.length ? ' · ' + wN(n.live.length) + ' مهمّة جارية'
+        : n.inbound.length ? ' · في الطريقِ إليه' : '')
+      : (n.soon.length ? 'نقلةٌ قريبة · ' + wN(wMen(n.soon)) + ' محسنًا' : 'هادئٌ الآن');
+  });
+  return nodes;
+}
+
+/* مهلةُ البلاغ: من كتالوجِ البلاغاتِ (ESCAL) لا من رقمٍ في الكود.
+   وقطاعُ الكتالوجِ لا يطابق تصنيفَ البلاغِ حرفًا، فهذا جسرُهما —
+   وما لا مهلةَ لقطاعِه يُقاس بوسيطِ الكتالوجِ كلِّه ويُعلَن ذلك. */
+const W_SEC = { trans:'نقل', house:'إسكان', food:'إعاشة', crowd:'مناسك المشاعر' };
+const wMed = a => { const s = a.filter(Boolean).sort((x, y) => x - y);
+  return s.length ? s[Math.floor(s.length / 2)] : null; };
+const W_SLA_MED = (typeof ESCAL !== 'undefined' ? (wMed(ESCAL.map(e => e.sla)) || 30) : 30);
+function wSlaOf(cat) {
+  if (typeof ESCAL === 'undefined') return W_SLA_MED;
+  const sec = W_SEC[cat];
+  if (!sec) return W_SLA_MED;
+  return wMed(ESCAL.filter(e => e.sec === sec).map(e => e.sla)) || W_SLA_MED;
+}
+
+/* ═════════════════ القطعُ المرسومة ═════════════════ */
+
+function wSpark(vals, tone, target) {
+  const v = (vals && vals.length > 1) ? vals : [0, 0];
+  const w = 300, h = 54, mx = Math.max(...v), mn = Math.min(...v);
+  const rg = (mx - mn) || 1;
+  const pts = v.map((x, i) => [i / (v.length - 1) * w, h - 4 - (x - mn) / rg * (h - 12)]);
+  const d = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
+  const ty = target != null ? (h - 4 - (target - mn) / rg * (h - 12)) : null;
+  const gi = (wSpark.i = (wSpark.i || 0) + 1);
+  return '<svg class="spark" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="none" aria-hidden="true">' +
+    '<defs><linearGradient id="g' + gi + '" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0" stop-color="' + tone + '" stop-opacity=".42"/>' +
+      '<stop offset="1" stop-color="' + tone + '" stop-opacity="0"/></linearGradient></defs>' +
+    '<path d="' + d + ' L' + w + ' ' + h + ' L0 ' + h + ' Z" fill="url(#g' + gi + ')"/>' +
+    (ty != null ? '<line x1="0" y1="' + ty.toFixed(1) + '" x2="' + w + '" y2="' + ty.toFixed(1) +
+      '" stroke="#C6A86F" stroke-width="2" stroke-dasharray="10 8" opacity=".55"/>' : '') +
+    '<path d="' + d + '" fill="none" stroke="' + tone + '" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>' +
+    '<circle cx="' + pts[pts.length - 1][0].toFixed(1) + '" cy="' + pts[pts.length - 1][1].toFixed(1) +
+      '" r="7" fill="' + tone + '"/></svg>';
+}
+
+function wKpi(o) {
+  return '<div class="kpi' + (o.alarm ? ' alarm' : '') + '" style="--tone:' + o.tone + '">' +
+    '<div class="k-l"><u></u>' + wE(o.label) + '</div>' +
+    '<div><div class="k-v"><b class="num">' + wN(o.value) + '</b>' +
+      (o.unit ? '<s>' + wE(o.unit) + '</s>' : '') + '</div>' +
+      wSpark(o.spark, o.tone, o.target) + '</div>' +
+    '<div class="k-f">' + wChange(o.delta) +
+      '<span class="dsub">' + wE(o.sub) + '</span></div></div>';
+}
+
+/* الفرقُ عن الساعةِ السابقة — لا عددٌ مطلقٌ بسهمٍ فوقه.
+   وكان السهمُ يُرسم على رقمٍ ليس فرقًا، فيُقرأ ارتفاعًا وهو مجموع.
+   وما لا سابقةَ له في البياناتِ لا سهمَ له: يُكتب «بلا مقارنة». */
+function wChange(d) {
+  if (!d) return '<span class="dlt" style="--dtone:#849A8E">— بلا مقارنةٍ سابقة</span>';
+  if (d.flat) return '<span class="dlt" style="--dtone:#849A8E">= ' + wE(d.txt) + '</span>';
+  return '<span class="dlt" style="--dtone:' + (d.good ? '#14C273' : '#EC4F54') + '">' +
+    (d.up ? '▲' : '▼') + ' <span class="num">' + wE(d.txt) + '</span></span>';
+}
+/* فرقُ آخرِ ساعةٍ من الشريطِ نفسِه: فالشريطُ ساعيٌّ، فآخرُ قيمتين
+   فيه هما هذه الساعةُ والتي قبلها — ولا يُحسب من مصدرٍ آخر. */
+function wDelta(spark, opts) {
+  opts = opts || {};
+  if (!spark || spark.length < 2) return null;
+  const a = spark[spark.length - 1], b = spark[spark.length - 2];
+  const d = Math.round((a - b) * 10) / 10;
+  if (!d) return { flat:true, txt:'بلا تغيّرٍ هذه الساعة' };
+  const txt = (opts.pct ? wN(Math.abs(d)) + '%' : wN(Math.abs(d))) + ' خلال الساعة';
+  /* الارتفاعُ ليس خيرًا في كلِّ مؤشّر: التأخّرُ والبلاغُ عكسُه */
+  return { up:d > 0, good:opts.lowerIsBetter ? d < 0 : d > 0, txt };
+}
+
+function wPanel(title, body, opts) {
+  opts = opts || {};
+  return '<section class="panel"><div class="ph"><h2>' + wE(title) + '</h2>' +
+    (opts.count ? '<span class="cnt">' + wE(opts.count) + '</span>' : '') +
+    '<span class="ag"><i></i>' + wE(opts.age || 'حيٌّ — من بياناتِ الكنترول') + '</span></div>' +
+    '<div class="pb' + (opts.cls ? ' ' + opts.cls : '') + '">' + body + '</div></section>';
+}
+
+/* هالةٌ داكنةٌ حول الحرف فيُقرأ النصُّ فوق أيِّ تضاريس */
+function wTxt(x, y, t, fill, size, weight) {
+  return '<text x="' + x + '" y="' + y + '" text-anchor="middle" fill="' + fill + '" font-size="' + size + '"' +
+    ' font-family="Readex Pro" font-weight="' + weight + '"' +
+    ' stroke="#05090A" stroke-width="' + (size * 0.36) + '" stroke-opacity=".9" paint-order="stroke">' + wE(t) + '</text>';
+}
+/* علامةُ الدبّوس: رأسٌ دائريٌّ وذيلٌ يشير إلى النقطةِ بالضبط */
+function wPin(x, y, c, glyph, scale) {
+  const k = scale || .52;
+  return '<g transform="translate(' + x + ',' + y + ') scale(' + k + ')">' +
+    '<ellipse cx="0" cy=".5" rx="2.1" ry=".7" fill="#05090A" opacity=".45"/>' +
+    '<path d="M 0 0 C -1.3 -2.1 -2.9 -3.6 -2.9 -5.4 A 2.9 2.9 0 1 1 2.9 -5.4 C 2.9 -3.6 1.3 -2.1 0 0 Z"' +
+      ' fill="' + c + '" stroke="#05090A" stroke-width=".32"/>' +
+    '<circle cx="0" cy="-5.4" r="1.35" fill="#0B1410" fill-opacity=".92"/>' +
+    (glyph ? '<text x="0" y="-4.75" text-anchor="middle" font-size="2.1" font-family="Readex Pro"' +
+      ' font-weight="700" fill="' + c + '">' + glyph + '</text>' : '') + '</g>';
+}
+
+/* ───── التضاريسُ صورةٌ نقطيّةٌ تُولَّد مرّةً واحدة ─────
+   رسمُها بآلافِ الخطوطِ المتّجهة جمّد صفحةَ 4K في القياس، فصارت
+   تُولَّد في كنفاس 768×430 مرّةً ثمّ تُمدَّد: رسمةٌ واحدة. */
+let W_TERRAIN = null;
+function wTerrain() {
+  if (W_TERRAIN) return W_TERRAIN;
+  const W = 768, H = 430;
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+  const ctx = cv.getContext('2d');
+  const hash = (x, y) => {
+    let n = (x * 374761393 + y * 668265263) | 0;
+    n = (n ^ (n >> 13)) * 1274126177;
+    return ((n ^ (n >> 16)) >>> 0) / 4294967295;
+  };
+  const sm = t => t * t * (3 - 2 * t);
+  const vn = (x, y) => {
+    const xi = Math.floor(x), yi = Math.floor(y), u = sm(x - xi), v = sm(y - yi);
+    const a = hash(xi, yi), b = hash(xi + 1, yi), c = hash(xi, yi + 1), d = hash(xi + 1, yi + 1);
+    return (a + (b - a) * u) + ((c + (d - c) * u) - (a + (b - a) * u)) * v;
+  };
+  const fbm = (x, y) => { let s = 0, am = .5, f = 1;
+    for (let o = 0; o < 5; o++) { s += am * vn(x * f, y * f); f *= 2.02; am *= .5; } return s; };
+  const el = new Float32Array(W * H);
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) el[y * W + x] = fbm(x / 58, y / 58);
+  const img = ctx.createImageData(W, H), px = img.data;
+  for (let y = 0; y < H; y++) {
+    const coast = 34 + 16 * vn(y / 70, 99);
+    for (let x = 0; x < W; x++) {
+      const i = y * W + x, o = i * 4;
+      if (x < coast) {                       /* البحرُ الأحمرُ غربًا */
+        const d = (coast - x) / coast;
+        px[o] = 12 + 26 * (1 - d); px[o + 1] = 52 + 44 * (1 - d); px[o + 2] = 78 + 48 * (1 - d); px[o + 3] = 255;
+        continue;
+      }
+      const h = el[i];
+      const hx = el[i + (x < W - 1 ? 1 : 0)] - el[i - (x > 0 ? 1 : 0)];
+      const hy = el[i + (y < H - 1 ? W : 0)] - el[i - (y > 0 ? W : 0)];
+      let sh = 0.52 + (-hx * 11 - hy * 11);
+      sh = sh < 0 ? 0 : sh > 1.35 ? 1.35 : sh;
+      const t = (h - .28) / .5, k = t < 0 ? 0 : t > 1 ? 1 : t;
+      let r = 64 + k * 84, g = 55 + k * 66, b = 38 + k * 42;
+      const gr = Math.max(0, .17 - k) * 2.0;
+      r -= gr * 18; g += gr * 16; b -= gr * 8;
+      px[o] = Math.min(255, r * sh); px[o + 1] = Math.min(255, g * sh);
+      px[o + 2] = Math.min(255, b * sh); px[o + 3] = 255;
+    }
+  }
+  ctx.putImageData(img, 0, 0);
+  /* العمران: رقعٌ رماديّةٌ فاتحةٌ منقّطةٌ فوق التضاريس */
+  let sd = 911; const R = () => (sd = (sd * 1664525 + 1013904223) % 4294967296) / 4294967296;
+  W_SITES.forEach((s, i) => {
+    const sz = [9.5, 7.4, 8.4, 5.2, 6.2, 5, 6][i % 7];
+    const cx = s.x / 100 * W, cy = s.y / 56 * H, rx = sz / 100 * W, ry = (sz * .68) / 56 * H;
+    const gd = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(rx, ry));
+    gd.addColorStop(0, 'rgba(176,182,166,.42)'); gd.addColorStop(1, 'rgba(176,182,166,0)');
+    ctx.save(); ctx.translate(cx, cy); ctx.scale(1, ry / rx); ctx.translate(-cx, -cy);
+    ctx.fillStyle = gd; ctx.beginPath(); ctx.arc(cx, cy, Math.max(rx, ry), 0, 7); ctx.fill(); ctx.restore();
+    for (let k = 0; k < 260; k++) {
+      const a = R() * 6.2832, rr = Math.sqrt(R());
+      ctx.fillStyle = 'rgba(214,220,206,' + (.10 + R() * .34).toFixed(2) + ')';
+      ctx.fillRect(cx + Math.cos(a) * rx * rr, cy + Math.sin(a) * ry * rr, 1 + R() * 2, 1 + R() * 2);
+    }
+  });
+  W_TERRAIN = cv.toDataURL('image/png');
+  return W_TERRAIN;
+}
+
+function wGround(mode) {
+  let s = '';
+  const ROADS = ['M 6 30 L 20 26 L 34 29 L 48 20', 'M 14 47 L 28 44 L 44 46 L 62 42 L 82 44',
+    'M 20 21 L 34 16 L 52 12 L 70 16', 'M 30 34 L 46 36 L 64 34 L 84 36'];
+  const BLOCKS = W_SITES.map((n, i) => [n.x, n.y, [9.5, 7.4, 8.4, 5.2, 6.2, 5, 6][i % 7],
+    [6.4, 5.2, 5.2, 3.6, 4.2, 3.4, 4][i % 7]]);
+  if (mode === 'terrain') {
+    s += '<image href="' + wTerrain() + '" x="0" y="0" width="100" height="56" preserveAspectRatio="none"/>';
+    ROADS.forEach(d => { s += '<path d="' + d + '" fill="none" stroke="#E6DCBE" stroke-opacity=".26" stroke-width=".24"/>'; });
+  } else {
+    s += '<rect width="100" height="56" fill="#0A1710"/><rect width="100" height="56" fill="url(#mg)"/>';
+    s += '<path d="M -2 -2 L 6.2 -2 Q 4.4 10 5.6 21 Q 3.6 33 5.2 45 Q 4 52 5 58 L -2 58 Z" fill="#0C2634"/>';
+    for (let x = 10; x < 100; x += 10) s += '<line x1="' + x + '" y1="0" x2="' + x + '" y2="56" stroke="#EDF5F0" stroke-opacity=".03" stroke-width=".12"/>';
+    for (let y = 8; y < 56; y += 8) s += '<line x1="0" y1="' + y + '" x2="100" y2="' + y + '" stroke="#EDF5F0" stroke-opacity=".03" stroke-width=".12"/>';
+    ['M -2 38 Q 14 30 26 36 T 48 33 T 72 38 T 102 32', 'M -2 48 Q 20 42 34 47 T 62 44 T 102 47',
+     'M -2 16 Q 18 10 34 15 T 64 11 T 102 17'].forEach((d, i) => {
+      s += '<path d="' + d + '" fill="none" stroke="#A8875A" stroke-opacity="' + (.14 - i * .03) + '" stroke-width="' + (.6 - i * .1) + '"/>';
+    });
+    BLOCKS.forEach(b => { s += '<ellipse cx="' + b[0] + '" cy="' + b[1] + '" rx="' + b[2] + '" ry="' + b[3] + '" fill="#EDF5F0" fill-opacity=".035"/>'; });
+    ROADS.forEach(d => { s += '<path d="' + d + '" fill="none" stroke="#C6A86F" stroke-opacity=".16" stroke-width=".2"/>'; });
+  }
+  W_SPURS.forEach(d => { s += '<path d="' + d + '" fill="none" stroke="#E7D1A2" stroke-opacity=".26" stroke-width=".5" stroke-dasharray="1.2 1.4" stroke-linecap="round"/>'; });
+  s += '<path d="' + W_ROAD + '" fill="none" stroke="#05090A" stroke-opacity=".5" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>';
+  s += '<path class="rd" d="' + W_ROAD + '" fill="none" stroke="url(#road)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>';
+  s += '<path d="' + W_ROAD + '" fill="none" stroke="#F3E6C4" stroke-opacity=".30" stroke-width=".26" stroke-dasharray="1.3 1.9"/>';
+  return s;
+}
+
+/* الخريطةُ في ثلاثةِ أوضاع — لكلٍّ سؤالٌ يجيب عنه:
+   تضاريسُ وكثافة «أين يتكدّس المحسنون؟» · مخطّطٌ بعلامات «أين
+   البلاغُ بالضبط؟» · أعمدةُ حِمل «كم محسنًا في كلِّ موقعٍ الآن؟» */
+function wMapSvg(mode, nodes, incidents) {
+  let s = '<svg viewBox="0 0 100 56" preserveAspectRatio="xMidYMid slice">';
+  s += '<defs><radialGradient id="mg" cx="50%" cy="38%" r="72%">' +
+      '<stop offset="0" stop-color="#14593F" stop-opacity=".42"/>' +
+      '<stop offset="1" stop-color="#060C09" stop-opacity="0"/></radialGradient>' +
+    '<linearGradient id="road" x1="0" y1="0" x2="1" y2="0">' +
+      '<stop offset="0" stop-color="#C6A86F" stop-opacity=".30"/>' +
+      '<stop offset=".5" stop-color="#E7D1A2" stop-opacity=".80"/>' +
+      '<stop offset="1" stop-color="#C6A86F" stop-opacity=".30"/></linearGradient>' +
+    '<filter id="blur"><feGaussianBlur stdDeviation="1.6"/></filter>' +
+    '<filter id="soft"><feGaussianBlur stdDeviation=".5"/></filter>';
+  if (mode === 'terrain') nodes.forEach((n, i) => {
+    const c = W_HEAT(n.load);
+    s += '<radialGradient id="h' + i + '"><stop offset="0" stop-color="' + c + '" stop-opacity=".82"/>' +
+      '<stop offset=".45" stop-color="' + c + '" stop-opacity=".34"/>' +
+      '<stop offset="1" stop-color="' + c + '" stop-opacity="0"/></radialGradient>';
+  });
+  s += '</defs>' + wGround(mode === 'terrain' ? 'terrain' : 'dark');
+
+  if (mode === 'terrain') {
+    nodes.forEach((n, i) => {
+      s += '<circle cx="' + n.x + '" cy="' + n.y + '" r="' + (3.6 + n.load * 6.4).toFixed(1) + '" fill="url(#h' + i + ')"/>';
+    });
+    nodes.forEach(n => {
+      s += wPin(n.x, n.y, W_TONE[n.st], '', .52);
+      s += wTxt(n.x, n.y + 3.1, n.l, '#FFFFFF', 2.0, 500);
+      s += wTxt(n.x, n.y + 5.7, n.n, '#D6E2DA', 1.6, 400);
+    });
+  }
+  if (mode === 'columns') {
+    nodes.forEach(n => {
+      const c = W_TONE[n.st], hgt = 4 + n.load * 13;
+      s += '<ellipse cx="' + n.x + '" cy="' + n.y + '" rx="' + (2.2 + n.load * 2) + '" ry="' + (.9 + n.load * .8) +
+        '" fill="none" stroke="' + c + '" stroke-opacity=".45" stroke-width=".3"/>';
+      s += '<line x1="' + n.x + '" y1="' + n.y + '" x2="' + n.x + '" y2="' + (n.y - hgt) +
+        '" stroke="' + c + '" stroke-opacity=".28" stroke-width="2.6" stroke-linecap="round" filter="url(#soft)"/>';
+      s += '<line x1="' + n.x + '" y1="' + n.y + '" x2="' + n.x + '" y2="' + (n.y - hgt) +
+        '" stroke="' + c + '" stroke-width=".55" stroke-linecap="round"/>';
+      s += '<circle cx="' + n.x + '" cy="' + (n.y - hgt) + '" r="1.5" fill="' + c + '" filter="url(#blur)" opacity=".75"/>';
+      s += '<circle cx="' + n.x + '" cy="' + (n.y - hgt) + '" r="' + (0.6 + n.load * 0.5) + '" fill="' + c + '"/>';
+      s += wTxt(n.x, n.y + 3.5, n.l, '#EDF5F0', 2.0, 500);
+      s += wTxt(n.x, n.y + 6.1, n.n, '#9FB6A9', 1.6, 400);
+    });
+  }
+  if (mode === 'pins') {
+    nodes.forEach(n => {
+      const c = W_TONE[n.st];
+      s += '<circle cx="' + n.x + '" cy="' + n.y + '" r="1.5" fill="#0B1410" stroke="' + c + '" stroke-width=".45"/>';
+      s += '<circle cx="' + n.x + '" cy="' + n.y + '" r=".5" fill="' + c + '"/>';
+      s += wTxt(n.x, n.y + 3.6, n.l, '#EDF5F0', 2.0, 500);
+      s += wTxt(n.x, n.y + 6.2, n.n, '#9FB6A9', 1.6, 400);
+    });
+  }
+  /* البلاغُ يُرسم مزاحًا عن موقعِه ويُوصَل إليه بخيطٍ متقطّع: لو رُسم
+     على إحداثيّاتِ الموقعِ نفسِها لكتب فوقَ اسمِه فضاع الاثنان.
+     والشكلُ يحمل الخطورةَ مع اللون، فلا يسقط المعنى بلونٍ مغسول. */
+  (incidents || []).forEach(p => {
+    const c = W_TONE[p.st];
+    if (p.ax != null)
+      s += '<line x1="' + p.x + '" y1="' + p.y + '" x2="' + p.ax + '" y2="' + p.ay +
+        '" stroke="' + c + '" stroke-opacity=".5" stroke-width=".3" stroke-dasharray=".9 .9"/>';
+    for (let k = 0; k < 3; k++)
+      s += '<circle cx="' + p.x + '" cy="' + p.y + '" r="' + (2.4 + k * 2.0) + '" fill="none" stroke="' + c +
+        '" stroke-opacity="' + (.44 - k * .13) + '" stroke-width="' + (.5 - k * .1) + '"/>';
+    s += wPin(p.x, p.y, c, p.st === 'late' ? '▲' : p.st === 'soon' ? '●' : '■', .66);
+    s += wTxt(p.x, p.y + 3.7, p.l, c, 1.9, 500);
+    s += wTxt(p.x, p.y + 6.2, p.sub, '#D6E2DA', 1.5, 400);
+  });
+  return s + '</svg>';
+}
+
+/* الكوسترات تُوضع على الشريانِ بحسابِ طولِ المسار فتميل مع ميلِه،
+   ولا تُرسم إلّا بعددِ الردودِ الجاريةِ فعلًا. */
+function wCoasters(host, run, lateCount) {
+  const svg = host.querySelector('svg'), path = svg && svg.querySelector('.rd');
+  if (!path || !run) return;
+  const L = path.getTotalLength(), ns = 'http://www.w3.org/2000/svg';
+  const g = document.createElementNS(ns, 'g');
+  for (let i = 0; i < run; i++) {
+    const t = (i + 0.5) / run;
+    const p = path.getPointAtLength(t * L);
+    const q = path.getPointAtLength(Math.min(L, t * L + 1));
+    const a = Math.atan2(q.y - p.y, q.x - p.x) * 180 / Math.PI;
+    const c = i < lateCount ? '#EC4F54' : '#14C273';
+    const halo = document.createElementNS(ns, 'circle');
+    halo.setAttribute('cx', p.x); halo.setAttribute('cy', p.y);
+    halo.setAttribute('r', 1.5); halo.setAttribute('fill', c); halo.setAttribute('opacity', .18);
+    const body = document.createElementNS(ns, 'rect');
+    body.setAttribute('x', -1.2); body.setAttribute('y', -.5);
+    body.setAttribute('width', 2.4); body.setAttribute('height', 1.0);
+    body.setAttribute('rx', .3); body.setAttribute('fill', '#07100C');
+    body.setAttribute('stroke', c); body.setAttribute('stroke-width', .3);
+    body.setAttribute('transform', 'translate(' + p.x + ',' + p.y + ') rotate(' + a + ')');
+    const nose = document.createElementNS(ns, 'rect');   /* مقدّمةٌ مضيئةٌ تقول جهةَ السير */
+    nose.setAttribute('x', .78); nose.setAttribute('y', -.5);
+    nose.setAttribute('width', .42); nose.setAttribute('height', 1.0);
+    nose.setAttribute('rx', .2); nose.setAttribute('fill', c);
+    nose.setAttribute('transform', 'translate(' + p.x + ',' + p.y + ') rotate(' + a + ')');
+    g.appendChild(halo); g.appendChild(body); g.appendChild(nose);
+  }
+  svg.appendChild(g);
+}
+
+/* مبدّلُ أوضاعِ الخريطة — ظاهرٌ دائمًا فالجدارُ لا يُحوَّم عليه،
+   وهو هنا قابلٌ للنقرِ لأنّ الكنترولَ يُدار بفأرةٍ لا بالنظرِ وحده. */
+function wTabs(active) {
+  return '<div class="maptabs">' +
+    [['terrain', 'تضاريس وكثافة'], ['pins', 'مخطّط وعلامات'], ['columns', 'أعمدة الحِمل']]
+      .map(m => '<b class="' + (m[0] === active ? 'on' : '') + '" data-wmode="' + m[0] + '">' + m[1] + '</b>').join('') +
+    '</div>';
+}
+
+function wHeader(title, sub, screen) {
+  const ts = now(), d = new Date(ts);
+  return '<header class="top">' +
+    '<div class="brand">' + (window.IMG && window.IMG.logo_white
+      ? '<img src="' + window.IMG.logo_white + '" alt="">' : '') +
+      '<span class="bar"></span>' +
+      '<div><div class="t1">' + wE(title) + '</div><div class="t2">' + wE(sub) + '</div></div></div>' +
+    '<div class="tmid">' +
+      '<div class="tdate">' + wE(dayNameAr(ts)) + ' &nbsp;·&nbsp; ' + wE(hijriAr(ts)) +
+        ' &nbsp;·&nbsp; <span class="num">' + wPad(d.getDate()) + '/' + wPad(d.getMonth() + 1) + '/' + d.getFullYear() + '</span></div>' +
+      '<div class="fresh"><i></i>البياناتُ من الكنترولِ لحظةَ الرسم</div>' +
+    '</div>' +
+    '<div class="tright">' +
+      '<div class="scr"><b>' + wE(screen) + '</b>توقيت مكّة</div>' +
+      '<div class="clock num" data-wclock>' + wPad(d.getHours()) + ':' + wPad(d.getMinutes()) +
+        '<small>:' + wPad(d.getSeconds()) + '</small></div>' +
+    '</div></header>';
+}
+
+/* الخطُّ الزمنيّ. والمسطرةُ تبدأ حيث تبدأ المسارب، وإلّا قاست
+   نسبتَها على عرضٍ أوسعَ من عرضِ الأشرطةِ فانزاحت عنها ساعةً. */
+function wTimeline(S0, E0, step, lanes) {
+  /* مسطرةٌ بلا شريطٍ واحدٍ تُقرأ عُطلًا في الشاشة — فيُقال سببُها */
+  if (!lanes.length) return '<div style="display:grid;place-items:center;height:300px;' +
+    'font-size:28px;color:#849A8E;text-align:center;line-height:1.6">' +
+    'لا نقلاتٍ مجدولةً في هذه النافذة<br>' +
+    '<span style="font-size:23px;color:#4E6459">النقلاتُ تُقرأ من ردودِ الكوسترات في الكنترول</span></div>';
+  const pos = h => ((h - S0) / (E0 - S0)) * 100;
+  const d = new Date(now()), nowH = d.getHours() + d.getMinutes() / 60;
+  let g = '<div class="gxruler">';
+  for (let h = S0; h <= E0; h += step) g += '<span style="inset-inline-start:' + pos(h) + '%"><i>' + wPad(h % 24) + ':00</i></span>';
+  g += '</div><div style="position:relative">';
+  lanes.forEach(L => {
+    g += '<div class="gxrow" style="--tone:' + L.tone + '"><div class="lane"><u></u>' + wE(L.l) + '</div><div class="gxtrack">';
+    g += '<i class="past" style="width:' + Math.max(0, Math.min(100, pos(nowH))) + '%"></i>';
+    (L.bars || []).forEach(b => {
+      const x = Math.max(0, pos(b[0])), w = Math.min(100 - x, pos(b[1]) - pos(b[0]));
+      if (w <= 0) return;
+      const running = b[0] <= nowH && b[1] > nowH;
+      const fill = running ? ((nowH - b[0]) / (b[1] - b[0]) * 100) : (b[3] ? 100 : 0);
+      g += '<div class="bar" style="inset-inline-start:' + x + '%; width:' + w + '%">' +
+        (fill ? '<i class="fill" style="width:' + fill + '%"></i>' : '') + '<b>' + wE(b[2]) + '</b></div>';
+    });
+    g += '</div></div>';
+  });
+  g += '<div class="nowline" style="inset-inline-start:calc(var(--lane) + 18px + (100% - var(--lane) - 18px) * ' +
+       (Math.max(0, Math.min(1, pos(nowH) / 100))).toFixed(4) + ')"></div></div>';
+  return g;
+}
+
+/* مسارب الخطِّ الزمنيّ من الردودِ الحقيقيّة: تُجمَع ردودُ كلِّ مسارٍ
+   في عناقيدَ متقاربة (فجوةٌ تفوق ٤٥ دقيقةً تبدأ عنقودًا)، فيصير
+   الشريطُ دفعةَ نقلٍ لها عددُها ومحسنوها لا شريطًا مزخرفًا. */
+function wLanes(from, to) {
+  const tones = ['#14C273', '#3FA3DC', '#C6A86F', '#E5A62F', '#9276DA', '#EC4F54'];
+  const hourOf = ts => { const d = new Date(ts); return d.getHours() + d.getMinutes() / 60; };
+  return MOVE_LEGS.map((leg, i) => {
+    const rs = (VV().rides || []).filter(r => r.legAr === leg.ar)
+      .filter(r => hourOf(r.planAt) >= from - 1 && hourOf(r.planAt) <= to)
+      .sort((a, b) => a.planAt - b.planAt);
+    const groups = [];
+    rs.forEach(r => {
+      const g = groups[groups.length - 1];
+      if (g && r.planAt - g.last <= 45 * MIN) { g.last = r.planAt; g.rides.push(r); }
+      else groups.push({ first: r.planAt, last: r.planAt, rides: [r] });
+    });
+    return {
+      l: leg.ar, tone: tones[i % tones.length], count: rs.length,
+      bars: groups.map(g => {
+        const men = g.rides.reduce((a, r) => a + (r.pax || 0), 0);
+        const end = Math.max(...g.rides.map(r => rideDue(r)));
+        const done = g.rides.every(r => r.endedAt);
+        return [Math.max(from, hourOf(g.first)), Math.min(to, hourOf(end)),
+          wN(g.rides.length) + ' كوستر' + (men ? ' · ' + wN(men) + ' محسنًا' : ''), done ? 1 : 0];
+      }).filter(b => b[1] > b[0])
+    };
+  }).filter(L => L.bars.length).slice(0, 5);
+}
+
+/* ═════════════════ اللوحةُ الأولى ═════════════════ */
+function wallBoard1(mode) {
+  const T = wallTasks(), F = wallFleet(), G = wallSignals(), nodes = wallNodes();
+  const men = (VV().users || []).filter(u => u.role === 'muhsen' && !u.reserve);
+  const onDuty = wMen(T.live);
+  const d = new Date(now()), hNow = d.getHours();
+  /* الشرائطُ الصغيرةُ: ثماني ساعاتٍ ماضيةٍ تُحسب من المهامِّ نفسِها */
+  const hours = [];
+  for (let k = 7; k >= 0; k--) hours.push(hNow - k);
+  const menAt = h => {
+    const t0 = dayStart(now()) + h * HR;
+    return wMen((VV().tasks || []).filter(t => t.start <= t0 && t.end > t0 &&
+      t.status !== 'cancelled'));
+  };
+  const doneBy = h => {
+    const t0 = dayStart(now()) + (h + 1) * HR;
+    return T.done.filter(t => t.end <= t0).length;
+  };
+  const liveAt = h => {
+    const t0 = dayStart(now()) + h * HR;
+    return (VV().tasks || []).filter(t => t.start <= t0 && t.end > t0 && t.status !== 'cancelled').length;
+  };
+  const runAt = h => {
+    const t0 = dayStart(now()) + h * HR;
+    return (VV().rides || []).filter(r => r.startedAt && r.startedAt <= t0 && (!r.endedAt || r.endedAt > t0)).length;
+  };
+  const openSigAt = h => {
+    const t0 = dayStart(now()) + h * HR;
+    return (VV().signals || []).filter(s => s.at <= t0 && (!s.closedAt || s.closedAt > t0)).length;
+  };
+  /* الخطَّةُ لا تُخترَع: وسيطُ الأزمنةِ المخطّطةِ للردودِ المنتهيةِ
+     نفسِها هو الحدُّ الذي يُقاس عليه الفعليّ — ٣٠ دقيقةً كانت رقمًا
+     من المسوَّدةِ لا من بيانات. */
+  const planMed = (() => {
+    const p = F.done.map(r => r.mins).filter(Boolean).sort((a, b) => a - b);
+    return p.length ? p[Math.floor(p.length / 2)] : null;
+  })();
+  const sparkMen = hours.map(menAt), sparkLive = hours.map(liveAt);
+  const sparkDone = hours.map(doneBy), sparkRun = hours.map(runAt), sparkSig = hours.map(openSigAt);
+  const K = [
+    { label:'المحسنون على مهامٍّ الآن', value:onDuty,
+      unit:'من ' + wN(men.length) + ' في السجلّ',
+      tone:'#1D7452', delta:wDelta(sparkMen), sub:'المكلَّفون اليوم ' + wN(wMen(T.today)),
+      spark:sparkMen },
+    { label:'المهامُّ الجاريةُ الآن', value:T.live.length,
+      unit:'من ' + wN(T.today.length) + ' مهمّةً اليوم',
+      tone:'#14C273', delta:wDelta(sparkLive), sub:'قريبةُ البدء ' + wN(T.soon.length),
+      spark:sparkLive },
+    { label:'المهامُّ المنجزة اليوم', value:T.done.length,
+      unit:(T.today.length ? Math.round(T.done.length / T.today.length * 100) : 0) + '% من مهامِّ اليوم',
+      tone:'#C6A86F', delta:wDelta(sparkDone), sub:'مهامُّ اليومِ كلُّها ' + wN(T.today.length),
+      spark:sparkDone },
+    { label:'زمنُ نقلِ المحسنِ فعليًّا', value:F.median != null ? wMS(F.median) : '—',
+      unit:F.median != null ? 'دقيقة · وسيطُ الردودِ المنتهية' : 'لا ردودَ منتهيةً اليوم',
+      tone:'#3FA3DC',
+      delta:(F.median != null && planMed != null)
+        ? { up:F.median > planMed, good:F.median <= planMed,
+            txt:wMS(Math.abs(planMed - F.median)) + (F.median > planMed ? ' فوق المخطّط' : ' تحت المخطّط') }
+        : null,
+      sub:planMed != null ? 'المخطّطُ ' + wMS(planMed) : 'لا زمنَ مخطّطًا في البيانات',
+      spark:F.done.slice(-8).map(r => (rideDur(r) || 0) / MIN), target:planMed },
+    { label:'كوسترات تنقل الآن', value:F.run.length, unit:'تحمل ' + wN(F.onboard) + ' محسنًا',
+      tone:'#E5A62F', delta:wDelta(sparkRun),
+      sub:'مخطّطةٌ ' + wN(F.plan.length) + ' · منتهيةٌ اليوم ' + wN(F.done.length), spark:sparkRun },
+    { label:'حالاتٌ تتطلّب تدخّلًا', value:F.late.length + T.late.length + G.high.length,
+      unit:F.late.length ? 'أطولُ تأخّرٍ ' + wAge(F.worstLate) : 'بلاغاتٌ عاليةُ الخطورةِ ومتعثّرات',
+      tone:'#EC4F54', delta:wDelta(sparkSig, { lowerIsBetter:true }),
+      sub:wN(T.late.length) + ' مهمّة · ' + wN(F.late.length) + ' رد · ' + wN(G.high.length) + ' بلاغ',
+      spark:sparkSig, alarm:(F.late.length + G.high.length) > 3 }
+  ];
+
+  /* ما يستحقّ النظرَ الآن: ثلاثةٌ مرتّبةٌ بالأثرِ لا بالوقت —
+     ردٌّ متأخّرٌ يحمل محسنين، فمهمّةٌ متعثّرة، فبلاغٌ حرج. */
+  const attn = [];
+  F.late.slice(0, 3).forEach(r => attn.push({ tone:'#EC4F54', g:'▲',
+    h:'ردٌّ متأخّرٌ ينقل محسنين — ' + r.legAr,
+    m:[r.no, (r.pax ? wN(r.pax) + ' محسنًا على متنه' : 'لم يُبلَّغ عددُ من على متنه'),
+       'موعدُه ' + t12Ar(r.planAt)].filter(Boolean),
+    age:wAge(now() - rideDue(r)), w:3 + (r.pax || 0) / 100 }));
+  T.late.slice(0, 3).forEach(t => attn.push({ tone:'#E5A62F', g:'●',
+    h:'مهمّةٌ لم تبدأ في موعدها — ' + t.title,
+    m:[t.kt, wN((t.assigned || []).length) + ' محسنًا مكلَّفًا', 'موعدُها ' + t12Ar(t.start)],
+    age:wAge(now() - t.start), w:2 }));
+  G.high.slice(0, 3).forEach(s => attn.push({ tone:'#3FA3DC', g:'■',
+    h:'بلاغٌ عاليُ الخطورة — ' + s.title,
+    m:[s.catAr || s.cat, s.channel, (SIG_STATE[s.state] || {}).ar || s.state],
+    age:wAge(now() - s.at), w:1.5 }));
+  const attnTop = attn.sort((a, b) => b.w - a.w).slice(0, 3);
+
+  const fleet = [
+    { tone:'#14C273', cls:'sh-live', l:'تنقل الآن', v:F.run.length, s:'تحمل ' + wN(F.onboard) + ' محسنًا' },
+    { tone:'#EC4F54', cls:'sh-late', l:'متأخّرةٌ عن موعدها', v:F.late.length,
+      s:F.late.length ? 'أطولُ تأخّرٍ ' + wAge(F.worstLate) : 'لا تأخّرَ الآن' },
+    { tone:'#E5A62F', cls:'sh-wait', l:'مخطّطةٌ لم تبدأ', v:F.plan.length, s:'في جدولِ اليوم' },
+    { tone:'#849A8E', cls:'sh-done', l:'أنهت رُدودَها', v:F.done.length, s:'منتهيةٌ اليوم' }
+  ];
+
+  /* إنتاجيّةُ الساعة: المهامُّ المنجزةُ في كلِّ ساعةٍ من ساعاتِ اليوم */
+  const prod = hours.map(h => {
+    const t0 = dayStart(now()) + h * HR;
+    return [((h % 24) + 24) % 24, T.done.filter(t => t.end > t0 && t.end <= t0 + HR).length];
+  });
+  const mxp = Math.max(1, ...prod.map(p => p[1]));
+
+  const top5 = (VV().users || []).filter(u => u.role === 'leader')
+    .map(L => ({ L, r:ktRating(L.id), n:teamOf(L.id).length }))
+    .filter(x => x.r > 0).sort((a, b) => b.r - a.r).slice(0, 5);
+
+  const gx = wTimeline(6, 24, 2, wLanes(6, 24));
+
+  const doneRows = T.done.slice().sort((a, b) => (b.end || 0) - (a.end || 0)).slice(0, 4);
+
+  const key = mode === 'terrain'
+    ? '<span><i style="background:#3FD07A"></i>كثافةٌ منخفضة</span>' +
+      '<span><i style="background:#E8D23A"></i>متوسّطة</span>' +
+      '<span><i style="background:#FF8A1F"></i>مرتفعة</span>' +
+      '<span><i style="background:#FF4D43"></i>مكتظّ</span>' +
+      '<span style="color:#849A8E">حرارةُ اللطخة = عددُ المحسنين في الموقع</span>'
+    : '<span><i style="background:#14C273"></i>جارٍ</span>' +
+      '<span><i style="background:#EC4F54"></i>متعثّر</span>' +
+      '<span><i style="background:#E5A62F"></i>مهمّةٌ قريبة</span>' +
+      '<span><i style="background:#3FA3DC"></i>هادئ</span>' +
+      '<span style="color:#849A8E">' + (mode === 'columns'
+        ? 'ارتفاعُ العمود = عددُ المحسنين في الموقع' : 'النقطةُ موقعٌ والدبّوسُ بلاغ') + '</span>';
+
+  return '<div class="board">' +
+    wHeader('شاشةُ مراقبةِ المحسنين والعمليّات', 'غرفةُ عمليّاتِ مُحسن · من بياناتِ الكنترول', 'شاشة 1 / 2') +
+    '<div class="kpis">' + K.map(wKpi).join('') + '</div>' +
+    '<div class="mid">' +
+      '<div class="col" style="--rows:auto minmax(0,1fr)">' +
+        wPanel('ما يستحقّ النظرَ الآن', attnTop.length ? attnTop.map(a =>
+          '<div class="att" style="--tone:' + a.tone + '"><span class="gl">' + a.g + '</span>' +
+          '<div><div class="h">' + wE(a.h) + '</div><div class="m">' +
+            a.m.map(x => '<span>' + wE(x) + '</span>').join('') + '</div></div>' +
+          '<div class="age"><span class="num">' + a.age + '</span><small>منذ</small></div></div>').join('')
+          : '<div class="att" style="--tone:#14C273"><span class="gl">✓</span><div><div class="h">' +
+            'لا متعثّرَ ولا بلاغَ حرجٍ الآن</div><div class="m"><span>الردودُ في مواعيدها والمهامُّ تسير</span></div>' +
+            '</div><div class="age"><span class="num">00:00</span><small>منذ</small></div></div>',
+          { count:wN(attnTop.length) + ' بنود', age:'مرتّبةٌ بالأثرِ لا بالوقت' }) +
+        wPanel('أسطولُ نقلِ المحسنين الآن', '<div class="chips">' + fleet.map(f =>
+          '<div class="chip ' + f.cls + '" style="--tone:' + f.tone + '"><div class="c1"><b></b>' + wE(f.l) + '</div>' +
+          '<div class="c2 num">' + wN(f.v) + '</div><div class="c3">' + wE(f.s) + '</div></div>').join('') + '</div>',
+          { count:wN(F.rides.length) + ' رد' }) +
+      '</div>' +
+      '<section class="panel">' +
+        '<div class="ph"><h2>انتشارُ المحسنين ونقلُهم إلى المهامّ</h2>' +
+          '<span class="cnt">' + wN(F.run.length) + ' كوسترًا تنقل محسنين</span>' +
+          '<span class="ag"><i></i>المواقعُ من نوعِ المهمّة</span></div>' +
+        '<div class="mapwrap" data-wmap="' + wN(F.run.length) + ':' + wN(F.late.length) + '">' +
+          wMapSvg(mode, nodes) + wTabs(mode) +
+          '<div class="mapkey">' + key + '</div>' +
+          '<div class="mapscale"><u></u><span class="num">5</span> كم</div>' +
+        '</div>' +
+      '</section>' +
+      '<div class="col" style="--rows:auto minmax(0,1fr)">' +
+        wPanel('إنتاجيّةُ الفرقِ بالساعة', '<div style="display:flex;align-items:flex-end;gap:18px;height:214px;padding-top:8px">' +
+          prod.map(p => '<div style="flex:1;display:grid;gap:10px;justify-items:center">' +
+            '<div class="num" style="font-size:24px;color:#B4C9BD">' + wN(p[1]) + '</div>' +
+            '<div style="width:100%;height:' + (p[1] / mxp * 148) + 'px;border-radius:9px 9px 3px 3px;' +
+              'background:linear-gradient(to top,#14593F,' + (p[1] === mxp && p[1] ? '#C6A86F' : '#1D7452') + ')"></div>' +
+            '<div class="num" style="font-size:23px;color:#849A8E">' + wPad(p[0]) + '</div></div>').join('') +
+          '</div><div style="font-size:23px;color:#849A8E;margin-top:8px">المهامُّ المنجزةُ في كلِّ ساعةٍ من ساعاتِ اليوم</div>',
+          { count:wN(T.done.length) + ' اليوم' }) +
+        wPanel('أعلى 5 فرقٍ أداءً', top5.length ? top5.map((x, i) =>
+          '<div class="row"><span class="rk num">' + (i + 1) + '</span>' +
+          '<div><div class="nm">' + wE(x.L.name) + '</div><div class="sb">' +
+            wE(x.L.kt + ' · ' + wN(x.n) + ' محسنًا') + '</div></div>' +
+          '<div class="val num">' + x.r.toFixed(1) + '<small> / 5</small></div></div>').join('')
+          : '<div class="row"><div><div class="nm">لا مهامَّ منجزةً بتقييمٍ بعد</div>' +
+            '<div class="sb">التقييمُ يُحسب من مهامِّ الفريقِ المنجزة</div></div></div>',
+          { age:'متوسّطُ تقييمِ مهامِّ الفريقِ المنجزة' }) +
+      '</div>' +
+    '</div>' +
+    '<div class="bot">' +
+      '<section class="panel"><div class="ph"><h2>الخطُّ الزمنيُّ لنقلِ المحسنين والعمليّات</h2>' +
+        '<span class="cnt">06:00 ← 24:00</span><span class="ag"><i></i>الخطُّ الذهبيُّ هو اللحظة</span></div>' +
+        '<div class="gx">' + gx + '</div></section>' +
+      '<section class="panel"><div class="ph"><h2>آخرُ ما أُنجِز</h2>' +
+        '<span class="ag"><i></i>من مهامِّ اليومِ المنجزة</span></div>' +
+        '<div class="pb">' + (doneRows.length ? doneRows.map(t =>
+          '<div class="row"><span class="gl" style="--tone:#849A8E;width:46px;height:46px;font-size:23px">✓</span>' +
+          '<div><div class="nm">' + wE(t.title) + '</div><div class="sb">' +
+            wE(t.kt + ' · ' + (t.place || '')) + '</div></div>' +
+          '<div class="val num" style="font-size:28px">' + wN(t.durH) + '<small> س</small></div></div>').join('')
+          : '<div class="row"><div><div class="nm">لم تُنجَز مهمّةٌ اليومَ بعد</div>' +
+            '<div class="sb">تظهر هنا أوّلَ ما تُغلَق مهمّة</div></div></div>') +
+        '</div></section>' +
+    '</div></div>';
+}
+
+/* ═════════════════ اللوحةُ الثانية ═════════════════ */
+function wallBoard2(mode) {
+  const G = wallSignals(), F = wallFleet(), nodes = wallNodes();
+  const d = new Date(now()), hNow = d.getHours();
+  const hours = []; for (let k = 7; k >= 0; k--) hours.push(hNow - k);
+  const atHour = (list, pick) => hours.map(h => {
+    const t0 = dayStart(now()) + h * HR;
+    return list.filter(s => pick(s, t0)).length;
+  });
+  const openAt = atHour(G.all, (s, t0) => s.at <= t0 && (!s.closedAt || s.closedAt > t0));
+  const closedCum = atHour(G.all, (s, t0) => s.closedAt && s.closedAt <= t0);
+  const places = new Set(G.open.map(s => s.hotel || s.kt).filter(Boolean));
+  /* متوسّطُ زمنِ الإغلاقِ بالدقائق — من البلاغاتِ المغلقةِ نفسِها */
+  const avg = sigAvgResp();
+  /* والمهلةُ ليست رقمًا نخترعه: كتالوجُ البلاغاتِ (ESCAL) يحمل مهلةً
+     لكلِّ نوعٍ بالدقائق، فتُقرأ منه بحسبِ قطاعِ البلاغ. وما لا مهلةَ
+     لقطاعِه يُقاس بوسيطِ الكتالوجِ كلِّه — ويُقال ذلك لا يُخفى. */
+  const sla = W_SLA_MED;
+  const closedAll = G.all.filter(s => s.closedAt);
+  const within = closedAll.filter(s => (s.closedAt - s.at) <= wSlaOf(s.cat) * MIN).length;
+  const compliance = closedAll.length ? Math.round(within / closedAll.length * 100) : 0;
+
+  const sparkHigh = atHour(G.all, (s, t0) => s.risk === 'high' && s.at <= t0 && (!s.closedAt || s.closedAt > t0));
+  const sparkWork = atHour(G.all, (s, t0) => s.at <= t0 && s.state === 'working');
+  const K = [
+    { label:'البلاغاتُ النشطة', value:G.open.length, unit:'في ' + wN(places.size) + ' موضعًا',
+      tone:'#E5A62F', delta:wDelta(openAt, { lowerIsBetter:true }),
+      sub:'المفتوحُ وما ينتظر تأكيدًا', spark:openAt },
+    { label:'بلاغاتٌ عاليةُ الخطورة', value:G.high.length,
+      unit:G.open.length ? 'أقدمُها ' + wAge(now() - G.oldest) : 'لا بلاغَ مفتوح',
+      tone:'#EC4F54', delta:wDelta(sparkHigh, { lowerIsBetter:true }),
+      sub:'الخطورةُ عاليةٌ والحالةُ لم تُغلق', spark:sparkHigh, alarm:G.high.length > 2 },
+    { label:'قيدَ المعالجة', value:G.work.length, unit:'أُسندت إلى مسؤول',
+      tone:'#3FA3DC', delta:wDelta(sparkWork),
+      sub:'وتنتظر تأكيدًا ' + wN(G.wait.length) + ' — المرحلتان 10 و11', spark:sparkWork },
+    { label:'أُغلِقت اليوم', value:G.closedToday.length, unit:'من ' + wN(G.all.length) + ' بلاغًا',
+      tone:'#14C273', delta:wDelta(closedCum), sub:'نسبةُ الإغلاقِ ' +
+        wN(G.all.length ? Math.round(G.closedToday.length / G.all.length * 100) : 0) + '%', spark:closedCum },
+    { label:'متوسّطُ زمنِ الإغلاق', value:avg ? wHM(avg) : '—',
+      unit:avg ? 'ساعة:دقيقة' : 'لا بلاغَ مغلقًا بعد', tone:'#C6A86F',
+      delta:avg ? { up:avg > sla, good:avg <= sla,
+        txt:wHM(Math.abs(sla - avg)) + (avg > sla ? ' فوق المهلة' : ' تحت المهلة') } : null,
+      sub:'وسيطُ مهلِ الكتالوج ' + wHM(sla),
+      spark:closedAll.slice(-8).map(s => (s.closedAt - s.at) / MIN), target:sla },
+    { label:'الالتزامُ بمهلةِ الكتالوج', value:compliance, unit:'%', tone:'#14C273',
+      delta:{ up:compliance >= 90, good:compliance >= 90,
+        txt:wN(within) + ' من ' + wN(closedAll.length) },
+      sub:'مهلةُ كلِّ بلاغٍ من قطاعِه',
+      spark:closedAll.slice(-8).map(s => (s.closedAt - s.at) <= wSlaOf(s.cat) * MIN ? 100 : 0), target:90 }
+  ];
+
+  /* موضعُ البلاغِ على المخطّط: بلاغُه ليس فيه إحداثيّات، فيُنسب
+     إلى موقعِ تصنيفِه ويُزاح عنه قليلًا — والخيطُ المتقطّعُ يصله به.
+     ولو جاءت إحداثيّاتُه من الميدانِ لحلّت محلَّ هذا النسب. */
+  const CAT_SITE = { crowd:'mina', med:'hrm', sec:'hrm', house:'azz', food:'azz', trans:'mina' };
+  const siteOf = id => nodes.find(n => n.id === id) || nodes[0];
+  /* تُجمَع البلاغاتُ المفتوحةُ كلُّها على مواقعِها، والأشدُّ خطورةً
+     أوّلَ كلِّ موقع — فعددُ «ومعه» عددٌ صادقٌ لا بقيّةُ قائمةٍ قُصَّت. */
+  const bySite = {};
+  G.open.slice().sort((a, b) => (b.risk === 'high') - (a.risk === 'high') || b.at - a.at)
+    .forEach(s => {
+      const id = CAT_SITE[s.cat] || 'azz';
+      (bySite[id] = bySite[id] || []).push(s);
+    });
+  const cut = (t, n) => (String(t).length > n ? String(t).slice(0, n - 1) + '…' : t);
+  /* دبّوسٌ واحدٌ لكلِّ موقع — أشدُّ بلاغاتِه خطورةً، وعددُ إخوتِه
+     معه. وثلاثةُ عناوينَ حولَ موقعٍ واحدٍ تتراكب فلا يُقرأ أيُّها
+     من بعيد، والتفصيلُ كلُّه في لوحةِ التدفّقِ إلى جانبها. */
+  const INC = Object.keys(bySite).slice(0, 5).map((id, i) => {
+    const n = siteOf(id), arr = bySite[id], s = arr[0];
+    /* الإزاحةُ لكلِّ موقعٍ موضوعةٌ بعينِها لا محسوبةً بزاوية: المخطّطُ
+       ثابتٌ ومواقعُه معروفة، فلكلٍّ جهةٌ خاليةٌ يُكتب فيها عنوانُه.
+       والمحسوبُ كان يضع عنوانَ بلاغٍ فوق اسمِ موقعٍ مجاورٍ فيضيعان.
+       والخريطةُ تُقصّ من جانبيها (`slice`) فالنطاقُ الآمنُ 22–78. */
+    const off = W_INC_OFF[id] || [0, 12];
+    return {
+      x:Math.max(22, Math.min(78, n.x + off[0])),
+      y:Math.max(12, Math.min(44, n.y + off[1])),
+      ax:n.x, ay:n.y,
+      st:s.risk === 'high' ? 'late' : s.risk === 'mid' ? 'soon' : 'quiet',
+      l:cut(s.title, 26),
+      sub:cut((s.catAr || s.cat) + (arr.length > 1 ? ' · ومعه ' + wN(arr.length - 1) : ''), 30) };
+  });
+
+  const feed = G.open.slice().sort((a, b) => b.at - a.at).slice(0, 5).map(s => {
+    const r = SIG_RISK[s.risk] || SIG_RISK.low;
+    return { tone:r.c, g:s.risk === 'high' ? '▲' : s.risk === 'mid' ? '●' : '■',
+      st:(SIG_STATE[s.state] || {}).ar || s.state, h:s.title,
+      m:[(SIG_CLASS[s.cls] || {}).ar || s.catAr || '', s.channel, s.kt].filter(Boolean),
+      a:wAge(now() - s.at) };
+  });
+
+  const kindMap = {};
+  G.open.forEach(s => { const k = s.catAr || s.cat || '—'; kindMap[k] = (kindMap[k] || 0) + 1; });
+  const kinds = Object.keys(kindMap).map(k => ({ l:k, v:kindMap[k] }))
+    .sort((a, b) => b.v - a.v).slice(0, 5);
+  const kmx = Math.max(1, ...kinds.map(k => k.v));
+  const kTones = ['#EC4F54', '#E5A62F', '#3FA3DC', '#C6A86F', '#9276DA'];
+
+  /* سلّمُ التصعيد: ثلاثُ درجاتٍ تُقرأ من حالِ البلاغِ لا من حقلٍ
+     مستقلّ — فلا حقلَ «مستوى» في البيانات، والمرحلةُ هي المستوى. */
+  const lvl = [
+    { lv:'المستوى 1 · الفريق', n:G.open.filter(s => s.owner).length, tone:'#14C273' },
+    { lv:'المستوى 2 · الكنترول', n:G.open.filter(s => !s.owner && s.risk !== 'high').length, tone:'#E5A62F' },
+    { lv:'المستوى 3 · العمليّات', n:G.high.length, tone:'#EC4F54' }
+  ];
+  const lmx = Math.max(1, ...lvl.map(l => l.n));
+
+  /* الفرقُ المستجيبةُ الآن: من أُسند إليه بلاغٌ لم يُغلق */
+  const respMap = {};
+  G.open.filter(s => s.owner).forEach(s => {
+    const u = userById(s.owner); if (!u) return;
+    respMap[u.id] = respMap[u.id] || { u, n:0, oldest:now() };
+    respMap[u.id].n++; respMap[u.id].oldest = Math.min(respMap[u.id].oldest, s.at);
+  });
+  const resp = Object.values(respMap).sort((a, b) => b.n - a.n).slice(0, 4);
+
+  const chMap = {};
+  G.open.forEach(s => { chMap[s.channel] = (chMap[s.channel] || 0) + 1; });
+  const chans = Object.keys(chMap).map(k => [k, chMap[k]]).sort((a, b) => b[1] - a[1]).slice(0, 4);
+  const cmx = Math.max(1, ...chans.map(c => c[1]));
+  const cTones = ['#14C273', '#C6A86F', '#3FA3DC', '#9276DA'];
+
+  const gx = wTimeline(Math.max(0, hNow), 24, 1, wLanes(Math.max(0, hNow), 24));
+
+  return '<div class="board">' +
+    wHeader('لوحةُ متابعةِ الأحداثِ الهامّةِ والطارئة', 'غرفةُ عمليّاتِ مُحسن · تصعيدٌ وإسناد', 'شاشة 2 / 2') +
+    '<div class="kpis">' + K.map(wKpi).join('') + '</div>' +
+    '<div class="mid">' +
+      '<div class="col" style="--rows:minmax(0,1fr)">' +
+        wPanel('تدفّقُ الأحداثِ العاجلة', feed.length ? '<div class="feed">' + feed.map(f =>
+          '<div class="ev" style="--tone:' + f.tone + '">' +
+          '<span class="gl" style="width:54px;height:54px;font-size:27px">' + f.g + '</span>' +
+          '<div><div class="h">' + wE(f.h) + '</div><div class="m">' +
+            f.m.map(x => '<span>' + wE(x) + '</span>').join('') + '</div></div>' +
+          '<div style="display:grid;gap:10px;justify-items:center"><span class="st">' + wE(f.st) + '</span>' +
+          '<span class="ag2"><span class="num">' + f.a + '</span><small>منذ</small></span></div></div>').join('') + '</div>'
+          : '<div class="feed"><div class="ev" style="--tone:#14C273">' +
+            '<span class="gl" style="width:54px;height:54px;font-size:27px">✓</span>' +
+            '<div><div class="h">لا بلاغَ مفتوحًا الآن</div><div class="m"><span>كلُّ ما وصل أُغلِق</span></div></div>' +
+            '<div style="display:grid;gap:10px;justify-items:center"><span class="st">هادئ</span></div></div></div>',
+          { count:wN(G.open.length) + ' نشطًا', age:'الأحدثُ أعلى · العمرُ يَكبُر' }) +
+      '</div>' +
+      '<section class="panel">' +
+        '<div class="ph"><h2>مواقعُ البلاغاتِ النشطةِ والأحداثِ الحاليّة</h2>' +
+          '<span class="cnt">' + wN(G.high.length) + ' بلاغًا عاليَ الخطورة</span>' +
+          '<span class="ag"><i></i>الموضعُ من تصنيفِ البلاغ</span></div>' +
+        '<div class="mapwrap" data-wmap="' + wN(F.run.length) + ':' + wN(F.late.length) + '">' +
+          wMapSvg(mode, nodes, INC) + wTabs(mode) +
+          '<div class="mapkey">' +
+            '<span><i style="background:#EC4F54"></i>▲ خطورةٌ عالية</span>' +
+            '<span><i style="background:#E5A62F"></i>● متوسّطة</span>' +
+            '<span><i style="background:#3FA3DC"></i>■ منخفضة</span>' +
+            '<span style="color:#849A8E">اتّساعُ الحلقة = نطاقُ الأثر</span>' +
+          '</div>' +
+          '<div class="mapscale"><u></u><span class="num">5</span> كم</div>' +
+        '</div>' +
+      '</section>' +
+      '<div class="col" style="--rows:auto auto minmax(0,1fr)">' +
+        wPanel('البلاغاتُ النشطةُ بحسبِ النوع', kinds.length ? kinds.map((k, i) =>
+          '<div class="hb" style="--tone:' + kTones[i % kTones.length] + '"><span class="l">' + wE(k.l) + '</span>' +
+          '<span class="t"><i style="width:' + (k.v / kmx * 100) + '%"></i></span>' +
+          '<span class="v num">' + wN(k.v) + '</span></div>').join('')
+          : '<div class="hb" style="--tone:#14C273"><span class="l">لا بلاغاتٍ نشطة</span>' +
+            '<span class="t"><i style="width:0%"></i></span><span class="v num">0</span></div>',
+          { count:wN(G.open.length) }) +
+        wPanel('سلّمُ التصعيد', '<div class="lad">' + lvl.map(l =>
+          '<div class="lrow" style="--tone:' + l.tone + '"><span class="lv">' + wE(l.lv) + '</span>' +
+          '<span class="bar2"><i style="width:' + (l.n / lmx * 100) + '%"></i></span>' +
+          '<span class="n num">' + wN(l.n) + '</span></div>').join('') +
+          '<div style="font-size:22px;color:#849A8E;margin-top:6px">' +
+            wN(G.high.length) + ' بلاغًا عاليَ الخطورةِ يحتاج قرارًا من الغرفة</div></div>',
+          { age:'المستوى يُقرأ من مرحلةِ البلاغ' }) +
+        wPanel('المسؤولون المستجيبون الآن', resp.length ? resp.map(r =>
+          '<div class="row"><span class="gl" style="--tone:#14C273;width:46px;height:46px;font-size:21px">●</span>' +
+          '<div><div class="nm">' + wE(r.u.name) + '</div><div class="sb">' +
+            wE((r.u.kt || '—') + ' · ' + wN(r.n) + ' بلاغًا') + '</div></div>' +
+          '<div class="val num" style="font-size:28px">' + wAge(now() - r.oldest) + '<small> أقدم</small></div></div>').join('')
+          : '<div class="row"><div><div class="nm">لا بلاغَ مُسنَدًا الآن</div>' +
+            '<div class="sb">الإسنادُ هو المرحلةُ التاسعةُ من الدورة</div></div></div>',
+          { count:wN(resp.length) }) +
+      '</div>' +
+    '</div>' +
+    '<div class="bot">' +
+      '<section class="panel"><div class="ph"><h2>جدولٌ زمنيٌّ للنقلِ والأحداثِ القادمة</h2>' +
+        '<span class="cnt">' + wPad(Math.max(0, hNow)) + ':00 ← 24:00</span>' +
+        '<span class="ag"><i></i>الخطُّ الذهبيُّ هو اللحظة</span></div>' +
+        '<div class="gx">' + gx + '</div></section>' +
+      '<section class="panel"><div class="ph"><h2>قنواتُ البلاغ</h2>' +
+        '<span class="ag"><i></i>من حقلِ القناةِ في كلِّ بلاغ</span></div>' +
+        '<div class="pb">' + (chans.length ? chans.map((c, i) =>
+          '<div class="hb" style="--tone:' + cTones[i % cTones.length] + '"><span class="l">' + wE(c[0]) + '</span>' +
+          '<span class="t"><i style="width:' + (c[1] / cmx * 100) + '%"></i></span>' +
+          '<span class="v num">' + wN(c[1]) + '</span></div>').join('') +
+          '<div style="font-size:23px;color:#849A8E;margin-top:14px">' + wN(G.open.length) +
+            ' بلاغًا نشطًا · القناةُ تُسجَّل في المرحلةِ الثالثةِ من الدورة</div>'
+          : '<div style="font-size:23px;color:#849A8E">لا بلاغَ نشطًا الآن</div>') +
+        '</div></section>' +
+    '</div></div>';
+}
+
+/* ═════════════════ الشاشتان والتركيب ═════════════════ */
+
+/* الشاشةُ لا تُعيد اللوحةَ نصًّا: تُعيد مُستضيفًا فارغًا ثمّ تُحقن
+   اللوحةُ في جذرِه الظلّيّ بعد الرسم — فلا تُترجَم أصنافُها ولا
+   تُصادم أنماطَ الكنترول. والشريطُ أعلاه يقول كيف تُعرَض. */
+function wallHost(which, title, hint) {
+  return '<div class="wallpage">' +
+    '<div class="wallnote">' + icon('i-fullscreen', 's16') +
+      '<div><b>' + E(title) + '</b><span>' + E(hint) + '</span></div>' +
+      '<button class="btn l xs" data-a="wall">' + E('ملء الشاشة · F') + '</button>' +
+    '</div>' +
+    '<div class="wallframe" data-wallboard="' + which + '"></div></div>';
+}
+function screenWallOps() {
+  return wallHost('ops', 'شاشةُ مراقبةِ المحسنين والعمليّات',
+    'مقاسُ التصميم 3840×2160 — تُصغَّر هنا لتُراجَع، وتُعرض على الجدارِ بحجمِها.');
+}
+function screenWallInc() {
+  return wallHost('inc', 'لوحةُ متابعةِ الأحداثِ الهامّةِ والطارئة',
+    'البلاغاتُ ومواقعُها وسلّمُ تصعيدِها — من دورةِ البلاغِ ذاتِها.');
+}
+
+/* وضعُ الخريطةِ لكلِّ لوحةٍ يُحفظ في الحالة، فلا يعود إلى أوّلِه
+   كلَّما أُعيد الرسم: المشغّلُ يختار وضعَه ويبقى. */
+const wallMode = which => (S.tab && S.tab['wmode_' + which]) ||
+  (which === 'ops' ? 'terrain' : 'pins');
+
+function wallPaint(frame) {
+  const which = frame.dataset.wallboard;
+  const mode = wallMode(which);
+  const root = frame.shadowRoot || frame.attachShadow({ mode:'open' });
+  const html = which === 'ops' ? wallBoard1(mode) : wallBoard2(mode);
+  root.innerHTML = '<style>' + WALL_CSS + '</style>' +
+    '<div class="wallwrap" dir="rtl" style="position:absolute;top:0;left:0;' +
+      'width:3840px;height:2160px;transform-origin:0 0">' + TR(html) + '</div>';
+  const map = root.querySelector('[data-wmap]');
+  if (map) {
+    const nums = String(map.dataset.wmap).split(':');
+    wCoasters(map, Math.min(40, parseInt(nums[0], 10) || 0), parseInt(nums[1], 10) || 0);
+  }
+  /* التبويبُ ينقر فيُبدَّل الوضعُ وتُعاد اللوحةُ وحدَها — لا الصفحة */
+  root.querySelectorAll('[data-wmode]').forEach(b => b.addEventListener('click', () => {
+    S.tab['wmode_' + which] = b.dataset.wmode;
+    save(); wallPaint(frame);
+  }));
+  wallFit(frame, root);
+  /* قياسٌ ثانٍ بعد استقرارِ التخطيط: عند الدخولِ إلى جدارِ العرضِ
+     يختفي الشريطُ ولوحُ التنقّلِ فيتبدّل عرضُ الإطارِ بعد الرسم،
+     وكان القياسُ الأوّلُ يقع قبل ذلك فتصغر اللوحةُ في الزاوية. */
+  requestAnimationFrame(() => requestAnimationFrame(() => wallFit(frame, root)));
+}
+
+/* القياس: اللوحةُ مرسومةٌ بمقاسٍ ثابت 3840×2160، فتُصغَّر بمعاملٍ
+   واحدٍ يُحسب من عرضِ الإطار. ولا يُستعمل `zoom`: يكسر مواضعَ
+   العناصرِ المطلقةِ في الخريطةِ والخطِّ الزمنيّ. */
+function wallFit(frame, root) {
+  const wrap = root.querySelector('.wallwrap');
+  if (!wrap) return;
+  const room = document.getElementById('room');
+  const wall = !!(room && room.classList.contains('wall'));
+  /* في جدارِ العرضِ المقياسُ على الشاشةِ كلِّها عرضًا **وطولًا**:
+     شاشةٌ ليست 16:9 تقطع أسفلَ اللوحةِ لو قيس العرضُ وحدَه.
+     وخارجَه على عرضِ الإطار. وما بقي من فراغٍ يُوسَّط. */
+  const w = wall ? window.innerWidth
+    : (frame.clientWidth || (frame.parentElement && frame.parentElement.clientWidth) || 0);
+  const h = wall ? window.innerHeight : w * 2160 / 3840;
+  if (!w || !h) return;
+  const k = Math.min(w / 3840, h / 2160);
+  wrap.style.transform = 'translate(' + Math.round((w - 3840 * k) / 2) + 'px,' +
+    Math.round((h - 2160 * k) / 2) + 'px) scale(' + k.toFixed(5) + ')';
+  frame.style.height = Math.round(wall ? h : 2160 * k) + 'px';
+}
+
+/* يُنادى بعد كلِّ رسمٍ من `afterRender` */
+let wallRO = null;
+function wallMount(wrap) {
+  const frames = (wrap || document).querySelectorAll('[data-wallboard]');
+  if (!frames.length) return;
+  frames.forEach(f => {
+    wallPaint(f);
+    if (!wallRO && typeof ResizeObserver === 'function') {
+      wallRO = new ResizeObserver(() => {
+        document.querySelectorAll('[data-wallboard]').forEach(x => {
+          if (x.shadowRoot) wallFit(x, x.shadowRoot);
+        });
+      });
+    }
+    if (wallRO) { try { wallRO.observe(f); } catch (e) {} }
+  });
+}
+/* وتغيّرُ مقاسِ النافذةِ يُعيد القياسَ ولو لم يتبدّل عرضُ الإطار */
+window.addEventListener('resize', () => {
+  document.querySelectorAll('[data-wallboard]').forEach(f => {
+    if (f.shadowRoot) wallFit(f, f.shadowRoot);
+  });
+});
+
+/* الساعةُ تنبض في الجذرِ الظلّيِّ بلا إعادةِ رسمٍ للوحة */
+setInterval(() => {
+  document.querySelectorAll('[data-wallboard]').forEach(f => {
+    const c = f.shadowRoot && f.shadowRoot.querySelector('[data-wclock]');
+    if (!c) return;
+    const d = new Date(now());
+    c.innerHTML = wPad(d.getHours()) + ':' + wPad(d.getMinutes()) + '<small>:' + wPad(d.getSeconds()) + '</small>';
+  });
+}, 1000);
+
+
 function afterRender() {
   const wrap = document.getElementById('stagewrap');
   requestAnimationFrame(() => markFull(wrap));
@@ -37131,6 +38469,7 @@ function afterRender() {
   growBars(wrap);
   bindScrollDepth(wrap);
   moveRailMark();
+  wallMount(wrap);          /* لوحاتُ الجدار: تُحقن في جذرِها الظلّيّ */
 }
 
 /* ============================================================
@@ -37559,7 +38898,8 @@ const SCREENS = {
   teams: screenTeams, reserve: screenReserve, pilgrims: screenPilgrims, quality: screenQuality,
   guides: screenGuides, broadcast: screenBroadcast, audit: screenAudit, settings: screenSettings,
   timeline: screenTimeline, perms: screenRoles,
-  transport: screenTransport, arrive: screenArrive, chreq: screenChreq
+  transport: screenTransport, arrive: screenArrive, chreq: screenChreq,
+  wallops: screenWallOps, wallinc: screenWallInc
 };
 
 /* أفعال لا تُغيّر شيئًا — مسموحة لكل صفة */
