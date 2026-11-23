@@ -37501,9 +37501,25 @@ const W_INC_OFF = { jed:[6, 9], azz:[-10, 12], hrm:[13, 10], mina:[2, 14],
 
 /* ═════════════════ الحساب: من بياناتِ الكنترول ═════════════════ */
 
+/* اليومُ التشغيليُّ يبدأ 06:00 لا منتصفَ الليل.
+   ─────────────────────────────────────────────────────────────
+   غرفةُ العمليّاتِ لا تُصفّر عدّاداتِها والمناوبةُ قائمة: فُتحت
+   اللوحةُ الساعةَ 00:27 فقالت صفرَ محسنين وصفرَ مهامٍّ جارية
+   ومهمّةً واحدةً منجزة — وكلُّها صحيحةٌ بحسابِ التقويم وكاذبةٌ
+   بحسابِ العمل: ما أُنجز قبل ساعتين وقع في «أمس». فالحدُّ 06:00،
+   وقبلها نحن في يومِ أمسِ التشغيليّ. */
+const W_DAY_H = 6;
+/* ساعةُ اليومِ التشغيليِّ لأيِّ لحظة: 6 عند بدئِه و30 عند ختامِه */
+const wOpH = ts => (ts - wDay0()) / HR + W_DAY_H;
+function wDay0() {
+  const d = new Date(now());
+  const base = dayStart(now());
+  return d.getHours() < W_DAY_H ? base - DAY + W_DAY_H * HR : base + W_DAY_H * HR;
+}
+
 /* مهامُّ اليومِ وحالاتُها — الأساسُ الذي تُبنى عليه اللوحةُ الأولى */
 function wallTasks() {
-  const t0 = dayStart(now()), t1 = t0 + DAY;
+  const t0 = wDay0(), t1 = t0 + DAY;
   const all = (VV().tasks || []);
   return {
     today: all.filter(t => t.start >= t0 && t.start < t1),
@@ -37523,25 +37539,44 @@ function wallFleet() {
   const run = rides.filter(r => r.startedAt && !r.endedAt && rideState(r) !== 'late');
   const late = rides.filter(r => rideState(r) === 'late');
   const plan = rides.filter(r => !r.startedAt && rideState(r) === 'planned');
-  const done = rides.filter(r => r.endedAt && r.endedAt >= dayStart(now()));
+  const done = rides.filter(r => r.endedAt && r.endedAt >= wDay0());
   const pax = r => (r.pax || 0);
+  /* وإن لم يُنهِ اليومُ التشغيليُّ ردًّا بعد، يُقاس الزمنُ على آخرِ
+     عشرين ردًّا منتهيًا أيًّا كان يومُها — ويُقال في العنوانِ أنّها
+     سابقة. خانةٌ فيها شَرطةٌ لا تقول شيئًا، والرقمُ المنسوبُ إلى
+     مصدرِه يقول. */
+  const fin = rides.filter(r => r.endedAt && rideDur(r)).sort((a, b) => a.endedAt - b.endedAt);
+  const medOf = list => {
+    const d = list.map(rideDur).filter(Boolean).map(ms => ms / MIN).sort((a, b) => a - b);
+    return d.length ? d[Math.floor(d.length / 2)] : null;
+  };
+  const fallback = fin.slice(-20);
   return {
-    rides, run, late, plan, done,
+    rides, run, late, plan, done, fin,
     onboard: run.reduce((a, r) => a + pax(r), 0),
     latePax: late.reduce((a, r) => a + pax(r), 0),
-    /* زمنُ الوصول: وسيطُ مددِ الردودِ المنتهيةِ اليوم بالدقائق */
-    median: (() => {
-      const d = done.map(rideDur).filter(Boolean).map(ms => ms / MIN).sort((a, b) => a - b);
-      return d.length ? d[Math.floor(d.length / 2)] : null;
-    })(),
+    median: medOf(done) != null ? medOf(done) : medOf(fallback),
+    medianFresh: medOf(done) != null,     /* أمِنَ اليومِ التشغيليِّ هو؟ */
+    medianN: medOf(done) != null ? done.length : fallback.length,
+    lastEnd: fin.length ? fin[fin.length - 1].endedAt : null,
+    /* أقربُ نقلةٍ قادمة — تُقال حين لا يسير شيءٌ الآن */
+    nextRide: rides.filter(r => !r.startedAt && r.planAt > now())
+      .sort((a, b) => a.planAt - b.planAt)[0] || null,
     worstLate: late.reduce((a, r) => Math.max(a, now() - rideDue(r)), 0)
   };
+}
+
+/* أقربُ مهمّةٍ تبدأ — للحظةِ التي لا مهمّةَ جاريةً فيها */
+function wNextTask() {
+  return (VV().tasks || []).filter(t => t.start > now() &&
+    t.status !== 'cancelled' && t.status !== 'done')
+    .sort((a, b) => a.start - b.start)[0] || null;
 }
 
 /* البلاغات: الحيُّ منها وما أُغلق، بقنواتِه ومخاطرِه */
 function wallSignals() {
   const sg = (VV().signals || []);
-  const t0 = dayStart(now());
+  const t0 = wDay0();
   const open = sg.filter(s => s.state !== 'closed');
   return {
     all: sg, open,
@@ -37762,7 +37797,7 @@ function wGround(mode) {
   }
   W_SPURS.forEach(d => { s += '<path d="' + d + '" fill="none" stroke="#E7D1A2" stroke-opacity=".26" stroke-width=".5" stroke-dasharray="1.2 1.4" stroke-linecap="round"/>'; });
   s += '<path d="' + W_ROAD + '" fill="none" stroke="#05090A" stroke-opacity=".5" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>';
-  s += '<path class="rd" d="' + W_ROAD + '" fill="none" stroke="url(#road)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>';
+  s += '<path id="wrd" class="rd" d="' + W_ROAD + '" fill="none" stroke="url(#road)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>';
   s += '<path d="' + W_ROAD + '" fill="none" stroke="#F3E6C4" stroke-opacity=".30" stroke-width=".26" stroke-dasharray="1.3 1.9"/>';
   return s;
 }
@@ -37841,34 +37876,56 @@ function wMapSvg(mode, nodes, incidents) {
   return s + '</svg>';
 }
 
-/* الكوسترات تُوضع على الشريانِ بحسابِ طولِ المسار فتميل مع ميلِه،
-   ولا تُرسم إلّا بعددِ الردودِ الجاريةِ فعلًا. */
+/* الكوسترات **تسير** على الشريان، ولا تُرسم إلّا بعددِ الردودِ
+   الجاريةِ فعلًا.
+   ─────────────────────────────────────────────────────────────
+   وكانت تُوضع نقاطًا ساكنةً على المسار، فبدت الخريطةُ صورةً
+   ملصقةً لا شاشةَ متابعة. والحركةُ بـ`animateMotion` على المسارِ
+   نفسِه: يسوقها المتصفّحُ بلا حلقةِ رسمٍ في JS، ولا تُكلّف شيئًا
+   على جدارِ 4K. ومن أطفأ الحركةَ في نظامِه رآها ساكنةً كما كانت. */
 function wCoasters(host, run, lateCount) {
   const svg = host.querySelector('svg'), path = svg && svg.querySelector('.rd');
   if (!path || !run) return;
-  const L = path.getTotalLength(), ns = 'http://www.w3.org/2000/svg';
+  const ns = 'http://www.w3.org/2000/svg';
+  const L = path.getTotalLength();
+  const still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const DUR = 110;                         /* ثانيةً للمسارِ كلِّه — سيرٌ يُتابَع لا يُلهي */
   const g = document.createElementNS(ns, 'g');
   for (let i = 0; i < run; i++) {
     const t = (i + 0.5) / run;
-    const p = path.getPointAtLength(t * L);
-    const q = path.getPointAtLength(Math.min(L, t * L + 1));
-    const a = Math.atan2(q.y - p.y, q.x - p.x) * 180 / Math.PI;
     const c = i < lateCount ? '#EC4F54' : '#14C273';
+    const car = document.createElementNS(ns, 'g');
     const halo = document.createElementNS(ns, 'circle');
-    halo.setAttribute('cx', p.x); halo.setAttribute('cy', p.y);
     halo.setAttribute('r', 1.5); halo.setAttribute('fill', c); halo.setAttribute('opacity', .18);
     const body = document.createElementNS(ns, 'rect');
     body.setAttribute('x', -1.2); body.setAttribute('y', -.5);
     body.setAttribute('width', 2.4); body.setAttribute('height', 1.0);
     body.setAttribute('rx', .3); body.setAttribute('fill', '#07100C');
     body.setAttribute('stroke', c); body.setAttribute('stroke-width', .3);
-    body.setAttribute('transform', 'translate(' + p.x + ',' + p.y + ') rotate(' + a + ')');
     const nose = document.createElementNS(ns, 'rect');   /* مقدّمةٌ مضيئةٌ تقول جهةَ السير */
     nose.setAttribute('x', .78); nose.setAttribute('y', -.5);
     nose.setAttribute('width', .42); nose.setAttribute('height', 1.0);
     nose.setAttribute('rx', .2); nose.setAttribute('fill', c);
-    nose.setAttribute('transform', 'translate(' + p.x + ',' + p.y + ') rotate(' + a + ')');
-    g.appendChild(halo); g.appendChild(body); g.appendChild(nose);
+    car.appendChild(halo); car.appendChild(body); car.appendChild(nose);
+
+    if (still) {
+      const p = path.getPointAtLength(t * L);
+      const q = path.getPointAtLength(Math.min(L, t * L + 1));
+      const a = Math.atan2(q.y - p.y, q.x - p.x) * 180 / Math.PI;
+      car.setAttribute('transform', 'translate(' + p.x + ',' + p.y + ') rotate(' + a + ')');
+    } else {
+      const mo = document.createElementNS(ns, 'animateMotion');
+      mo.setAttribute('dur', DUR + 's');
+      mo.setAttribute('repeatCount', 'indefinite');
+      mo.setAttribute('rotate', 'auto');
+      /* بدايةٌ سالبةٌ لكلِّ واحدٍ: تنطلق الآنَ موزّعةً على الطريقِ
+         لا تتكدّس عند أوّلِه ثمّ تمشي صفًّا واحدًا. */
+      mo.setAttribute('begin', (-t * DUR).toFixed(2) + 's');
+      const mp = document.createElementNS(ns, 'mpath');
+      mp.setAttribute('href', '#wrd');
+      mo.appendChild(mp); car.appendChild(mo);
+    }
+    g.appendChild(car);
   }
   svg.appendChild(g);
 }
@@ -37892,7 +37949,7 @@ function wHeader(title, sub, screen) {
     '<div class="tmid">' +
       '<div class="tdate">' + wE(dayNameAr(ts)) + ' &nbsp;·&nbsp; ' + wE(hijriAr(ts)) +
         ' &nbsp;·&nbsp; <span class="num">' + wPad(d.getDate()) + '/' + wPad(d.getMonth() + 1) + '/' + d.getFullYear() + '</span></div>' +
-      '<div class="fresh"><i></i>البياناتُ من الكنترولِ لحظةَ الرسم</div>' +
+      '<div class="fresh"><i></i>آخرُ تحديثٍ قبل <span class="num" data-wfresh>0</span> ثانية</div>' +
     '</div>' +
     '<div class="tright">' +
       '<div class="scr"><b>' + wE(screen) + '</b>توقيت مكّة</div>' +
@@ -37910,7 +37967,9 @@ function wTimeline(S0, E0, step, lanes) {
     'لا نقلاتٍ مجدولةً في هذه النافذة<br>' +
     '<span style="font-size:23px;color:#4E6459">النقلاتُ تُقرأ من ردودِ الكوسترات في الكنترول</span></div>';
   const pos = h => ((h - S0) / (E0 - S0)) * 100;
-  const d = new Date(now()), nowH = d.getHours() + d.getMinutes() / 60;
+  /* الساعةُ هنا ساعةُ اليومِ التشغيليِّ (6 … 30) لا ساعةُ التقويم:
+     بعد منتصفِ الليلِ كان خطُّ «الآن» يقفز إلى أوّلِ المسطرةِ ويقف. */
+  const nowH = wOpH(now());
   let g = '<div class="gxruler">';
   for (let h = S0; h <= E0; h += step) g += '<span style="inset-inline-start:' + pos(h) + '%"><i>' + wPad(h % 24) + ':00</i></span>';
   g += '</div><div style="position:relative">';
@@ -37937,7 +37996,7 @@ function wTimeline(S0, E0, step, lanes) {
    الشريطُ دفعةَ نقلٍ لها عددُها ومحسنوها لا شريطًا مزخرفًا. */
 function wLanes(from, to) {
   const tones = ['#14C273', '#3FA3DC', '#C6A86F', '#E5A62F', '#9276DA', '#EC4F54'];
-  const hourOf = ts => { const d = new Date(ts); return d.getHours() + d.getMinutes() / 60; };
+  const hourOf = wOpH;
   return MOVE_LEGS.map((leg, i) => {
     const rs = (VV().rides || []).filter(r => r.legAr === leg.ar)
       .filter(r => hourOf(r.planAt) >= from - 1 && hourOf(r.planAt) <= to)
@@ -37966,47 +38025,58 @@ function wallBoard1(mode) {
   const T = wallTasks(), F = wallFleet(), G = wallSignals(), nodes = wallNodes();
   const men = (VV().users || []).filter(u => u.role === 'muhsen' && !u.reserve);
   const onDuty = wMen(T.live);
-  const d = new Date(now()), hNow = d.getHours();
-  /* الشرائطُ الصغيرةُ: ثماني ساعاتٍ ماضيةٍ تُحسب من المهامِّ نفسِها */
+  const nextT = wNextTask();
+  /* الساعاتُ تُعدُّ من بدءِ اليومِ التشغيليِّ لا من منتصفِ الليل،
+     فالرقمُ في المحورِ ساعةُ الحائطِ وتُشتقّ من موضعِها لا تُفترض. */
+  const hNow = Math.floor((now() - wDay0()) / HR);
+  const clockOf = h => new Date(wDay0() + h * HR).getHours();
   const hours = [];
   for (let k = 7; k >= 0; k--) hours.push(hNow - k);
   const menAt = h => {
-    const t0 = dayStart(now()) + h * HR;
+    const t0 = wDay0() + h * HR;
     return wMen((VV().tasks || []).filter(t => t.start <= t0 && t.end > t0 &&
       t.status !== 'cancelled'));
   };
   const doneBy = h => {
-    const t0 = dayStart(now()) + (h + 1) * HR;
+    const t0 = wDay0() + (h + 1) * HR;
     return T.done.filter(t => t.end <= t0).length;
   };
   const liveAt = h => {
-    const t0 = dayStart(now()) + h * HR;
+    const t0 = wDay0() + h * HR;
     return (VV().tasks || []).filter(t => t.start <= t0 && t.end > t0 && t.status !== 'cancelled').length;
   };
   const runAt = h => {
-    const t0 = dayStart(now()) + h * HR;
+    const t0 = wDay0() + h * HR;
     return (VV().rides || []).filter(r => r.startedAt && r.startedAt <= t0 && (!r.endedAt || r.endedAt > t0)).length;
   };
   const openSigAt = h => {
-    const t0 = dayStart(now()) + h * HR;
+    const t0 = wDay0() + h * HR;
     return (VV().signals || []).filter(s => s.at <= t0 && (!s.closedAt || s.closedAt > t0)).length;
   };
   /* الخطَّةُ لا تُخترَع: وسيطُ الأزمنةِ المخطّطةِ للردودِ المنتهيةِ
      نفسِها هو الحدُّ الذي يُقاس عليه الفعليّ — ٣٠ دقيقةً كانت رقمًا
      من المسوَّدةِ لا من بيانات. */
   const planMed = (() => {
-    const p = F.done.map(r => r.mins).filter(Boolean).sort((a, b) => a - b);
+    const src = F.medianFresh ? F.done : F.fin.slice(-20);
+    const p = src.map(r => r.mins).filter(Boolean).sort((a, b) => a - b);
     return p.length ? p[Math.floor(p.length / 2)] : null;
   })();
   const sparkMen = hours.map(menAt), sparkLive = hours.map(liveAt);
   const sparkDone = hours.map(doneBy), sparkRun = hours.map(runAt), sparkSig = hours.map(openSigAt);
   const K = [
+    /* حين لا يكون أحدٌ على مهمّةٍ الآن لا تُترك الخانةُ صفرًا أصمّ:
+       يُقال موعدُ أقربِ تكليفٍ ومن سيخرج إليه — خبرٌ صادقٌ ينفع
+       الغرفةَ في ساعةِ الهدوء. */
     { label:'المحسنون على مهامٍّ الآن', value:onDuty,
-      unit:'من ' + wN(men.length) + ' في السجلّ',
-      tone:'#1D7452', delta:wDelta(sparkMen), sub:'المكلَّفون اليوم ' + wN(wMen(T.today)),
+      unit:onDuty ? 'من ' + wN(men.length) + ' في السجلّ'
+        : (nextT ? 'أقربُ تكليفٍ ' + t12Ar(nextT.start) + ' · ' + wN((nextT.assigned || []).length) + ' محسنًا'
+                 : 'من ' + wN(men.length) + ' في السجلّ'),
+      tone:'#1D7452', delta:wDelta(sparkMen), sub:'المكلَّفون في اليومِ التشغيليّ ' + wN(wMen(T.today)),
       spark:sparkMen },
     { label:'المهامُّ الجاريةُ الآن', value:T.live.length,
-      unit:'من ' + wN(T.today.length) + ' مهمّةً اليوم',
+      unit:T.live.length ? 'من ' + wN(T.today.length) + ' مهمّةً اليوم'
+        : (nextT ? 'أقربُها ' + t12Ar(nextT.start) + ' — ' + nextT.title
+                 : 'من ' + wN(T.today.length) + ' مهمّةً اليوم'),
       tone:'#14C273', delta:wDelta(sparkLive), sub:'قريبةُ البدء ' + wN(T.soon.length),
       spark:sparkLive },
     { label:'المهامُّ المنجزة اليوم', value:T.done.length,
@@ -38014,15 +38084,21 @@ function wallBoard1(mode) {
       tone:'#C6A86F', delta:wDelta(sparkDone), sub:'مهامُّ اليومِ كلُّها ' + wN(T.today.length),
       spark:sparkDone },
     { label:'زمنُ نقلِ المحسنِ فعليًّا', value:F.median != null ? wMS(F.median) : '—',
-      unit:F.median != null ? 'دقيقة · وسيطُ الردودِ المنتهية' : 'لا ردودَ منتهيةً اليوم',
+      unit:F.median == null ? 'لا ردَّ منتهيًا في البيانات'
+        : F.medianFresh ? 'دقيقة · وسيطُ ' + wN(F.medianN) + ' ردًّا اليوم'
+        : 'دقيقة · وسيطُ آخرِ ' + wN(F.medianN) + ' ردًّا سابقًا',
       tone:'#3FA3DC',
       delta:(F.median != null && planMed != null)
         ? { up:F.median > planMed, good:F.median <= planMed,
             txt:wMS(Math.abs(planMed - F.median)) + (F.median > planMed ? ' فوق المخطّط' : ' تحت المخطّط') }
         : null,
-      sub:planMed != null ? 'المخطّطُ ' + wMS(planMed) : 'لا زمنَ مخطّطًا في البيانات',
-      spark:F.done.slice(-8).map(r => (rideDur(r) || 0) / MIN), target:planMed },
-    { label:'كوسترات تنقل الآن', value:F.run.length, unit:'تحمل ' + wN(F.onboard) + ' محسنًا',
+      sub:planMed != null ? 'المخطّطُ ' + wMS(planMed)
+        : (F.lastEnd ? 'آخرُ ردٍّ انتهى ' + t12Ar(F.lastEnd) : 'لا زمنَ مخطّطًا في البيانات'),
+      spark:(F.medianFresh ? F.done : F.fin).slice(-8).map(r => (rideDur(r) || 0) / MIN), target:planMed },
+    { label:'كوسترات تنقل الآن', value:F.run.length,
+      unit:F.run.length ? 'تحمل ' + wN(F.onboard) + ' محسنًا'
+        : (F.nextRide ? 'أقربُ نقلةٍ ' + t12Ar(F.nextRide.planAt) + ' · ' + F.nextRide.legAr
+           : (F.lastEnd ? 'آخرُ نقلةٍ انتهت ' + t12Ar(F.lastEnd) : 'لا ردَّ في الجدول')),
       tone:'#E5A62F', delta:wDelta(sparkRun),
       sub:'مخطّطةٌ ' + wN(F.plan.length) + ' · منتهيةٌ اليوم ' + wN(F.done.length), spark:sparkRun },
     { label:'حالاتٌ تتطلّب تدخّلًا', value:F.late.length + T.late.length + G.high.length,
@@ -38060,8 +38136,8 @@ function wallBoard1(mode) {
 
   /* إنتاجيّةُ الساعة: المهامُّ المنجزةُ في كلِّ ساعةٍ من ساعاتِ اليوم */
   const prod = hours.map(h => {
-    const t0 = dayStart(now()) + h * HR;
-    return [((h % 24) + 24) % 24, T.done.filter(t => t.end > t0 && t.end <= t0 + HR).length];
+    const t0 = wDay0() + h * HR;
+    return [clockOf(h), T.done.filter(t => t.end > t0 && t.end <= t0 + HR).length];
   });
   const mxp = Math.max(1, ...prod.map(p => p[1]));
 
@@ -38069,7 +38145,7 @@ function wallBoard1(mode) {
     .map(L => ({ L, r:ktRating(L.id), n:teamOf(L.id).length }))
     .filter(x => x.r > 0).sort((a, b) => b.r - a.r).slice(0, 5);
 
-  const gx = wTimeline(6, 24, 2, wLanes(6, 24));
+  const gx = wTimeline(6, 30, 2, wLanes(6, 30));
 
   const doneRows = T.done.slice().sort((a, b) => (b.end || 0) - (a.end || 0)).slice(0, 4);
 
@@ -38136,7 +38212,7 @@ function wallBoard1(mode) {
     '</div>' +
     '<div class="bot">' +
       '<section class="panel"><div class="ph"><h2>الخطُّ الزمنيُّ لنقلِ المحسنين والعمليّات</h2>' +
-        '<span class="cnt">06:00 ← 24:00</span><span class="ag"><i></i>الخطُّ الذهبيُّ هو اللحظة</span></div>' +
+        '<span class="cnt">يومٌ تشغيليّ · 06:00 ← 06:00</span><span class="ag"><i></i>الخطُّ الذهبيُّ هو اللحظة</span></div>' +
         '<div class="gx">' + gx + '</div></section>' +
       '<section class="panel"><div class="ph"><h2>آخرُ ما أُنجِز</h2>' +
         '<span class="ag"><i></i>من مهامِّ اليومِ المنجزة</span></div>' +
@@ -38154,10 +38230,11 @@ function wallBoard1(mode) {
 /* ═════════════════ اللوحةُ الثانية ═════════════════ */
 function wallBoard2(mode) {
   const G = wallSignals(), F = wallFleet(), nodes = wallNodes();
-  const d = new Date(now()), hNow = d.getHours();
+  /* وساعاتُها كذلك من بدءِ اليومِ التشغيليّ */
+  const hNow = Math.floor((now() - wDay0()) / HR);
   const hours = []; for (let k = 7; k >= 0; k--) hours.push(hNow - k);
   const atHour = (list, pick) => hours.map(h => {
-    const t0 = dayStart(now()) + h * HR;
+    const t0 = wDay0() + h * HR;
     return list.filter(s => pick(s, t0)).length;
   });
   const openAt = atHour(G.all, (s, t0) => s.at <= t0 && (!s.closedAt || s.closedAt > t0));
@@ -38274,7 +38351,8 @@ function wallBoard2(mode) {
   const cmx = Math.max(1, ...chans.map(c => c[1]));
   const cTones = ['#14C273', '#C6A86F', '#3FA3DC', '#9276DA'];
 
-  const gx = wTimeline(Math.max(0, hNow), 24, 1, wLanes(Math.max(0, hNow), 24));
+  const gxFrom = Math.floor(wOpH(now()));
+  const gx = wTimeline(gxFrom, 30, 2, wLanes(gxFrom, 30));
 
   return '<div class="board">' +
     wHeader('لوحةُ متابعةِ الأحداثِ الهامّةِ والطارئة', 'غرفةُ عمليّاتِ مُحسن · تصعيدٌ وإسناد', 'شاشة 2 / 2') +
@@ -38336,7 +38414,7 @@ function wallBoard2(mode) {
     '</div>' +
     '<div class="bot">' +
       '<section class="panel"><div class="ph"><h2>جدولٌ زمنيٌّ للنقلِ والأحداثِ القادمة</h2>' +
-        '<span class="cnt">' + wPad(Math.max(0, hNow)) + ':00 ← 24:00</span>' +
+        '<span class="cnt">' + wPad(gxFrom % 24) + ':00 ← 06:00</span>' +
         '<span class="ag"><i></i>الخطُّ الذهبيُّ هو اللحظة</span></div>' +
         '<div class="gx">' + gx + '</div></section>' +
       '<section class="panel"><div class="ph"><h2>قنواتُ البلاغ</h2>' +
@@ -38351,6 +38429,20 @@ function wallBoard2(mode) {
         '</div></section>' +
     '</div></div>';
 }
+
+/* نبضُ العلاماتِ الحيّة — وحدَها تتحرّك.
+   ─────────────────────────────────────────────────────────────
+   الجدارُ في ساعةِ الهدوءِ لا كوسترَ فيه يسير، فيبدو صورةً وإن
+   كان حيًّا. فتنبض النقاطُ التي تدّعي الحياةَ وحدَها: نقطةُ
+   التحديثِ ونقاطُ اللوحات. ولا شيءَ غيرُها يتحرّك — حركةٌ لا
+   تقول شيئًا تُلهي عن الأرقام. */
+const WALL_CSS_LIVE = `
+@keyframes wpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.82)}}
+.fresh i,.ph .ag i{ animation:wpulse 2.4s ease-in-out infinite }
+.kpi.alarm::after{ animation:wpulse 3.2s ease-in-out infinite }
+@media (prefers-reduced-motion: reduce){
+  .fresh i,.ph .ag i,.kpi.alarm::after{ animation:none }
+}`;
 
 /* ═════════════════ الشاشتان والتركيب ═════════════════ */
 
@@ -38384,14 +38476,21 @@ function wallPaint(frame) {
   const mode = wallMode(which);
   const root = frame.shadowRoot || frame.attachShadow({ mode:'open' });
   const html = which === 'ops' ? wallBoard1(mode) : wallBoard2(mode);
-  root.innerHTML = '<style>' + WALL_CSS + '</style>' +
+  root.innerHTML = '<style>' + WALL_CSS + WALL_CSS_LIVE + '</style>' +
     '<div class="wallwrap" dir="rtl" style="position:absolute;top:0;left:0;' +
       'width:3840px;height:2160px;transform-origin:0 0">' + TR(html) + '</div>';
+  frame.dataset.wpaint = String(Date.now());
   const map = root.querySelector('[data-wmap]');
   if (map) {
     const nums = String(map.dataset.wmap).split(':');
     wCoasters(map, Math.min(40, parseInt(nums[0], 10) || 0), parseInt(nums[1], 10) || 0);
   }
+  /* وتُعاد اللوحةُ من تلقائها كلَّ عشرين ثانية: جدارٌ لا يتجدّد
+     صورةٌ معلّقة، ومن ينظر إليه لا يضغط شيئًا ليعرف ما جدّ. */
+  clearTimeout(frame._wtick);
+  frame._wtick = setTimeout(() => {
+    if (frame.isConnected && frame.shadowRoot) wallPaint(frame);
+  }, 20000);
   /* التبويبُ ينقر فيُبدَّل الوضعُ وتُعاد اللوحةُ وحدَها — لا الصفحة */
   root.querySelectorAll('[data-wmode]').forEach(b => b.addEventListener('click', () => {
     S.tab['wmode_' + which] = b.dataset.wmode;
@@ -38412,6 +38511,16 @@ function wallFit(frame, root) {
   if (!wrap) return;
   const room = document.getElementById('room');
   const wall = !!(room && room.classList.contains('wall'));
+  /* النسبةُ تُفكّ قبل القياس، والارتفاعُ يُمسح معها.
+     ─────────────────────────────────────────────────────────────
+     وكان `.wallframe` يجمع `aspect-ratio:16/9` مع ارتفاعٍ نضعه
+     بالحساب: فالنسبةُ تشتقّ **العرضَ من الارتفاع**، والارتفاعُ من
+     قياسٍ أقدم. فكلُّ تغييرِ مقاسٍ يُضيّق اللوحةَ عن سابقتِها —
+     قيس فعلًا: نافذةٌ 1366 تعطي إطارًا 1209، و2560 تعطي 818.
+     كلّما اتّسعت النافذةُ صغُرت اللوحةُ وانزاحت جانبًا، فبدت
+     صورةً ملصقةً في ركن. فيُفكّ القيدُ أوّلًا ثمّ يُقاس العرض. */
+  frame.style.aspectRatio = 'auto';
+  if (!wall) frame.style.height = '';
   /* في جدارِ العرضِ المقياسُ على الشاشةِ كلِّها عرضًا **وطولًا**:
      شاشةٌ ليست 16:9 تقطع أسفلَ اللوحةِ لو قيس العرضُ وحدَه.
      وخارجَه على عرضِ الإطار. وما بقي من فراغٍ يُوسَّط. */
@@ -38452,10 +38561,16 @@ window.addEventListener('resize', () => {
 /* الساعةُ تنبض في الجذرِ الظلّيِّ بلا إعادةِ رسمٍ للوحة */
 setInterval(() => {
   document.querySelectorAll('[data-wallboard]').forEach(f => {
-    const c = f.shadowRoot && f.shadowRoot.querySelector('[data-wclock]');
-    if (!c) return;
-    const d = new Date(now());
-    c.innerHTML = wPad(d.getHours()) + ':' + wPad(d.getMinutes()) + '<small>:' + wPad(d.getSeconds()) + '</small>';
+    const r = f.shadowRoot;
+    if (!r) return;
+    const c = r.querySelector('[data-wclock]');
+    if (c) {
+      const d = new Date(now());
+      c.innerHTML = wPad(d.getHours()) + ':' + wPad(d.getMinutes()) + '<small>:' + wPad(d.getSeconds()) + '</small>';
+    }
+    /* عمرُ الرسم يُعدّ أمامَ الناظر: رقمٌ يتحرّك يقول إنّ الشاشةَ حيّة */
+    const fr = r.querySelector('[data-wfresh]');
+    if (fr) fr.textContent = wN(Math.max(0, Math.round((Date.now() - Number(f.dataset.wpaint || 0)) / 1000)));
   });
 }, 1000);
 
