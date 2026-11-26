@@ -37977,7 +37977,7 @@ const WALL_CSS_M3 = "\n/* ══════════════════
 
 const WALL_CSS_CHARTS = "\n/* ══════════════════════════════════════════════════════════════════\n   أنماطُ عُدّةِ الرسم — كلُّ مقاسٍ من رمزٍ أو من نسبةٍ إلى الجدار\n   ══════════════════════════════════════════════════════════════════ */\n.wchart{ display:grid; gap:var(--gap); min-block-size:0; min-inline-size:0 }\n.wchart svg{ display:block; inline-size:100%; block-size:auto; overflow:visible }\n\n/* ── الدونات ──\n   القرصُ كان يُقصُّ أسفلَ اللوح: عرضُه ثابتٌ وارتفاعُ اللوحِ متغيّر.\n   فيُقاس بالارتفاعِ المتاحِ أوّلًا ثمّ بالعرض — فلا يفيض مهما ضاق. */\n.wchart-donut{ grid-template-columns:minmax(0,auto) minmax(0,1fr);\n  align-items:center; justify-items:center; min-block-size:0 }\n/* يُقاس بالارتفاعِ لا بالعرض: svg بـviewBox وارتفاعٍ مئويٍّ يتمدّد\n   بعرضٍ تلقائيٍّ محفوظِ النسبة، فلا يُقَصُّ أسفلَ اللوحِ أبدًا. */\n.wchart-donut svg{ block-size:100%; inline-size:auto;\n  max-inline-size:min(100%, 420px); max-block-size:420px }\n.wcarc{ transition:stroke-width var(--md-dur-med2) var(--md-ease-emphasized-decelerate) }\n.wcbig{ fill:var(--ink); font-size:104px; font-weight:800; text-anchor:middle;\n  font-feature-settings:\"tnum\" }\n.wcsub{ fill:var(--dim2); font-size:30px; text-anchor:middle }\n.wclegend{ display:grid; gap:14px; align-content:center }\n.wcleg{ display:grid; grid-template-columns:22px minmax(0,1fr) auto 104px;\n  grid-template-areas:\"i l v p\";\n  align-items:center; gap:0 16px; padding:9px 16px;\n  border-radius:var(--md-shape-m); border:2px solid var(--line) }\n.wcleg>i{ grid-area:i; inline-size:22px; block-size:22px; border-radius:var(--md-shape-full);\n  background:var(--tone) }\n.wcleg .l{ grid-area:l; font-size:30px; color:var(--ink) }\n.wcleg .v{ grid-area:v; font-size:40px; font-weight:800; color:var(--tone) }\n.wcleg .p{ grid-area:p; font-size:30px; color:var(--dim2); text-align:end }\n.wcleg .s{ grid-area:s; font-size:25px; color:var(--faint) }\n.wcleg.off{ opacity:.52 }\n.wcleg[data-on]{ border-color:var(--tone); background:color-mix(in srgb,var(--tone) 12%,transparent) }\n\n/* ── الأعمدةُ المرتّبة ── */\n.wchart-rank{ grid-template-rows:minmax(0,1fr) auto }\n.wcrows{ display:grid; gap:12px; align-content:start }\n/* عمودُ الاسمِ أوسع: الأسماءُ الإنجليزيّةُ أطولُ من العربيّةِ\n   فكانت تُقَصّ («Saad Al-Malik» بدل Al-Maliki). */\n.wcrow{ display:grid; grid-template-columns:62px minmax(250px,1.35fr) minmax(0,1.5fr) 150px;\n  align-items:center; gap:18px; padding:10px 14px; border-radius:var(--md-shape-m) }\n.wcrow .rk{ font-size:34px; font-weight:800; color:var(--faint); text-align:center }\n.wcrow .nm{ display:grid; gap:2px; font-size:30px; color:var(--ink); min-inline-size:0 }\n.wcrow .nm small{ font-size:24px; color:var(--dim2) }\n.wcrow .track{ position:relative; block-size:30px; border-radius:var(--md-shape-full);\n  background:var(--line); overflow:hidden }\n.wcrow .track>i{ display:block; block-size:100%; border-radius:var(--md-shape-full);\n  background:linear-gradient(90deg,color-mix(in srgb,var(--tone) 55%,#000),var(--tone));\n  transition:inline-size var(--md-dur-long2) var(--md-ease-emphasized-decelerate) }\n.wcrow .v{ font-size:44px; font-weight:800; color:var(--tone); text-align:end }\n.wcrow .v small{ font-size:25px; color:var(--dim2); font-weight:400 }\n.wcrow:first-child .v{ color:var(--gold3) }\n.wcrow:first-child .track>i{ background:linear-gradient(90deg,var(--gold),var(--gold3)) }\n/* المسطرةُ والمتوسّط: الطولُ يُقاس لا يُخمَّن */\n.wcaxis{ position:relative; block-size:76px; margin-inline-start:292px;\n  border-block-start:2px solid var(--line2) }\n.wcaxis>span{ position:absolute; inset-block-start:10px; inset-inline-start:var(--at);\n  translate:50% 0; font-size:25px; color:var(--dim2) }\n.wcaxis>span::before{ content:\"\"; position:absolute; inset-block-end:100%;\n  inset-inline-start:50%; inline-size:2px; block-size:10px; background:var(--line2) }\n.wcmean{ inset-inline-start:var(--mean) !important; color:var(--gold2) !important;\n  inset-block-start:42px !important; white-space:nowrap }\n.wcmean::before{ block-size:50px !important; background:var(--gold2) !important;\n  inset-block-end:auto !important; inset-block-start:-48px }\n\n/* ── مخطّطُ الأثرِ في العمر ── */\n/* الرسمُ يُقاس بالارتفاعِ المتاحِ لا بنسبتِه وحدَها: كان يفيض عن\n   صفِّه فيركب المفتاحُ محورَه السفليَّ ويختلط الرقمُ بالنصّ. */\n.wchart-impact{ grid-template-rows:minmax(0,1fr) auto; min-block-size:0 }\n.wchart-impact svg{ inline-size:100%; block-size:auto; min-block-size:0 }\n/* والمفتاحُ لا يُدفَن تحت الرسمِ ولا يركبه: صفُّه يأخذ مقاسَه\n   والرسمُ ما بقي، والفائضُ يُقَصُّ ولا يُرسَم فوقَ نصّ. */\n.wchart-impact{ overflow:hidden }\n.wchart-impact .wcnotes{ align-content:start }\n.wcgrid{ stroke:var(--line2); stroke-width:2 }\n.wcgrid.dash{ stroke-dasharray:8 12 }\n.wcax{ fill:var(--dim2); font-size:27px }\n.wcax.dim{ fill:var(--faint); font-size:25px }\n.wcpt .halo{ opacity:.17 }\n.wcpt{ transition:opacity var(--md-dur-short4) var(--md-ease-standard) }\n.wcdot{ fill:#061009; font-size:30px; font-weight:800 }\n.wcnotes{ display:flex; flex-wrap:wrap; gap:12px 22px }\n.wcnotes.tight{ gap:8px 18px }\n.wcnote{ display:flex; align-items:center; gap:10px; font-size:26px; color:var(--dim) }\n.wcnote>i{ inline-size:18px; block-size:18px; border-radius:var(--md-shape-full);\n  background:var(--tone); flex:0 0 18px }\n.wcnote>span{ max-inline-size:38ch; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }\n.wcnote>b{ color:var(--tone) }\n\n/* ── شريطُ الإنجاز ── */\n.wchart-strip{ grid-template-rows:minmax(0,1fr) auto auto; gap:0 }\n.wcplot{ position:relative; min-block-size:250px;\n  border-block-end:2px solid var(--line2) }\n.wcvline{ position:absolute; inset-block:0 0; inset-inline-start:var(--at);\n  inline-size:2px; background:var(--line) }\n.wcstick{ position:absolute; inset-block-end:0; inset-inline-start:var(--at);\n  translate:50% 0; inline-size:52px; block-size:max(14%, var(--hgt));\n  border-radius:var(--md-shape-s) var(--md-shape-s) 0 0;\n  background:linear-gradient(to top,color-mix(in srgb,var(--tone) 45%,#000),var(--tone)) }\n.wcstick>b{ position:absolute; inset-block-end:100%; inset-inline-start:50%;\n  translate:-50% -10px; font-size:26px; color:var(--dim); white-space:nowrap }\n.wcruler{ position:relative; block-size:50px }\n.wcruler>span{ position:absolute; inset-block-start:10px; inset-inline-start:var(--at);\n  translate:50% 0; font-size:26px; color:var(--dim2) }\n\n/* ── عمرٌ مرسومٌ في صفِّ حدث ── */\n.wcage{ display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center;\n  gap:12px; inline-size:230px }\n.wcage>i{ display:block; block-size:14px; border-radius:var(--md-shape-full);\n  background:var(--line); position:relative; overflow:hidden }\n.wcage>i::after{ content:\"\"; position:absolute; inset-block:0 0; inset-inline-start:0;\n  inline-size:var(--p); border-radius:var(--md-shape-full); background:var(--amber) }\n.wcage.over>i::after{ background:var(--red) }\n.wcage>b{ font-size:26px; color:var(--amber) }\n.wcage.over>b{ color:var(--red) }\n\n/* ولا يلتفّ نصُّ صفٍّ في مفتاحٍ أو عمود: الالتفافُ يضاعف الارتفاعَ\n   فيُقَصُّ اللوح. يُقصُّ النصُّ بثلاثِ نقاطٍ والكاملُ في العنوان. */\n.wcleg .l,.wcrow .nm,.wcrow .nm small,.wcnote>span{\n  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-inline-size:0 }\n\n/* ══ شدٌّ أخير قِيس على 3840 ══\n   ثلاثةُ عيوبٍ ظهرت في اللقطة: المسطرةُ تركب الصفَّ الخامسَ، ووصفُ\n   المفتاحِ يُقَصُّ قبل أن يُقرأ، ومفتاحُ مخطّطِ الأثرِ يلامس محورَه. */\n\n/* ١) الصفوفُ تضيق قليلًا والمسطرةُ تقصر، فيسع الخمسةُ ومسطرتُهم */\n.wcrows{ gap:8px }\n.wcrow{ padding:6px 14px }\n.wcaxis{ block-size:56px }\n.wcaxis>span{ inset-block-start:7px }\n.wcmean{ inset-block-start:32px !important }\n.wcmean::before{ block-size:40px !important; inset-block-start:-38px }\n\n/* ٢) عمودُ النسبةِ يضيق فيتّسع الاسم: «متأخّرةٌ عن موعدها» كان يُقَصّ */\n.wcleg{ grid-template-columns:22px minmax(0,1fr) auto 72px; gap:0 10px }\n.wcleg .l{ font-size:28px }\n.wcleg .v{ font-size:36px }\n.wcleg .p{ font-size:27px }\n\n/* ٣) مفتاحُ مخطّطِ الأثرِ في عمودين فيقصُر ولا يلامس المحور */\n.wchart-impact .wcnotes{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr));\n  gap:4px 20px }\n.wchart-impact .wcnote{ font-size:24px }\n";
 
-const WALL_CSS_CHARTS2 = "\n/* ══════════════════════════════════════════════════════════════════\n   أنماطُ الرسمَين الأخيرين — أعمدةُ الساعاتِ وقُمعُ التصعيد\n   ──────────────────────────────────────────────────────────────────\n   وبهما يخرج آخرُ لوحٍ كان مرسومًا في مكانِه بأنماطٍ داخليّةٍ\n   وأنصافِ أقطارٍ مكتوبةٍ بالأرقام. ولا مقاسَ هنا إلّا من رمزِ M3\n   أو من نسبةٍ إلى ارتفاعِ اللوح.\n   ══════════════════════════════════════════════════════════════════ */\n\n/* ── أعمدةُ الساعات ──\n   الرسمُ يأخذ ارتفاعَ لوحِه كلَّه: لوحُ الإنتاجيّةِ في صفٍّ\n   `auto` فلو تُرك للنسبةِ وحدَها فاض أو ترك فراغًا أسفلَه. */\n.wchart-hours{ min-block-size:0 }\n.wchart-hours svg{ inline-size:100%; block-size:auto; max-block-size:100% }\n\n/* والعمودُ يُقَصُّ من أعلى فقط: القاعدةُ على المحورِ لا تُدوَّر،\n   وإلّا بدا العمودُ طائفًا فوق مسطرتِه. */\n.wchb{ transition:height var(--md-dur-long2) var(--md-ease-emphasized-decelerate),\n  y var(--md-dur-long2) var(--md-ease-emphasized-decelerate) }\n.wcval{ fill:var(--ink); font-size:34px; font-weight:800;\n  font-feature-settings:\"tnum\" }\n\n/* الحالةُ تُرى على العمودِ نفسِه لا على صندوقٍ حوله: طبقةُ الحالةِ\n   في M3 نسبةٌ من اللون، ونسبةُ التمرير 0.08 ونسبةُ الضغط 0.12. */\n.wchbar.wclick{ cursor:pointer }\n.wchbar.wclick:hover .wchb{ filter:brightness(1.12) }\n.wchbar.wclick:active .wchb{ filter:brightness(1.18) }\n.wchbar[data-on] .wchb{ stroke:var(--gold3); stroke-width:4 }\n\n/* ── قُمعُ التصعيد ──\n   أربعُ طبقاتٍ تنزل، وعرضُ كلٍّ نصيبُها. والهبوطُ بينهما مكتوبٌ\n   في الحاشيةِ اليسرى — وهو الخبرُ: أين يتعطّل المسار. */\n/* والقُمعُ لا يأكل نصيبَ جارِه: لوحُه في عمودٍ ثالثُه «المستجيبون»،\n   فلو نما بنسبتِه وحدَها دفعهم خارجَ الشاشة — وقد فعل، قِيس. */\n.wchart-funnel{ min-block-size:0; max-block-size:330px }\n.wchart-funnel svg{ inline-size:100%; block-size:auto; max-block-size:100% }\n.wcfp{ opacity:.88;\n  transition:opacity var(--md-dur-med2) var(--md-ease-standard) }\n.wcflv{ fill:var(--ink); font-size:27px }\n.wcfl.wclick{ cursor:pointer }\n.wcfl.wclick:hover .wcfp{ opacity:1 }\n.wcfl[data-on] .wcfp{ opacity:1; stroke:var(--gold3); stroke-width:4 }\n\n/* ── تدفّقُ الأحداث: مقاساتُه تخرج من مكانِها إلى صنفٍ ──\n   كانت `width:54px;height:54px;font-size:27px` مكتوبةً في ستِّ\n   مواضعَ داخلَ البناءِ نفسِه، فلا تُبدَّل إلّا في ستّتِها. */\n.ev>.gl{ inline-size:54px; block-size:54px; font-size:27px }\n.ev .evside{ display:grid; gap:8px; justify-items:center }\n\n/* ── الصفوفُ المرتّبةُ تقتسم نصيبَها ──\n   كانت بارتفاعٍ ثابتٍ في مساحةٍ متغيّرة، فالخامسُ يقع ٣٤ بكسلًا\n   تحت قاعِ اللوحِ فيُقَصُّ — قِيس لا خُمِّن. والقسمةُ تجعل خمسةَ\n   صفوفٍ تسع ما يسعه أربعةٌ، ولا يُقَصُّ أحدٌ مهما ضاق اللوح. */\n.wchart-rank .wcrows{ grid-auto-rows:minmax(0,1fr); overflow:hidden;\n  align-content:stretch }\n.wchart-rank .wcrow{ align-content:center }\n";
+const WALL_CSS_CHARTS2 = "\n/* ══════════════════════════════════════════════════════════════════\n   أنماطُ الرسمَين الأخيرين — أعمدةُ الساعاتِ وقُمعُ التصعيد\n   ──────────────────────────────────────────────────────────────────\n   وبهما يخرج آخرُ لوحٍ كان مرسومًا في مكانِه بأنماطٍ داخليّةٍ\n   وأنصافِ أقطارٍ مكتوبةٍ بالأرقام. ولا مقاسَ هنا إلّا من رمزِ M3\n   أو من نسبةٍ إلى ارتفاعِ اللوح.\n   ══════════════════════════════════════════════════════════════════ */\n\n/* ── أعمدةُ الساعات ──\n   الرسمُ يأخذ ارتفاعَ لوحِه كلَّه: لوحُ الإنتاجيّةِ في صفٍّ\n   `auto` فلو تُرك للنسبةِ وحدَها فاض أو ترك فراغًا أسفلَه. */\n.wchart-hours{ min-block-size:0 }\n.wchart-hours svg{ inline-size:100%; block-size:auto; max-block-size:100% }\n\n/* والعمودُ يُقَصُّ من أعلى فقط: القاعدةُ على المحورِ لا تُدوَّر،\n   وإلّا بدا العمودُ طائفًا فوق مسطرتِه. */\n.wchb{ transition:height var(--md-dur-long2) var(--md-ease-emphasized-decelerate),\n  y var(--md-dur-long2) var(--md-ease-emphasized-decelerate) }\n.wcval{ fill:var(--ink); font-size:34px; font-weight:800;\n  font-feature-settings:\"tnum\" }\n\n/* الحالةُ تُرى على العمودِ نفسِه لا على صندوقٍ حوله: طبقةُ الحالةِ\n   في M3 نسبةٌ من اللون، ونسبةُ التمرير 0.08 ونسبةُ الضغط 0.12. */\n.wchbar.wclick{ cursor:pointer }\n.wchbar.wclick:hover .wchb{ filter:brightness(1.12) }\n.wchbar.wclick:active .wchb{ filter:brightness(1.18) }\n.wchbar[data-on] .wchb{ stroke:var(--gold3); stroke-width:4 }\n\n/* ── قُمعُ التصعيد ──\n   أربعُ طبقاتٍ تنزل، وعرضُ كلٍّ نصيبُها. والهبوطُ بينهما مكتوبٌ\n   في الحاشيةِ اليسرى — وهو الخبرُ: أين يتعطّل المسار. */\n/* والقُمعُ لا يأكل نصيبَ جارِه: لوحُه في عمودٍ ثالثُه «المستجيبون»،\n   فلو نما بنسبتِه وحدَها دفعهم خارجَ الشاشة — وقد فعل، قِيس. */\n.wchart-funnel{ min-block-size:0; max-block-size:330px }\n.wchart-funnel svg{ inline-size:100%; block-size:auto; max-block-size:100% }\n.wcfp{ opacity:.88;\n  transition:opacity var(--md-dur-med2) var(--md-ease-standard) }\n.wcflv{ fill:var(--ink); font-size:27px }\n.wcfl.wclick{ cursor:pointer }\n.wcfl.wclick:hover .wcfp{ opacity:1 }\n.wcfl[data-on] .wcfp{ opacity:1; stroke:var(--gold3); stroke-width:4 }\n\n/* ── تدفّقُ الأحداث: مقاساتُه تخرج من مكانِها إلى صنفٍ ──\n   كانت `width:54px;height:54px;font-size:27px` مكتوبةً في ستِّ\n   مواضعَ داخلَ البناءِ نفسِه، فلا تُبدَّل إلّا في ستّتِها. */\n.ev>.gl{ inline-size:54px; block-size:54px; font-size:27px }\n.ev .evside{ display:grid; gap:8px; justify-items:center }\n\n/* ── الصفوفُ المرتّبةُ تسع بلا تراكب ──\n   جُرِّب قبلَها `grid-auto-rows:minmax(0,1fr)` ليسع الخامسُ، وكان\n   خطأً فادحًا: الصفُّ يُجبَر على ارتفاعٍ أقلَّ من ارتفاعِ نصّه،\n   فيخرج النصُّ من صندوقِه ويركب جارَه. قِيس 23 تصادمًا في ثلاثةِ\n   مقاسات — والتراكبُ أسوأُ من القصِّ لأنّه يكذب على العين.\n\n   والعلاجُ أن يقصُر الصفُّ لا أن يُضغَط: الوصفُ ينتقل إلى جانبِ\n   الاسمِ بدل أن يسكن تحتَه، فينزل ارتفاعُ الصفِّ إلى نحوِ ثلثيه\n   ويسع الخمسةُ ومسطرتُهم — بلا تصغيرِ خطٍّ ولا قصٍّ. */\n/* `auto` ليست حمايةً: حين يقلُّ المتاح، تنكمش مساراتُ `auto`\n   إلى أدنى حدِّها وهو صفر — قِيس: حاويةٌ 44 ومحتوًى 180، فصار\n   الصفُّ 6 بكسلاتٍ واسمُه يحتاج 50، فخرج النصُّ وركب جارَه.\n   و`min-content` هي الحدُّ الذي لا يُكسَر: الصفُّ يبقى بارتفاعِ\n   نصِّه مهما ضاق اللوح، وما لا يسع يُقَصُّ ولا يُركَب. والقصُّ\n   يُرى فيُصلَح، والتراكبُ يكذب على العين. */\n.wchart-rank .wcrows{ grid-auto-rows:minmax(min-content,auto);\n  align-content:start; overflow:hidden }\n.wcrow{ min-block-size:min-content }\n.wcrow .nm{ display:flex; align-items:baseline; gap:12px;\n  white-space:nowrap; overflow:hidden }\n.wcrow .nm small{ flex:0 0 auto }\n\n/* ── الأرقامُ لا ترث أرضيّةَ سطرِ العربيّة ──\n   الأرضيّةُ 1.3 للعربيّةِ وحركاتِها. والرقمُ اللاتينيُّ لا حركةَ\n   فوقَه، فورثها بلا حاجةٍ فصار صندوقُه 57 في مكانٍ نصيبُه 46\n   وفاض — قِيس في خمسةِ صفوفٍ من لوحين. */\n.wcrow .rk,.wcrow .v,.wcleg .v,.wcleg .p,.wcnote>b,.wcage>b{\n  line-height:1 }\n\n/* ── ووصفُ الصفِّ لا يلامس مسطرتَه ──\n   «KT044 · أقدمُه منذ…» كان يمتدُّ حتى علامةِ الصفرِ في المسطرة.\n   فيُقَصُّ عند حدِّ عمودِه بثلاثِ نقاطٍ والكاملُ في العنوان. */\n.wcrow .nm small{ min-inline-size:0; overflow:hidden;\n  text-overflow:ellipsis }\n\n/* والقيمةُ في المفتاحِ رقمٌ كذلك: صندوقُها 36 وسطرُها 40 فتفيض.\n   والتخصيصُ مضاعَفٌ لأنّ قاعدةَ الأرضيّةِ العامّةَ تُطبَّق على\n   `:host :is(span,b,…)` وهي أقوى من صنفٍ واحد. */\n.wcleg.wcleg .v,.wcleg.wcleg .p,.wcnote.wcnote>b{ line-height:1 }\n.wclegend .wcleg .v,.wclegend .wcleg .p{ align-self:center }\n\n/* ── المتوسّطُ لا يركب عتبةَ المسطرة ──\n   موضعُه نسبةٌ من المدى، فقد يقع على عتبةٍ تمامًا. فيُنزَّل سطرًا\n   تحتَها ويبقى خطُّه الذهبيُّ في موضعِه بالضبط. */\n.wcaxis{ block-size:92px; margin-block-start:10px }\n.wcaxis>span{ inset-block-start:4px }\n.wcmean{ inset-block-start:50px !important; font-size:23px }\n.wcmean::before{ inset-block-start:-50px; block-size:50px !important }\n/* والصفوفُ لا تلامس مسطرتَها */\n.wchart-rank .wcrows{ padding-block-end:8px }\n\n/* ── ووصفُ الصفِّ لا يبلغ المسطرة: عمودُه محدودٌ بحدِّه ── */\n.wcrow{ grid-template-columns:62px minmax(0,1.35fr) minmax(0,1.5fr) 150px }\n\n/* ── شريحةُ الخطِّ الزمنيِّ: الاسمُ حين يتّسع له الشريطُ وحدَه ──\n   كان الاسمُ يُرسَم كاملًا مهما ضاقت الشريحةُ، فأربعُ دفعاتٍ\n   متقاربةٍ تكتب أسماءَها فوقَ بعضِها — قِيس تداخلُ 33×11 و36×11.\n   والقياسُ لا يُخمَّن هنا: استعلامُ الحاويةِ يسأل الشريطَ عن عرضِه\n   هو، فيظهر الاسمُ إن وسِعه ويختفي إن لم يسعْه — ويبقى في العنوان. */\n.gx .bar{ container-type:inline-size }\n.gx .bar>b{ display:none }\n@container (min-width: 150px){ .gx .bar>b{ display:block } }\n\n/* ومسطرةُ الصفوفِ لا تلامس آخرَ صفٍّ فوقَها */\n.wchart-rank .wcaxis{ margin-block-start:16px }\n.wcmean::before{ inset-block-start:-34px !important; block-size:34px !important }\n\n/* ── الصفُّ السفليُّ ثلاثةُ ألواحٍ في اللوحةِ الثانية ──\n   كان «المسؤولون المستجيبون» ثالثَ ثلاثةٍ في عمودٍ واحد، فلم يبقَ\n   له إلّا عنوانُه: قِيس أنّ جسمَه صفرٌ والعنوانُ يقول «3 مسؤولًا».\n   وضغطُ الثلاثةِ يُفقِد اثنين، فنُقل إلى صفٍّ يسعه. */\n.bot3{ grid-template-columns:1060px minmax(0,1fr) 1060px }\n\n/* ── مفتاحُ الكثافةِ إلى أعلى الخريطةِ ──\n   كان في الزاويةِ السفليّةِ حيث تقع علامةُ «عرفة» — قِيس تداخلُ\n   38×14 في كلِّ مقاسٍ وفي اللوحتين معًا. والأعلى خالٍ: سهمُ\n   الشمالِ وحدَه في الطرفِ المقابل. */\n/* وأسفلَ الوسطِ: جرّبتُ الزاويتين العلويّتين فتصادم مع سهمِ\n   الشمالِ مرّةً ومع أزرارِ التقريبِ وشارةِ موقعٍ مرّةً. والوسطُ\n   السفليُّ خالٍ في اللوحتين: المقياسُ يسارَه والمواقعُ حولَه. */\n.opsmap-legend{ inset-block-end:16px !important; inset-block-start:auto !important;\n  inset-inline:0 !important; inline-size:max-content; margin-inline:auto;\n  pointer-events:none }\n\n/* ولافتةُ المسافةِ على الضلعِ لا تلامس اسمَ موقعٍ تحتَها */\n.opsmap-marker>span{ z-index:6 }\n.opsmap-tags{ pointer-events:none }\n";
 
 /* ============================================================
    خرائطُ الأساسِ الثلاث — صورٌ حقيقيّةٌ للمشاعرِ المقدّسة
@@ -38106,11 +38106,16 @@ function wcImpact(pts, opts) {
   const o = opts || {};
   /* لوحٌ أعرضُ وأقصر: الارتفاعُ 540 كان يفيض عن صفِّه فيركب
      الرسمُ مفتاحَه. و430 يسع المحورَ والممرّاتِ الثلاثةَ والمفتاح. */
-  const W = 1000, H = 430, PL = 150, PR = 56, PT = 34, PB = 84;
+  /* وممرُّ الأسماءِ أوسع: «يُتابَع» كان يلامس فقاعةً قُيّدت عند
+     PL+r — قِيس تداخلُ 4×8. */
+  const W = 1000, H = 430, PL = 226, PR = 56, PT = 34, PB = 104;
   const maxAge = Math.max(10, ...pts.map(p => p.age));
   const x = v => PL + (v / maxAge) * (W - PL - PR);
   const y = v => H - PB - ((v - 0.5) / 2.5) * (H - PT - PB);
-  const gx = [0, maxAge / 3, maxAge * 2 / 3, maxAge];
+  /* عتباتٌ فريدةٌ لا مكرّرة: حين يصغر المدى تتساوى الأرباعُ
+     بعد التدويرِ فيرتسم «0» فوق «0». */
+  const gx = [...new Set([0, maxAge / 3, maxAge * 2 / 3, maxAge]
+    .map(v => Math.round(v)))];
   const LANES = [{ v: 3, l: 'حَرِج' }, { v: 2, l: 'مؤثّر' }, { v: 1, l: 'يُتابَع' }];
   /* بندان في اللحظةِ نفسِها وبالخطورةِ نفسِها يقعان فوقَ بعضِهما:
      فيُرى واحدٌ ويُحسَب الباقي غيرَ موجود — وهذا كذبٌ بالرسم. فتُزاح
@@ -38122,7 +38127,9 @@ function wcImpact(pts, opts) {
     const i = (seenAt[k] = (seenAt[k] || 0) + 1) - 1;
     if (!i) return p;
     const step = Math.ceil(i / 2), sign = (i % 2) ? 1 : -1;
-    return Object.assign({}, p, { dx: sign * step * 70, dy: -sign * step * 28 });
+    /* الإزاحةُ أكبرُ من أكبرِ قطرٍ ممكنٍ (2×56=112)، وإلّا تلامست
+       الفقاعتان — قِيس تداخلُ 7×8 بين «51» و«45». */
+    return Object.assign({}, p, { dx: sign * step * 124, dy: -sign * step * 46 });
   });
   return '<div class="wchart wchart-impact">' +
     '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' +
@@ -38130,7 +38137,10 @@ function wcImpact(pts, opts) {
       LANES.map(L =>
         '<g><line class="wcgrid" x1="' + PL + '" x2="' + (W - PR) + '" y1="' + y(L.v) +
           '" y2="' + y(L.v) + '"/>' +
-        '<text class="wcax" x="' + (PL - 20) + '" y="' + (y(L.v) + 11) + '" text-anchor="end">' +
+        /* مرساةٌ وسطى لا طرفيّة: `end` تعني الطرفَ المنطقيَّ، وهو
+           اليسارُ في RTL فينطلق الاسمُ يمينًا نحو الفقاعة — وهو
+           الخطأُ نفسُه الذي أُصلح في القُمع. */
+        '<text class="wcax" x="' + (PL / 2) + '" y="' + (y(L.v) + 11) + '" text-anchor="middle">' +
           L.l + '</text></g>').join('') +
       gx.map(g =>
         '<g><line class="wcgrid dash" x1="' + x(g) + '" x2="' + x(g) + '" y1="' + PT +
@@ -38139,13 +38149,40 @@ function wcImpact(pts, opts) {
           wN(Math.round(g)) + '</text></g>').join('') +
       '<text class="wcax dim" x="' + ((PL + W - PR) / 2) + '" y="' + (H - 10) +
         '" text-anchor="middle">دقيقةً منذ استحقاقِه</text>' +
-      spread.map(p => {
-        const r = 22 + Math.min(34, (p.men || 0) * 0.42);
-        /* الإزاحةُ تفرّق المتطابقاتِ ولا تُخرجها من اللوح: قِيس على
-           البياناتِ الحيّةِ أنّ فقاعةً خرجت عن المحورِ إلى حافّةِ
-           اللوحةِ — فتُقيَّد داخلَ حدودِ الرسمِ بنصفِ قطرِها. */
-        const cx = Math.max(PL + r, Math.min(W - PR - r, x(p.age) + (p.dx || 0)));
-        const cy = Math.max(PT + r, Math.min(H - PB - r, y(p.sev) + (p.dy || 0)));
+      (() => {
+        /* التنافرُ بدل الإزاحة: الإزاحةُ كانت تفرّق المتطابقاتِ في
+           العمرِ والخطورةِ وحدَها، وفقاعتان مختلفتان قد تتلامسان
+           بلا تطابق — قِيس تداخلُ 7×8 بين «51» و«45». فتُحسب
+           المواضعُ كلُّها أوّلًا ثمّ تُدفَع المتلامساتُ بعضُها عن
+           بعضٍ دفعاتٍ معدودةً ومحسوبةً — لا عشوائيّةً ولا متغيّرةً
+           بين تشغيلٍ وآخر — ثمّ تُقيَّد داخلَ حدودِ الرسم. */
+        const P = spread.map(p => ({ p,
+          r: 22 + Math.min(34, (p.men || 0) * 0.42),
+          x: x(p.age) + (p.dx || 0), y: y(p.sev) + (p.dy || 0) }));
+        for (let it = 0; it < 90; it++) {
+          let moved = false;
+          for (let a = 0; a < P.length; a++)
+            for (let b = a + 1; b < P.length; b++) {
+              const A = P[a], B = P[b];
+              let dx = B.x - A.x, dy = B.y - A.y;
+              let d = Math.hypot(dx, dy);
+              const need = A.r + B.r + 10;
+              if (d >= need) continue;
+              if (d < 0.01) { dx = (a % 2 ? 1 : -1); dy = 0.3; d = 1; }
+              const push = (need - d) / 2;
+              const ux = dx / d, uy = dy / d;
+              A.x -= ux * push; A.y -= uy * push;
+              B.x += ux * push; B.y += uy * push;
+              moved = true;
+            }
+          for (const q of P) {
+            q.x = Math.max(PL + q.r, Math.min(W - PR - q.r, q.x));
+            q.y = Math.max(PT + q.r, Math.min(H - PB - q.r, q.y));
+          }
+          if (!moved) break;
+        }
+        return P;
+      })().map(({ p, r, x: cx, y: cy }) => {
         return '<g class="wcpt' + (p.fa ? ' wclick' : '') + '"' + (p.fa || '') + '>' +
           '<circle class="halo" cx="' + cx + '" cy="' + cy + '" r="' + (r + 13) +
             '" fill="' + p.tone + '"/>' +
@@ -38184,9 +38221,13 @@ function wcStrip(items, opts) {
     '</div>' +
     '<div class="wcruler">' + marks.map(h =>
       '<span style="--at:' + at(h) + '%">' + wPad(h % 24) + '</span>').join('') + '</div>' +
+    /* والمفتاحُ يميّز لا يكرّر: أربعُ مهامٍّ بالعنوانِ نفسِه كانت
+       تُكتب أربعَ مرّاتٍ سواءً، فلا يُعرف أيُّها أيّ. فساعةُ إغلاقِها
+       تسبق اسمَها — وهي ما يفرّقها على مسطرةِ اليوم. */
     '<div class="wcnotes tight">' + items.slice(0, 4).map(i =>
       '<div class="wcnote" style="--tone:' + (i.tone || 'var(--g3)') + '"><i></i><span>' +
-      wE(i.l) + '</span><b class="num">' + wE(i.vt) + '</b></div>').join('') + '</div>' +
+      wPad(Math.floor(i.h) % 24) + ':00 · ' + wE(i.l) + '</span><b class="num">' +
+      wE(i.vt) + '</b></div>').join('') + '</div>' +
     '</div>';
 }
 
@@ -38210,7 +38251,7 @@ function wcAgeBar(ageMin, slaMin) {
    وعمودُ الذروةِ بلونِ الذهبِ وحدَه — ولونٌ واحدٌ يميّز لا سبعة. */
 function wcHourBars(rows, opts) {
   const o = opts || {};
-  const W = 1000, H = 430, PL = 92, PR = 30, PT = 30, PB = 78;
+  const W = 1000, H = 430, PL = 92, PR = 30, PT = 30, PB = 104;
   const mx = Math.max(1, ...rows.map(r => r.v));
   /* العتباتُ أرقامٌ صحيحةٌ لا كسور: «٣٫٥ مهمّة» لا معنى له. */
   const step = Math.max(1, Math.ceil(mx / 3));
@@ -38688,7 +38729,10 @@ function wTimeline(S0, E0, step, lanes) {
       if (w <= 0) return;
       const running = b[0] <= nowH && b[1] > nowH;
       const fill = running ? ((nowH - b[0]) / (b[1] - b[0]) * 100) : (b[3] ? 100 : 0);
-      g += '<div class="bar" style="inset-inline-start:' + x + '%; width:' + w + '%">' +
+      /* والاسمُ الكاملُ في العنوانِ دائمًا: الشريحةُ الضيّقةُ تُخفيه
+         بصريًّا (استعلامُ الحاوية) فلا يركب جارتَه، ويبقى مقروءًا
+         بالمرورِ وبقارئِ الشاشة. */
+      g += '<div class="bar" title="' + wE(b[2]) + '" style="inset-inline-start:' + x + '%; width:' + w + '%">' +
         (fill ? '<i class="fill" style="width:' + fill + '%"></i>' : '') + '<b>' + wE(b[2]) + '</b></div>';
     });
     g += '</div></div>';
@@ -38991,7 +39035,9 @@ function wallBoard2() {
      تحمل عددَها، ولوحُ التفصيلِ يعدّد ما في الموقعِ المختار. */
   const INC = bySite;
 
-  const feed = G.open.slice().sort((a, b) => b.at - a.at).slice(0, 5).map(s => {
+  /* أربعةٌ تُقرأ خيرٌ من خمسةٍ آخرُها مقصوص: قِيس أنّ الخامسَ
+     يُقَصُّ في لوحِه عند 1920 و3840 معًا. */
+  const feed = G.open.slice().sort((a, b) => b.at - a.at).slice(0, 4).map(s => {
     const r = SIG_RISK[s.risk] || SIG_RISK.low;
     return { tone:r.c, g:s.risk === 'high' ? '▲' : s.risk === 'mid' ? '●' : '■',
       st:(SIG_STATE[s.state] || {}).ar || s.state, h:s.title,
@@ -39029,7 +39075,7 @@ function wallBoard2() {
 
   const chMap = {};
   G.open.forEach(s => { chMap[s.channel] = (chMap[s.channel] || 0) + 1; });
-  const chans = Object.keys(chMap).map(k => [k, chMap[k]]).sort((a, b) => b[1] - a[1]).slice(0, 4);
+  const chans = Object.keys(chMap).map(k => [k, chMap[k]]).sort((a, b) => b[1] - a[1]).slice(0, 3);
   const cmx = Math.max(1, ...chans.map(c => c[1]));
   const cTones = ['#14C273', '#C6A86F', '#3FA3DC', '#9276DA'];
 
@@ -39061,7 +39107,7 @@ function wallBoard2() {
           '<span class="ag"><i></i>الموضعُ من تصنيفِ البلاغ</span></div>' +
         '<div class="pb opsmap-wrap">' + wOpsMap('inc', nodes, INC) + '</div>' +
       '</section>' +
-      '<div class="col" style="--rows:minmax(0,1fr) minmax(0,1.05fr) minmax(0,1.2fr)">' +
+      '<div class="col" style="--rows:auto minmax(0,1fr)">' +
         /* والنوعُ طولٌ على مسطرةٍ كغيرِه: كان شريطًا بعرضٍ مكتوبٍ
            في مكانِه بلا محورٍ ولا متوسّط. */
         wPanel('البلاغاتُ النشطةُ بحسبِ النوع', kinds.length
@@ -39079,19 +39125,19 @@ function wallBoard2() {
             { aria:'سلّمُ التصعيد',
               foot:wN(G.high.length) + ' بلاغًا عاليَ الخطورةِ يحتاج قرارًا من الغرفة' }),
           { age:'المستوى يُقرأ من مرحلةِ البلاغ' }) +
-        /* والحِملُ طولٌ: عددُ البلاغاتِ المفتوحةِ على كلِّ مسؤولٍ
-           يُقاس بالأثقلِ منهم، وعمرُ أقدمِها في الوصف. */
-        wPanel('المسؤولون المستجيبون الآن', resp.length
-          ? wcRankBars(resp.map(r => ({ l:r.u.name,
-              s:(r.u.kt || '—') + ' · أقدمُها منذ ' + wAge(now() - r.oldest),
-              v:r.n, tone:'#14C273' })),
-              { suffix:' بلاغ', fmt:v => wN(v) })
-          : '<div class="row"><div><div class="nm">لا بلاغَ مُسنَدًا الآن</div>' +
-            '<div class="sb">الإسنادُ هو المرحلةُ التاسعةُ من الدورة</div></div></div>',
-          { count:wN(resp.length) + ' مسؤولًا', age:'الطولُ عددُ بلاغاتِه المفتوحة' }) +
       '</div>' +
     '</div>' +
-    '<div class="bot">' +
+    '<div class="bot bot3">' +
+      /* والحِملُ طولٌ: عددُ البلاغاتِ المفتوحةِ على كلِّ مسؤولٍ
+         يُقاس بالأثقلِ منهم، وعمرُ أقدمِها في الوصف. */
+      wPanel('المسؤولون المستجيبون الآن', resp.length
+        ? wcRankBars(resp.map(r => ({ l:r.u.name,
+            s:(r.u.kt || '—') + ' · أقدمُها منذ ' + wAge(now() - r.oldest),
+            v:r.n, tone:'#14C273' })),
+            { suffix:' بلاغ', fmt:v => wN(v) })
+        : '<div class="row"><div><div class="nm">لا بلاغَ مُسنَدًا الآن</div>' +
+          '<div class="sb">الإسنادُ هو المرحلةُ التاسعةُ من الدورة</div></div></div>',
+        { count:wN(resp.length) + ' مسؤولًا', age:'الطولُ عددُ بلاغاتِه المفتوحة' }) +
       '<section class="panel"><div class="ph"><h2>جدولٌ زمنيٌّ للنقلِ والأحداثِ القادمة</h2>' +
         '<span class="cnt">' + wPad(gxFrom % 24) + ':00 ← 06:00</span>' +
         '<span class="ag"><i></i>الخطُّ الذهبيُّ هو اللحظة</span></div>' +
@@ -39339,7 +39385,14 @@ function wOpsMap(which, nodes, inc) {
     const onLeg = wCarsOn(a, b);
     const mx2 = (A.x + B.x) / 2, my2 = (A.y + B.y) / 2;
     /* السهمُ عند ثلثَي الضلعِ لا عند طرفِه، فلا يختفي تحت العلامة */
-    const ax = A.x + (B.x - A.x) * 0.63, ay = A.y + (B.y - A.y) * 0.63;
+    /* واللافتةُ بجانبِ ضلعِها لا فوقَه: تُزاح عموديًّا على اتّجاهِ
+       الضلعِ بمقدارٍ ثابت، فلا تقع على اسمِ موقعٍ يمرُّ الضلعُ به —
+       قِيس تلامسُها باسمِ «مِنى» في اللوحتين وفي كلِّ مقاس. */
+    const vx = B.x - A.x, vy = B.y - A.y;
+    const vl = Math.hypot(vx, vy) || 1;
+    const off = 5.2;
+    const ax = A.x + vx * 0.27 - (vy / vl) * off;
+    const ay = A.y + vy * 0.27 + (vx / vl) * off;
     const ang = Math.atan2((B.y - A.y) * (100 / W_MAP_AR), B.x - A.x) * 180 / Math.PI;
     legTags +=
       '<g class="opsmap-arrow' + on + fl + '" transform="translate(' + ax.toFixed(2) + ' ' +
