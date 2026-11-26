@@ -43634,6 +43634,134 @@ button,[role="button"]{min-block-size:32px}
 #gate h1,
 .top h2{ line-height:var(--md-line-floor) }
 </style>
+<style>
+/* ══════════════════════════════════════════════════════════════════
+   طبقةُ Material 3 الكاملةُ — مستخرجةٌ من حزمةِ جوجل لا من ذاكرة
+   ──────────────────────────────────────────────────────────────────
+   المصدر: ‎@material/web@2.3.0‎ · ‎tokens/v0_192‎، والمواصفةُ المكتوبةُ
+   في ‎docs/M3-SPEC.md‎ بكلِّ رقمٍ وموضعِه. وما هنا تطبيقُها على
+   الكنترولِ كلِّه — لا على الجدارِ وحدَه كما كان.
+
+   وهذه الكتلةُ تنسخ ما قبلَها حيث اختلفا: القواعدُ الأقدمُ كُتبت على
+   تقديرٍ، وهذه على القياس.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ══ ١) سلّمُ الأنماطِ الخمسةَ عشرَ ══
+   كلُّ نمطٍ: حجمٌ وسطرٌ وتتبّعٌ ووزنٌ من الحزمة. وارتفاعُ السطرِ
+   مضروبٌ في 1.07 — وهو نطاقُ الارتفاعِ «المتوسّط» الذي يصنّف فيه
+   المعيارُ العربيّةَ. */
+:root{
+  --m3-display-l:57px/68.5px;   --m3-display-m:45px/55.6px;
+  --m3-display-s:36px/47.1px;   --m3-headline-l:32px/42.8px;
+  --m3-headline-m:28px/38.5px;  --m3-headline-s:24px/34.2px;
+  --m3-title-l:22px/30px;       --m3-title-m:16px/25.7px;
+  --m3-title-s:14px/21.4px;     --m3-body-l:16px/25.7px;
+  --m3-body-m:14px/21.4px;      --m3-body-s:12px/17.1px;
+  --m3-label-l:14px/21.4px;     --m3-label-m:12px/17.1px;
+  --m3-label-s:11px/17.1px;
+  /* وأصغرُ حجمٍ في السلّمِ كلِّه */
+  --m3-font-min:11px;
+}
+
+/* ══ ٢) أرضيّةُ الحجم: لا نصَّ دون 11 ══
+   قِيس 131 موضعًا بـ10px وعشرةٌ بـ8px في ستَّ عشرةَ شاشة. و11 هو
+   ‎label-small‎، أصغرُ ما في السلّمِ كلِّه — وما دونه خارجُ المعيار
+   لا «خطٌّ صغير». */
+/* وبلا بادئةِ المسرحِ كذلك: ‎.kid‎ و‎.bellbtn‎ و‎.nm‎ في الشريطِ
+   والترويسةِ خارجَ ‎.stage‎ — قِيس 13 موضعًا بقيت 10px. */
+/* وأرضيّةُ الحجمِ تُفرَض: قواعدُ التصميمِ تكتب ‎10px‎ بتخصيصٍ أعلى
+   (‎.ops-event time‎ تساوي 0,1,2 وقاعدةُ الوسمِ 0,0,1)، فلا تبلغها
+   أرضيّةٌ مهذّبة. والأرضيّةُ من الأحوالِ القليلةِ التي يصحُّ فيها
+   ‎!important‎: حدٌّ لا يُكسَر، لا تفضيلُ تصميمٍ على تصميم. */
+small,time,.kbd2,.ops-rank-index,.mini,.tiny,.cap,
+span,i,b,em,strong,label,td,th,li,div,p,a,button{
+  font-size:max(var(--m3-font-min), 1em) !important }
+
+/* ══ ٣) ارتفاعُ السطرِ من السلّمِ لا من أرضيّةٍ واحدة ══
+   القاعدةُ القديمةُ كانت ‎max(1.3, 1em)‎، وهي تخالف المعيارَ لا
+   تطبّقه: M3 ينزل إلى 1.123 في ‎display-large‎ ويصعد إلى 1.5 في
+   ‎body-large‎. فالنسبةُ تتبع الحجمَ، وتُضرب في 1.07 للعربيّة. */
+/* والنسبةُ وحدَها لا تكفي: المعيارُ يعطي كلَّ حجمٍ نسبتَه، فـ16
+   يحتاج 1.605 و32 يحتاج 1.337. والقاعدةُ الواحدةُ تُكتب بحدَّين —
+   نسبةٌ بالـem وأرضيّةٌ بالبكسل — فتصيب الطرفين معًا:
+     ‎max(1.34em, 26px)‎ → 16px:26 ✓  ·  32px:42.9 ✓
+     ‎max(1.53em, 17px)‎ → 11px:17 ✓  ·  12px:18.4 ✓  ·  14px:21.4 ✓ */
+h1{ line-height:max(1.22em, 26px) }
+h2,h3,h4{ line-height:max(1.34em, 26px) }
+/* وعنوانُ الموقعِ في الترويسةِ له قاعدتُه الخاصّةُ فتغلب الوسمَ
+   وحدَه: يُطابَق بصنفِ أبيه فيعلو عليها — بلا ‎!important‎. */
+.control-top-location h2{ line-height:max(1.34em, 26px) }
+p,li,td,th,label{ line-height:max(1.43em, 21px) }
+/* والنصُّ السطريُّ مثلُه: ‎span‎ و‎b‎ و‎a‎ تحمل أكثرَ نصِّ الكنترول،
+   و‎max(1.53em, 17px)‎ تصيب 11 و12 و14 معًا — وهي أحجامُ المتن. */
+span,b,i,em,strong,a,small,time,dt,dd,figcaption,
+/* و`.control-module-tools .sw button` تساوي 0,3,1 فتغلب الوسمَ —
+   فتُطابَق بمثلِها لا بأقوى منها، ولا `!important` في ارتفاعِ سطر
+   (جُرِّب فكسر صفوفَ المفاتيح). */
+button,.sw button,.hello b,
+.tools .sw button,.control-module-tools .sw button,
+.control-hero-tabs .sw button,.control-compliance-overview .sw button{
+  line-height:max(1.53em, 17px) }
+
+/* والرقمُ العربيُّ‑الهنديُّ كتابةٌ عربيّةٌ لا لاتينيّة: ‎٥٣‎ في نطاقِ
+   العربيّةِ من يونيكود، والمعيارُ يصنّف بالكتابةِ لا بالمحتوى. فما
+   كتبتُه أوّلًا (‎1.15‎ للأرقام) كان يخالف المعيارَ لا يطبّقه. */
+.num,.tcnt b,.tring b,.when span,.fcount b{ line-height:max(1.53em, 17px) }
+/* إلّا العددَ الكبيرَ في البطاقةِ: حجمُه display فنسبتُه أضيق */
+.kpi b,.kv b.num,.v,.k-v b{ line-height:max(1.34em, 26px) }
+
+/* ══ ٤) مقاساتُ المكوّناتِ من الحزمة ══
+   صفُّ القائمةِ 56 سطرًا و72 سطرين، والزرُّ 40، والحبّةُ 32،
+   والتبويبُ 48، والشريطُ العلويُّ 64، وصفُّ الجدولِ 52 وترويستُه 56.
+   وكان المقيسُ: ‎.nav‎ 48 و‎.ops-time-item‎ 48 و‎.operation-map-task‎ 32. */
+/* بلا بادئةِ ‎.stage‎: ‎.nav‎ و‎.kid‎ في الشريطِ الجانبيِّ خارجَه،
+   فقاعدةٌ مقيّدةٌ بالمسرحِ لا تبلغهما — قِيس 272 صفًّا بقيت 48. */
+.nav,.kid,.who,.ops-time-item,.ops-prep-item,
+.control-hour-item,.operation-map-task,
+.ops-queue-item,.listitem,.prow{ min-block-size:56px }
+/* و`.side .nav` تساوي (0,2,0) فتغلب (0,1,0) مهما تأخّرت قاعدتي:
+   التخصيصُ قبل الترتيب. فتُطابَق بمثلِها — قِيس 288 صفًّا بقيت 38
+   و41 في المنشورِ وحدَه (ومصدري لا يحمل هذه القاعدة). */
+.side .nav,.side .kid,.side .who,
+.sidescroll .nav,.sidescroll .kid,.kids .kid{ min-block-size:56px }
+.btn:not(.xs){ min-block-size:40px }
+.btn.xs,.chip,.pill{ min-block-size:32px }
+.stage .control-top-link{ min-block-size:48px }
+.stage thead th{ block-size:56px }
+.stage tbody td{ block-size:52px }
+/* وأيقونةُ الزرِّ 18 وأيقونةُ الصفِّ 24 */
+.stage .btn svg,.stage .btn .ico{ inline-size:18px; block-size:18px }
+.stage .nav svg,.stage .kid svg,.stage .iconbtn svg{
+  inline-size:24px; block-size:24px }
+
+/* ══ ٥) هدفُ اللمسِ 48 — مستقلٌّ عن مقاسِ المرسوم ══
+   نصُّ المعيار: المكوّنُ يُرسَم 32 أو 40 ويُلمَس 48. والتوسيعُ
+   بعنصرٍ زائفٍ يعمل في كلِّ ما لا يقصُّ (‎overflow:visible‎) — وقد
+   قِيس أنّ ‎.btn‎ وحدَه يقصُّ لأجلِ تموّجِه.
+   والمربّعُ مركزيٌّ بإزاحةٍ ماديّةٍ لا منطقيّة، فلا يقلبه اتّجاهُ
+   القراءة. ولا يُوضَع على ما يسكن صفًّا متلاصقًا فيسرق نقرَ جارِه. */
+/* وبلا بادئةِ المسرح: مبدّلُ اللغةِ وجرسُ التنبيهِ في الترويسة. */
+/* و‎:not([class])‎ لا يطابق ‎class=""‎ — والسمةُ الفارغةُ موجودة.
+   فالقاعدةُ على كلِّ زرٍّ إلّا ما يقصُّ (‎.btn‎) وما بلغ الحدَّ أصلًا. */
+button:not(.btn):not(.nav):not(.kid):not(.who):not(.opsmap-marker):not(.opsmap-off),
+.langb,.fold,.iconbtn,.bellbtn{ position:relative }
+button:not(.btn):not(.nav):not(.kid):not(.who):not(.opsmap-marker):not(.opsmap-off)::after,
+.langb::after,.fold::after,.iconbtn::after,.bellbtn::after{
+  content:""; position:absolute; top:50%; left:50%;
+  inline-size:max(100%, var(--md-target,48px));
+  block-size:var(--md-target,48px);
+  transform:translate(-50%,-50%) }
+
+/* ══ ٦) الإصبعُ والمؤشّرُ ليسا سواءً ══
+   48 في المعيارِ حدُّ **اللمس**. و‎.btn‎ يقصُّ عنصرَه الزائفَ لأجلِ
+   تموّجِه، فلا يُوسَّع هدفُه بحيلة. والصادقُ أن يكبُر الزرُّ نفسُه
+   حيث يُلمَس وأن يبقى 40 — وهو مقاسُ المعيارِ المرسوم — حيث يُؤشَّر.
+   وهذا ما يفعله المعيارُ نفسُه: مقاسٌ مرسومٌ وهدفٌ منفصلٌ عنه. */
+@media (pointer: coarse){
+  .btn,.btn.sm{ min-block-size:var(--md-target,48px) }
+  .btn.xs,.chip,.pill,.langb,.fold{ min-block-size:var(--md-target,48px) }
+}
+</style>
 
 </body>
 </html>
