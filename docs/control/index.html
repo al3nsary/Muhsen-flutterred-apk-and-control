@@ -43669,13 +43669,15 @@ button,[role="button"]{min-block-size:32px}
    لا «خطٌّ صغير». */
 /* وبلا بادئةِ المسرحِ كذلك: ‎.kid‎ و‎.bellbtn‎ و‎.nm‎ في الشريطِ
    والترويسةِ خارجَ ‎.stage‎ — قِيس 13 موضعًا بقيت 10px. */
-/* وأرضيّةُ الحجمِ تُفرَض: قواعدُ التصميمِ تكتب ‎10px‎ بتخصيصٍ أعلى
-   (‎.ops-event time‎ تساوي 0,1,2 وقاعدةُ الوسمِ 0,0,1)، فلا تبلغها
-   أرضيّةٌ مهذّبة. والأرضيّةُ من الأحوالِ القليلةِ التي يصحُّ فيها
-   ‎!important‎: حدٌّ لا يُكسَر، لا تفضيلُ تصميمٍ على تصميم. */
-small,time,.kbd2,.ops-rank-index,.mini,.tiny,.cap,
-span,i,b,em,strong,label,td,th,li,div,p,a,button{
-  font-size:max(var(--m3-font-min), 1em) !important }
+/* ══ أرضيّةُ الحجمِ تُصلَح في مصدرِها لا بقاعدةٍ عامّة ══
+   كُتبت هنا أوّلًا ‎font-size:max(11px, 1em)‎ — وهي كارثة: ‎1em‎ في
+   سياقِ حجمِ الخطِّ تعني **حجمَ الأب**، فصار كلُّ عنصرٍ بحجمِ أبيه
+   وسُطِّح التراتبُ الطباعيُّ كلُّه. قِيس: 339 من 342 عنصرًا صارت
+   14px والعنوانُ 25 بدل 36.
+
+   ولا سبيلَ في CSS للتعبيرِ عن «أكبرُ من حجمِك أو 11»: المرجعُ في
+   ‎em‎ هو الأبُ لا العنصر. فالأرضيّةُ تُرفَع عند كلِّ قاعدةٍ تكتب
+   دون 11 — وهي معدودةٌ ومقيسة. */
 
 /* ══ ٣) ارتفاعُ السطرِ من السلّمِ لا من أرضيّةٍ واحدة ══
    القاعدةُ القديمةُ كانت ‎max(1.3, 1em)‎، وهي تخالف المعيارَ لا
@@ -43762,6 +43764,281 @@ button:not(.btn):not(.nav):not(.kid):not(.who):not(.opsmap-marker):not(.opsmap-o
   .btn.xs,.chip,.pill,.langb,.fold{ min-block-size:var(--md-target,48px) }
 }
 </style>
+<style>
+/* ══════════════════════════════════════════════════════════════════
+   طبقةُ الحالةِ على كلِّ سطحٍ يُلمَس — وهي أظهرُ ما في M3
+   ──────────────────────────────────────────────────────────────────
+   المعيارُ يجعل لكلِّ سطحٍ تفاعليٍّ طبقةً شفّافةً من لونِ ‎on-‎ فوقه:
+   ‎hover 0.08‎ و‎focus 0.12‎ و‎pressed 0.12‎. قِيس في الكنترول أنّ
+   1231 زرًّا منها 204 فقط لها طبقة — فأربعةُ أخماسِ ما يُلمَس لا
+   يردّ على الإصبع.
 
+   والطبقةُ عنصرٌ زائفٌ تحتَ المحتوى (‎z-index:-1‎) بنصفِ قطرِ أبيه،
+   فلا تحجب نصًّا ولا تغيّر مقاسًا. ولا تُوضَع على ما له طبقةٌ أصلًا
+   (‎.btn‎ له تموّجُه) ولا على ما ليس سطحًا (علاماتُ الخريطة).
+   ══════════════════════════════════════════════════════════════════ */
+:where(button,[role="button"],a.nav,a.kid,summary,.listitem,.prow,
+       .ops-time-item,.ops-prep-item,.control-hour-item,.operation-map-task)
+  :not(.btn):not(.opsmap-marker):not(.opsmap-off){ }
+
+button:not(.btn):not(.opsmap-marker):not(.opsmap-off),
+[role="button"]:not(.btn),
+.listitem,.prow,.ops-time-item,.ops-prep-item,
+.control-hour-item,.operation-map-task,.nav,.kid,.who{
+  position:relative; isolation:isolate }
+
+button:not(.btn):not(.opsmap-marker):not(.opsmap-off)::before,
+[role="button"]:not(.btn)::before,
+.listitem::before,.prow::before,.ops-time-item::before,
+.ops-prep-item::before,.control-hour-item::before,
+.operation-map-task::before,.nav::before,.kid::before,.who::before{
+  content:""; position:absolute; inset:0; z-index:-1;
+  border-radius:inherit; pointer-events:none;
+  background:currentColor; opacity:0;
+  transition:opacity var(--md-dur-short4,200ms)
+             var(--md-ease-standard,cubic-bezier(0.2,0,0,1)) }
+
+button:not(.btn):not(.opsmap-marker):hover::before,
+[role="button"]:not(.btn):hover::before,
+.listitem:hover::before,.prow:hover::before,
+.ops-time-item:hover::before,.ops-prep-item:hover::before,
+.control-hour-item:hover::before,.operation-map-task:hover::before,
+.nav:hover::before,.kid:hover::before,.who:hover::before{
+  opacity:var(--md-state-hover,0.08) }
+
+button:not(.btn):not(.opsmap-marker):focus-visible::before,
+[role="button"]:not(.btn):focus-visible::before,
+.nav:focus-visible::before,.kid:focus-visible::before{
+  opacity:var(--md-state-focus,0.12) }
+
+button:not(.btn):not(.opsmap-marker):active::before,
+[role="button"]:not(.btn):active::before,
+.listitem:active::before,.prow:active::before,
+.ops-time-item:active::before,.ops-prep-item:active::before,
+.control-hour-item:active::before,.operation-map-task:active::before,
+.nav:active::before,.kid:active::before,.who:active::before{
+  opacity:var(--md-state-press,0.12) }
+</style>
+<style>
+/* ══════════════════════════════════════════════════════════════════
+   الارتفاعُ — ستّةُ مستوياتٍ بظلَّين لكلٍّ، كما في الحزمة
+   ──────────────────────────────────────────────────────────────────
+   المعيارُ يعطي كلَّ مستوًى ظلَّين: ظلُّ المفتاحِ بعتامةِ 0.30 وظلُّ
+   المحيطِ بعتامةِ 0.15 — ولا ظلَّ واحدًا مهما بلغ. وكان في الكنترول
+   ظلالٌ مكتوبةٌ في مكانِها (‎0 4px 16px‎ و‎0 4px 12px‎) لا تقابل
+   مستوًى من الستّة.
+
+   وحلقاتُ الذهبِ والأحمرِ ليست ارتفاعًا بل حالةً (محدَّدٌ · خطر)،
+   فلا تُمَسّ: المعيارُ يفصل الارتفاعَ عن الحدِّ وعن حلقةِ التركيز.
+   ══════════════════════════════════════════════════════════════════ */
+:root{
+  --md-elev-0:none;
+  --md-elev-1:0 1px 2px 0 rgb(0 0 0 / .30), 0 1px 3px 1px rgb(0 0 0 / .15);
+  --md-elev-2:0 1px 2px 0 rgb(0 0 0 / .30), 0 2px 6px 2px rgb(0 0 0 / .15);
+  --md-elev-3:0 1px 3px 0 rgb(0 0 0 / .30), 0 4px 8px 3px rgb(0 0 0 / .15);
+  --md-elev-4:0 2px 3px 0 rgb(0 0 0 / .30), 0 6px 10px 4px rgb(0 0 0 / .15);
+  --md-elev-5:0 4px 4px 0 rgb(0 0 0 / .30), 0 8px 12px 6px rgb(0 0 0 / .15);
+}
+
+/* السطحُ الساكن: بطاقةٌ ولوحٌ وصفّ — المستوى الأوّل */
+.card,.panel,.cardx,.gcard,.control-card,.ops-widget,.kpi{
+  box-shadow:var(--md-elev-1) }
+/* ما يعلو بالمرور: المستوى الثاني — وهو ما يقوله المعيارُ للبطاقة */
+.card:hover,.cardx:hover,.control-card:hover{ box-shadow:var(--md-elev-2) }
+/* ما يطفو فوق الصفحة: قائمةٌ ومنبثقةٌ وتلميح — الثالث */
+.menu,.dropdown,.control-top-panel,.pop,.tip,.sheet{
+  box-shadow:var(--md-elev-3) }
+/* ما يُحاور: نافذةٌ ودرج — الرابع */
+.modal,.drawer,.dialog,.control-modal{ box-shadow:var(--md-elev-4) }
+/* وما يعلو الكلَّ: تنبيهٌ عائم — الخامس */
+.toast,.snackbar,.control-toast{ box-shadow:var(--md-elev-5) }
+</style>
+<style>
+/* ══ ما بقي من المرئيّ، وكلُّ سببٍ مقيس ══ */
+
+/* ١) ‎small‎ يرث ‎font-size:smaller‎ من المتصفّحِ لا من تصميمِنا،
+   فينزل إلى 10 داخلَ ‎b‎ بحجمِ 12. و‎label-small‎ هو مقابلُه في
+   المعيار: 11. */
+small{ font-size:11px }
+
+/* ٢) العنوانُ بـ‎clamp‎ يعطي ما بين الدرجتين (قِيس 25 عند 1600).
+   والمعيارُ سلّمٌ بدرجاتٍ لا تدرُّجٌ متّصل: يقفز عند نقاطِ القياس
+   (600 · 840 · 1200) من ‎headline-small‎ إلى ‎display-small‎. */
+.control-hero h1,.control-route-hero h1,
+.control-welcome-copy h1,#gate h1{ font-size:24px }
+@media (min-width:840px){
+  .control-hero h1,.control-route-hero h1,
+  .control-welcome-copy h1,#gate h1{ font-size:28px } }
+@media (min-width:1200px){
+  .control-hero h1,.control-route-hero h1,
+  .control-welcome-copy h1,#gate h1{ font-size:36px } }
+
+/* ٣) الأفاتارُ ليس سطحًا مرفوعًا: المعيارُ لا يعطيه ارتفاعًا أصلًا،
+   وكان يحمل ظلَّ بطاقةٍ كاملًا (‎0 4px 12px‎). */
+.av,.av.sm{ box-shadow:none }
+
+/* ٤) وبطاقةُ المؤشّرِ لها قاعدةٌ أخصُّ (‎.card.kpi.hov‎ = 0,3,0)
+   فتغلب ‎.kpi‎ — تُطابَق بمثلِها. */
+.card.kpi,.card.kpi.hov,.card.cardx,.card.clik{
+  box-shadow:var(--md-elev-1) }
+.card.kpi.hov:hover,.card.clik:hover{ box-shadow:var(--md-elev-2) }
+</style>
+
+<style>
+/* وعنوانُ 28 (‎headline-medium‎) سطرُه 36 لاتينيًّا و38.5 عربيًّا.
+   وقاعدةُ ‎max(1.34em,26px)‎ تعطيه 37.5 — أقلَّ بواحد. فالنسبةُ
+   تُرفع إلى 1.375 وهي ‎38.5/28‎ بالضبط، ولا تضرُّ ما دونها لأنّ
+   الأرضيّةَ تحكمه. */
+h1,h2,h3,h4,
+/* و`.control-route-hero h1` تساوي (0,2,1) فتغلب الوسمَ المفرد */
+.control-hero h1,.control-route-hero h1,
+.control-welcome-copy h1,#gate h1{ line-height:max(1.375em, 26px) }
+</style>
+
+
+<style>
+/* أرضيّةُ M3: 11 هو label-small، وأصغرُ ما في السلّم. وهذه
+   محدّداتُ المنشورِ نفسِها مُعادةً بقيمةِ الأرضيّة. */
+.brandtxt span{font-size:11px}
+.grp{font-size:11px}
+.nav .n{font-size:11px}
+.kid .n{font-size:11px}
+.brandfoot{font-size:11px}
+.chip span{font-size:11px}
+.iconbtn .bdg{font-size:11px}
+.evt .t{font-size:11px}
+.tlhead span{font-size:11px}
+.seg{font-size:11px}
+.palette .kbd{font-size:11px}
+.kbd2{font-size:11px}
+.sw > button i{font-size:11px}
+.bl{font-size:11px}
+.tbl .th button{font-size:11px}
+.tbl .tr .nm span{font-size:11px}
+.meta .k{font-size:11px}
+.mchip{font-size:11px}
+.tcard .nm span{font-size:11px}
+.st2{font-size:11px}
+.slab{font-size:11px}
+.slab .cnt{font-size:11px}
+.pcard .nm span{font-size:11px}
+.slot .sl{font-size:11px}
+.slot .nm span{font-size:11px}
+.pickrow .sl{font-size:11px}
+.fsel > span{font-size:11px}
+#gate .role span{font-size:11px}
+#gate .gfoot{font-size:11px}
+.fpt span{font-size:11px}
+.astep .nm span{font-size:11px}
+.seat .nm span{font-size:11px}
+.who .nm span{font-size:11px}
+.smsbox{font-size:11px}
+.dchip span{font-size:11px}
+.dchip i{font-size:11px}
+.ghead span{font-size:11px}
+.glabel span{font-size:11px}
+.gtrip{font-size:11px}
+.dest span{font-size:11px}
+.bandhead span{font-size:11px}
+.prow .miss{font-size:11px}
+.gv span{font-size:11px}
+.hhead span{font-size:11px}
+.hl{font-size:11px}
+.hc{font-size:11px}
+.tring b{font-size:11px}
+.tring b::after{font-size:11px}
+.xsub .tick{font-size:11px}
+.shot .sh b{font-size:11px}
+.xfile .ft b{font-size:11px}
+.phone .pmeta span{font-size:11px}
+.phone .pcta i{font-size:11px}
+.phone .plbl small{font-size:11px}
+.phone .ptabs span{font-size:11px}
+.trow .tst{font-size:11px}
+.hisday{font-size:11px}
+.hisrow .histm{font-size:11px}
+.bellbtn i{font-size:11px}
+.calhead span{font-size:11px}
+.cald b{font-size:11px}
+.calc b{font-size:11px}
+.xth{font-size:11px}
+.xc.nmc .nm span{font-size:11px}
+.wchip{font-size:11px}
+.mxlegend span{font-size:11px}
+.mxhead > span{font-size:11px}
+.mxg{font-size:11px}
+.slaclk{font-size:11px}
+.etout{font-size:11px}
+.mustchip{font-size:11px}
+.etsub i{font-size:11px}
+.rclip i{font-size:11px}
+.rwarn{font-size:11px}
+.rpid .rpwho span{font-size:11px}
+.rpid .rpdno span{font-size:11px}
+.rphd .rpst .tst{font-size:11px}
+.rphd .rpst .tiny{font-size:11px}
+.rpmeta i{font-size:11px}
+.rpsec h3 small{font-size:11px}
+.rphead span{font-size:11px}
+.rpnote{font-size:11px}
+.rpshot figcaption{font-size:11px}
+.rpsign .rptxt{font-size:11px}
+.rpsign .rpno{font-size:11px}
+.sigs{font-size:11px}
+.sigq b i{font-size:11px}
+.pfstats i{font-size:11px}
+.actk{font-size:11px}
+.notebtn{font-size:11px}
+.mnote .mn1{font-size:11px}
+.tl2head .tl2ax i{font-size:11px}
+.tl2row .tl2nm span{font-size:11px}
+.tl2row .tl2nm i{font-size:11px}
+.tl2seg b{font-size:11px}
+.tl2seg u{font-size:11px}
+.tl2key{font-size:11px}
+.rdc i{font-size:11px}
+.rdseq{font-size:11px}
+.flbl span{font-size:11px}
+.control-incident-stage small,.control-incident-clock small{font-size:11px}
+.operation-map-marker span{font-size:11px}
+.control-columns li{font-size:11px}
+.ops-event time{font-size:11px}
+.ops-rank-index{font-size:11px}
+.release-case-heading .btn{font-size:11px}
+.release-chart-preview .control-columns li{font-size:11px}
+.operation-map-key{font-size:11px}
+.ww-node.ins .ww-tag .ww-name{font-size:11px}
+.ww-node.ins .ww-tag .ww-calm{font-size:11px}
+.ops-queue-group .qn{font-size:11px}
+.ztxt{font-size:11px}
+.qrow.flip .qkick{font-size:11px}
+.dsub{font-size:11px}
+.dcell > em{font-size:11px}
+.hour-next-lab{font-size:11px}
+.hour-next-t small{font-size:11px}
+.hour-next-w > em{font-size:11px}
+.gx-headlab{font-size:11px}
+.gx-ruler > span{font-size:11px}
+.gx-nowtag{font-size:11px}
+.gx-hsub{font-size:11px}
+.gx-st{font-size:11px}
+.gx-cxtag{font-size:11px}
+.gx-bar > em{font-size:11px}
+.gx-gap > span{font-size:11px}
+.gx-empty{font-size:11px}
+.gx-legend{font-size:11px}
+.fn-no > em{font-size:11px}
+.fn-wh{font-size:11px}
+.seat > em{font-size:11px}
+.busfoot{font-size:11px}
+.gx-pg{font-size:11px}
+.tc-nums span{font-size:11px}
+.gx-ruler > span, .dcell > em{font-size:11px}
+.gx-row > header > small{font-size:11px}
+.control-axis{font-size:11px}
+.control-column-caption{font-size:11px}
+.chart-avg-tag{font-size:11px}
+.who-role{font-size:11px}
+</style>
 </body>
 </html>
